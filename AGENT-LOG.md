@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Wednesday 11 November 2026, photo placed
+Published: the Zara Muse painting sent from Artiscope Digital Home is now on her artist profile page (artists/zara-muse). Resized to 2000 pixels on the longest side.
+Drafts waiting: none.
+Checked: the profile page rebuilds cleanly and no other page changed.
+Needs you: nothing. The picture's description on the page reads "Work by Zara Muse". Tell Claude the painting's title if you want it named.
+
 ## Wednesday 11 November 2026, after your merge
 Published: the Christie's details for Ava (lot 429, 2 July 2026) and Unspoken (lot 1075, 21 October 2026), both estimated at GBP 6,000 to 8,000. You merged the draft at 15:39. Sold prices stay "To confirm". https://github.com/Artiscope/global-art-monitor/pull/1
 Drafts waiting: none.
