@@ -1,0 +1,52 @@
+name: Publish to GitHub Pages
+
+# Publishes the website only. The agent's working files (its brief,
+# voice guide, log, content calendar and photo inbox) stay in the
+# repository and are left out of the published site.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Gather the public site
+        run: |
+          mkdir _site
+          rsync -a ./ _site/ \
+            --exclude '/_site' \
+            --exclude '/.git' \
+            --exclude '/.github' \
+            --exclude '/.gitignore' \
+            --exclude '/CLAUDE.md' \
+            --exclude '/VOICE.md' \
+            --exclude '/AGENT-LOG.md' \
+            --exclude '/CONTENT-CALENDAR.md' \
+            --exclude '/README.md' \
+            --exclude '/inbox' \
+            --exclude '/tools' \
+            --exclude '/data'
+          echo "Published files:"
+          cd _site && find . -type f | sort
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4
