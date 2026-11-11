@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Wednesday 11 November 2026, after your merge
+Published: the Christie's details for Ava (lot 429, 2 July 2026) and Unspoken (lot 1075, 21 October 2026), both estimated at GBP 6,000 to 8,000. You merged the draft at 15:39. Sold prices stay "To confirm". https://github.com/Artiscope/global-art-monitor/pull/1
+Drafts waiting: none.
+Checked: the publishing run finished without errors. The Zara Muse artist page shows the new rows on the live site. The Auction results page still showed the old rows a few minutes later, which is normally a stored copy catching up.
+Needs you: nothing new. Points 1 to 3 below still stand.
+
 ## Wednesday 11 November 2026, first weekday run
 Published: nothing on the site. This log entry only.
 Drafts waiting: Fill in the two Christie's lots: sale date, lot numbers and estimates for Ava and Unspoken. https://github.com/Artiscope/global-art-monitor/pull/1
