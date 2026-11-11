@@ -16,6 +16,10 @@ sys.path.insert(0, HERE)
 import content as C  # noqa: E402
 
 DATA = json.load(open(os.path.join(ROOT, "data", "sales.json"), encoding="utf-8"))
+# Optional description and caption for each artist image, set when a
+# photo is sent from Artiscope Digital Home.
+_notes = os.path.join(ROOT, "data", "images.json")
+IMAGE_NOTES = json.load(open(_notes, encoding="utf-8")) if os.path.exists(_notes) else {}
 ARTISTS = DATA["artists"]
 SALES = DATA["sales"]
 SYMBOL = {"GBP": "£", "USD": "US$", "EUR": "€"}
@@ -456,7 +460,10 @@ def build_artists():
         for ext in ("jpg", "jpeg", "png", "webp"):
             p = f"assets/images/{slug}.{ext}"
             if os.path.exists(os.path.join(ROOT, p)):
-                img = f'<figure class="art-slot" data-reveal><img src="@@{p}" alt="Work by {esc(a["name"])}" loading="lazy"><figcaption>{esc(a["name"])}. Image courtesy of the artist.</figcaption></figure>'
+                note = IMAGE_NOTES.get(slug, {})
+                alt = note.get("alt") or f'Work by {a["name"]}'
+                cap = note.get("caption") or f'{a["name"]}. Image courtesy of the artist.'
+                img = f'<figure class="art-slot" data-reveal><img src="@@{p}" alt="{esc(alt)}" loading="lazy"><figcaption>{esc(cap)}</figcaption></figure>'
                 break
         best_when = best["date_text"] if best["date"] else "date to confirm"
         body = f"""<section class="shell page-head">

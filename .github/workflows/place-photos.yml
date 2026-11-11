@@ -1,0 +1,41 @@
+name: Place photos
+
+# When a photo arrives in inbox/ from Artiscope Digital Home, put it on
+# the site straight away if it is for an empty spot the page can already
+# show. Anything else is left for the website agent.
+
+on:
+  push:
+    branches: [main]
+    paths: ['inbox/**']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: place-photos
+  cancel-in-progress: false
+
+jobs:
+  place:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install the image tool
+        run: python3 -m pip install --quiet pillow
+      - name: Place photos
+        run: python3 .github/scripts/place_photos.py
+      - name: Save the changes
+        run: |
+          if [ -z "$(git status --porcelain)" ]; then
+            echo "Nothing was placed."
+            exit 0
+          fi
+          git config user.name "Artiscope photo placer"
+          git config user.email "noreply@github.com"
+          git add -A
+          git commit -m "Place photos sent from Artiscope Digital Home"
+          git pull --rebase origin main
+          git push origin HEAD:main

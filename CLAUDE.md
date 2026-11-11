@@ -40,6 +40,9 @@ site.
 
 - Artist images go in `assets/images/<artist-slug>.jpg` (for example
   `assets/images/zara-muse.jpg`), followed by a rebuild.
+- The description and caption for each artist image live in
+  `data/images.json`, keyed by artist slug (`alt` and `caption`).
+  Without an entry the page falls back to a plain default.
 - The files in `assets/brand/` are the logo. Leave them alone.
 
 ## Auction data rules
@@ -221,6 +224,28 @@ photo goes.
   renamed or removed, update its entry in the same change. Ids are
   lower case letters, digits and hyphens, and never change once used.
 - Updating `image-slots.json` to match the site is a safe change.
+
+### Photos placed automatically
+A small automatic step (`.github/workflows/place-photos.yml`, do not
+edit it) places a photo within minutes of it arriving, without you,
+when all of these are true: the file is named `slot--<id>`, the spot is
+empty, the owner gave a description, and the page can already show an
+image in that spot. It uses the owner's description and caption as
+given, marks the spot filled and removes the photo from `inbox/`.
+
+- So anything you find in `inbox/` is something that step left for you:
+  an artwork photo, a replacement, a `note--` photo, or a photo with no
+  description. Handle it by the rules above.
+- A photo may arrive with a note of the same name ending `.json`, for
+  example `slot--artist-konn-artiss.json`. It holds the owner's own
+  description (`alt`) and caption. Use their words as given, tidied
+  only for spelling. If there is no note, write the description
+  yourself from what the picture shows.
+- Delete the `.json` note together with its photo. Delete any note left
+  behind without a photo.
+- On each run, look at images placed since your last run. If a
+  description is too thin to be useful to someone who cannot see the
+  picture, improve it. That is a safe change.
 
 ## Checks before every push
 - The site still opens and every page you touched loads.
