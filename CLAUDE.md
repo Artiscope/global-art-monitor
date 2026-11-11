@@ -63,9 +63,10 @@ pages together. GitHub Pages publishes the main branch.
   pills. The loader and hover effects stay as they are.
 
 ## Voice
-Measured and factual, like a market report. Show the method and the
-limits of the data. Never give investment advice, never predict
-prices, and never suggest a work is a good buy.
+Measured and factual, like a market report. The full voice guide is in `VOICE.md`. Read it
+before writing anything and follow it in every piece, including the
+list of words the site never uses. Only change `VOICE.md` when the owner
+asks you to in a conversation.
 
 ## Who you work for
 The owner is the Digital Product Manager at Artiscope (Grove Gallery,
@@ -110,6 +111,7 @@ Push these straight to the main branch without asking:
   content already on the site.
 - Replacing a dead source link with a working link to the same source.
 - Adding an entry to `AGENT-LOG.md`.
+- Updating `CONTENT-CALENDAR.md` (see Topics and the content calendar).
 
 ## What must wait for the owner (drafts)
 Never push these to main. Prepare them as a draft (see Drafts):
@@ -122,6 +124,35 @@ Never push these to main. Prepare them as a draft (see Drafts):
 - Adding an artist.
 
 If you are unsure which list a change belongs to, it is a draft.
+
+## Topics and the content calendar
+`CONTENT-CALENDAR.md` holds the topic ideas for this site. You write a
+new piece only when its topic has been approved there.
+
+- On Monday's run (or the next run, if Monday's was missed), add up to
+  three new ideas under
+  "Waiting for your answer". Do not add more if three or more are
+  already waiting. Each idea follows this shape:
+
+      ### Working title of the piece
+      - Type: (for example technique explainer, collecting guide)
+      - Why now: (one sentence on the gap it fills or what is new)
+      - Sources found: (how many, and the main one by name)
+      - Your answer:
+
+- An idea must rest on sources you have already opened. Do not propose
+  a piece you could not source.
+- When "Your answer:" starts with `yes`, move the idea to "Approved, to
+  be written" and follow any note the owner added.
+- When it starts with `no`, move it to "Declined" and never propose the
+  same piece again.
+- If the answer is blank, leave it. Do not write the piece and do not
+  nag. Mention waiting ideas once in the Monday report only.
+- When you have written an approved piece as a draft, move its entry to
+  "Written" with the pull request link.
+- Updating this file is a safe change and goes straight to main.
+- An approved topic is permission to write a draft. The draft itself
+  still waits for the owner's yes before it goes live.
 
 ## Drafts
 1. Create a branch named `draft/YYYY-MM-DD-short-title`.
@@ -191,6 +222,7 @@ oldest month into a three line summary.
 If a push breaks the live site, revert that commit straight away, check
 the site is back, then explain in the log and the report what happened.
 If you cannot finish a run, say exactly where you stopped.
+
 ## The weekday run (when you are started by the schedule)
 The owner is away during these runs. Do not ask questions and wait.
 Decide, act within the rules above, and report. Work in this order:
@@ -206,12 +238,16 @@ Decide, act within the rules above, and report. Work in this order:
    last run: auction lots and results, exhibitions, press, new work.
    Open and read the sources. Note what you checked in the log even if
    nothing was new.
-5. Write. Only if the research turned up something real and sourced,
-   prepare one draft for this site. One good piece is better than three
-   thin ones. If there is nothing new, do not pad. An evergreen guide
-   is fine now and then if it fits a gap in the site, at most one a
-   week.
-6. Log and report. Add the entry to `AGENT-LOG.md`, push it, then end
+5. Topics. Read `CONTENT-CALENDAR.md` and act on any new answers. On
+   Mondays, add new ideas as described in "Topics and
+   the content calendar".
+6. Write. If a topic is waiting under "Approved, to be written", write
+   it as one draft for this site, following `VOICE.md`. One draft per
+   run at most. If nothing is approved, write nothing. The only
+   exception is urgent news about a covered artist, such as a new
+   auction result: prepare that as a draft without waiting for a topic
+   approval, and say why in the pull request.
+7. Log and report. Add the entry to `AGENT-LOG.md`, push it, then end
    with a summary in exactly this shape, because it is emailed to the
    owner:
 
