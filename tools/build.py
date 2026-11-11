@@ -674,7 +674,7 @@ def build_contact():
 </section>
 <section class="shell article">
 <div class="article-body">
-<form class="form" id="contact-form" action="mailto:{email}" method="post" enctype="text/plain" data-email="{email}" data-reveal>
+<form class="form" id="contact-form" data-email="{email}" data-reveal>
 <div class="field"><label for="cf-name">Your name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
 <div class="field"><label for="cf-email">Your email</label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
 <div class="field"><label for="cf-topic">What is it about?</label>
@@ -689,6 +689,7 @@ def build_contact():
 <div class="field"><label for="cf-message">Your message</label><textarea id="cf-message" name="message" rows="7" required></textarea></div>
 <div class="form-foot"><button class="pill pill-ink" type="submit">Send your message</button>
 <p class="quiet" id="contact-status" role="status">This opens your email app with the message ready to send.</p></div>
+<noscript><p class="quiet">This form needs scripts switched on. You can also write to {email}.</p></noscript>
 </form>
 </div>
 <aside class="article-side">
