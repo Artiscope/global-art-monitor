@@ -39,6 +39,7 @@ jobs:
             --exclude '/AGENT-LOG.md' \
             --exclude '/CONTENT-CALENDAR.md' \
             --exclude '/README.md' \
+            --exclude '/image-slots.json' \
             --exclude '/inbox' \
             --exclude '/tools' \
             --exclude '/data'

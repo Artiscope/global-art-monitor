@@ -1,0 +1,17 @@
+{
+  "note": "The image spots on this site. The console reads this list so the owner can choose where a photo goes. The agent keeps it up to date.",
+  "slots": [
+    {
+      "id": "artist-zara-muse",
+      "group": "Artist profile images",
+      "label": "Zara Muse",
+      "filled": false
+    },
+    {
+      "id": "artist-konn-artiss",
+      "group": "Artist profile images",
+      "label": "Konn Artiss",
+      "filled": false
+    }
+  ]
+}

@@ -35,7 +35,8 @@ After editing the data, the words or the layouts, run
 pages together. Every push to main is published by the workflow in
 `.github/workflows/pages.yml`. Do not edit that file. It leaves your
 working files (this brief, the voice guide, the log, the calendar,
-`inbox/`, `tools/` and `data/`) out of the public site.
+`image-slots.json`, `inbox/`, `tools/` and `data/`) out of the public
+site.
 
 - Artist images go in `assets/images/<artist-slug>.jpg` (for example
   `assets/images/zara-muse.jpg`), followed by a rebuild.
@@ -197,6 +198,29 @@ new piece only when its topic has been approved there.
   loss. Never crop out part of an artwork.
 - Give every image a plain description of what it shows.
 - After placing an image, delete it from `inbox/` in the same commit.
+
+### Exact spots (`image-slots.json`)
+`image-slots.json` lists every place on this site that can hold an
+image. Artiscope Digital Home reads it so the owner can choose where a
+photo goes.
+
+- A photo named `slot--<id>.jpg` (or `.png`) is meant for exactly the
+  spot with that `id`. Place it there and nowhere else. Do not guess a
+  different spot.
+- A photo named `note--<description>.jpg` has no chosen spot. Use the
+  description to decide. If you cannot tell, leave it in `inbox/` and
+  ask in the report.
+- When you place a photo, give it a clear file name of your own (not
+  the `slot--` name), then set that spot's `filled` to `true`.
+- If the spot is empty and the page can already show an image there,
+  placing the photo is a safe change.
+- If the spot already has an image, or the page cannot yet show an
+  image in that kind of spot (so the layout would have to change),
+  prepare it as a draft for the owner to approve.
+- Keep the list current. When an article, artist or artwork is added,
+  renamed or removed, update its entry in the same change. Ids are
+  lower case letters, digits and hyphens, and never change once used.
+- Updating `image-slots.json` to match the site is a safe change.
 
 ## Checks before every push
 - The site still opens and every page you touched loads.
