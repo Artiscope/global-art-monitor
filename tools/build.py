@@ -49,6 +49,23 @@ def latest_priced():
     return max(rows, key=lambda s: s["date"])
 
 
+# ---------- logo ----------
+
+MARK_INNER = ('<path d="M 88.3 31.7 A 40 40 0 1 0 100 60" fill="none" stroke="{fg}" stroke-width="13" stroke-linecap="round"/>'
+              '<line x1="40" y1="60" x2="78" y2="60" stroke="{fg}" stroke-width="5" stroke-linecap="round"/>'
+              '<circle cx="40" cy="60" r="6" fill="{fg}"/><circle cx="58" cy="60" r="6" fill="{fg}"/>'
+              '<circle cx="78" cy="60" r="10.5" fill="#22E3A2"/>')
+MARK = '<svg class="mark" viewBox="0 0 120 120" aria-hidden="true">' + MARK_INNER.format(fg="currentColor") + '</svg>'
+
+
+def mark_file(fg):
+    return '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">' + MARK_INNER.format(fg=fg) + '</svg>\n'
+
+
+TILE_FILE = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="26" fill="#2A2A2F"/>'
+             '<g transform="translate(16.8 16.8) scale(.72)">' + MARK_INNER.format(fg="#F3C3C8") + '</g></svg>\n')
+
+
 # ---------- shared pieces ----------
 
 def head(root, title, desc, path, extra=""):
@@ -68,6 +85,7 @@ def head(root, title, desc, path, extra=""):
 <meta property="og:type" content="website">
 <meta property="og:url" content="{canon}">
 <link rel="icon" href="{root}assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="{root}assets/brand/gam-tile-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">
@@ -85,9 +103,10 @@ def header(root, current):
         links += f'<a href="{root}{slug}/"{cur}>{esc(name)}</a>\n'
         menu += f'<a href="{root}{slug}/"><span>0{i}</span>{esc(name)}</a>\n'
     menu += f'<a href="{root}about/"><span>06</span>About and method</a>\n'
+    menu += f'<a href="{root}contact/"><span>07</span>Contact</a>\n'
     return f"""<a class="skip" href="#main">Skip to content</a>
 <header class="shell site-head">
-<a class="brand" href="{root}">Global Art Monitor</a>
+<a class="brand" href="{root}">{MARK}Global Art Monitor</a>
 <nav class="nav" aria-label="Sections">
 {links}</nav>
 <div class="head-actions">
@@ -96,7 +115,7 @@ def header(root, current):
 </div>
 </header>
 <div class="menu" id="menu" aria-hidden="true">
-<div class="shell menu-top"><a class="brand" href="{root}">Global Art Monitor</a><button class="menu-close" type="button" data-menu-close>Close</button></div>
+<div class="shell menu-top"><a class="brand" href="{root}">{MARK}Global Art Monitor</a><button class="menu-close" type="button" data-menu-close>Close</button></div>
 <nav class="shell menu-list" aria-label="All sections">
 {menu}</nav>
 <div class="shell menu-foot"><span data-london-time>London</span><span>The auction and market research platform</span></div>
@@ -114,10 +133,10 @@ def footer(root):
 <a class="pill pill-mint" href="{root}about/#newsletter">Subscribe by email</a>
 </div>
 <div class="foot-cols">
-<div><p class="foot-brand">Global Art Monitor</p><p class="quiet">Auction and market research for collectors who want the record, not the rumour.</p></div>
+<div><p class="foot-brand">{MARK}Global Art Monitor</p><p class="quiet">Auction and market research for collectors who want the record, not the rumour.</p></div>
 <div><h3>Sections</h3>{secs}</div>
 <div><h3>Artists</h3>{arts}</div>
-<div><h3>About</h3><a href="{root}about/#method">Method</a><a href="{root}about/#sources">Sources</a><a href="{root}about/#corrections">Corrections</a><a href="{root}about/#contact">Contact</a></div>
+<div><h3>About</h3><a href="{root}about/#method">Method</a><a href="{root}about/#sources">Sources</a><a href="{root}about/#corrections">Corrections</a><a href="{root}contact/">Contact</a></div>
 </div>
 <p class="foot-legal">{esc(C.SITE["disclosure"])} Nothing on this site is investment advice. Past auction results do not predict future prices. <a href="{root}about/#disclosure">More about who we are</a></p>
 </div>
@@ -632,18 +651,55 @@ def build_about():
 <p>A short email with new documented results and new research, sent when there is something to report. To join the list, email <a href="mailto:{email}?subject=Subscribe%20to%20the%20monthly%20market%20note">{email}</a> with the subject line "Subscribe".</p>
 
 <h2 id="contact">Contact</h2>
-<p>For anything else, write to <a href="mailto:{email}">{email}</a>.</p>
+<p>For questions, press enquiries or anything else, use the <a href="@@contact/">contact page</a>.</p>
 
 <h2 id="advice">Not advice</h2>
 <p>Nothing on this site is investment, tax or legal advice. Auction results describe past sales of particular works. They do not predict what any work will sell for in future.</p>
 </div>
 <aside class="article-side">
-<div class="mini"><h2>On this page</h2><ul><li><a href="#disclosure">Who publishes this</a></li><li><a href="#method">Method</a></li><li><a href="#sources">Sources</a></li><li><a href="#corrections">Corrections</a></li><li><a href="#newsletter">Monthly market note</a></li><li><a href="#contact">Contact</a></li></ul></div>
+<div class="mini"><h2>On this page</h2><ul><li><a href="#disclosure">Who publishes this</a></li><li><a href="#method">Method</a></li><li><a href="#sources">Sources</a></li><li><a href="#corrections">Corrections</a></li><li><a href="#newsletter">Monthly market note</a></li><li><a href="@@contact/">Contact</a></li></ul></div>
 <div class="mini"><h2>Last updated</h2><p>{C.PUBLISHED_TEXT}</p></div>
 </aside>
 </section>"""
     page("about/index.html", "About, Method and Sources | Global Art Monitor",
          "Who publishes Global Art Monitor, how auction prices are recorded, which sources are used and how to send a correction.", body)
+
+
+def build_contact():
+    email = C.SITE["email"]
+    body = f"""<section class="shell page-head wide">
+<p class="eyebrow" data-reveal>Contact</p>
+<h1 class="h1" data-reveal style="--d:80ms">Ask us something.</h1>
+<p class="lede" data-reveal style="--d:200ms">Questions about a figure, a sale we have missed, a press enquiry or anything else. We read every message.</p>
+</section>
+<section class="shell article">
+<div class="article-body">
+<form class="form" id="contact-form" action="mailto:{email}" method="post" enctype="text/plain" data-email="{email}" data-reveal>
+<div class="field"><label for="cf-name">Your name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
+<div class="field"><label for="cf-email">Your email</label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
+<div class="field"><label for="cf-topic">What is it about?</label>
+<select id="cf-topic" name="topic">
+<option>General question</option>
+<option>Correction to a figure</option>
+<option>A sale or source to add</option>
+<option>Press enquiry</option>
+<option>Monthly market note</option>
+<option>Something else</option>
+</select></div>
+<div class="field"><label for="cf-message">Your message</label><textarea id="cf-message" name="message" rows="7" required></textarea></div>
+<div class="form-foot"><button class="pill pill-ink" type="submit">Send your message</button>
+<p class="quiet" id="contact-status" role="status">This opens your email app with the message ready to send.</p></div>
+</form>
+</div>
+<aside class="article-side">
+<div class="mini"><h2>Email us directly</h2><p><a href="mailto:{email}">{email}</a></p></div>
+<div class="mini"><h2>Corrections</h2><p>Tell us the page, the figure and your source. How we handle them is on the <a href="@@about/#corrections">about page</a>.</p></div>
+<div class="mini"><h2>Monthly market note</h2><p>Choose "Monthly market note" in the form, or see <a href="@@about/#newsletter">how to subscribe</a>.</p></div>
+<div class="mini"><h2>Valuations</h2><p>We do not value works. For insurance, tax or a sale, please ask a qualified valuer.</p></div>
+</aside>
+</section>"""
+    page("contact/index.html", "Contact | Global Art Monitor",
+         "Send a question, a correction or a press enquiry to the Global Art Monitor research desk.", body)
 
 
 def build_extras():
@@ -665,7 +721,10 @@ def build_extras():
     write("sitemap.xml", sm)
     write("robots.txt", f'User-agent: *\nAllow: /\n\nSitemap: {C.SITE["url"]}sitemap.xml\n')
     write(".nojekyll", "")
-    write("assets/favicon.svg", '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#2A2A2F"/><circle cx="32" cy="32" r="13" fill="#22E3A2"/></svg>\n')
+    write("assets/favicon.svg", TILE_FILE)
+    write("assets/brand/gam-tile.svg", TILE_FILE)
+    write("assets/brand/gam-mark-charcoal.svg", mark_file("#2A2A2F"))
+    write("assets/brand/gam-mark-blush.svg", mark_file("#F3C3C8"))
 
 
 if __name__ == "__main__":
@@ -676,5 +735,6 @@ if __name__ == "__main__":
     build_intelligence()
     build_collecting()
     build_about()
+    build_contact()
     build_extras()
     print(f"Built {len(WRITTEN)} files")

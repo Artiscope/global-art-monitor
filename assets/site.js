@@ -3,6 +3,7 @@
   var doc = document.documentElement;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var lenis = null;
+  var MARK = '<svg class="mark" viewBox="0 0 120 120" aria-hidden="true"><path d="M 88.3 31.7 A 40 40 0 1 0 100 60" fill="none" stroke="currentColor" stroke-width="13" stroke-linecap="round"/><line x1="40" y1="60" x2="78" y2="60" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="40" cy="60" r="6" fill="currentColor"/><circle cx="58" cy="60" r="6" fill="currentColor"/><circle cx="78" cy="60" r="10.5" fill="#22E3A2"/></svg>';
 
   function lockScroll(lock) {
     doc.style.overflow = lock ? 'hidden' : '';
@@ -35,7 +36,7 @@
     el.className = 'loader';
     el.setAttribute('role', 'status');
     el.innerHTML =
-      '<div><div class="loader-brand">Global Art Monitor</div>' +
+      '<div><div class="loader-brand">' + MARK + 'Global Art Monitor</div>' +
       '<p class="loader-line">Art market intelligence, beyond the headlines.</p></div>' +
       '<div class="loader-bar"><div class="loader-track"><div class="loader-fill"></div></div>' +
       '<div class="loader-meta"><span>Loading</span><span class="loader-count">000</span></div></div>';
@@ -141,6 +142,22 @@
     }).catch(function () {});
   }
 
+  // Contact form: builds an email in the visitor's own mail app
+  function setupContact() {
+    var form = document.getElementById('contact-form');
+    if (!form) { return; }
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var v = function (id) { return document.getElementById(id).value.trim(); };
+      var subject = v('cf-topic') + ' from ' + v('cf-name');
+      var body = v('cf-message') + '\n\nFrom: ' + v('cf-name') + '\nReply to: ' + v('cf-email');
+      var to = form.getAttribute('data-email');
+      window.location.href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+      document.getElementById('contact-status').textContent = 'Your email app should now be open with the message ready. If nothing happened, write to ' + to + '.';
+    });
+  }
+
+  setupContact();
   setupMenu();
   setupFilters();
   setupClock();
