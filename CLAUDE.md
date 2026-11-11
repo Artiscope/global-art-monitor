@@ -32,7 +32,10 @@ because the next build overwrites them.
 
 After editing the data, the words or the layouts, run
 `python3 tools/build.py`, then commit the source files and the rebuilt
-pages together. GitHub Pages publishes the main branch.
+pages together. Every push to main is published by the workflow in
+`.github/workflows/pages.yml`. Do not edit that file. It leaves your
+working files (this brief, the voice guide, the log, the calendar,
+`inbox/`, `tools/` and `data/`) out of the public site.
 
 - Artist images go in `assets/images/<artist-slug>.jpg` (for example
   `assets/images/zara-muse.jpg`), followed by a rebuild.
