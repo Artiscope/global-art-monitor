@@ -12,6 +12,7 @@ on:
 
 permissions:
   contents: write
+  actions: write
 
 concurrency:
   group: place-photos
@@ -39,3 +40,7 @@ jobs:
           git commit -m "Place photos sent from Artiscope Digital Home"
           git pull --rebase origin main
           git push origin HEAD:main
+          echo "Starting a publish so the photo goes live."
+          gh workflow run pages.yml --ref main
+        env:
+          GH_TOKEN: ${{ github.token }}
