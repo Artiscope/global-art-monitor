@@ -3,13 +3,13 @@
 
 It only handles the simple, safe case: a photo sent for an EMPTY spot
 that the page can already show. Everything else is left in inbox/ for
-the website agent, which uses judgement and asks the owner when needed.
+a person to handle in Artiscope Digital Home.
 
 Handled here:
   World Art Review     artist main images and article images
   Global Art Monitor   artist profile images
 
-Left for the agent:
+Left alone, to be handled by hand:
   artwork photos, replacing an existing image, photos with only a
   description (note--...), and anything this script is unsure about.
 
@@ -64,85 +64,63 @@ def js(text):
     return json.dumps(text, ensure_ascii=False)
 
 
-# ---------- World Art Review: one file, content in lists ----------
+# ---------- World Art Review: content kept in content/site.json ----------
 
-def page_scripts_ok(html):
-    """The page's own scripts must still parse after an edit."""
-    blocks = re.findall(r"<script(?![^>]*\bsrc=)([^>]*)>(.*?)</script>", html, re.S)
-    for i, (attrs, code) in enumerate(blocks):
-        if not code.strip():
-            continue
-        kind = re.search(r'type="([^"]*)"', attrs)
-        kind = kind.group(1).lower() if kind else ""
-        if kind in ("importmap", "application/json", "application/ld+json"):
-            try:
-                json.loads(code)
-            except ValueError:
-                return False
-            continue
-        if kind not in ("", "text/javascript", "module"):
-            continue
-        path = f"/tmp/_check_{i}." + ("mjs" if kind == "module" else "js")
-        with open(path, "w", encoding="utf-8") as f:
-            f.write(code)
-        if subprocess.run(["node", "--check", path], capture_output=True).returncode != 0:
-            return False
-    return True
+CONTENT = os.path.join(ROOT, "content", "site.json")
 
 
-def place_single_file(slot_id, rel_image, alt, caption):
-    """Returns (new_html, reason). new_html is None if it should wait."""
-    path = os.path.join(ROOT, "index.html")
-    html = open(path, encoding="utf-8").read()
-    lines = html.split("\n")
+def place_in_content(slot_id, rel_image, alt, caption):
+    """Returns (new_content, reason). new_content is None if it should wait."""
+    data = json.load(open(CONTENT, encoding="utf-8"))
 
     if slot_id.startswith("artist-"):
         slug = slot_id[len("artist-"):]
-        idx = next((i for i, l in enumerate(lines) if l.startswith(f'  slug:"{slug}", name:')), None)
-        if idx is None:
-            return None, "the artist was not found on the page"
-        if 'image:null, alt:""' not in lines[idx]:
+        artist = next((a for a in data.get("artists", []) if a.get("slug") == slug), None)
+        if artist is None:
+            return None, "the artist was not found in the site content"
+        if artist.get("image"):
             return None, "the artist already has an image, so replacing it needs approval"
-        lines[idx] = lines[idx].replace('image:null, alt:""', f"image:{js(rel_image)}, alt:{js(alt)}", 1)
+        artist["image"] = rel_image
+        artist["alt"] = alt
         if caption:
-            end = min(idx + 8, len(lines))
-            hit = next((j for j in range(idx + 1, end) if lines[j].startswith("  heroCredit:")), None)
-            if hit is not None:
-                lines[hit] = f"  heroCredit:{js(caption)},"
-            else:
-                lines.insert(idx + 1, f"  heroCredit:{js(caption)},")
-        return "\n".join(lines), "placed as the artist's main image"
+            artist["heroCredit"] = caption
+        return data, "placed as the artist's main image"
 
     if slot_id.startswith("article-"):
         slug = slot_id[len("article-"):]
-        idx = next((i for i, l in enumerate(lines) if l.startswith(f'  slug:"{slug}", section:')), None)
-        if idx is None:
-            return None, "the article was not found on the page"
-        if "image:" in lines[idx]:
+        article = next((a for a in data.get("articles", []) if a.get("slug") == slug), None)
+        if article is None:
+            return None, "the article was not found in the site content"
+        if article.get("image"):
             return None, "the article already has an image, so replacing it needs approval"
-        lines[idx] = lines[idx].rstrip()
-        if not lines[idx].endswith(","):
-            return None, "the article entry has an unexpected shape"
-        lines[idx] += f" image:{js(rel_image)}, alt:{js(alt)},"
-        end = min(idx + 8, len(lines))
-        hit = next((j for j in range(idx + 1, end) if lines[j].startswith("  credit:")), None)
+        article["image"] = rel_image
+        article["alt"] = alt
         if caption:
-            if hit is not None:
-                lines[hit] = f"  credit:{js(caption)},"
-            else:
-                lines.insert(idx + 1, f"  credit:{js(caption)},")
-        elif hit is not None:
-            lines[hit] = lines[hit].replace(" [Image to supply]", "")
-        return "\n".join(lines), "placed as the article's image"
+            article["credit"] = caption
+        elif isinstance(article.get("credit"), str):
+            article["credit"] = article["credit"].replace(" [Image to supply]", "")
+        return data, "placed as the article's image"
 
-    return None, "this kind of spot is handled by the agent"
+    return None, "this kind of spot is handled by hand"
+
+
+def content_builds(data):
+    """The site must still build with the new content before anything is saved."""
+    backup = open(CONTENT, encoding="utf-8").read()
+    try:
+        json.dump(data, open(CONTENT, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
+        built = subprocess.run([sys.executable, os.path.join("tools", "build_site.py"), "/tmp/_place_check"], capture_output=True)
+        return built.returncode == 0
+    finally:
+        with open(CONTENT, "w", encoding="utf-8") as f:
+            f.write(backup)
 
 
 # ---------- Global Art Monitor: pages built by a script ----------
 
 def place_built_site(slot_id, src, ext, alt, caption):
     if not slot_id.startswith("artist-"):
-        return False, "this kind of spot is handled by the agent"
+        return False, "this kind of spot is handled by hand"
     slug = slot_id[len("artist-"):]
     data = json.load(open(os.path.join(ROOT, "data", "sales.json"), encoding="utf-8"))
     if slug not in data.get("artists", {}):
@@ -196,7 +174,7 @@ def main():
         alt = clean(note.get("alt"), 240)
         caption = clean(note.get("caption"), 160)
         if not alt:
-            print(f"LEFT   {name}: no description was given, so the agent will write one")
+            print(f"LEFT   {name}: no description was given")
             continue
         try:
             Image.open(src).verify()
@@ -208,14 +186,13 @@ def main():
             ok, reason = place_built_site(slot_id, src, ext, alt, caption)
         else:
             rel = f"images/{slot_id}.{ext}"
-            new_html, reason = place_single_file(slot_id, rel, alt, caption)
-            ok = new_html is not None
-            if ok and not page_scripts_ok(new_html):
-                ok, reason = False, "the page failed its safety check, so nothing was changed"
+            data, reason = place_in_content(slot_id, rel, alt, caption)
+            ok = data is not None
+            if ok and not content_builds(data):
+                ok, reason = False, "the site failed to build with it, so nothing was changed"
             if ok:
                 save_image(src, os.path.join(ROOT, rel))
-                with open(os.path.join(ROOT, "index.html"), "w", encoding="utf-8") as f:
-                    f.write(new_html)
+                json.dump(data, open(CONTENT, "w", encoding="utf-8"), indent=2, ensure_ascii=False)
 
         if not ok:
             print(f"LEFT   {name}: {reason}")

@@ -25,14 +25,17 @@ because the next build overwrites them.
 | To change | Edit this file |
 |---|---|
 | A sale, price, estimate or date | `data/sales.json` |
-| Article text, glossary, artist notes | `tools/content.py` |
+| Article text, glossary, artist notes, site name and contact email | `data/content.json` |
+| An article to leave off the site | add `"hidden": true` to it in `data/content.json` |
 | Colours, fonts, spacing | `assets/site.css` |
 | Loader, menu, filters, motion | `assets/site.js` |
 | Page layouts | `tools/build.py` |
 
-After editing the data, the words or the layouts, run
-`python3 tools/build.py`, then commit the source files and the rebuilt
-pages together. Every push to main is published by the workflow in
+The content files can also be edited from Artiscope Digital Home. The
+pages are rebuilt automatically on every publish, so a change to the
+content goes live without anyone running the build. When you edit by
+hand, still run `python3 tools/build.py` to check it builds, then
+commit the source files and the rebuilt pages together. Every push to main is published by the workflow in
 `.github/workflows/pages.yml`. Do not edit that file. It leaves your
 working files (this brief, the voice guide, the log, the calendar,
 `image-slots.json`, `inbox/`, `tools/` and `data/`) out of the public

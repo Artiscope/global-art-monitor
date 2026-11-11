@@ -9,7 +9,7 @@ This is a plain static site. There is nothing to install.
 | To change | Edit this file |
 |---|---|
 | A sale, price, estimate or date | `data/sales.json` |
-| Article text, glossary, artist notes, contact email, disclosure | `tools/content.py` |
+| Article text, glossary, artist notes, contact email, disclosure | `data/content.json` |
 | Colours, fonts, spacing | `assets/site.css` |
 | Loader, menu, filters, motion | `assets/site.js` |
 | Page layouts | `tools/build.py` |
