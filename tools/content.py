@@ -83,7 +83,7 @@ FEATURES = [
 </ul>
 
 <h2>What we could not confirm</h2>
-<p>Auction databases list two paintings at Christie's in London: Ava, offered on 2 July 2026 with an estimate starting at £6,000, and Unspoken (2025). We have not been able to check either price against a Christie's lot page, so both rows are marked as unconfirmed. We also have not confirmed the estimate Bonhams published for Malala Yousafzai.</p>
+<p>Auction databases list two paintings at Christie's in London: Ava, offered on 2 July 2026, and Unspoken, offered on 21 October 2026. Each carried an estimate of £6,000 to £8,000. Invaluable records both lots as sold but does not show the prices to readers without an account, and we have not been able to check either against a Christie's lot page. The hammer price and the price with premium for both rows are marked "To confirm". We also have not confirmed the estimate Bonhams published for Malala Yousafzai.</p>
 <div class="callout">
 <p><strong>A note on the 2025 record.</strong> Some reports give the Malala Yousafzai price in US dollars, at about $67,200. That is a conversion of the same £51,200 sale, not a separate result. We show every price in the currency of the sale.</p>
 </div>
