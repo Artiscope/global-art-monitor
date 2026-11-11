@@ -1,0 +1,300 @@
+"""Words for the site. Edit the text here, then run: python3 tools/build.py
+
+In article bodies:
+  @@            is replaced with the path back to the site root
+  [[TIMELINE:artist-slug]]  drops in that artist's auction table
+"""
+
+PUBLISHED = "2026-11-11"
+PUBLISHED_TEXT = "11 November 2026"
+
+SITE = {
+    "name": "Global Art Monitor",
+    "tagline": "The auction and market research platform",
+    "headline": "Art Market Intelligence, Beyond the Headlines.",
+    "intro": "Follow auction activity, artist-market developments and the forces shaping the international art trade. Global Art Monitor examines reported sales, collecting trends and market structures with an emphasis on transparent data and careful interpretation.",
+    "url": "https://globalartmonitor.com/",
+    "email": "editor@globalartmonitor.com",
+    "disclosure": "Global Art Monitor is published by Artiscope, the group behind Grove Gallery in London. Grove Gallery sells work by artists covered on this site, including Zara Muse and Konn Artiss. Please read our coverage with that interest in mind.",
+}
+
+SECTIONS = [
+    ("market-intelligence", "Market Intelligence", "Analysis of the forces shaping the international trade."),
+    ("auction-results", "Auction Results", "Documented sales, with hammer and premium kept apart."),
+    ("artists", "Artist Market Profiles", "One page per artist, built on sourced sales only."),
+    ("research", "Research Reports", "Longer studies, with sources and method shown."),
+    ("collecting-valuation", "Collecting & Valuation", "Plain guides to estimates, resale and consignment."),
+]
+
+BIOS = {
+    "zara-muse": {
+        "summary": "Zara Muse is the working name of Alexandra Johnson, a London painter born in 1971. She paints in acrylic with a palette knife and spatula, mostly large portraits of women built up in thick layers of colour.",
+        "body": [
+            "Her work first appeared at auction in September 2024, when In Her Own Light sold at Tate Ward in London. Since then her paintings have been offered at Tate Ward, Bonhams and Christie's.",
+            "The table below lists every public sale of a painting that we have been able to document. Prints are tracked separately and will be added once we have checked each result.",
+        ],
+        "sources": [
+            ("Tate Ward artist page", "https://www.tateward.com/featured-artists/zara-muse/"),
+            ("Bonhams lot 134", "https://www.bonhams.com/auction/30898/lot/134/zara-muse-b-1971-malala-yousafzai-painted-in-2019/"),
+            ("Art Plugged interview", "https://artplugged.co.uk/artist-zara-muse-art-healing-power-becoming/"),
+        ],
+    },
+    "konn-artiss": {
+        "summary": "Konn Artiss is an anonymous artist, described by some reporters as a collective, known for staged public interventions aimed at wealth and the art market itself.",
+        "body": [
+            "In June 2025 the name was attached to a protest piece in Venice timed to the wedding of Jeff Bezos. In October 2025, during Frieze week in London, Konn Artiss left large blocks of ice containing effigies of well known artists outside the fair and outside galleries and auction houses.",
+            "Auction activity is recent and small. We have documented two results so far, both at Tate Ward and both for works dated 2025.",
+        ],
+        "sources": [
+            ("The Art Newspaper, Frieze London diary", "https://www.theartnewspaper.com/2025/10/17/frieze-london-diary-art-historical-speed-dating-and-frozen-faeces"),
+            ("Art Plugged on Anti-Frieze", "https://artplugged.co.uk/anti-frieze-konn-artiss-freezes-the-art-world-at-frieze-london/"),
+            ("FAD Magazine on the Venice piece", "https://fadmagazine.com/2025/06/23/the-washington-ghost-haunts-bezos-ahead-of-lavish-venice-wedding/"),
+        ],
+    },
+}
+
+FEATURES = [
+    {
+        "slug": "zara-muse-auction-results",
+        "title": "Zara Muse Auction Results: A Documented Market Timeline",
+        "kicker": "Auction results",
+        "tags": ["research", "auction-results"],
+        "mins": 6,
+        "standfirst": "Every public sale since her September 2024 debut at Tate Ward, with prices, houses and dates set side by side.",
+        "description": "A sourced timeline of Zara Muse auction results at Tate Ward, Bonhams and Christie's, with estimates, hammer prices and premium-inclusive prices shown separately.",
+        "body": """
+<p class="standfirst">Zara Muse has a short public auction record: four priced results in under two years, at two London houses, with two more lots at a third that we have not yet been able to price. This is what the record shows, and where it runs out.</p>
+
+<h2>The record so far</h2>
+<p>Each row below keeps three figures apart: the estimate the house published before the sale, the hammer price, and the total the buyer paid once the buyer's premium was added. All four priced sales were in pounds.</p>
+[[TIMELINE:zara-muse]]
+
+<h2>What the figures show</h2>
+<p>The first result came on 18 September 2024, when In Her Own Light (2023) sold at Tate Ward for a hammer price of £27,000 against an estimate of £6,000 to £8,000. With premium the buyer paid £33,750. Three months later The Shape of Stillness (2024) made a hammer price of £38,000 at the same house, against £8,000 to £12,000, for a total of £47,500.</p>
+<p>The highest documented price is still the Bonhams sale of 3 April 2025. Malala Yousafzai, a portrait painted in 2019, sold for £51,200 with premium in the 20th/21st Century Art Day Sale at New Bond Street. Bonhams does not publish hammer prices, so we worked that one back from the total: about £40,000.</p>
+<p>The most recent priced result is lower. Alya (2023) closed at £33,280 with premium in a Bonhams online sale on 18 June 2026, against an estimate of £7,000 to £10,000. Our calculated hammer price is £26,000.</p>
+
+<h2>How to read it</h2>
+<p>Three things stand out, and each needs a caution.</p>
+<ul>
+<li><strong>Every priced lot beat its estimate by a wide margin.</strong> Hammer prices came in at roughly three times the high estimate at Tate Ward and about two and a half times at Bonhams in 2026. That tells you bidders went well past the guide. It also tells you the guides were set low compared with where bidding ended.</li>
+<li><strong>The record has not risen in a straight line.</strong> The totals run £33,750, £47,500, £51,200 and then £33,280. These are four different paintings, of different sizes and subjects, sold in different kinds of sale. The dip is not proof of a fall, and the earlier climb was not proof of a trend.</li>
+<li><strong>The sample is small.</strong> Four priced results cannot tell you what a fifth painting will make. They show what four works made on four days.</li>
+</ul>
+
+<h2>What we could not confirm</h2>
+<p>Auction databases list two paintings at Christie's in London: Ava, offered on 2 July 2026 with an estimate starting at £6,000, and Unspoken (2025). We have not been able to check either price against a Christie's lot page, so both rows are marked as unconfirmed. We also have not confirmed the estimate Bonhams published for Malala Yousafzai.</p>
+<div class="callout">
+<p><strong>A note on the 2025 record.</strong> Some reports give the Malala Yousafzai price in US dollars, at about $67,200. That is a conversion of the same £51,200 sale, not a separate result. We show every price in the currency of the sale.</p>
+</div>
+<p>If you hold a catalogue, invoice or saleroom notice that fills one of these gaps, <a href="@@about/#corrections">tell us</a> and we will update the timeline and credit the source.</p>
+""",
+    },
+    {
+        "slug": "konn-artiss-auction-results",
+        "title": "Konn Artiss Auction Results: Early Secondary-Market Activity",
+        "kicker": "Auction results",
+        "tags": ["research", "auction-results"],
+        "mins": 5,
+        "standfirst": "The first Tate Ward appearances, read against their estimates and the small sample they represent.",
+        "description": "Konn Artiss auction results at Tate Ward: two documented sales, their estimates, hammer prices and premium-inclusive totals, and what a two-sale record can and cannot show.",
+        "body": """
+<p class="standfirst">Konn Artiss is better known for interventions than for objects. The name has been attached to a floating protest in Venice and to blocks of ice left outside Frieze London. Works have now started to appear at auction. Here is what has sold, and how much weight two results can carry.</p>
+
+<h2>Who is selling what</h2>
+<p>Konn Artiss works anonymously. The Art Newspaper has called it an "elusive art collective", while other reports describe a single street artist. For market purposes the distinction matters less than this: until 2026 there was no public resale record at all.</p>
+
+<h2>The two documented results</h2>
+[[TIMELINE:konn-artiss]]
+<p>Untitled (2025) was lot 173 in Tate Ward's online sale with Artsy, By Collectors For Collectors, which closed on 14 May 2026. It carried an estimate of £6,000 to £8,000 and sold for £10,625 with premium. Tate Ward does not show hammer prices on its results pages, so we worked this one back from the total: about £8,500, a little above the high estimate.</p>
+<p>Gilded Promise (2025) was lot 160 at Tate Ward with the same £6,000 to £8,000 estimate. It sold for £15,000 with premium, which implies a hammer price of about £12,000, or one and a half times the high estimate. We have not yet confirmed the sale date, so that cell is marked.</p>
+
+<h2>What two sales can tell you</h2>
+<ul>
+<li><strong>There is a bid.</strong> Both lots sold, and both sold above the top of their estimates. Somebody was willing to pay those sums in public.</li>
+<li><strong>The works reached auction quickly.</strong> Both are dated 2025 and both were resold by 2026. Fast resale can mean demand. It can also mean an early owner chose to take a price. The results do not say which.</li>
+<li><strong>Everything so far is at one house.</strong> A record built at a single saleroom is narrower than one tested at several, with different audiences and different specialists setting the estimates.</li>
+</ul>
+
+<h2>What they cannot tell you</h2>
+<p>Two results are not a market. They do not show how many bidders took part, who consigned the works, or what the same pieces would make if offered again. They say nothing about works that may have been offered privately or withdrawn.</p>
+<p>We will add each new sale to the <a href="@@artists/konn-artiss/">Konn Artiss market profile</a> as it is documented, including any lot that fails to sell. Unsold lots belong in the record too.</p>
+""",
+    },
+    {
+        "slug": "what-an-auction-result-tells-collectors",
+        "title": "What Does an Auction Result Actually Tell Collectors?",
+        "kicker": "Auction education",
+        "tags": ["market-intelligence", "collecting-valuation", "research"],
+        "mins": 5,
+        "standfirst": "One price, one room, one day. What a result records and what it leaves out.",
+        "description": "What an art auction result records, from hammer price and buyer's premium to estimates, and the things a published price does not tell collectors.",
+        "body": """
+<p class="standfirst">An auction result is the most public number in the art market, which is why it gets quoted so often. It is also a narrow one. It records what happened to one object, in one sale, on one day.</p>
+
+<h2>What a result does record</h2>
+<p>A published result usually gives you four facts.</p>
+<ul>
+<li><strong>The hammer price.</strong> The winning bid, called when the auctioneer's hammer falls. It is the figure the seller's proceeds are worked out from.</li>
+<li><strong>The price with buyer's premium.</strong> The hammer price plus the fee the house charges the buyer. Most houses publish this total, and most headlines quote it.</li>
+<li><strong>The estimate.</strong> The low and high guide the house printed before the sale.</li>
+<li><strong>The basics of the sale.</strong> Date, house, sale title, lot number and currency.</li>
+</ul>
+<p>The gap between the first two is not small. On the two Zara Muse lots sold at Tate Ward in 2024, the published totals were exactly 25 per cent above the hammer prices. A reader comparing a hammer price from one source with a premium-inclusive price from another is comparing two different things.</p>
+
+<h2>What it leaves out</h2>
+<ul>
+<li><strong>Who was bidding.</strong> A lot needs only two determined bidders to run far past its estimate. It can also sell to a single bidder at the reserve. The result looks the same either way.</li>
+<li><strong>Who bought and who sold.</strong> Buyers and sellers are almost never named. Dealers, collectors and people with a stake in an artist's prices can all bid.</li>
+<li><strong>Whether the price was arranged in advance.</strong> Some lots carry guarantees or irrevocable bids. Catalogues mark these with symbols, but summaries of results rarely repeat them.</li>
+<li><strong>Condition, size and quality.</strong> A database line does not tell you that one painting is twice the size of another, or that one has been restored.</li>
+<li><strong>What did not sell.</strong> Lots that fail to reach their reserve are "bought in". They often drop out of the story, though they say as much about demand as the sales do.</li>
+<li><strong>Private prices.</strong> Gallery and private sales are not reported at all.</li>
+</ul>
+
+<h2>Five questions to ask of any result</h2>
+<ol>
+<li>Is this the hammer price or the price with premium?</li>
+<li>What was the estimate, and how did the house arrive at it?</li>
+<li>What currency was the sale in, and has someone converted it?</li>
+<li>How does this work compare in size, date and subject with the artist's other sold works?</li>
+<li>How many other results are there, and how many lots went unsold?</li>
+</ol>
+<p>None of this makes auction results useless. They are the best public evidence there is. They just need to be read as evidence of one sale, not as a price tag for an artist. Our <a href="@@auction-results/">auction results</a> pages are laid out to make those five questions easy to answer.</p>
+""",
+    },
+    {
+        "slug": "why-one-record-sale-does-not-establish-market-value",
+        "title": "Why One Record Sale Does Not Establish Market Value",
+        "kicker": "Collecting economics",
+        "tags": ["market-intelligence", "collecting-valuation", "research"],
+        "mins": 5,
+        "standfirst": "A record is a single data point. Value needs repeat sales, depth of bidding and time.",
+        "description": "Why an artist's auction record is not the same as market value, and what collectors should look for instead: repeat sales, sell-through, depth of bidding and time.",
+        "body": """
+<p class="standfirst">"New auction record" is the art market's favourite headline. It is true by definition and tells you very little. A record is the single highest price in a set of results. Market value is about what is likely, and the highest point in a set is the least likely place for the next result to land.</p>
+
+<h2>A record is about one object</h2>
+<p>Artists do not have prices. Works do. A record attaches to a particular painting: its size, its subject, its date and its condition. Take the highest documented price for Zara Muse, £51,200 with premium at Bonhams in April 2025. The work was a large portrait, 152 by 122 centimetres, of one of the most recognisable people in the world. The next priced result on record, for a different painting in an online sale in June 2026, was £33,280. Neither figure is "the value of a Zara Muse". Each is what one painting made.</p>
+
+<h2>Two bidders are enough</h2>
+<p>An auction price is set by the second most determined person in the room. If two people badly want the same lot, the price can end up far from where anyone else would have stopped. That is a real sale and a real price. It is not evidence that a third or fourth buyer exists at that level.</p>
+
+<h2>Estimates can flatter a result</h2>
+<p>Houses often set estimates low to draw in bidders. A lot that sells for four times a cautious estimate makes a better story than one that sells within a realistic one, even when the final prices are the same. Multiples of the estimate say as much about how the guide was set as about demand.</p>
+
+<h2>What does establish value</h2>
+<p>Valuers and experienced collectors look for a pattern, not a peak.</p>
+<ul>
+<li><strong>Repeat sales.</strong> Many results for comparable works, ideally including the same work sold twice.</li>
+<li><strong>Sell-through.</strong> The share of lots offered that find a buyer. A record sitting beside several unsold lots is a warning, not a comfort.</li>
+<li><strong>Depth.</strong> Evidence of several bidders, at more than one house, in more than one city.</li>
+<li><strong>Time.</strong> Prices that hold up across different years and different market moods.</li>
+<li><strong>Agreement with the primary market.</strong> Auction results and gallery prices that sit in a sensible relation to each other.</li>
+</ul>
+
+<h2>Why the word "value" needs care</h2>
+<p>There is more than one kind. An insurance valuation is the cost of replacing a work at retail. Fair market value is what a willing buyer and seller would agree with no pressure on either. An auction estimate is a sales tool. A record sale is none of these. If you need a valuation for insurance, tax or a sale, ask a qualified valuer who has seen the work.</p>
+<p>We report records because they are facts. We try never to report them alone. On every <a href="@@artists/">artist market profile</a> the highest price sits next to every other documented result, including the lower ones.</p>
+""",
+    },
+    {
+        "slug": "understanding-liquidity-in-emerging-contemporary-art",
+        "title": "Understanding Liquidity in Emerging Contemporary Art",
+        "kicker": "Artist-market research",
+        "tags": ["market-intelligence", "research"],
+        "mins": 6,
+        "standfirst": "How often work changes hands, how quickly, and why that matters more than the top price.",
+        "description": "A plain guide to liquidity in the market for emerging contemporary artists: how to measure it, why thin markets behave differently, and what it costs to buy and sell.",
+        "body": """
+<p class="standfirst">Liquidity is a simple idea with an awkward name. It means how easily you can turn something back into money, at a price close to what you expected, when you choose to. Shares in a large company are very liquid. A painting by an artist with four auction results is not.</p>
+
+<h2>Why price is the wrong first question</h2>
+<p>Most writing about emerging artists is about how high prices have gone. For anyone who might one day sell, the better questions are whether there will be a buyer, how long a sale will take and how much of the price will be lost along the way. An artist can have a striking record and almost no liquidity.</p>
+
+<h2>How to judge it</h2>
+<p>There is no single measure, but five signs are worth checking.</p>
+<ul>
+<li><strong>How many works come up each year.</strong> A handful of lots a year is a thin market. Dozens is a deeper one.</li>
+<li><strong>How many of them sell.</strong> The sell-through rate. Results pages often leave out unsold lots, so look for a source that lists them.</li>
+<li><strong>Where they sell.</strong> One house or several. One city or several.</li>
+<li><strong>How results sit against estimates.</strong> Results scattered far above and below the guide suggest nobody is sure of the level.</li>
+<li><strong>How long the record is.</strong> A market that has only existed in good times has not been tested.</li>
+</ul>
+<p>By these measures both artists we currently track are at an early stage. Zara Muse has four priced results over 21 months at two houses. Konn Artiss has two, at one. That is a description, not a criticism. Every auction record starts somewhere.</p>
+
+<h2>The cost of getting in and out</h2>
+<p>Art is expensive to trade, and the costs fall on both sides.</p>
+<p>The buyer pays the hammer price plus a buyer's premium. The seller receives the hammer price less a seller's commission and any agreed costs such as photography, insurance and shipping. In the UK the Artist's Resale Right can add a royalty for living artists on qualifying sales.</p>
+<div class="callout">
+<p><strong>A worked example.</strong> In September 2024 a Zara Muse painting sold at Tate Ward for a hammer price of £27,000. The buyer paid £33,750 with premium.</p>
+<p>Seller's commission is negotiated and not published. If it had been 10 per cent, the seller would have received £24,300 before other costs. On that assumption about 28 per cent of what the buyer paid, £9,450, did not reach the seller.</p>
+<p>So a buyer who resold the same work at the same hammer price would be well short of getting their money back.</p>
+</div>
+
+<h2>Why thin markets move sharply</h2>
+<p>When only a few works are offered each year, one or two keen bidders can lift prices quickly, and their absence can drop them just as fast. Supply matters as well. In a young market much of the work is still with the artist, the gallery and first buyers. If several owners decide to sell in the same season, there may not be enough bidders to go round.</p>
+
+<h2>What this means in practice</h2>
+<p>Buy work because you want to live with it, and treat any resale value as uncertain. If resale matters to you, look at the breadth of the record before the height of it. And remember that selling takes time: consigning, cataloguing and waiting for the right sale can take months.</p>
+<p>Nothing here is investment advice. It is a way of reading the record with clear eyes.</p>
+""",
+    },
+    {
+        "slug": "how-to-compare-primary-gallery-prices-with-auction-results",
+        "title": "How to Compare Primary Gallery Prices with Auction Results",
+        "kicker": "Collecting economics",
+        "tags": ["collecting-valuation", "research"],
+        "mins": 6,
+        "standfirst": "Gallery prices and auction prices measure different things. A method for reading them together.",
+        "description": "A step by step method for comparing primary market gallery prices with auction results, including like for like matching, fees and the limits of the comparison.",
+        "body": """
+<p class="standfirst">Collectors are often shown an auction result as proof that a gallery price is fair, or a bargain. The two numbers can be compared, but only with care, because they come from markets that work in different ways.</p>
+
+<h2>Two markets, two kinds of price</h2>
+<p>The <strong>primary market</strong> is the first sale of a work, usually through the artist's gallery. The price is set in advance, tends to follow the size of the work, and moves slowly. Galleries generally raise prices in steps and avoid cutting them.</p>
+<p>The <strong>secondary market</strong> is every sale after that, including auctions. Auction prices are set by whoever turns up to bid. They can jump or fall from one sale to the next.</p>
+<p>A gallery price is an asking price that someone has agreed to. An auction price is the result of a contest. One is steady by design. The other is not.</p>
+
+<h2>A method in six steps</h2>
+<ol>
+<li><strong>Match the work.</strong> Compare paintings with paintings and prints with prints. Match size, year and series as closely as you can. A unique canvas and an edition of fifty are different goods.</li>
+<li><strong>Use the right auction figure.</strong> If you are asking "what would I pay?", use the price with buyer's premium. If you are asking "what would I get if I sold?", start from the hammer price and take off a seller's commission.</li>
+<li><strong>Put both in the same currency and on the same tax basis.</strong> Check whether the gallery price includes VAT and whether a converted auction price used the rate on the day of the sale.</li>
+<li><strong>Look at all the results.</strong> Use every comparable sale, including the low ones and any unsold lots, not only the best.</li>
+<li><strong>Check the dates.</strong> A result from two years ago and a price list from this month are not describing the same moment.</li>
+<li><strong>Write down what you do not know.</strong> Who bid, who consigned, whether the lot was guaranteed, and what condition it was in.</li>
+</ol>
+
+<h2>Reading the gap</h2>
+<p><strong>When auction results sit above gallery prices,</strong> it can mean demand is running ahead of supply. It does not mean you could buy at the gallery and sell at that auction price. You would receive the hammer price less commission, on a different day, with different bidders, for a different work.</p>
+<p><strong>When auction results sit below gallery prices,</strong> it does not prove the gallery is overcharging. Galleries sell with services attached: choice of work, provenance from the studio, and a relationship. It does tell you that resale may not return what you paid.</p>
+<p><strong>When there are only a few results,</strong> the honest reading is that the comparison is not yet reliable.</p>
+
+<h2>A caution about interested parties</h2>
+<p>Galleries, artists and existing collectors all benefit when an artist's auction prices are strong, and any of them may bid. That is a normal feature of the art market, and it is one reason a result cannot be read as a neutral measure of outside demand. It applies to the artists covered on this site as much as to any other. Our own position is set out on the <a href="@@about/#disclosure">about page</a>.</p>
+
+<h2>The short version</h2>
+<p>Compare like with like, use the right figure for the question you are asking, and treat a small number of results as a small amount of evidence. For anything that turns on a specific figure, such as insurance or a sale, speak to a qualified valuer.</p>
+""",
+    },
+]
+
+GLOSSARY = [
+    ("Hammer price", "The winning bid, called when the auctioneer's hammer falls. It does not include fees. The seller's proceeds are worked out from it."),
+    ("Buyer's premium", "The fee an auction house charges the buyer on top of the hammer price. It is a percentage that varies by house and by price band."),
+    ("Price with premium", "The hammer price plus the buyer's premium. This is the figure most houses publish and most headlines quote. Also called the price realised."),
+    ("Estimate", "The low and high guide a house prints before the sale. It is a sales tool as well as a forecast, and is often set to attract bidding."),
+    ("Reserve", "The confidential minimum the seller will accept. By convention it is not set above the low estimate."),
+    ("Bought in", "A lot that fails to reach its reserve and goes unsold. Also called passed."),
+    ("Sell-through rate", "The share of lots offered that sell. A basic measure of demand for an artist or a sale."),
+    ("Consignment", "Handing a work to an auction house or dealer to sell on your behalf. The terms are set out in a consignment agreement."),
+    ("Seller's commission", "The fee the house takes from the seller, deducted from the hammer price. It is negotiable and rarely published."),
+    ("Artist's Resale Right", "A royalty due to living artists, and to their estates for 70 years, when a work is resold through the trade above a set threshold. In the UK it is charged on a sliding scale that starts at 4 per cent. Lots it applies to are usually marked ARR."),
+    ("Primary market", "The first sale of a work, usually by the artist's gallery at a set price."),
+    ("Secondary market", "Any later sale of a work, including auctions and private resales."),
+    ("Liquidity", "How easily a work can be sold, at a price near expectations, at a time of the owner's choosing."),
+    ("Guarantee", "A promise by the house or a third party that a lot will sell for at least an agreed sum. Guaranteed lots are marked in the catalogue."),
+    ("Provenance", "The ownership history of a work, from the studio to the present."),
+    ("Fair market value", "The price a willing buyer and a willing seller would agree, with neither under pressure and both properly informed. It is not the same as an insurance value or an auction record."),
+]
