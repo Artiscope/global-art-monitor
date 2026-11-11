@@ -14,7 +14,7 @@ SITE = {
     "headline": "Art Market Intelligence, Beyond the Headlines.",
     "intro": "Follow auction activity, artist-market developments and the forces shaping the international art trade. Global Art Monitor examines reported sales, collecting trends and market structures with an emphasis on transparent data and careful interpretation.",
     "url": "https://globalartmonitor.com/",
-    "email": "editor@globalartmonitor.com",
+    "email": "info@grovegallery.com",
     "disclosure": "Global Art Monitor is published by Artiscope, the group behind Grove Gallery in London. Grove Gallery sells work by artists covered on this site, including Zara Muse and Konn Artiss. Please read our coverage with that interest in mind.",
 }
 
