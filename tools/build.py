@@ -6,6 +6,7 @@ Words live in tools/content.py. Sales live in data/sales.json.
 Artist images: add assets/images/<artist-slug>.jpg and rebuild.
 """
 import json
+import re
 import os
 import sys
 from html import escape as esc
@@ -72,6 +73,25 @@ TILE_FILE = ('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rec
 
 # ---------- shared pieces ----------
 
+
+def theme_head(path):
+    """The colours and typefaces chosen in Artiscope Digital Home, as a small
+    block for the page head. Empty when the theme is the original one."""
+    if not os.path.exists(path):
+        return ""
+    theme = json.load(open(path, encoding="utf-8"))
+    out = ""
+    for link in theme.get("font_links") or []:
+        if isinstance(link, str) and link.startswith("https://fonts.googleapis.com/css2?") and not re.search(r'["<>\s]', link):
+            out += '<link href="%s" rel="stylesheet">\n' % link.replace("&", "&amp;")
+    css = theme.get("css") or ""
+    if css and re.fullmatch(r":root\{[^<>{}]*\}", css):
+        out += '<style id="theme">%s</style>\n' % css
+    return out
+
+
+THEME = theme_head(os.path.join(ROOT, "data", "theme.json"))
+
 def head(root, title, desc, path, extra=""):
     canon = C.SITE["url"] + path
     return f"""<!doctype html>
@@ -95,7 +115,7 @@ def head(root, title, desc, path, extra=""):
 <link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{root}assets/site.css">
 <script>document.documentElement.className='js';</script>
-{extra}</head>
+{THEME}{extra}</head>
 """
 
 
