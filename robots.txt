@@ -1,5 +1,4 @@
 User-agent: *
 Allow: /
-Disallow: /preview/
 
 Sitemap: https://globalartmonitor.com/sitemap.xml

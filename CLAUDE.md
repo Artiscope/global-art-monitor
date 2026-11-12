@@ -25,6 +25,8 @@ because the next build overwrites them.
 | To change | Edit this file |
 |---|---|
 | A sale, price, estimate or date | `data/sales.json` |
+| The sections of a page, their order and their words | `data/pages.json` (only from Artiscope Digital Home) |
+| Colours and typefaces chosen in the console | `data/theme.json` (leave alone) |
 | Article text, glossary, artist notes, site name and contact email | `data/content.json` |
 | An article to leave off the site | add `"hidden": true` to it in `data/content.json` |
 | Colours, fonts, spacing | `assets/site.css` |

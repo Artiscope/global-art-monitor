@@ -1,0 +1,512 @@
+{
+  "_how_to_edit": "Each page is a list of sections shown top to bottom. 'visible' hides a section without deleting it. 'settings' holds the words and choices. Words in curly brackets such as {email} are filled in by the site. Edit this from Artiscope Digital Home.",
+  "shared": {
+    "header": {
+      "type": "header",
+      "visible": true,
+      "settings": {
+        "name": "Global Art Monitor",
+        "subscribe": "Subscribe",
+        "subscribe_href": "about/#newsletter",
+        "menu_extra": [
+          [
+            "About and method",
+            "about/"
+          ],
+          [
+            "Contact",
+            "contact/"
+          ]
+        ],
+        "menu_tagline": "The auction and market research platform"
+      }
+    },
+    "footer": {
+      "type": "footer",
+      "visible": true,
+      "settings": {
+        "heading": "The monthly market note, sent when there is something to report.",
+        "button": "Subscribe by email",
+        "button_href": "about/#newsletter",
+        "blurb": "Auction and market research for collectors who want the record, not the rumour.",
+        "about_links": [
+          [
+            "Method",
+            "about/#method"
+          ],
+          [
+            "Sources",
+            "about/#sources"
+          ],
+          [
+            "Corrections",
+            "about/#corrections"
+          ],
+          [
+            "Contact",
+            "contact/"
+          ]
+        ],
+        "legal": "{disclosure} Nothing on this site is investment advice. Past auction results do not predict future prices.",
+        "legal_link": [
+          "More about who we are",
+          "about/#disclosure"
+        ]
+      }
+    }
+  },
+  "pages": {
+    "home": {
+      "path": "index.html",
+      "title": "Global Art Monitor | Art Market Intelligence, Beyond the Headlines",
+      "description": "Auction results, artist market profiles and plain research on the art market. Hammer prices, premium-inclusive prices and estimates shown separately, with sources.",
+      "current": "",
+      "intro": true,
+      "sections": [
+        {
+          "id": "hero",
+          "type": "hero",
+          "visible": true,
+          "settings": {
+            "eyebrow": "{tagline}",
+            "headline": "{headline}",
+            "lede": "{intro}",
+            "buttons": [
+              [
+                "Read the latest analysis",
+                "research/",
+                "mint"
+              ],
+              [
+                "Browse auction results",
+                "auction-results/",
+                "ink"
+              ]
+            ],
+            "result_card": true,
+            "result_label": "Latest documented result",
+            "result_link": "See the full timeline",
+            "watermark": "MONITOR"
+          }
+        },
+        {
+          "id": "status",
+          "type": "status",
+          "visible": true,
+          "settings": {
+            "items": [
+              "Independent market research",
+              "Updated after every documented sale"
+            ],
+            "clock": "Published in London"
+          }
+        },
+        {
+          "id": "timeline",
+          "type": "timeline",
+          "visible": true,
+          "settings": {
+            "eyebrow": "Artist auction timeline",
+            "heading": "Zara Muse: a documented market timeline",
+            "intro": "Each row keeps the estimate, the hammer price and the price with buyer's premium apart, in the currency of the sale. Where we have worked a figure out ourselves, or cannot confirm it, the row says so.",
+            "artist": "zara-muse",
+            "button": "See every documented result",
+            "button_href": "auction-results/"
+          }
+        },
+        {
+          "id": "words",
+          "type": "words",
+          "visible": true,
+          "settings": {
+            "label": "Four words that change what a price means",
+            "words": [
+              {
+                "word": "Hammer",
+                "text": "The winning bid in the room, before any fees.",
+                "href": "collecting-valuation/#hammer-price",
+                "style": "ink"
+              },
+              {
+                "word": "Premium",
+                "text": "The house fee the buyer pays on top of the hammer.",
+                "href": "collecting-valuation/#buyer-s-premium",
+                "style": "light"
+              },
+              {
+                "word": "Estimate",
+                "text": "The house's guide range, set before the sale.",
+                "href": "collecting-valuation/#estimate",
+                "style": "mint"
+              },
+              {
+                "word": "Currency",
+                "text": "Shown as sold. Conversions are always marked.",
+                "href": "about/#method",
+                "style": "ghost"
+              }
+            ]
+          }
+        },
+        {
+          "id": "features",
+          "type": "features",
+          "visible": true,
+          "settings": {
+            "eyebrow": "Research and features",
+            "heading": "What the numbers say, and what they do not",
+            "which": "all",
+            "numbered": true,
+            "big": 2
+          }
+        },
+        {
+          "id": "profiles",
+          "type": "profiles",
+          "visible": true,
+          "settings": {
+            "heading": "Artist market profiles",
+            "artists": [
+              "zara-muse",
+              "konn-artiss"
+            ],
+            "more_card": true
+          }
+        },
+        {
+          "id": "sections",
+          "type": "page-links",
+          "visible": true,
+          "settings": {
+            "heading": "Where to start"
+          }
+        },
+        {
+          "id": "method",
+          "type": "method",
+          "visible": true,
+          "settings": {}
+        }
+      ]
+    },
+    "auction-results": {
+      "path": "auction-results/index.html",
+      "title": "Auction Results | Global Art Monitor",
+      "description": "Documented auction results for Zara Muse and Konn Artiss at Tate Ward, Bonhams and Christie's, with estimates, hammer prices and premium-inclusive prices in separate columns.",
+      "current": "auction-results",
+      "intro": false,
+      "sections": [
+        {
+          "id": "head",
+          "type": "page-head",
+          "visible": true,
+          "settings": {
+            "eyebrow": "Auction Results",
+            "headline": "Every documented sale, with the prices kept apart.",
+            "lede": "{lots} lots across {artists} artists and {houses} auction houses. {priced} have confirmed prices. The rest are listed so the gaps are visible.",
+            "wide": true
+          }
+        },
+        {
+          "id": "results",
+          "type": "results-table",
+          "visible": true,
+          "settings": {
+            "all_artists": "All artists",
+            "all_houses": "All houses",
+            "empty": "No documented sales match those two filters yet."
+          }
+        },
+        {
+          "id": "words",
+          "type": "words",
+          "visible": true,
+          "settings": {
+            "label": "Four words that change what a price means",
+            "words": [
+              {
+                "word": "Hammer",
+                "text": "The winning bid in the room, before any fees.",
+                "href": "collecting-valuation/#hammer-price",
+                "style": "ink"
+              },
+              {
+                "word": "Premium",
+                "text": "The house fee the buyer pays on top of the hammer.",
+                "href": "collecting-valuation/#buyer-s-premium",
+                "style": "light"
+              },
+              {
+                "word": "Estimate",
+                "text": "The house's guide range, set before the sale.",
+                "href": "collecting-valuation/#estimate",
+                "style": "mint"
+              },
+              {
+                "word": "Currency",
+                "text": "Shown as sold. Conversions are always marked.",
+                "href": "about/#method",
+                "style": "ghost"
+              }
+            ]
+          }
+        },
+        {
+          "id": "reading",
+          "type": "features",
+          "visible": true,
+          "settings": {
+            "eyebrow": "",
+            "heading": "Reading the results",
+            "which": [
+              "zara-muse-auction-results",
+              "konn-artiss-auction-results",
+              "what-an-auction-result-tells-collectors"
+            ],
+            "numbered": false,
+            "big": 2
+          }
+        },
+        {
+          "id": "method",
+          "type": "method",
+          "visible": true,
+          "settings": {}
+        }
+      ]
+    },
+    "artists": {
+      "path": "artists/index.html",
+      "title": "Artist Market Profiles | Global Art Monitor",
+      "description": "Market profiles for artists with a documented public auction record, starting with Zara Muse and Konn Artiss.",
+      "current": "artists",
+      "intro": false,
+      "sections": [
+        {
+          "id": "head",
+          "type": "page-head",
+          "visible": true,
+          "settings": {
+            "eyebrow": "Artist Market Profiles",
+            "headline": "One page per artist, built on sourced sales only.",
+            "lede": "Each profile sets out an artist's public auction record in full: what sold, where, against what estimate, and what we could not confirm.",
+            "wide": true
+          }
+        },
+        {
+          "id": "profiles",
+          "type": "profiles",
+          "visible": true,
+          "settings": {
+            "heading": "",
+            "artists": [
+              "zara-muse",
+              "konn-artiss"
+            ],
+            "more_card": true
+          }
+        },
+        {
+          "id": "method",
+          "type": "method",
+          "visible": true,
+          "settings": {}
+        }
+      ]
+    },
+    "research": {
+      "path": "research/index.html",
+      "title": "Research Reports | Global Art Monitor",
+      "description": "Research features on auction results, market value, liquidity and how to compare gallery prices with auction prices.",
+      "current": "research",
+      "intro": false,
+      "sections": [
+        {
+          "id": "head",
+          "type": "page-head",
+          "visible": true,
+          "settings": {
+            "eyebrow": "Research Reports",
+            "headline": "Longer studies, with sources and method shown.",
+            "lede": "Our commissioned features. Each one states what the evidence supports and where it stops.",
+            "wide": true
+          }
+        },
+        {
+          "id": "features",
+          "type": "features",
+          "visible": true,
+          "settings": {
+            "eyebrow": "",
+            "heading": "",
+            "which": "all",
+            "numbered": true,
+            "big": 2
+          }
+        },
+        {
+          "id": "method",
+          "type": "method",
+          "visible": true,
+          "settings": {}
+        }
+      ]
+    },
+    "market-intelligence": {
+      "path": "market-intelligence/index.html",
+      "title": "Market Intelligence | Global Art Monitor",
+      "description": "Analysis of the international art trade: what auction results mean, how liquidity works and why a record price is not market value.",
+      "current": "market-intelligence",
+      "intro": false,
+      "sections": [
+        {
+          "id": "head",
+          "type": "page-head",
+          "visible": true,
+          "settings": {
+            "eyebrow": "Market Intelligence",
+            "headline": "The forces behind the prices.",
+            "lede": "Analysis of how the art trade works: what results mean, how thin markets behave and why the headline figure is rarely the whole story.",
+            "wide": true
+          }
+        },
+        {
+          "id": "features",
+          "type": "features",
+          "visible": true,
+          "settings": {
+            "eyebrow": "",
+            "heading": "",
+            "which": "tag:market-intelligence",
+            "numbered": false,
+            "big": 0
+          }
+        },
+        {
+          "id": "latest",
+          "type": "latest-result",
+          "visible": true,
+          "settings": {
+            "eyebrow": "Latest documented result",
+            "text": "See how it sits against the artist's other results before drawing a conclusion from it.",
+            "button": "Open the full timeline"
+          }
+        },
+        {
+          "id": "method",
+          "type": "method",
+          "visible": true,
+          "settings": {}
+        }
+      ]
+    },
+    "collecting-valuation": {
+      "path": "collecting-valuation/index.html",
+      "title": "Collecting & Valuation: Auction Terms Explained | Global Art Monitor",
+      "description": "Hammer price, buyer's premium, estimates, reserves, resale and consignment explained in plain words, with guides for collectors.",
+      "current": "collecting-valuation",
+      "intro": false,
+      "sections": [
+        {
+          "id": "head",
+          "type": "page-head",
+          "visible": true,
+          "settings": {
+            "eyebrow": "Collecting &amp; Valuation",
+            "headline": "Plain guides to estimates, resale and consignment.",
+            "lede": "The working vocabulary of the auction room, and the guides that put it to use.",
+            "wide": true
+          }
+        },
+        {
+          "id": "guides",
+          "type": "features",
+          "visible": true,
+          "settings": {
+            "eyebrow": "",
+            "heading": "Guides",
+            "which": "tag:collecting-valuation",
+            "numbered": false,
+            "big": 0,
+            "compact": true
+          }
+        },
+        {
+          "id": "glossary",
+          "type": "glossary",
+          "visible": true,
+          "settings": {
+            "heading": "Auction terms, in plain words"
+          }
+        },
+        {
+          "id": "valuation",
+          "type": "panel",
+          "visible": true,
+          "settings": {
+            "heading": "Need a valuation?",
+            "text": "We publish records of past sales. We do not value works. For insurance, tax or a sale, ask a qualified valuer who can examine the piece."
+          }
+        }
+      ]
+    },
+    "about": {
+      "path": "about/index.html",
+      "title": "About, Method and Sources | Global Art Monitor",
+      "description": "Who publishes Global Art Monitor, how auction prices are recorded, which sources are used and how to send a correction.",
+      "current": "",
+      "intro": false,
+      "sections": [
+        {
+          "id": "head",
+          "type": "page-head",
+          "visible": true,
+          "settings": {
+            "eyebrow": "About",
+            "headline": "Who we are and how we work.",
+            "lede": "Global Art Monitor follows auction activity and the structure of the art market, and tries to be exact about what a published price does and does not show.",
+            "wide": true
+          }
+        },
+        {
+          "id": "text",
+          "type": "prose",
+          "visible": true,
+          "settings": {
+            "html": "<h2 id=\"disclosure\" style=\"margin-top:0\">Who publishes this</h2>\n<p>{disclosure}</p>\n<p>We think the best answer to that interest is to show our working. Every figure carries a source. Lower results and unconfirmed lots are listed next to the highest ones. Our features say plainly what a small auction record cannot prove.</p>\n\n<h2 id=\"method\">Method</h2>\n<p>We record public auction sales only. For each lot we note the sale date, the house, the sale title, the lot number, the estimate, the hammer price, the price with buyer's premium and the currency.</p>\n<ul>\n<li><strong>Hammer and premium stay separate.</strong> Where a house publishes only the total, we work the hammer price back using that house's buyer's premium and label it \"our calculation\".</li>\n<li><strong>Currency stays as sold.</strong> We do not convert prices in the tables. If a conversion appears in an article, it carries the date and rate.</li>\n<li><strong>Gaps are shown.</strong> If we cannot confirm a figure it reads \"to confirm\". We do not estimate missing prices.</li>\n<li><strong>Unsold lots count.</strong> When we can document a lot that was offered and not sold, it goes in the record.</li>\n</ul>\n\n<h2 id=\"sources\">Sources</h2>\n<p>Our first source is always the auction house's own lot page. Where a house does not publish a figure, we use public auction databases such as Invaluable, MutualArt and Artnet, and say which. News reports are used for context and are linked.</p>\n<p>The source for each result is linked in the last column of every table.</p>\n\n<h2 id=\"corrections\">Corrections</h2>\n<p>If a figure here is wrong or out of date, we want to know. Email <a href=\"mailto:{email}?subject=Correction\">{email}</a> with the page, the figure and your source. We correct the record and note material changes on the page concerned.</p>\n\n<h2 id=\"newsletter\">The monthly market note</h2>\n<p>A short email with new documented results and new research, sent when there is something to report. To join the list, email <a href=\"mailto:{email}?subject=Subscribe%20to%20the%20monthly%20market%20note\">{email}</a> with the subject line \"Subscribe\".</p>\n\n<h2 id=\"contact\">Contact</h2>\n<p>For questions, press enquiries or anything else, use the <a href=\"@@contact/\">contact page</a>.</p>\n\n<h2 id=\"advice\">Not advice</h2>\n<p>Nothing on this site is investment, tax or legal advice. Auction results describe past sales of particular works. They do not predict what any work will sell for in future.</p>",
+            "aside": "<div class=\"mini\"><h2>On this page</h2><ul><li><a href=\"#disclosure\">Who publishes this</a></li><li><a href=\"#method\">Method</a></li><li><a href=\"#sources\">Sources</a></li><li><a href=\"#corrections\">Corrections</a></li><li><a href=\"#newsletter\">Monthly market note</a></li><li><a href=\"@@contact/\">Contact</a></li></ul></div>\n<div class=\"mini\"><h2>Last updated</h2><p>{published}</p></div>"
+          }
+        }
+      ]
+    },
+    "contact": {
+      "path": "contact/index.html",
+      "title": "Contact | Global Art Monitor",
+      "description": "Send a question, a correction or a press enquiry to the Global Art Monitor research desk.",
+      "current": "",
+      "intro": false,
+      "sections": [
+        {
+          "id": "head",
+          "type": "page-head",
+          "visible": true,
+          "settings": {
+            "eyebrow": "Contact",
+            "headline": "Ask us something.",
+            "lede": "Questions about a figure, a sale we have missed, a press enquiry or anything else. We read every message.",
+            "wide": true
+          }
+        },
+        {
+          "id": "form",
+          "type": "contact-form",
+          "visible": true,
+          "settings": {
+            "html": "<form class=\"form\" id=\"contact-form\" data-email=\"{email}\" data-reveal>\n<div class=\"field\"><label for=\"cf-name\">Your name</label><input id=\"cf-name\" name=\"name\" type=\"text\" autocomplete=\"name\" required></div>\n<div class=\"field\"><label for=\"cf-email\">Your email</label><input id=\"cf-email\" name=\"email\" type=\"email\" autocomplete=\"email\" required></div>\n<div class=\"field\"><label for=\"cf-topic\">What is it about?</label>\n<select id=\"cf-topic\" name=\"topic\">\n<option>General question</option>\n<option>Correction to a figure</option>\n<option>A sale or source to add</option>\n<option>Press enquiry</option>\n<option>Monthly market note</option>\n<option>Something else</option>\n</select></div>\n<div class=\"field\"><label for=\"cf-message\">Your message</label><textarea id=\"cf-message\" name=\"message\" rows=\"7\" required></textarea></div>\n<div class=\"form-foot\"><button class=\"pill pill-ink\" type=\"submit\">Send your message</button>\n<p class=\"quiet\" id=\"contact-status\" role=\"status\">This opens your email app with the message ready to send.</p></div>\n<noscript><p class=\"quiet\">This form needs scripts switched on. You can also write to {email}.</p></noscript>\n</form>",
+            "aside": "<div class=\"mini\"><h2>Email us directly</h2><p><a href=\"mailto:{email}\">{email}</a></p></div>\n<div class=\"mini\"><h2>Corrections</h2><p>Tell us the page, the figure and your source. How we handle them is on the <a href=\"@@about/#corrections\">about page</a>.</p></div>\n<div class=\"mini\"><h2>Monthly market note</h2><p>Choose \"Monthly market note\" in the form, or see <a href=\"@@about/#newsletter\">how to subscribe</a>.</p></div>\n<div class=\"mini\"><h2>Valuations</h2><p>We do not value works. For insurance, tax or a sale, please ask a qualified valuer.</p></div>"
+          }
+        }
+      ]
+    }
+  }
+}

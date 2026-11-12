@@ -5,6 +5,7 @@ Run from anywhere:  python3 tools/build.py
 Words live in tools/content.py. Sales live in data/sales.json.
 Artist images: add assets/images/<artist-slug>.jpg and rebuild.
 """
+import html
 import json
 import re
 import os
@@ -21,6 +22,21 @@ DATA = json.load(open(os.path.join(ROOT, "data", "sales.json"), encoding="utf-8"
 # photo is sent from Artiscope Digital Home.
 _notes = os.path.join(ROOT, "data", "images.json")
 IMAGE_NOTES = json.load(open(_notes, encoding="utf-8")) if os.path.exists(_notes) else {}
+PAGES = json.load(open(os.path.join(ROOT, "data", "pages.json"), encoding="utf-8"))
+
+
+def fill(text, is_html=False):
+    """Puts the site's own details into a section's words. Plain words are
+    made safe for the page first; a section that holds HTML is not."""
+    text = str(text) if is_html else html.escape(str(text), quote=False)
+    return (text.replace("{disclosure}", esc(C.SITE["disclosure"])).replace("{email}", C.SITE["email"])
+            .replace("{published}", C.PUBLISHED_TEXT).replace("{tagline}", esc(C.SITE["tagline"]))
+            .replace("{headline}", esc(C.SITE["headline"])).replace("{intro}", esc(C.SITE["intro"])))
+
+
+def shared(key):
+    part = (PAGES.get("shared") or {}).get(key) or {}
+    return part.get("settings") or {}, part.get("visible", True)
 ARTISTS = DATA["artists"]
 SALES = DATA["sales"]
 SYMBOL = {"GBP": "£", "USD": "US$", "EUR": "€"}
@@ -120,53 +136,63 @@ def head(root, title, desc, path, extra=""):
 
 
 def header(root, current):
+    st, _on = shared("header")
+    name = esc(st.get("name", "Global Art Monitor"))
     links = ""
     menu = ""
-    for i, (slug, name, _d) in enumerate(C.SECTIONS, 1):
+    i = 0
+    for i, (slug, sname, _d) in enumerate(C.SECTIONS, 1):
         cur = ' aria-current="page"' if slug == current else ""
-        links += f'<a href="{root}{slug}/"{cur}>{esc(name)}</a>\n'
-        menu += f'<a href="{root}{slug}/"><span>0{i}</span>{esc(name)}</a>\n'
-    menu += f'<a href="{root}about/"><span>06</span>About and method</a>\n'
-    menu += f'<a href="{root}contact/"><span>07</span>Contact</a>\n'
+        links += f'<a href="{root}{slug}/"{cur}>{esc(sname)}</a>\n'
+        menu += f'<a href="{root}{slug}/"><span>{i:02d}</span>{esc(sname)}</a>\n'
+    for label, href in st.get("menu_extra", []):
+        i += 1
+        menu += f'<a href="{root}{href}"><span>{i:02d}</span>{txt(label)}</a>\n'
     return f"""<a class="skip" href="#main">Skip to content</a>
 <header class="shell site-head">
-<a class="brand" href="{root}">{MARK}Global Art Monitor</a>
+<a class="brand" href="{root}">{MARK}{name}</a>
 <nav class="nav" aria-label="Sections">
 {links}</nav>
 <div class="head-actions">
-<a class="pill pill-ink pill-small" href="{root}about/#newsletter">Subscribe</a>
+<a class="pill pill-ink pill-small" href="{root}{st.get("subscribe_href", "about/#newsletter")}">{txt(st.get("subscribe", "Subscribe"))}</a>
 <button class="menu-btn" type="button" data-menu-open aria-expanded="false" aria-controls="menu">Menu</button>
 </div>
 </header>
 <div class="menu" id="menu" aria-hidden="true">
-<div class="shell menu-top"><a class="brand" href="{root}">{MARK}Global Art Monitor</a><button class="menu-close" type="button" data-menu-close>Close</button></div>
+<div class="shell menu-top"><a class="brand" href="{root}">{MARK}{name}</a><button class="menu-close" type="button" data-menu-close>Close</button></div>
 <nav class="shell menu-list" aria-label="All sections">
 {menu}</nav>
-<div class="shell menu-foot"><span data-london-time>London</span><span>The auction and market research platform</span></div>
+<div class="shell menu-foot"><span data-london-time>London</span><span>{txt(st.get("menu_tagline", ""))}</span></div>
 </div>
 """
 
 
 def footer(root):
+    st, on = shared("footer")
+    hst, _h = shared("header")
+    name = esc(hst.get("name", "Global Art Monitor"))
     secs = "".join(f'<a href="{root}{s}/">{esc(n)}</a>' for s, n, _ in C.SECTIONS)
     arts = "".join(f'<a href="{root}artists/{slug}/">{esc(a["name"])}</a>' for slug, a in ARTISTS.items())
-    return f"""<footer class="site-foot">
+    about = "".join(f'<a href="{root}{h}">{txt(t)}</a>' for t, h in st.get("about_links", []))
+    legal_link = st.get("legal_link") or ["", ""]
+    body = "" if not on else f"""<footer class="site-foot">
 <div class="shell foot-inner">
 <div class="foot-cta">
-<h2>The monthly market note, sent when there is something to report.</h2>
-<a class="pill pill-mint" href="{root}about/#newsletter">Subscribe by email</a>
+<h2>{txt(st.get("heading", ""))}</h2>
+<a class="pill pill-mint" href="{root}{st.get("button_href", "about/#newsletter")}">{txt(st.get("button", ""))}</a>
 </div>
 <div class="foot-cols">
-<div><p class="foot-brand">{MARK}Global Art Monitor</p><p class="quiet">Auction and market research for collectors who want the record, not the rumour.</p></div>
+<div><p class="foot-brand">{MARK}{name}</p><p class="quiet">{txt(st.get("blurb", ""))}</p></div>
 <div><h3>Sections</h3>{secs}</div>
 <div><h3>Artists</h3>{arts}</div>
-<div><h3>About</h3><a href="{root}about/#method">Method</a><a href="{root}about/#sources">Sources</a><a href="{root}about/#corrections">Corrections</a><a href="{root}contact/">Contact</a></div>
+<div><h3>About</h3>{about}</div>
 </div>
-<p class="foot-legal">{esc(C.SITE["disclosure"])} Nothing on this site is investment advice. Past auction results do not predict future prices. <a href="{root}about/#disclosure">More about who we are</a></p>
+<p class="foot-legal">{fill(st.get("legal", ""))} <a href="{root}{legal_link[1]}">{txt(legal_link[0])}</a></p>
 </div>
 <div class="foot-mark" aria-hidden="true">MONITOR</div>
 </footer>
-<script src="{root}assets/site.js" defer></script>
+"""
+    return body + f"""<script src="{root}assets/site.js" defer></script>
 </body>
 </html>
 """
@@ -315,114 +341,168 @@ METHOD = """<div class="panel on-ink" data-reveal>
 <a class="text-link" href="@@about/#method">Read the full method</a>
 </div>"""
 
-WORDS = """<section class="shell words" aria-label="Four words that change what a price means">
-<a class="word" href="@@collecting-valuation/#hammer-price" data-reveal style="--d:0ms"><span class="word-pill w-ink">Hammer</span><p>The winning bid in the room, before any fees.</p></a>
-<a class="word" href="@@collecting-valuation/#buyer-s-premium" data-reveal style="--d:120ms"><span class="word-pill w-light">Premium</span><p>The house fee the buyer pays on top of the hammer.</p></a>
-<a class="word" href="@@collecting-valuation/#estimate" data-reveal style="--d:240ms"><span class="word-pill w-mint">Estimate</span><p>The house's guide range, set before the sale.</p></a>
-<a class="word" href="@@about/#method" data-reveal style="--d:360ms"><span class="word-pill w-ghost">Currency</span><p>Shown as sold. Conversions are always marked.</p></a>
-</section>"""
-
-
 def slugify(t):
     return "".join(ch if ch.isalnum() else "-" for ch in t.lower()).strip("-")
 
 
-# ---------- pages ----------
+# ---------- pages built from sections ----------
 
-def build_home():
+def txt(v):
+    """A section's own words, made safe for the page. Apostrophes are kept as they are."""
+    return html.escape(str(v), quote=False)
+
+
+def words_block(st):
+    kinds = {"ink": "w-ink", "light": "w-light", "mint": "w-mint", "ghost": "w-ghost"}
+    out = f'<section class="shell words" aria-label="{txt(st.get("label", ""))}">\n'
+    for i, w in enumerate(st.get("words", [])):
+        out += (f'<a class="word" href="@@{w.get("href", "")}" data-reveal style="--d:{i * 120}ms"><span class="word-pill {kinds.get(w.get("style"), "w-ink")}">{txt(w.get("word", ""))}</span>'
+                f'<p>{txt(w.get("text", ""))}</p></a>\n')
+    return out + "</section>"
+
+
+def feature_list(which):
+    if which == "all":
+        return list(C.FEATURES)
+    if isinstance(which, str) and which.startswith("tag:"):
+        return [f for f in C.FEATURES if which[4:] in f["tags"]]
+    return [FEATURE_BY_SLUG[x] for x in (which or []) if x in FEATURE_BY_SLUG]
+
+
+def feature_cards(st):
+    feats = feature_list(st.get("which", "all"))
+    big = int(st.get("big") or 0)
+    numbered = bool(st.get("numbered"))
+    out = ""
+    for i, f in enumerate(feats):
+        n = i + 1 if numbered else None
+        if i < big:
+            out += feature_card(f, n, big=True, delay=i * 90)
+        else:
+            out += feature_card(f, n, delay=(i - big) * 90)
+    return out
+
+
+def sec_hero(st, ctx):
     s = latest_priced()
     a = ARTISTS[s["artist"]]
     est = (f'<span class="chip">Estimate {money(s["est_low"], s["currency"])} to {money(s["est_high"], s["currency"])}</span>'
            if s["est_low"] and s["est_high"] else "")
-    zara = sales_for("zara-muse")
-    feats = C.FEATURES
-    cards = feature_card(feats[0], 1, big=True) + feature_card(feats[1], 2, big=True, delay=90)
-    for i, f in enumerate(feats[2:], 3):
-        cards += feature_card(f, i, delay=(i - 3) * 90)
-    rows = ""
-    for i, (slug, name, d) in enumerate(C.SECTIONS, 1):
-        rows += f'<a class="row" href="@@{slug}/" data-reveal style="--d:{(i-1)*80}ms"><span class="n">0{i}</span><span class="t">{esc(name)}</span><span class="d">{esc(d)}</span></a>\n'
-    body = f"""<section class="shell hero">
-<div class="hero-copy">
-<p class="eyebrow" data-reveal>{esc(C.SITE["tagline"])}</p>
-<h1 class="h1" data-reveal style="--d:80ms">{esc(C.SITE["headline"])}</h1>
-<p class="lede" data-reveal style="--d:200ms">{esc(C.SITE["intro"])}</p>
-<div class="hero-actions" data-reveal style="--d:320ms">
-<a class="pill pill-mint" href="@@research/">Read the latest analysis</a>
-<a class="pill pill-ink" href="@@auction-results/">Browse auction results</a>
-</div>
-</div>
-<aside class="result-card on-ink" data-reveal style="--d:260ms" aria-label="Latest documented result">
-<p class="label">Latest documented result</p>
+    kinds = {"mint": "pill-mint", "ink": "pill-ink", "blush": "pill-blush"}
+    buttons = "".join(f'<a class="pill {kinds.get(b[2] if len(b) > 2 else "ink", "pill-ink")}" href="@@{b[1]}">{txt(b[0])}</a>\n' for b in st.get("buttons", []))
+    card = "" if not st.get("result_card", True) else f"""<aside class="result-card on-ink" data-reveal style="--d:260ms" aria-label="{txt(st.get("result_label", "Latest documented result"))}">
+<p class="label">{txt(st.get("result_label", "Latest documented result"))}</p>
 <p class="work">{esc(a["name"])}, {esc(s["title"])} ({esc(s["year"])})</p>
 <p class="price">{money(s["premium"], s["currency"])}</p>
 <p class="where">{esc(s["house"])}, {esc(s["sale"])}. {esc(s["date_text"])}.</p>
 <div class="chips"><span class="chip">With buyer's premium</span>{est}</div>
-<a class="text-link" href="@@artists/{s["artist"]}/">See the full timeline</a>
+<a class="text-link" href="@@artists/{s["artist"]}/">{txt(st.get("result_link", "See the full timeline"))}</a>
 </aside>
-</section>
-<div class="watermark" aria-hidden="true">MONITOR</div>
-<div class="shell status"><div class="status-inner"><span>Independent market research</span><span>Updated after every documented sale</span><span data-london-time>Published in London</span></div></div>
-
-<section class="shell section" id="timeline">
-<div class="panel on-ink" data-reveal>
-<p class="eyebrow">Artist auction timeline</p>
-<div class="split"><h2 class="h2">Zara Muse: a documented market timeline</h2>
-<p class="intro">Each row keeps the estimate, the hammer price and the price with buyer's premium apart, in the currency of the sale. Where we have worked a figure out ourselves, or cannot confirm it, the row says so.</p></div>
-{LEGEND}
-{table(zara, "home-timeline")}
-{TABLE_NOTE}
-<div><a class="pill pill-blush pill-small" href="@@auction-results/">See every documented result</a></div>
+"""
+    return f"""<section class="shell hero">
+<div class="hero-copy">
+<p class="eyebrow" data-reveal>{fill(st.get("eyebrow", ""))}</p>
+<h1 class="h1" data-reveal style="--d:80ms">{fill(st.get("headline", ""))}</h1>
+<p class="lede" data-reveal style="--d:200ms">{fill(st.get("lede", ""))}</p>
+<div class="hero-actions" data-reveal style="--d:320ms">
+{buttons}</div>
 </div>
-</section>
+{card}</section>
+<div class="watermark" aria-hidden="true">{txt(st.get("watermark", "MONITOR"))}</div>"""
 
-{WORDS}
 
-<section class="shell section" id="features">
-<div class="section-head"><p class="eyebrow" data-reveal>Research and features</p>
-<h2 class="h2" data-reveal>What the numbers say, and what they do not</h2></div>
+def sec_status(st, ctx):
+    items = "".join(f"<span>{esc(x)}</span>" for x in st.get("items", []))
+    return f'<div class="shell status"><div class="status-inner">{items}<span data-london-time>{txt(st.get("clock", ""))}</span></div></div>'
+
+
+def sec_timeline(st, ctx):
+    slug = st.get("artist") or next(iter(ARTISTS))
+    return f"""<section class="shell section" id="{ctx["id"]}">
+<div class="panel on-ink" data-reveal>
+<p class="eyebrow">{txt(st.get("eyebrow", ""))}</p>
+<div class="split"><h2 class="h2">{txt(st.get("heading", ""))}</h2>
+<p class="intro">{txt(st.get("intro", ""))}</p></div>
+{LEGEND}
+{table(sales_for(slug), "home-timeline")}
+{TABLE_NOTE}
+<div><a class="pill pill-blush pill-small" href="@@{st.get("button_href", "auction-results/")}">{txt(st.get("button", ""))}</a></div>
+</div>
+</section>"""
+
+
+def sec_words(st, ctx):
+    return words_block(st)
+
+
+def sec_features(st, ctx):
+    cards = feature_cards(st)
+    if st.get("compact"):
+        return f"""<section class="shell section" id="{ctx["id"]}"><div class="section-head"><h2 class="h2" data-reveal>{txt(st.get("heading", ""))}</h2></div><div class="cards">
+{cards}</div></section>"""
+    if not st.get("heading") and not st.get("eyebrow"):
+        return f"""<section class="shell section" id="{ctx["id"]}"><div class="cards">
+{cards}</div></section>"""
+    eyebrow = f'<p class="eyebrow" data-reveal>{txt(st["eyebrow"])}</p>\n' if st.get("eyebrow") else ""
+    return f"""<section class="shell section" id="{ctx["id"]}">
+<div class="section-head">{eyebrow}<h2 class="h2" data-reveal>{txt(st.get("heading", ""))}</h2></div>
 <div class="cards">
 {cards}</div>
-</section>
+</section>"""
 
-<section class="shell section" id="profiles">
-<div class="section-head"><h2 class="h2" data-reveal>Artist market profiles</h2></div>
-<div class="cards">
-{profile_card("zara-muse")}{profile_card("konn-artiss", 90)}{MORE_ARTISTS}</div>
-</section>
 
-<section class="shell section" id="sections">
-<div class="section-head"><h2 class="h2" data-reveal>Where to start</h2></div>
+def sec_profiles(st, ctx):
+    slugs = [x for x in st.get("artists", []) if x in ARTISTS] or list(ARTISTS)
+    cards = "".join(profile_card(x, i * 90) for i, x in enumerate(slugs))
+    if st.get("more_card", True):
+        cards += MORE_ARTISTS
+    head_html = f'<div class="section-head"><h2 class="h2" data-reveal>{txt(st["heading"])}</h2></div>\n' if st.get("heading") else ""
+    return f"""<section class="shell section" id="{ctx["id"]}">
+{head_html}<div class="cards">
+{cards}</div>
+</section>"""
+
+
+def sec_page_links(st, ctx):
+    rows = ""
+    for i, (slug, name, d) in enumerate(C.SECTIONS, 1):
+        rows += f'<a class="row" href="@@{slug}/" data-reveal style="--d:{(i-1)*80}ms"><span class="n">0{i}</span><span class="t">{esc(name)}</span><span class="d">{esc(d)}</span></a>\n'
+    return f"""<section class="shell section" id="{ctx["id"]}">
+<div class="section-head"><h2 class="h2" data-reveal>{txt(st.get("heading", ""))}</h2></div>
 <div class="rows">
 {rows}</div>
-</section>
+</section>"""
 
-<section class="shell section">
+
+def sec_method(st, ctx):
+    return f"""<section class="shell section">
 {METHOD}
 </section>"""
-    ld = json.dumps({"@context": "https://schema.org", "@type": "WebSite", "name": "Global Art Monitor", "url": C.SITE["url"],
-                     "description": C.SITE["intro"]})
-    page("index.html", "Global Art Monitor | Art Market Intelligence, Beyond the Headlines",
-         "Auction results, artist market profiles and plain research on the art market. Hammer prices, premium-inclusive prices and estimates shown separately, with sources.",
-         body, intro=True, extra_head=f'<script type="application/ld+json">{ld}</script>\n')
 
 
-def build_results():
+def sec_page_head(st, ctx):
     allrows = sales_for()
-    artist_btns = '<button class="filter" type="button" data-key="artist" data-value="all" aria-pressed="true">All artists</button>'
+    houses = sorted({x["house"] for x in allrows})
+    lede = (fill(st.get("lede", "")).replace("{lots}", str(len(allrows))).replace("{artists}", str(len(ARTISTS)))
+            .replace("{houses}", str(len(houses))).replace("{priced}", str(len(priced(allrows)))))
+    wide = " wide" if st.get("wide", True) else ""
+    return f"""<section class="shell page-head{wide}">
+<p class="eyebrow" data-reveal>{st.get("eyebrow", "")}</p>
+<h1 class="h1" data-reveal style="--d:80ms">{fill(st.get("headline", ""))}</h1>
+<p class="lede" data-reveal style="--d:200ms">{lede}</p>
+</section>"""
+
+
+def sec_results_table(st, ctx):
+    allrows = sales_for()
+    artist_btns = f'<button class="filter" type="button" data-key="artist" data-value="all" aria-pressed="true">{txt(st.get("all_artists", "All artists"))}</button>'
     for slug, a in ARTISTS.items():
         artist_btns += f'<button class="filter" type="button" data-key="artist" data-value="{slug}" aria-pressed="false">{esc(a["name"])}</button>'
-    houses = sorted({s["house"] for s in allrows})
-    house_btns = '<button class="filter" type="button" data-key="house" data-value="all" aria-pressed="true">All houses</button>'
+    houses = sorted({x["house"] for x in allrows})
+    house_btns = f'<button class="filter" type="button" data-key="house" data-value="all" aria-pressed="true">{txt(st.get("all_houses", "All houses"))}</button>'
     for h in houses:
         house_btns += f'<button class="filter" type="button" data-key="house" data-value="{esc(h)}" aria-pressed="false">{esc(h)}</button>'
-    n_priced = len(priced(allrows))
-    body = f"""<section class="shell page-head wide">
-<p class="eyebrow" data-reveal>Auction Results</p>
-<h1 class="h1" data-reveal style="--d:80ms">Every documented sale, with the prices kept apart.</h1>
-<p class="lede" data-reveal style="--d:200ms">{len(allrows)} lots across {len(ARTISTS)} artists and {len(houses)} auction houses. {n_priced} have confirmed prices. The rest are listed so the gaps are visible.</p>
-</section>
-<section class="shell section">
+    return f"""<section class="shell section">
 <div class="panel on-ink" data-reveal>
 <div data-filter-group="all-results" style="display:flex;flex-direction:column;gap:10px">
 <div class="filters" role="group" aria-label="Filter by artist">{artist_btns}</div>
@@ -430,41 +510,123 @@ def build_results():
 </div>
 {LEGEND}
 {table(allrows, "all-results", show_artist=True)}
-<p class="note" id="all-results-empty" hidden>No documented sales match those two filters yet.</p>
+<p class="note" id="all-results-empty" hidden>{txt(st.get("empty", ""))}</p>
 {TABLE_NOTE}
 </div>
-</section>
-{WORDS}
-<section class="shell section">
-<div class="section-head"><h2 class="h2" data-reveal>Reading the results</h2></div>
-<div class="cards">
-{feature_card(FEATURE_BY_SLUG["zara-muse-auction-results"], big=True)}{feature_card(FEATURE_BY_SLUG["konn-artiss-auction-results"], big=True, delay=90)}{feature_card(FEATURE_BY_SLUG["what-an-auction-result-tells-collectors"])}
-</div>
-</section>
-<section class="shell section">
-{METHOD}
 </section>"""
-    page("auction-results/index.html", "Auction Results | Global Art Monitor",
-         "Documented auction results for Zara Muse and Konn Artiss at Tate Ward, Bonhams and Christie's, with estimates, hammer prices and premium-inclusive prices in separate columns.",
-         body, current="auction-results")
+
+
+def sec_latest_result(st, ctx):
+    s = latest_priced()
+    a = ARTISTS[s["artist"]]
+    return f"""<section class="shell section">
+<div class="panel on-ink" data-reveal>
+<p class="eyebrow">{txt(st.get("eyebrow", ""))}</p>
+<h2 class="h2">{esc(a["name"])}, {esc(s["title"])}: {money(s["premium"], s["currency"])} with premium</h2>
+<p class="intro" style="max-width:640px">{esc(s["house"])}, {esc(s["sale"])}, {esc(s["date_text"])}. {txt(st.get("text", ""))}</p>
+<div><a class="pill pill-mint pill-small" href="@@artists/{s["artist"]}/">{txt(st.get("button", ""))}</a></div>
+</div>
+</section>"""
+
+
+def sec_glossary(st, ctx):
+    terms = "".join(f'<div class="term" id="{slugify(t)}" data-reveal><dt>{esc(t)}</dt><dd>{esc(d)}</dd></div>\n' for t, d in C.GLOSSARY)
+    return f"""<section class="shell section" id="{ctx["id"]}">
+<div class="section-head"><h2 class="h2" data-reveal>{txt(st.get("heading", ""))}</h2></div>
+<dl class="terms">
+{terms}</dl>
+</section>"""
+
+
+def sec_panel(st, ctx):
+    return f"""<section class="shell section">
+<div class="panel on-ink" data-reveal>
+<h2 class="h2" style="max-width:640px">{txt(st.get("heading", ""))}</h2>
+<p class="intro" style="max-width:640px">{txt(st.get("text", ""))}</p>
+</div>
+</section>"""
+
+
+def sec_prose(st, ctx):
+    return f"""<section class="shell article">
+<div class="article-body prose">
+{fill(st.get("html", ""), True)}
+</div>
+<aside class="article-side">
+{fill(st.get("aside", ""), True)}
+</aside>
+</section>"""
+
+
+def sec_contact_form(st, ctx):
+    return f"""<section class="shell article">
+<div class="article-body">
+{fill(st.get("html", ""), True)}
+</div>
+<aside class="article-side">
+{fill(st.get("aside", ""), True)}
+</aside>
+</section>"""
+
+
+SECTIONS = {
+    "hero": sec_hero, "status": sec_status, "timeline": sec_timeline, "words": sec_words, "features": sec_features,
+    "profiles": sec_profiles, "page-links": sec_page_links, "method": sec_method, "page-head": sec_page_head,
+    "results-table": sec_results_table, "latest-result": sec_latest_result, "glossary": sec_glossary, "panel": sec_panel,
+    "prose": sec_prose, "contact-form": sec_contact_form,
+}
+
+
+def check_pages():
+    """Refuses to build if the page list would not draw, so a bad edit
+    cannot blank the site."""
+    for key in ("header", "footer"):
+        part = (PAGES.get("shared") or {}).get(key)
+        if not isinstance(part, dict) or not isinstance(part.get("settings"), dict):
+            sys.exit("data/pages.json must have the shared part '%s' with settings." % key)
+    for key, pg in (PAGES.get("pages") or {}).items():
+        if not isinstance(pg, dict) or not isinstance(pg.get("sections"), list) or not pg.get("path", "").endswith("index.html"):
+            sys.exit("The page '%s' in data/pages.json needs a path ending in index.html and a list of sections." % key)
+        if ".." in pg["path"] or pg["path"].startswith("/"):
+            sys.exit("The page '%s' has a path that is not allowed." % key)
+        seen = set()
+        for sec in pg["sections"]:
+            if not isinstance(sec, dict) or sec.get("type") not in SECTIONS:
+                sys.exit("The page '%s' has a section of a kind the site cannot draw: %r" % (key, sec.get("type") if isinstance(sec, dict) else sec))
+            sid = str(sec.get("id") or "")
+            if not sid or not all(c.isalnum() or c in "-_" for c in sid) or sid in seen:
+                sys.exit("Every section on page '%s' needs its own id of letters, digits and hyphens: %r" % (key, sid))
+            seen.add(sid)
+            if not isinstance(sec.get("settings", {}), dict):
+                sys.exit("The settings of section '%s' on page '%s' must be a list of fields." % (sid, key))
+
+
+def build_page(key):
+    pg = PAGES["pages"][key]
+    parts = []
+    for sec in pg["sections"]:
+        if sec.get("visible", True) is False:
+            continue
+        parts.append(SECTIONS[sec["type"]](sec.get("settings") or {}, {"id": sec["id"], "page": key}))
+    body = "\n".join(parts)
+    extra = ""
+    if key == "home":
+        ld = json.dumps({"@context": "https://schema.org", "@type": "WebSite", "name": "Global Art Monitor", "url": C.SITE["url"],
+                         "description": C.SITE["intro"]})
+        extra = f'<script type="application/ld+json">{ld}</script>\n'
+    page(pg["path"], pg.get("title", ""), pg.get("description", ""), body, current=pg.get("current", ""), intro=bool(pg.get("intro")), extra_head=extra)
+
+
+def build_home():
+    build_page("home")
+
+
+def build_results():
+    build_page("auction-results")
 
 
 def build_artists():
-    body = f"""<section class="shell page-head wide">
-<p class="eyebrow" data-reveal>Artist Market Profiles</p>
-<h1 class="h1" data-reveal style="--d:80ms">One page per artist, built on sourced sales only.</h1>
-<p class="lede" data-reveal style="--d:200ms">Each profile sets out an artist's public auction record in full: what sold, where, against what estimate, and what we could not confirm.</p>
-</section>
-<section class="shell section">
-<div class="cards">
-{profile_card("zara-muse")}{profile_card("konn-artiss", 90)}{MORE_ARTISTS}</div>
-</section>
-<section class="shell section">
-{METHOD}
-</section>"""
-    page("artists/index.html", "Artist Market Profiles | Global Art Monitor",
-         "Market profiles for artists with a documented public auction record, starting with Zara Muse and Konn Artiss.", body, current="artists")
-
+    build_page("artists")
     for slug, a in ARTISTS.items():
         rows = sales_for(slug)
         pr = priced(rows)
@@ -538,22 +700,7 @@ def build_artists():
 
 
 def build_features():
-    cards = feature_card(C.FEATURES[0], 1, big=True) + feature_card(C.FEATURES[1], 2, big=True, delay=90)
-    for i, f in enumerate(C.FEATURES[2:], 3):
-        cards += feature_card(f, i, delay=(i - 3) * 90)
-    body = f"""<section class="shell page-head wide">
-<p class="eyebrow" data-reveal>Research Reports</p>
-<h1 class="h1" data-reveal style="--d:80ms">Longer studies, with sources and method shown.</h1>
-<p class="lede" data-reveal style="--d:200ms">Our commissioned features. Each one states what the evidence supports and where it stops.</p>
-</section>
-<section class="shell section"><div class="cards">
-{cards}</div></section>
-<section class="shell section">
-{METHOD}
-</section>"""
-    page("research/index.html", "Research Reports | Global Art Monitor",
-         "Research features on auction results, market value, liquidity and how to compare gallery prices with auction prices.", body, current="research")
-
+    build_page("research")
     for f in C.FEATURES:
         html = f["body"]
         for slug in ARTISTS:
@@ -591,143 +738,19 @@ def build_features():
 
 
 def build_intelligence():
-    feats = [f for f in C.FEATURES if "market-intelligence" in f["tags"]]
-    cards = "".join(feature_card(f, delay=i * 90) for i, f in enumerate(feats))
-    s = latest_priced()
-    a = ARTISTS[s["artist"]]
-    body = f"""<section class="shell page-head wide">
-<p class="eyebrow" data-reveal>Market Intelligence</p>
-<h1 class="h1" data-reveal style="--d:80ms">The forces behind the prices.</h1>
-<p class="lede" data-reveal style="--d:200ms">Analysis of how the art trade works: what results mean, how thin markets behave and why the headline figure is rarely the whole story.</p>
-</section>
-<section class="shell section"><div class="cards">
-{cards}</div></section>
-<section class="shell section">
-<div class="panel on-ink" data-reveal>
-<p class="eyebrow">Latest documented result</p>
-<h2 class="h2">{esc(a["name"])}, {esc(s["title"])}: {money(s["premium"], s["currency"])} with premium</h2>
-<p class="intro" style="max-width:640px">{esc(s["house"])}, {esc(s["sale"])}, {esc(s["date_text"])}. See how it sits against the artist's other results before drawing a conclusion from it.</p>
-<div><a class="pill pill-mint pill-small" href="@@artists/{s["artist"]}/">Open the full timeline</a></div>
-</div>
-</section>
-<section class="shell section">
-{METHOD}
-</section>"""
-    page("market-intelligence/index.html", "Market Intelligence | Global Art Monitor",
-         "Analysis of the international art trade: what auction results mean, how liquidity works and why a record price is not market value.",
-         body, current="market-intelligence")
+    build_page("market-intelligence")
 
 
 def build_collecting():
-    feats = [f for f in C.FEATURES if "collecting-valuation" in f["tags"]]
-    cards = "".join(feature_card(f, delay=i * 90) for i, f in enumerate(feats))
-    terms = "".join(f'<div class="term" id="{slugify(t)}" data-reveal><dt>{esc(t)}</dt><dd>{esc(d)}</dd></div>\n' for t, d in C.GLOSSARY)
-    body = f"""<section class="shell page-head wide">
-<p class="eyebrow" data-reveal>Collecting &amp; Valuation</p>
-<h1 class="h1" data-reveal style="--d:80ms">Plain guides to estimates, resale and consignment.</h1>
-<p class="lede" data-reveal style="--d:200ms">The working vocabulary of the auction room, and the guides that put it to use.</p>
-</section>
-<section class="shell section"><div class="section-head"><h2 class="h2" data-reveal>Guides</h2></div><div class="cards">
-{cards}</div></section>
-<section class="shell section" id="glossary">
-<div class="section-head"><h2 class="h2" data-reveal>Auction terms, in plain words</h2></div>
-<dl class="terms">
-{terms}</dl>
-</section>
-<section class="shell section">
-<div class="panel on-ink" data-reveal>
-<h2 class="h2" style="max-width:640px">Need a valuation?</h2>
-<p class="intro" style="max-width:640px">We publish records of past sales. We do not value works. For insurance, tax or a sale, ask a qualified valuer who can examine the piece.</p>
-</div>
-</section>"""
-    page("collecting-valuation/index.html", "Collecting & Valuation: Auction Terms Explained | Global Art Monitor",
-         "Hammer price, buyer's premium, estimates, reserves, resale and consignment explained in plain words, with guides for collectors.",
-         body, current="collecting-valuation")
+    build_page("collecting-valuation")
 
 
 def build_about():
-    email = C.SITE["email"]
-    body = f"""<section class="shell page-head wide">
-<p class="eyebrow" data-reveal>About</p>
-<h1 class="h1" data-reveal style="--d:80ms">Who we are and how we work.</h1>
-<p class="lede" data-reveal style="--d:200ms">Global Art Monitor follows auction activity and the structure of the art market, and tries to be exact about what a published price does and does not show.</p>
-</section>
-<section class="shell article">
-<div class="article-body prose">
-<h2 id="disclosure" style="margin-top:0">Who publishes this</h2>
-<p>{esc(C.SITE["disclosure"])}</p>
-<p>We think the best answer to that interest is to show our working. Every figure carries a source. Lower results and unconfirmed lots are listed next to the highest ones. Our features say plainly what a small auction record cannot prove.</p>
-
-<h2 id="method">Method</h2>
-<p>We record public auction sales only. For each lot we note the sale date, the house, the sale title, the lot number, the estimate, the hammer price, the price with buyer's premium and the currency.</p>
-<ul>
-<li><strong>Hammer and premium stay separate.</strong> Where a house publishes only the total, we work the hammer price back using that house's buyer's premium and label it "our calculation".</li>
-<li><strong>Currency stays as sold.</strong> We do not convert prices in the tables. If a conversion appears in an article, it carries the date and rate.</li>
-<li><strong>Gaps are shown.</strong> If we cannot confirm a figure it reads "to confirm". We do not estimate missing prices.</li>
-<li><strong>Unsold lots count.</strong> When we can document a lot that was offered and not sold, it goes in the record.</li>
-</ul>
-
-<h2 id="sources">Sources</h2>
-<p>Our first source is always the auction house's own lot page. Where a house does not publish a figure, we use public auction databases such as Invaluable, MutualArt and Artnet, and say which. News reports are used for context and are linked.</p>
-<p>The source for each result is linked in the last column of every table.</p>
-
-<h2 id="corrections">Corrections</h2>
-<p>If a figure here is wrong or out of date, we want to know. Email <a href="mailto:{email}?subject=Correction">{email}</a> with the page, the figure and your source. We correct the record and note material changes on the page concerned.</p>
-
-<h2 id="newsletter">The monthly market note</h2>
-<p>A short email with new documented results and new research, sent when there is something to report. To join the list, email <a href="mailto:{email}?subject=Subscribe%20to%20the%20monthly%20market%20note">{email}</a> with the subject line "Subscribe".</p>
-
-<h2 id="contact">Contact</h2>
-<p>For questions, press enquiries or anything else, use the <a href="@@contact/">contact page</a>.</p>
-
-<h2 id="advice">Not advice</h2>
-<p>Nothing on this site is investment, tax or legal advice. Auction results describe past sales of particular works. They do not predict what any work will sell for in future.</p>
-</div>
-<aside class="article-side">
-<div class="mini"><h2>On this page</h2><ul><li><a href="#disclosure">Who publishes this</a></li><li><a href="#method">Method</a></li><li><a href="#sources">Sources</a></li><li><a href="#corrections">Corrections</a></li><li><a href="#newsletter">Monthly market note</a></li><li><a href="@@contact/">Contact</a></li></ul></div>
-<div class="mini"><h2>Last updated</h2><p>{C.PUBLISHED_TEXT}</p></div>
-</aside>
-</section>"""
-    page("about/index.html", "About, Method and Sources | Global Art Monitor",
-         "Who publishes Global Art Monitor, how auction prices are recorded, which sources are used and how to send a correction.", body)
+    build_page("about")
 
 
 def build_contact():
-    email = C.SITE["email"]
-    body = f"""<section class="shell page-head wide">
-<p class="eyebrow" data-reveal>Contact</p>
-<h1 class="h1" data-reveal style="--d:80ms">Ask us something.</h1>
-<p class="lede" data-reveal style="--d:200ms">Questions about a figure, a sale we have missed, a press enquiry or anything else. We read every message.</p>
-</section>
-<section class="shell article">
-<div class="article-body">
-<form class="form" id="contact-form" data-email="{email}" data-reveal>
-<div class="field"><label for="cf-name">Your name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
-<div class="field"><label for="cf-email">Your email</label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
-<div class="field"><label for="cf-topic">What is it about?</label>
-<select id="cf-topic" name="topic">
-<option>General question</option>
-<option>Correction to a figure</option>
-<option>A sale or source to add</option>
-<option>Press enquiry</option>
-<option>Monthly market note</option>
-<option>Something else</option>
-</select></div>
-<div class="field"><label for="cf-message">Your message</label><textarea id="cf-message" name="message" rows="7" required></textarea></div>
-<div class="form-foot"><button class="pill pill-ink" type="submit">Send your message</button>
-<p class="quiet" id="contact-status" role="status">This opens your email app with the message ready to send.</p></div>
-<noscript><p class="quiet">This form needs scripts switched on. You can also write to {email}.</p></noscript>
-</form>
-</div>
-<aside class="article-side">
-<div class="mini"><h2>Email us directly</h2><p><a href="mailto:{email}">{email}</a></p></div>
-<div class="mini"><h2>Corrections</h2><p>Tell us the page, the figure and your source. How we handle them is on the <a href="@@about/#corrections">about page</a>.</p></div>
-<div class="mini"><h2>Monthly market note</h2><p>Choose "Monthly market note" in the form, or see <a href="@@about/#newsletter">how to subscribe</a>.</p></div>
-<div class="mini"><h2>Valuations</h2><p>We do not value works. For insurance, tax or a sale, please ask a qualified valuer.</p></div>
-</aside>
-</section>"""
-    page("contact/index.html", "Contact | Global Art Monitor",
-         "Send a question, a correction or a press enquiry to the Global Art Monitor research desk.", body)
+    build_page("contact")
 
 
 def build_extras():
@@ -756,6 +779,7 @@ def build_extras():
 
 
 if __name__ == "__main__":
+    check_pages()
     build_home()
     build_results()
     build_artists()
