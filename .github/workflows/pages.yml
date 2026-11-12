@@ -31,25 +31,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Gather the public site
+        run: bash .github/scripts/assemble.sh . _site
+      - name: Add the previews of work not yet published
+        # Each working copy made in Artiscope Digital Home is a branch named
+        # adh/<name>. It is built into preview/<name>/ beside the live site.
         run: |
-          python3 tools/build.py
-          mkdir _site
-          rsync -a ./ _site/ \
-            --exclude '/_site' \
-            --exclude '/.git' \
-            --exclude '/.github' \
-            --exclude '/.gitignore' \
-            --exclude '/CLAUDE.md' \
-            --exclude '/VOICE.md' \
-            --exclude '/AGENT-LOG.md' \
-            --exclude '/CONTENT-CALENDAR.md' \
-            --exclude '/README.md' \
-            --exclude '/image-slots.json' \
-            --exclude '/inbox' \
-            --exclude '/tools' \
-            --exclude '/data'
+          git fetch --quiet --depth=1 origin '+refs/heads/adh/*:refs/remotes/origin/adh/*' || true
+          for ref in $(git for-each-ref --format='%(refname:short)' refs/remotes/origin/adh/); do
+            name="${ref#origin/adh/}"
+            case "$name" in *[!a-z0-9-]*|"") continue;; esac
+            git worktree add --quiet --detach "/tmp/preview-src/$name" "$ref"
+            if bash .github/scripts/assemble.sh "/tmp/preview-src/$name" "/tmp/preview-out/$name" preview; then
+              mkdir -p _site/preview && mv "/tmp/preview-out/$name" "_site/preview/$name"
+            else
+              echo "The preview of $name could not be built and was left out."
+            fi
+          done
           echo "Published files:"
-          cd _site && find . -type f | sort
+          cd _site && find . -type f | sort | head -400
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
