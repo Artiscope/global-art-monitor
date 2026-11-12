@@ -128,7 +128,8 @@
       } catch (e) {}
     }
     tick();
-    setInterval(tick, 30000);
+    if (window.__gamClock) { clearInterval(window.__gamClock); }
+    window.__gamClock = setInterval(tick, 30000);
   }
 
   // Smooth scrolling, loaded only if the network allows it
@@ -163,6 +164,106 @@
   setupClock();
   setupSmoothScroll();
   runLoader(startReveals);
+  // The page editor redraws the page in place, then asks for the behaviours again.
+  window.GAMSite = { refresh: function () {
+    setupContact(); setupMenu(); setupFilters(); setupClock();
+    document.querySelectorAll('[data-reveal]').forEach(function (el) { el.classList.add('in'); });
+  } };
+})();
+
+/* lets Artiscope Digital Home redraw any page as it is edited, and pick or follow what is clicked */
+(function () {
+  var ok = "https://artiscope.github.io", active = false, D = null, me = document.currentScript;
+  if (window.parent === window) { return; }
+  var ROOT = new URL(".", new URL("..", (me && me.src) || location.href)).href;
+  var BLOCKS = { words: ".word", hero: ".hero-actions a", footer: ".foot-cols > div:last-child a" };
+  var view = { kind: "page", key: "home" }, types = {};
+  function loadRender(done) {
+    if (window.GAM) { done(); return; }
+    var s = document.createElement("script"); s.src = ROOT + "assets/render.js"; s.onload = done; document.head.appendChild(s);
+  }
+  function style() {
+    if (document.getElementById("adh-style")) { return; }
+    var st = document.createElement("style"); st.id = "adh-style";
+    st.textContent = ".adh-picked{outline:2px dashed rgba(85,103,140,.65);outline-offset:-2px}.adh-picked-block{outline:3px solid #55678C;outline-offset:3px;position:relative}" +
+      ".adh-picked-block[data-adh-label]::before{content:attr(data-adh-label);position:absolute;left:0;top:-30px;z-index:50;background:#55678C;color:#fff;font:600 12px/1 'Libre Franklin',Arial,sans-serif;padding:6px 10px;border-radius:7px;white-space:nowrap;pointer-events:none}" +
+      "[data-reveal]{opacity:1!important;transform:none!important}td[data-adh-label]{position:relative}td[data-adh-label]::before{content:attr(data-adh-label);position:absolute;left:0;top:-30px;z-index:50;background:#55678C;color:#fff;font:600 12px/1 'Libre Franklin',Arial,sans-serif;padding:6px 10px;border-radius:7px;white-space:nowrap;pointer-events:none}tr.adh-picked-block{position:static}";
+    document.head.appendChild(st);
+  }
+  function draw(m) {
+    var site = window.GAM.Site(m.data, m.pages, "", { mark: true, show: m.show || "", imageSrc: function (name) { return (m.images || {})[name] || ROOT + "assets/images/" + name; } });
+    var at = m.at || { kind: "page", key: "home" }, out = null;
+    if (at.kind === "artist") { out = site.artistPage(at.key); }
+    else if (at.kind === "article") { out = site.featurePage(at.key); }
+    else if (m.pages.pages[at.key]) { out = site.sectionsPage(at.key); }
+    if (!out) { out = site.notFound(); }
+    view = at; types = {};
+    (((m.pages.pages || {})[at.key] || {}).sections || []).forEach(function (x) { types[x.id] = x.type; });
+    var moved = out.path !== draw.path; draw.path = out.path;
+    var base = document.querySelector("base[data-adh]");
+    if (!base) { base = document.createElement("base"); base.setAttribute("data-adh", ""); document.head.insertBefore(base, document.head.firstChild); }
+    base.href = ROOT + out.path.replace(/[^\/]*$/, "");
+    var doc = new DOMParser().parseFromString(out.html, "text/html");
+    doc.querySelectorAll("script").forEach(function (x) { x.remove(); });
+    var t = doc.querySelector("title"); if (t) { document.title = t.textContent; }
+    var y = window.scrollY;
+    document.body.innerHTML = doc.body.innerHTML;
+    document.body.removeAttribute("data-intro");
+    if (window.GAMSite) { window.GAMSite.refresh(); }
+    if (moved) { window.scrollTo(0, 0); } else { window.scrollTo(0, y); }
+    return moved;
+  }
+  function sectionEl(id) {
+    if (id === "header") { return document.querySelector("header.site-head"); }
+    if (id === "footer") { return document.querySelector("footer.site-foot"); }
+    return document.querySelector('[data-adh="' + id + '"]');
+  }
+  function blockEls(id) {
+    if (id === "sales") {
+      return [].slice.call(document.querySelectorAll('[data-adh="sales"] tr[data-adh-row]')).sort(function (a, b) { return a.getAttribute("data-adh-row") - b.getAttribute("data-adh-row"); });
+    }
+    var el = sectionEl(id), sel = BLOCKS[id === "header" || id === "footer" ? id : types[id]];
+    return el && sel ? [].slice.call(el.querySelectorAll(sel)) : [];
+  }
+  function pick(id, block, label, scroll) {
+    document.querySelectorAll(".adh-picked,.adh-picked-block,[data-adh-label]").forEach(function (x) { x.classList.remove("adh-picked", "adh-picked-block"); x.removeAttribute("data-adh-label"); });
+    if (!id) { return; }
+    var el = sectionEl(id); if (!el) { return; }
+    var target = el;
+    if (block != null && block >= 0) { var b = blockEls(id)[block]; if (b) { el.classList.add("adh-picked"); b.classList.add("adh-picked-block"); target = b; } else { el.classList.add("adh-picked-block"); } }
+    else { el.classList.add("adh-picked-block"); }
+    // a table row cannot carry the label itself, so its first cell does
+    if (label) { (target.tagName === "TR" && target.cells[0] ? target.cells[0] : target).setAttribute("data-adh-label", label); }
+    if (scroll) { try { target.scrollIntoView({ behavior: "smooth", block: "center" }); } catch (x) { target.scrollIntoView(); } }
+  }
+  window.addEventListener("message", function (e) {
+    if (e.origin !== ok || !e.data) { return; }
+    if (!active) { active = true; document.documentElement.classList.add("rm"); style(); }
+    if (e.data.type === "adh-pages" && e.data.data && e.data.pages) {
+      var m = e.data;
+      loadRender(function () { var moved = false; try { moved = draw(m); } catch (x) { } pick(m.pick, m.block, m.label, m.scroll || moved); });
+      return;
+    }
+    if (e.data.type === "adh-pick") { pick(e.data.id, e.data.block, e.data.label, true); }
+  });
+  // A click on a link inside the site goes to that page; anything else, or a click with Alt held, picks what was clicked.
+  document.addEventListener("click", function (e) {
+    if (!active) { return; }
+    e.preventDefault(); e.stopPropagation();
+    var link = e.target.closest("a[href]");
+    if (link && !e.altKey) {
+      var u; try { u = new URL(link.getAttribute("href"), document.baseURI); } catch (x) { u = null; }
+      if (u && u.href.indexOf(ROOT) === 0) { window.parent.postMessage({ type: "adh-nav", path: u.href.slice(ROOT.length).split("#")[0].split("?")[0] }, ok); return; }
+    }
+    var id = "", block = -1;
+    if (e.target.closest("header.site-head, #menu")) { id = "header"; }
+    else if (e.target.closest("footer.site-foot")) { id = "footer"; }
+    else { var sec = e.target.closest("[data-adh]"); if (sec) { id = sec.getAttribute("data-adh"); } }
+    if (!id) { return; }
+    var list = blockEls(id);
+    for (var i = 0; i < list.length; i++) { if (list[i].contains(e.target)) { block = id === "sales" ? Number(list[i].getAttribute("data-adh-row")) : i; break; } }
+    window.parent.postMessage({ type: "adh-click", id: id, block: block, view: view.kind }, ok);
+  }, true);
 })();
 
 /* lets Artiscope Digital Home preview a theme before it is published */

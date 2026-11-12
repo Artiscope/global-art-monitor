@@ -31,7 +31,7 @@ because the next build overwrites them.
 | An article to leave off the site | add `"hidden": true` to it in `data/content.json` |
 | Colours, fonts, spacing | `assets/site.css` |
 | Loader, menu, filters, motion | `assets/site.js` |
-| Page layouts | `tools/build.py` |
+| Page layouts | `assets/render.js` (drawn by `tools/build.mjs`, which `python3 tools/build.py` runs) |
 
 The content files can also be edited from Artiscope Digital Home. The
 pages are rebuilt automatically on every publish, so a change to the
@@ -46,7 +46,13 @@ site.
 - Artist images go in `assets/images/<artist-slug>.jpg` (for example
   `assets/images/zara-muse.jpg`), followed by a rebuild.
 - The description and caption for each artist image live in
-  `data/images.json`, keyed by artist slug (`alt` and `caption`).
+  `data/images.json`, keyed by artist slug (`alt` and `caption`). When the
+  owner picks a different picture in Artiscope Digital Home, the entry
+  also gets `file`, the name of the picture in `assets/images/`, and that
+  picture is used instead of `<artist-slug>.jpg`. `data/files.json` holds
+  the description and caption of each photo, kept by the console.
+- Pages made in the console sit in `data/pages.json` with their own
+  `path`, such as `press/index.html`, and are built like the others.
   Without an entry the page falls back to a plain default.
 - The files in `assets/brand/` are the logo. Leave them alone.
 
