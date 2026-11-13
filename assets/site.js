@@ -225,12 +225,14 @@
     var el = sectionEl(id), sel = BLOCKS[id === "header" || id === "footer" ? id : types[id]];
     return el && sel ? [].slice.call(el.querySelectorAll(sel)) : [];
   }
-  function pick(id, block, label, scroll) {
+  // a block the page tags with its kind and place, so hidden ones never shift the count
+  function tagged(el, bf, block) { if (!el || !bf) { return null; } return el.querySelector('[data-adh-b="' + bf + "." + block + '"]'); }
+  function pick(id, block, label, scroll, bf, bi) {
     document.querySelectorAll(".adh-picked,.adh-picked-block,[data-adh-label]").forEach(function (x) { x.classList.remove("adh-picked", "adh-picked-block"); x.removeAttribute("data-adh-label"); });
     if (!id) { return; }
     var el = sectionEl(id); if (!el) { return; }
     var target = el;
-    if (block != null && block >= 0) { var b = blockEls(id)[block]; if (b) { el.classList.add("adh-picked"); b.classList.add("adh-picked-block"); target = b; } else { el.classList.add("adh-picked-block"); } }
+    if ((block != null && block >= 0) || (bf && bi >= 0)) { var b = (bf && bi >= 0 ? tagged(el, bf, bi) : null) || (block >= 0 ? blockEls(id)[block] : null); if (b) { el.classList.add("adh-picked"); b.classList.add("adh-picked-block"); target = b; } else { el.classList.add("adh-picked-block"); } }
     else { el.classList.add("adh-picked-block"); }
     // a table row cannot carry the label itself, so its first cell does
     if (label) { (target.tagName === "TR" && target.cells[0] ? target.cells[0] : target).setAttribute("data-adh-label", label); }
@@ -241,10 +243,10 @@
     if (!active) { active = true; document.documentElement.classList.add("rm"); style(); }
     if (e.data.type === "adh-pages" && e.data.data && e.data.pages) {
       var m = e.data;
-      loadRender(function () { var moved = false; try { moved = draw(m); } catch (x) { } pick(m.pick, m.block, m.label, m.scroll || moved); });
+      loadRender(function () { var moved = false; try { moved = draw(m); } catch (x) { } pick(m.pick, m.block, m.label, m.scroll || moved, m.bf, m.bi); });
       return;
     }
-    if (e.data.type === "adh-pick") { pick(e.data.id, e.data.block, e.data.label, true); }
+    if (e.data.type === "adh-pick") { pick(e.data.id, e.data.block, e.data.label, true, e.data.bf, e.data.bi); }
   });
   // A click on a link inside the site goes to that page; anything else, or a click with Alt held, picks what was clicked.
   document.addEventListener("click", function (e) {
@@ -260,9 +262,10 @@
     else if (e.target.closest("footer.site-foot")) { id = "footer"; }
     else { var sec = e.target.closest("[data-adh]"); if (sec) { id = sec.getAttribute("data-adh"); } }
     if (!id) { return; }
-    var list = blockEls(id);
-    for (var i = 0; i < list.length; i++) { if (list[i].contains(e.target)) { block = id === "sales" ? Number(list[i].getAttribute("data-adh-row")) : i; break; } }
-    window.parent.postMessage({ type: "adh-click", id: id, block: block, view: view.kind }, ok);
+    var bf = "", tag = e.target.closest("[data-adh-b]");
+    if (tag) { var bp = tag.getAttribute("data-adh-b").split("."); bf = bp[0]; block = Number(bp[1]); }
+    else { var list = blockEls(id); for (var i = 0; i < list.length; i++) { if (list[i].contains(e.target)) { block = id === "sales" ? Number(list[i].getAttribute("data-adh-row")) : i; break; } } }
+    window.parent.postMessage({ type: "adh-click", id: id, block: block, bf: bf, view: view.kind }, ok);
   }, true);
 })();
 

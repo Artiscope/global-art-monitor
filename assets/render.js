@@ -98,8 +98,21 @@
         '<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">\n' +
         '<link rel="stylesheet" href="' + rootPath + 'assets/site.css">\n<script>document.documentElement.className=\'js\';</script>\n' + (THEME || "") + (extra || "") + '</head>\n';
     }
+    // logos added in the console: each on the left, in the centre or on the right of the menu bar
+    function headLogos(st, rootPath, where) {
+      return (get(st, "logos", []) || []).map(function (g, k) { return { g: g, k: k }; }).filter(function (x) { return x.g && x.g.hidden !== true && (x.g.place || "L") === where; }).map(function (x) {
+        var g = x.g, src = g.image ? (opts.imageSrc ? opts.imageSrc(g.image) : rootPath + "assets/images/" + g.image) : "";
+        var inner = src ? '<img src="' + esc(src) + '" alt="' + esc(g.alt || "") + '">' : (opts.mark ? '<span class="hlogo-empty">' + esc(g.alt || "Logo") + "</span>" : "");
+        if (!inner) { return ""; }
+        var href = String(g.href || ""), cls = "hlogo hlogo-" + ({ S: "s", L: "l" }[g.size] || "m"), tag = opts.mark ? ' data-adh-b="logos.' + x.k + '"' : "";
+        if (!/^(#|\/|[a-z0-9-]+\/|https?:\/\/|mailto:)/i.test(href)) { href = ""; }
+        if (href && !/^(#|\/|https?:|mailto:)/i.test(href)) { href = rootPath + href; }
+        return href ? '<a class="' + cls + '" href="' + esc(href) + '"' + tag + (/^https?:/i.test(href) ? ' rel="noopener"' : "") + ">" + inner + "</a>" : '<span class="' + cls + '"' + tag + ">" + inner + "</span>";
+      }).join("");
+    }
     function header(rootPath, current) {
       var st = shared("header")[0], name = esc(get(st, "name", "Global Art Monitor")), links = "", menu = "", i = 0;
+      var logoL = headLogos(st, rootPath, "L"), logoC = headLogos(st, rootPath, "C"), logoR = headLogos(st, rootPath, "R");
       SECTIONS_LIST.forEach(function (s, k) {
         i = k + 1;
         var cur = s[0] === current ? ' aria-current="page"' : "";
@@ -107,8 +120,9 @@
         menu += '<a href="' + rootPath + s[0] + '/"><span>' + pad2(i) + '</span>' + esc(s[1]) + '</a>\n';
       });
       (get(st, "menu_extra", []) || []).forEach(function (m) { i += 1; menu += '<a href="' + rootPath + m[1] + '"><span>' + pad2(i) + '</span>' + txt(m[0]) + '</a>\n'; });
-      return '<a class="skip" href="#main">Skip to content</a>\n<header class="shell site-head">\n<a class="brand" href="' + rootPath + '">' + MARK + name + '</a>\n' +
-        '<nav class="nav" aria-label="Sections">\n' + links + '</nav>\n<div class="head-actions">\n' +
+      var brand = '<a class="brand" href="' + rootPath + '">' + MARK + name + '</a>';
+      return '<a class="skip" href="#main">Skip to content</a>\n<header class="shell site-head' + (logoL || logoC || logoR ? " has-logos" : "") + '">\n' + (logoL ? '<div class="head-logos">' + brand + logoL + '</div>' : brand) + '\n' +
+        '<nav class="nav" aria-label="Sections">\n' + links + '</nav>\n' + (logoC ? '<div class="head-logos head-mid">' + logoC + '</div>\n' : '') + '<div class="head-actions">\n' + logoR +
         '<a class="pill pill-ink pill-small" href="' + rootPath + get(st, "subscribe_href", "about/#newsletter") + '">' + txt(get(st, "subscribe", "Subscribe")) + '</a>\n' +
         '<button class="menu-btn" type="button" data-menu-open aria-expanded="false" aria-controls="menu">Menu</button>\n</div>\n</header>\n' +
         '<div class="menu" id="menu" aria-hidden="true">\n<div class="shell menu-top"><a class="brand" href="' + rootPath + '">' + MARK + name + '</a><button class="menu-close" type="button" data-menu-close>Close</button></div>\n' +

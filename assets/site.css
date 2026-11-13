@@ -82,6 +82,14 @@ img { display: block; max-width: 100%; }
 .nav a:hover { transform: translateY(-2px); }
 .nav a[aria-current="page"] { text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 2px; }
 .head-actions { display: flex; align-items: center; gap: 10px; }
+.head-logos { display: flex; align-items: center; gap: 16px; flex-wrap: nowrap; min-width: 0; }
+.head-logos .brand { white-space: nowrap; }
+.hlogo { display: inline-flex; align-items: center; flex: none; }
+.hlogo img { display: block; height: 26px; width: auto; max-width: 120px; object-fit: contain; }
+.hlogo-s img { height: 20px; max-width: 90px; } .hlogo-l img { height: 34px; max-width: 160px; }
+@media (min-width: 901px) { .site-head.has-logos { flex-wrap: nowrap; } .site-head.has-logos .nav { flex: 1 1 0; min-width: 0; justify-content: center; gap: 6px 22px; } }
+.hlogo-empty { display: inline-flex; align-items: center; height: 30px; padding: 0 10px; border: 1.5px dashed currentColor; border-radius: 8px; font-size: 12px; opacity: .8; white-space: nowrap; }
+@media (max-width: 640px) { .head-logos { gap: 10px; } .hlogo img { height: 20px; max-width: 64px; } .hlogo-l img { height: 24px; max-width: 76px; } .hlogo-s img { height: 16px; max-width: 52px; } }
 .menu-btn { display: none; background: var(--blush-light); border-radius: 14px; padding: 12px 18px; font-size: 13px; font-weight: 600; letter-spacing: .05em; text-transform: uppercase; }
 @media (max-width: 1080px) {
   .nav { display: none; }
