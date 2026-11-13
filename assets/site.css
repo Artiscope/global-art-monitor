@@ -442,3 +442,30 @@ a.lg:hover img { opacity: 1; }
 /* an uploaded picture keeps its own shape, so no part of an artwork is cut off */
 .pic-frame:has(img), .tp-pic .pic-frame:has(img) { aspect-ratio: auto; }
 .pic-frame:has(img) img { height: auto; }
+
+/* ----- sections any page can use, batch 3: artworks, exhibitions, career timeline, press quotes ----- */
+.aw-item { background: var(--blush-light); border-radius: 28px; padding: 14px 14px 22px; display: flex; flex-direction: column; gap: 6px; min-width: 0; color: inherit; }
+.aw-pic { position: relative; display: block; aspect-ratio: 4 / 5; border-radius: 18px; overflow: hidden; background: var(--blush-deep); margin-bottom: 8px; }
+.aw-pic img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.aw-t { font-family: var(--serif); font-size: 21px; line-height: 1.2; padding: 0 6px; }
+.aw-d { font-size: 13px; color: var(--on-blush-body); padding: 0 6px; }
+.aw-n { font-size: 12px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--on-blush-quiet); padding: 6px 6px 0; }
+a.aw-item:hover .aw-t { text-decoration: underline; text-underline-offset: 4px; }
+@media (max-width: 700px) { .aw-item { border-radius: 20px; padding: 8px 8px 16px; } .aw-pic { border-radius: 14px; } .aw-t { font-size: 17px; } }
+.exh { display: flex; flex-direction: column; gap: 10px; max-width: 980px; }
+.exh-row { background: var(--blush-light); border-radius: 22px; padding: 20px 26px; display: grid; grid-template-columns: 150px minmax(0, 1fr) auto; gap: 8px 24px; align-items: baseline; }
+.exh-when { font-size: 13px; font-weight: 600; color: var(--ink); }
+.exh-what { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+.exh-t { font-family: var(--serif); font-size: 22px; line-height: 1.25; }
+.car-t { font-size: 16px; line-height: 1.55; color: var(--on-blush-body); }
+.exh-d { font-size: 14px; color: var(--on-blush-quiet); }
+.exh-side { display: flex; align-items: baseline; gap: 14px; }
+.src { font-size: 13px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.rep { display: inline-block; vertical-align: middle; border-radius: 999px; padding: 3px 10px; background: var(--ink); color: var(--paper); font: 600 11px var(--sans); letter-spacing: .04em; margin-right: 4px; }
+@media (max-width: 700px) { .exh-row { grid-template-columns: minmax(0, 1fr); padding: 18px 20px; border-radius: 18px; } .exh-t { font-size: 19px; } }
+.pq-card { min-height: 0; margin: 0; gap: 16px; }
+.pq-card:hover { transform: none; }
+.pq-card blockquote { margin: 0; font-family: var(--serif); font-size: clamp(24px, 2.6vw, 30px); line-height: 1.25; }
+.pq-card figcaption { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--on-blush-quiet); }
+.pq-card .src { margin-top: auto; align-self: flex-start; }
+.exh .tbc, .aw-t .tbc { color: var(--on-blush-quiet); font-style: italic; }

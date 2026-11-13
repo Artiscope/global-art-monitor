@@ -437,6 +437,41 @@
         (link && addrOk(h) ? '<a class="col-link" href="' + esc(hrefOf(h)) + '">' + txt(link) + '</a>' : "") + '</div>\n<figure class="tp-pic" data-reveal><div class="pic-frame">' + picOf(st) + '</div>' + (cap ? '<figcaption>' + txt(cap) + '</figcaption>' : "") + '</figure>\n</div></section>';
     };
 
+    // ----- sections any page can use: batch 3, art and reading -----
+    function rep(x) { return x && x.reported ? '<span class="rep">Reported</span> ' : ""; }
+    function srcLink(h, words) { return addrOk(h) ? '<a class="src" href="' + esc(hrefOf(h)) + '" rel="noopener">' + (words || "Source") + '</a>' : ""; }
+    S.artworks = function (st) {
+      var per = { "2": 2, "3": 3, "4": 4 }[String(get(st, "per_row", "3"))] || 3;
+      var items = liveRows(get(st, "artworks", [])).map(function (r, k) {
+        var w = r.x, tag = addrOk(w.href) ? "a" : "div", line = [w.year, w.medium].filter(Boolean).join(", ");
+        return '<' + tag + ' class="aw-item"' + (tag === "a" ? ' href="' + esc(hrefOf(w.href)) + '"' : "") + ' data-adh-b="artworks.' + r.i + '" data-reveal style="--d:' + (k % 4) * 80 + 'ms"><span class="aw-pic">' + picOf(w) + '</span>' +
+          '<span class="aw-t">' + (w.title ? txt(w.title) : '<span class="tbc">Title to confirm</span>') + '</span>' + (line ? '<span class="aw-d">' + txt(line) + '</span>' : "") + (w.size ? '<span class="aw-d">' + txt(w.size) + '</span>' : "") + (w.note ? '<span class="aw-n">' + txt(w.note) + '</span>' : "") + '</' + tag + '>';
+      }).join("\n");
+      return '<section class="shell section">\n' + headBlock(st) + '<div class="gl aw gl-' + per + '">\n' + items + '\n</div>\n</section>';
+    };
+    S.exhibitions = function (st) {
+      var rows = liveRows(get(st, "shows", [])).map(function (r) {
+        var x = r.x;
+        return '<li class="exh-row" data-adh-b="shows.' + r.i + '"><span class="exh-when">' + (x.dates ? txt(x.dates) : '<span class="tbc">To confirm</span>') + '</span><span class="exh-what"><span class="exh-t">' + rep(x) + txt(x.title || "") + '</span>' + (x.place ? '<span class="exh-d">' + txt(x.place) + '</span>' : "") + '</span>' +
+          '<span class="exh-side">' + (x.kind ? '<span class="chip">' + txt(x.kind) + '</span>' : "") + srcLink(x.href) + '</span></li>';
+      }).join("\n");
+      return '<section class="shell section">\n' + headBlock(st) + '<ol class="exh" data-reveal>\n' + rows + '\n</ol>\n</section>';
+    };
+    S.career = function (st) {
+      var rows = liveRows(get(st, "events", [])).map(function (r) {
+        var x = r.x;
+        return '<li class="exh-row car-row" data-adh-b="events.' + r.i + '"><span class="exh-when">' + (x.when ? txt(x.when) : '<span class="tbc">To confirm</span>') + '</span><span class="exh-what"><span class="car-t">' + rep(x) + txt(x.what || "") + '</span></span><span class="exh-side">' + srcLink(x.href) + '</span></li>';
+      }).join("\n");
+      return '<section class="shell section">\n' + headBlock(st) + '<ol class="exh car" data-reveal>\n' + rows + '\n</ol>\n</section>';
+    };
+    S.press = function (st) {
+      var items = liveRows(get(st, "quotes", [])).filter(function (r) { return r.x.quote; }).map(function (r, k) {
+        var x = r.x, by = [x.who, x.publication, x.date].filter(Boolean).map(txt).join(", ");
+        return '<figure class="card pq-card" data-adh-b="quotes.' + r.i + '" data-reveal style="--d:' + (k % 3) * 90 + 'ms"><blockquote>“' + txt(String(x.quote).trim()) + '”</blockquote>' + (by ? '<figcaption>' + by + '</figcaption>' : "") + srcLink(x.href, "Read it at the source") + '</figure>';
+      }).join("\n");
+      return '<section class="shell section">\n' + headBlock(st) + '<div class="cols cols-2 pq">\n' + items + '\n</div>\n</section>';
+    };
+
     // In the editor each section is marked, so a click on the page can find it.
     function mark(html, id) { return opts.mark ? html.replace(/^(\s*<[a-z]+)/, '$1 data-adh="' + id + '"') : html; }
     // A second copy of a section gets its own names for anything already used
