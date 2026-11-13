@@ -145,16 +145,18 @@
 
   // Contact form: builds an email in the visitor's own mail app
   function setupContact() {
-    var form = document.getElementById('contact-form');
-    if (!form) { return; }
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      var v = function (id) { return document.getElementById(id).value.trim(); };
-      var subject = v('cf-topic') + ' from ' + v('cf-name');
-      var body = v('cf-message') + '\n\nFrom: ' + v('cf-name') + '\nReply to: ' + v('cf-email');
-      var to = form.getAttribute('data-email');
-      window.location.href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-      document.getElementById('contact-status').textContent = 'Your email app should now be open with the message ready. If nothing happened, write to ' + to + '.';
+    document.querySelectorAll('form[id$="contact-form"]').forEach(function (form) {
+      var box = form.closest('section') || document;
+      var v = function (n) { var el = box.querySelector('[id$="cf-' + n + '"]'); return el ? el.value.trim() : ''; };
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var subject = v('topic') + ' from ' + v('name');
+        var body = v('message') + '\n\nFrom: ' + v('name') + '\nReply to: ' + v('email');
+        var to = form.getAttribute('data-email');
+        window.location.href = 'mailto:' + to + '?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
+        var status = box.querySelector('[id$="contact-status"]');
+        if (status) { status.textContent = 'Your email app should now be open with the message ready. If nothing happened, write to ' + to + '.'; }
+      });
     });
   }
 

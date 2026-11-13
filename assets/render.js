@@ -345,11 +345,26 @@
 
     // In the editor each section is marked, so a click on the page can find it.
     function mark(html, id) { return opts.mark ? html.replace(/^(\s*<[a-z]+)/, '$1 data-adh="' + id + '"') : html; }
+    // A second copy of a section gets its own names for anything already used
+    // higher up the page, so its filters, form and links work on their own.
+    function own(html, sid, seen) {
+      var clash = {};
+      html.replace(/ id="([^"]+)"/g, function (m, x) { if (seen[x]) clash[x] = 1; return m; });
+      var names = Object.keys(clash);
+      if (names.length) {
+        var pre = String(sid).replace(/[^a-z0-9-]/gi, "-") + "--";
+        html = html.replace(/ (id|for|data-filter-group|aria-labelledby|aria-describedby|aria-controls)="([^"]+)"/g, function (m, a, x) { return clash[x] ? " " + a + '="' + pre + x + '"' : m; })
+          .replace(/ href="#([^"]+)"/g, function (m, x) { return clash[x] ? ' href="#' + pre + x + '"' : m; });
+      }
+      html.replace(/ id="([^"]+)"/g, function (m, x) { seen[x] = 1; return m; });
+      return html;
+    }
     function sectionsPage(key) {
       var pg = PAGES.pages[key], parts = [];
+      var seen = {};
       (pg.sections || []).forEach(function (sec) {
         if (sec.visible === false || !S[sec.type]) return;
-        parts.push(mark(S[sec.type](sec.settings || {}, { id: sec.id, page: key }), sec.id));
+        parts.push(mark(own(S[sec.type](sec.settings || {}, { id: sec.id, page: key }), sec.id, seen), sec.id));
       });
       var extra = "";
       if (key === "home") extra = '<script type="application/ld+json">' + pyJson({ "@context": "https://schema.org", "@type": "WebSite", name: "Global Art Monitor", url: SITE.url, description: SITE.intro }) + '</script>\n';
