@@ -142,11 +142,11 @@
         '<div class="foot-mark" aria-hidden="true">MONITOR</div>\n</footer>\n';
       return body + '<script src="' + rootPath + 'assets/site.js" defer></script>\n</body>\n</html>\n';
     }
-    function page(path, title, desc, body, current, intro, extraHead) {
+    function page(path, title, desc, body, current, intro, extraHead, top) {
       var depth = path.split("/").length - 1, rootPath = new Array(depth + 1).join("../");
       var urlPath = /index\.html$/.test(path) ? path.slice(0, -"index.html".length) : path;
       body = body.split("@@").join(rootPath);
-      return { path: path, html: head(rootPath, title, desc, urlPath, extraHead) + "<body" + (intro ? " data-intro" : "") + ">\n" + header(rootPath, current || "") +
+      return { path: path, html: head(rootPath, title, desc, urlPath, extraHead) + "<body" + (intro ? " data-intro" : "") + ">\n" + (top ? top.split("@@").join(rootPath) + "\n" : "") + header(rootPath, current || "") +
         '<main id="main">\n' + body + '\n</main>\n' + footer(rootPath) };
     }
 
@@ -343,6 +343,56 @@
       return '<section class="shell article">\n<div class="article-body">\n' + fill(get(st, "html", ""), true) + '\n</div>\n<aside class="article-side">\n' + fill(get(st, "aside", ""), true) + '\n</aside>\n</section>';
     };
 
+    // ----- sections any page can use: batch 1 -----
+    function addrOk(h) { return /^(#|\/|[a-z0-9-]+\/|https?:\/\/|mailto:)/i.test(String(h || "")); }
+    function hrefOf(h) { h = String(h || ""); return /^(https?:|mailto:|#|\/)/i.test(h) ? h : "@@" + h; }
+    function liveRows(list) { return (Array.isArray(list) ? list : []).map(function (x, i) { return { x: x, i: i }; }).filter(function (r) { return r.x && r.x.hidden !== true; }); }
+    function headBlock(st) {
+      var e = get(st, "eyebrow", ""), h = get(st, "heading", "");
+      if (!e && !h) return "";
+      return '<div class="section-head">' + (e ? '<p class="eyebrow" data-reveal>' + txt(e) + '</p>' : "") + (h ? '<h2 class="h2" data-reveal>' + txt(h) + '</h2>' : "") + '</div>\n';
+    }
+    function paras(t) { t = String(t || "").trim(); return t ? "<p>" + txt(t).split(/\n\s*\n/).join("</p><p>").replace(/\n/g, "<br>") + "</p>" : ""; }
+    S.announcement = function (st) {
+      var rows = liveRows(get(st, "messages", [])).filter(function (r) { return r.x.text || r.x.link; });
+      var look = { ink: "ann-ink", mint: "ann-mint", blush: "ann-blush" }[get(st, "style", "ink")] || "ann-ink";
+      var secs = Math.max(3, Math.min(30, Number(get(st, "seconds", 6)) || 6));
+      var msgs = rows.map(function (r, k) {
+        var m = r.x;
+        return '<p class="ann-msg' + (k ? "" : " on") + '" data-adh-b="messages.' + r.i + '"><span>' + txt(m.text || "") + '</span>' + (m.link && addrOk(m.href) ? '<a href="' + esc(hrefOf(m.href)) + '">' + txt(m.link) + '</a>' : "") + '</p>';
+      }).join("");
+      return '<div class="announce ' + look + '" data-announce data-secs="' + secs + '"><div class="shell ann-in"><div class="ann-msgs">' + msgs + '</div>' +
+        (rows.length > 1 ? '<span class="ann-count" aria-hidden="true">1 of ' + rows.length + '</span>' : "") + '</div></div>';
+    };
+    S.columns = function (st) {
+      var per = { "2": 2, "3": 3, "4": 4 }[String(get(st, "per_row", "3"))] || 3, num = get(st, "numbered", true) !== false;
+      var cards = liveRows(get(st, "columns", [])).map(function (r, k) {
+        var c = r.x;
+        return '<div class="card col-card" data-adh-b="columns.' + r.i + '" data-reveal style="--d:' + (k * 90) + 'ms">' + (num ? '<span class="kicker">' + (k < 9 ? "0" : "") + (k + 1) + '</span>' : "") +
+          (c.title ? '<h3>' + txt(c.title) + '</h3>' : "") + (c.text ? '<div class="col-text">' + paras(c.text) + '</div>' : "") +
+          (c.link && addrOk(c.href) ? '<a class="col-link" href="' + esc(hrefOf(c.href)) + '">' + txt(c.link) + '</a>' : "") + '</div>';
+      }).join("\n");
+      return '<section class="shell section">\n' + headBlock(st) + '<div class="cols cols-' + per + '">\n' + cards + '\n</div>\n</section>';
+    };
+    S.space = function (st) { var c = { S: "space-s", M: "space-m", L: "space-l" }[get(st, "size", "M")] || "space-m"; return '<div class="space ' + c + '" aria-hidden="true"></div>'; };
+    S.quote = function (st) {
+      var who = get(st, "who", "");
+      return '<section class="shell section quote-block">\n<blockquote class="big-quote" data-reveal>' + txt(String(get(st, "text", "")).trim()).replace(/\n+/g, "<br>") + '</blockquote>\n' +
+        (who ? '<p class="quote-who" data-reveal style="--d:120ms">' + txt(who) + '</p>\n' : "") + '</section>';
+    };
+    S.faq = function (st) {
+      var items = liveRows(get(st, "items", [])).map(function (r) {
+        return '<details class="qa" data-adh-b="items.' + r.i + '"><summary><span class="qa-q">' + txt(r.x.q || "") + '</span><span class="qa-word" aria-hidden="true"></span></summary><div class="qa-a">' + paras(r.x.a) + '</div></details>';
+      }).join("\n");
+      return '<section class="shell section">\n' + headBlock(st) + '<div class="qa-list" data-reveal>\n' + items + '\n</div>\n</section>';
+    };
+    S.button = function (st) {
+      var pill = { mint: "pill-mint", ink: "pill-ink", blush: "pill-blush" }[get(st, "colour", "mint")] || "pill-mint", h = get(st, "href", ""), label = get(st, "label", "");
+      var inner = (get(st, "heading", "") ? '<h2 class="h2">' + txt(get(st, "heading", "")) + '</h2>\n' : "") + (get(st, "text", "") ? '<p class="intro">' + txt(get(st, "text", "")) + '</p>\n' : "") +
+        (label && addrOk(h) ? '<div><a class="pill ' + pill + '" href="' + esc(hrefOf(h)) + '">' + txt(label) + '</a></div>' : "");
+      return '<section class="shell section">\n<div class="' + (get(st, "panel", true) === false ? "cta-plain" : "panel on-ink cta-panel") + '" data-reveal>\n' + inner + '\n</div>\n</section>';
+    };
+
     // In the editor each section is marked, so a click on the page can find it.
     function mark(html, id) { return opts.mark ? html.replace(/^(\s*<[a-z]+)/, '$1 data-adh="' + id + '"') : html; }
     // A second copy of a section gets its own names for anything already used
@@ -361,14 +411,16 @@
     }
     function sectionsPage(key) {
       var pg = PAGES.pages[key], parts = [];
-      var seen = {};
+      var seen = {}, top = [], lead = true;
       (pg.sections || []).forEach(function (sec) {
         if (sec.visible === false || !S[sec.type]) return;
-        parts.push(mark(own(S[sec.type](sec.settings || {}, { id: sec.id, page: key }), sec.id, seen), sec.id));
+        var html = mark(own(S[sec.type](sec.settings || {}, { id: sec.id, page: key }), sec.id, seen), sec.id);
+        // announcement bars at the start of a page sit above the menu bar
+        if (lead && sec.type === "announcement") top.push(html); else { lead = false; parts.push(html); }
       });
       var extra = "";
       if (key === "home") extra = '<script type="application/ld+json">' + pyJson({ "@context": "https://schema.org", "@type": "WebSite", name: "Global Art Monitor", url: SITE.url, description: SITE.intro }) + '</script>\n';
-      return page(pg.path, pg.title || "", pg.description || "", parts.join("\n"), pg.current || "", !!pg.intro, extra);
+      return page(pg.path, pg.title || "", pg.description || "", parts.join("\n"), pg.current || "", !!pg.intro, extra, top.join("\n"));
     }
     function artistPage(slug) {
       var a = ARTISTS[slug], rows = salesFor(slug), pr = priced(rows), best = maxBy(pr, function (s) { return s.premium; });

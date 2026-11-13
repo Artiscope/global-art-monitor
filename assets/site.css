@@ -322,3 +322,48 @@ img { display: block; max-width: 100%; }
   .site-head .nav, .head-actions, .menu, .loader, .site-foot { display: none; }
   body { background: #fff; }
 }
+
+/* ----- sections any page can use: announcement bar, columns, space, quote, questions, button ----- */
+.announce { font-size: 13px; line-height: 1.4; }
+.ann-ink { background: var(--ink); color: var(--paper); }
+.ann-ink a { color: var(--mint); }
+.ann-mint { background: var(--mint); color: var(--ink); }
+.ann-blush { background: var(--blush-light); color: var(--ink); }
+.ann-in { display: flex; align-items: center; justify-content: center; gap: 14px; padding-top: 11px; padding-bottom: 11px; text-align: center; }
+.ann-msgs { display: grid; min-width: 0; }
+.ann-msg { grid-area: 1 / 1; opacity: 0; visibility: hidden; transition: opacity .45s var(--ease), visibility .45s; }
+.ann-msg.on { opacity: 1; visibility: visible; }
+.ann-msg a { margin-left: 10px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; }
+.ann-count { flex: none; font-size: 12px; opacity: .72; }
+.cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 1000px) { .cols-3, .cols-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 700px) { .cols, .cols-2, .cols-3, .cols-4 { grid-template-columns: minmax(0, 1fr); } }
+.col-card { min-height: 0; }
+.col-card:hover { transform: none; }
+.col-text p { font-size: 15px; line-height: 1.6; color: var(--on-blush-body); }
+.col-text p + p { margin-top: 10px; }
+.col-link { margin-top: auto; padding-top: 6px; font-size: 14px; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; }
+.space-s { height: 24px; }
+.space-m { height: 56px; }
+.space-l { height: 104px; }
+.quote-block { display: flex; flex-direction: column; align-items: center; gap: 22px; text-align: center; }
+.big-quote { margin: 0; max-width: 900px; font-family: var(--serif); font-weight: 400; font-size: clamp(30px, 4.2vw, 50px); line-height: 1.12; }
+.quote-who { font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--on-blush-quiet); }
+.qa-list { display: flex; flex-direction: column; gap: 12px; max-width: 900px; }
+.qa { background: var(--blush-light); border-radius: 22px; padding: 0 28px; }
+.qa summary { list-style: none; cursor: pointer; min-height: 64px; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 0; }
+.qa summary::-webkit-details-marker { display: none; }
+.qa-q { font-family: var(--serif); font-size: 22px; line-height: 1.25; }
+.qa-word { flex: none; }
+.qa-word::after { content: "Open"; font-size: 13px; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.qa[open] .qa-word::after { content: "Close"; }
+.qa-a { padding-bottom: 22px; max-width: 680px; }
+.qa-a p { font-size: 15px; line-height: 1.6; color: var(--on-blush-body); }
+.qa-a p + p { margin-top: 10px; }
+@media (max-width: 700px) { .qa { padding: 0 20px; border-radius: 18px; } .qa-q { font-size: 19px; } }
+.cta-panel .h2, .cta-panel .intro, .cta-plain .h2, .cta-plain .intro { max-width: 640px; }
+.cta-panel .pill-ink { background: var(--paper); color: var(--ink); }
+.cta-plain { display: flex; flex-direction: column; gap: 20px; align-items: flex-start; }
+.cta-plain .intro { font-size: 16px; line-height: 1.6; color: var(--on-blush-body); }

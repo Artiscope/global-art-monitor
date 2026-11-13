@@ -160,6 +160,28 @@
     });
   }
 
+  // Announcement bars with more than one message show them in turn, pausing while the pointer is over them.
+  var annTimers = [];
+  function setupAnnounce() {
+    annTimers.forEach(clearInterval); annTimers = [];
+    document.querySelectorAll('[data-announce]').forEach(function (bar) {
+      var msgs = bar.querySelectorAll('.ann-msg'), count = bar.querySelector('.ann-count');
+      if (msgs.length < 2) { return; }
+      var at = 0, paused = false, secs = Number(bar.getAttribute('data-secs')) || 6;
+      function show(n) {
+        msgs[at].classList.remove('on'); at = (n + msgs.length) % msgs.length; msgs[at].classList.add('on');
+        if (count) { count.textContent = (at + 1) + ' of ' + msgs.length; }
+      }
+      bar.annShow = function (el) { for (var i = 0; i < msgs.length; i++) { if (msgs[i] === el) { show(i); } } };
+      bar.addEventListener('mouseenter', function () { paused = true; });
+      bar.addEventListener('mouseleave', function () { paused = false; });
+      bar.addEventListener('focusin', function () { paused = true; });
+      bar.addEventListener('focusout', function () { paused = false; });
+      annTimers.push(setInterval(function () { if (!paused && !document.hidden) { show(at + 1); } }, secs * 1000));
+    });
+  }
+
+  setupAnnounce();
   setupContact();
   setupMenu();
   setupFilters();
@@ -168,7 +190,7 @@
   runLoader(startReveals);
   // The page editor redraws the page in place, then asks for the behaviours again.
   window.GAMSite = { refresh: function () {
-    setupContact(); setupMenu(); setupFilters(); setupClock();
+    setupAnnounce(); setupContact(); setupMenu(); setupFilters(); setupClock();
     document.querySelectorAll('[data-reveal]').forEach(function (el) { el.classList.add('in'); });
   } };
 })();
@@ -234,7 +256,7 @@
     if (!id) { return; }
     var el = sectionEl(id); if (!el) { return; }
     var target = el;
-    if ((block != null && block >= 0) || (bf && bi >= 0)) { var b = (bf && bi >= 0 ? tagged(el, bf, bi) : null) || (block >= 0 ? blockEls(id)[block] : null); if (b) { el.classList.add("adh-picked"); b.classList.add("adh-picked-block"); target = b; } else { el.classList.add("adh-picked-block"); } }
+    if ((block != null && block >= 0) || (bf && bi >= 0)) { var b = (bf && bi >= 0 ? tagged(el, bf, bi) : null) || (block >= 0 ? blockEls(id)[block] : null); if (b) { var bar = b.closest("[data-announce]"); if (bar && bar.annShow) { bar.annShow(b); } el.classList.add("adh-picked"); b.classList.add("adh-picked-block"); target = b; } else { el.classList.add("adh-picked-block"); } }
     else { el.classList.add("adh-picked-block"); }
     // a table row cannot carry the label itself, so its first cell does
     if (label) { (target.tagName === "TR" && target.cells[0] ? target.cells[0] : target).setAttribute("data-adh-label", label); }
