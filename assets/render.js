@@ -393,6 +393,50 @@
       return '<section class="shell section">\n<div class="' + (get(st, "panel", true) === false ? "cta-plain" : "panel on-ink cta-panel") + '" data-reveal>\n' + inner + '\n</div>\n</section>';
     };
 
+    // ----- sections any page can use: batch 2, pictures -----
+    function picOf(x) {
+      if (x && x.image) return '<img src="' + esc(opts.imageSrc ? opts.imageSrc(x.image) : "@@assets/images/" + x.image) + '" alt="' + esc(x.alt || "") + '" loading="lazy">';
+      return opts.mark ? '<span class="supply">Picture to supply</span>' : "";
+    }
+    S["picture-banner"] = function (st) {
+      var place = { C: "pb-c", R: "pb-r" }[get(st, "place", "L")] || "pb-l", box = get(st, "box", "ink") === "blush" ? "pb-blush" : "pb-ink";
+      var pill = { mint: "pill-mint", ink: "pill-ink", blush: "pill-blush" }[get(st, "colour", "mint")] || "pill-mint", h = get(st, "href", ""), label = get(st, "label", "");
+      var e = get(st, "eyebrow", ""), head = get(st, "heading", ""), t = get(st, "text", "");
+      return '<section class="shell section pb-wrap">\n<div class="pbanner ' + place + (get(st, "fit", "fill") === "whole" ? " pb-whole" : "") + '" data-reveal>\n<div class="pb-pic">' + picOf(st) + '</div>\n<div class="pb-box ' + box + '">' +
+        (e ? '<p class="eyebrow">' + txt(e) + '</p>' : "") + (head ? '<h2 class="h2">' + txt(head) + '</h2>' : "") + (t ? '<p class="pb-text">' + txt(t) + '</p>' : "") +
+        (label && addrOk(h) ? '<div><a class="pill ' + pill + '" href="' + esc(hrefOf(h)) + '">' + txt(label) + '</a></div>' : "") + '</div>\n</div>\n</section>';
+    };
+    S.slideshow = function (st) {
+      var rows = liveRows(get(st, "slides", [])), n = rows.length, secs = Math.max(3, Math.min(30, Number(get(st, "seconds", 6)) || 6));
+      var slides = rows.map(function (r, k) { return '<figure class="ss-slide' + (k ? "" : " on") + '" data-adh-b="slides.' + r.i + '"><div class="ss-pic">' + picOf(r.x) + '</div><figcaption>' + txt(r.x.caption || "") + '</figcaption></figure>'; }).join("");
+      var nav = n > 1 ? '<div class="ss-nav"><button type="button" class="ss-btn" data-ss="prev">Previous</button><span class="ss-at" aria-live="polite">1 of ' + n + '</span><button type="button" class="ss-btn ss-next" data-ss="next">Next</button></div>' : "";
+      return '<section class="shell section">\n' + headBlock(st) + '<div class="ss" data-slides data-auto="' + (get(st, "auto", true) === false ? 0 : 1) + '" data-secs="' + secs + '" aria-roledescription="slideshow" data-reveal>' + slides + nav + '</div>\n</section>';
+    };
+    S.gallery = function (st) {
+      var per = { "2": 2, "3": 3, "4": 4 }[String(get(st, "per_row", "3"))] || 3;
+      var items = liveRows(get(st, "photos", [])).map(function (r, k) {
+        return '<button type="button" class="gl-item" data-adh-b="photos.' + r.i + '" data-reveal style="--d:' + (k % 4) * 80 + 'ms"><span class="gl-pic">' + picOf(r.x) + '</span>' + (r.x.caption ? '<span class="gl-t">' + txt(r.x.caption) + '</span>' : "") + (r.x.sub ? '<span class="gl-d">' + txt(r.x.sub) + '</span>' : "") + '</button>';
+      }).join("\n");
+      return '<section class="shell section">\n' + headBlock(st) + '<div class="gl gl-' + per + '" data-gallery>\n' + items + '\n</div>\n</section>';
+    };
+    S["logo-row"] = function (st) {
+      var items = liveRows(get(st, "logos", [])).filter(function (r) { return r.x.image || r.x.alt; }).map(function (r) {
+        var g = r.x, inner = g.image ? picOf(g) : '<span class="lg-name">' + txt(g.alt) + '</span>';
+        return addrOk(g.href) ? '<a class="lg" href="' + esc(hrefOf(g.href)) + '" data-adh-b="logos.' + r.i + '">' + inner + '</a>' : '<span class="lg" data-adh-b="logos.' + r.i + '">' + inner + '</span>';
+      }).join("");
+      var e = get(st, "eyebrow", "");
+      return '<section class="shell section">\n<div class="logo-row' + (get(st, "colour", "one") === "own" ? " own" : "") + '" data-reveal>' + (e ? '<p class="lr-line">' + txt(e) + '</p>' : "") + '<div class="lgs">' + items + '</div></div>\n</section>';
+    };
+    S.picture = function (st) {
+      var cap = get(st, "caption", "");
+      return '<section class="shell section"><figure class="pic-block' + (get(st, "size", "") === "contained" ? " contained" : "") + '" data-reveal><div class="pic-frame">' + picOf(st) + '</div>' + (cap ? '<figcaption>' + txt(cap) + '</figcaption>' : "") + '</figure></section>';
+    };
+    S["text-picture"] = function (st) {
+      var cap = get(st, "caption", ""), link = get(st, "link", ""), h = get(st, "href", "");
+      return '<section class="shell section"><div class="tp' + (get(st, "side", "right") === "left" ? " tp-flip" : "") + '">\n<div class="tp-words">' + headBlock(st) + '<div class="tp-body">' + paras(get(st, "body", "")) + '</div>' +
+        (link && addrOk(h) ? '<a class="col-link" href="' + esc(hrefOf(h)) + '">' + txt(link) + '</a>' : "") + '</div>\n<figure class="tp-pic" data-reveal><div class="pic-frame">' + picOf(st) + '</div>' + (cap ? '<figcaption>' + txt(cap) + '</figcaption>' : "") + '</figure>\n</div></section>';
+    };
+
     // In the editor each section is marked, so a click on the page can find it.
     function mark(html, id) { return opts.mark ? html.replace(/^(\s*<[a-z]+)/, '$1 data-adh="' + id + '"') : html; }
     // A second copy of a section gets its own names for anything already used

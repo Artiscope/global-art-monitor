@@ -32,7 +32,8 @@ function themeHead() {
 
 // Refuses to build if the page list would not draw, so a bad edit cannot blank the site.
 const KINDS = ["hero", "status", "timeline", "words", "features", "profiles", "page-links", "method", "page-head", "results-table", "latest-result", "glossary", "panel", "prose", "contact-form",
-  "announcement", "columns", "space", "quote", "faq", "button"];
+  "announcement", "columns", "space", "quote", "faq", "button",
+  "picture-banner", "slideshow", "gallery", "logo-row", "picture", "text-picture"];
 function checkPages() {
   for (const key of ["header", "footer"]) {
     const part = (pages.shared || {})[key];

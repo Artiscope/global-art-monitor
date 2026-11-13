@@ -172,7 +172,7 @@
         msgs[at].classList.remove('on'); at = (n + msgs.length) % msgs.length; msgs[at].classList.add('on');
         if (count) { count.textContent = (at + 1) + ' of ' + msgs.length; }
       }
-      bar.annShow = function (el) { for (var i = 0; i < msgs.length; i++) { if (msgs[i] === el) { show(i); } } };
+      bar.adhShow = function (el) { for (var i = 0; i < msgs.length; i++) { if (msgs[i] === el) { show(i); } } };
       bar.addEventListener('mouseenter', function () { paused = true; });
       bar.addEventListener('mouseleave', function () { paused = false; });
       bar.addEventListener('focusin', function () { paused = true; });
@@ -181,7 +181,56 @@
     });
   }
 
+  // Slideshows: Previous and Next; moving on by itself stops once a visitor uses them, and never runs for reduced motion or in the editor.
+  var ssTimers = [];
+  function setupSlides() {
+    ssTimers.forEach(clearInterval); ssTimers = [];
+    var still = (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) || document.documentElement.classList.contains('rm');
+    document.querySelectorAll('[data-slides]').forEach(function (box) {
+      var sl = box.querySelectorAll('.ss-slide'), at = box.querySelector('.ss-at');
+      if (sl.length < 2) { return; }
+      var i = 0, paused = false, stopped = false;
+      function show(n) { sl[i].classList.remove('on'); i = (n + sl.length) % sl.length; sl[i].classList.add('on'); if (at) { at.textContent = (i + 1) + ' of ' + sl.length; } }
+      box.adhShow = function (el) { for (var k = 0; k < sl.length; k++) { if (sl[k] === el) { show(k); } } };
+      box.querySelector('[data-ss="prev"]').addEventListener('click', function () { stopped = true; show(i - 1); });
+      box.querySelector('[data-ss="next"]').addEventListener('click', function () { stopped = true; show(i + 1); });
+      box.addEventListener('mouseenter', function () { paused = true; }); box.addEventListener('mouseleave', function () { paused = false; });
+      box.addEventListener('focusin', function () { paused = true; }); box.addEventListener('focusout', function () { paused = false; });
+      if (box.getAttribute('data-auto') === '1' && !still) { ssTimers.push(setInterval(function () { if (!paused && !stopped && !document.hidden) { show(i + 1); } }, (Number(box.getAttribute('data-secs')) || 6) * 1000)); }
+    });
+  }
+
+  // Galleries: one viewer for the whole site, opened over the page.
+  var LB = null;
+  function lightbox() {
+    if (LB) { return LB; }
+    var d = document.createElement('div'); d.className = 'lb'; d.hidden = true; d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true'); d.setAttribute('aria-label', 'Larger picture');
+    d.innerHTML = '<div class="lb-pic"></div><p class="lb-cap"></p><div class="lb-nav"><button type="button" data-lb="prev">Previous</button><button type="button" data-lb="close">Close</button><button type="button" data-lb="next">Next</button></div>';
+    document.body.appendChild(d);
+    LB = { el: d, items: [], i: 0, back: null };
+    LB.show = function (k) {
+      var it = LB.items; LB.i = (k + it.length) % it.length;
+      var b = it[LB.i], img = b.querySelector('img'), t = b.querySelector('.gl-t'), pic = d.querySelector('.lb-pic');
+      pic.textContent = '';
+      if (img) { var c = img.cloneNode(); c.removeAttribute('loading'); pic.appendChild(c); } else { var sp = document.createElement('span'); sp.className = 'lb-none'; sp.textContent = 'Picture to supply'; pic.appendChild(sp); }
+      d.querySelector('.lb-cap').textContent = t ? t.textContent : (img ? img.alt : '');
+      d.querySelector('[data-lb="prev"]').hidden = d.querySelector('[data-lb="next"]').hidden = it.length < 2;
+    };
+    LB.close = function () { d.hidden = true; document.documentElement.style.overflow = ''; if (LB.back) { LB.back.focus(); } };
+    d.addEventListener('click', function (e) { var a = e.target.closest('[data-lb]'); if (!a) { if (e.target === d) { LB.close(); } return; } if (a.getAttribute('data-lb') === 'close') { LB.close(); } else { LB.show(LB.i + (a.getAttribute('data-lb') === 'next' ? 1 : -1)); } });
+    d.addEventListener('keydown', function (e) { if (e.key === 'Escape') { LB.close(); } else if (e.key === 'ArrowRight') { LB.show(LB.i + 1); } else if (e.key === 'ArrowLeft') { LB.show(LB.i - 1); } });
+    return LB;
+  }
+  function setupGalleries() {
+    document.querySelectorAll('[data-gallery]').forEach(function (gal) {
+      var items = [].slice.call(gal.querySelectorAll('.gl-item'));
+      items.forEach(function (b, k) { b.addEventListener('click', function () { var lb = lightbox(); lb.items = items; lb.back = b; lb.show(k); lb.el.hidden = false; document.documentElement.style.overflow = 'hidden'; lb.el.querySelector('[data-lb="close"]').focus(); }); });
+    });
+  }
+
   setupAnnounce();
+  setupSlides();
+  setupGalleries();
   setupContact();
   setupMenu();
   setupFilters();
@@ -190,7 +239,7 @@
   runLoader(startReveals);
   // The page editor redraws the page in place, then asks for the behaviours again.
   window.GAMSite = { refresh: function () {
-    setupAnnounce(); setupContact(); setupMenu(); setupFilters(); setupClock();
+    setupAnnounce(); setupSlides(); setupGalleries(); setupContact(); setupMenu(); setupFilters(); setupClock();
     document.querySelectorAll('[data-reveal]').forEach(function (el) { el.classList.add('in'); });
   } };
 })();
@@ -256,7 +305,7 @@
     if (!id) { return; }
     var el = sectionEl(id); if (!el) { return; }
     var target = el;
-    if ((block != null && block >= 0) || (bf && bi >= 0)) { var b = (bf && bi >= 0 ? tagged(el, bf, bi) : null) || (block >= 0 ? blockEls(id)[block] : null); if (b) { var bar = b.closest("[data-announce]"); if (bar && bar.annShow) { bar.annShow(b); } el.classList.add("adh-picked"); b.classList.add("adh-picked-block"); target = b; } else { el.classList.add("adh-picked-block"); } }
+    if ((block != null && block >= 0) || (bf && bi >= 0)) { var b = (bf && bi >= 0 ? tagged(el, bf, bi) : null) || (block >= 0 ? blockEls(id)[block] : null); if (b) { var bar = b.closest("[data-announce],[data-slides]"); if (bar && bar.adhShow) { bar.adhShow(b); } el.classList.add("adh-picked"); b.classList.add("adh-picked-block"); target = b; } else { el.classList.add("adh-picked-block"); } }
     else { el.classList.add("adh-picked-block"); }
     // a table row cannot carry the label itself, so its first cell does
     if (label) { (target.tagName === "TR" && target.cells[0] ? target.cells[0] : target).setAttribute("data-adh-label", label); }
