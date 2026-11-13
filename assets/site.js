@@ -160,6 +160,28 @@
     });
   }
 
+  // Email sign-up sections: like the contact form, they open the visitor's own email app with the
+  // request ready to send. The site sends and keeps nothing. The address is kept on the form so it can be checked.
+  function setupMailForms() {
+    document.querySelectorAll('form[data-mailform]').forEach(function (form) {
+      if (form.getAttribute('data-wired')) { return; }
+      form.setAttribute('data-wired', '1');
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var v = function (n) { var el = form.elements[n]; return el ? el.value.trim() : ''; };
+        var note = form.querySelector('.su-note'), to = form.getAttribute('data-email');
+        var say = function (t, bad) { if (note) { note.textContent = t; note.classList.toggle('err', !!bad); } };
+        var email = form.elements.email;
+        if (email && (!email.value.trim() || !email.checkValidity())) { email.focus(); say('We need a working email address, so we can reply.', true); return; }
+        var body = 'Please add me to the Global Art Monitor market note.\n\nName: ' + v('name') + '\nEmail: ' + v('email');
+        var url = 'mailto:' + to + '?subject=' + encodeURIComponent('Please add me to the market note') + '&body=' + encodeURIComponent(body);
+        form.setAttribute('data-mailto', url);
+        window.location.href = url;
+        say('Your email app should now be open with the message ready. Send it and you are on the list. If nothing opened, write to ' + to + '.');
+      });
+    });
+  }
+
   // Announcement bars with more than one message show them in turn, pausing while the pointer is over them.
   var annTimers = [];
   function setupAnnounce() {
@@ -232,6 +254,7 @@
   setupSlides();
   setupGalleries();
   setupContact();
+  setupMailForms();
   setupMenu();
   setupFilters();
   setupClock();
@@ -239,7 +262,7 @@
   runLoader(startReveals);
   // The page editor redraws the page in place, then asks for the behaviours again.
   window.GAMSite = { refresh: function () {
-    setupAnnounce(); setupSlides(); setupGalleries(); setupContact(); setupMenu(); setupFilters(); setupClock();
+    setupAnnounce(); setupSlides(); setupGalleries(); setupContact(); setupMailForms(); setupMenu(); setupFilters(); setupClock();
     document.querySelectorAll('[data-reveal]').forEach(function (el) { el.classList.add('in'); });
   } };
 })();

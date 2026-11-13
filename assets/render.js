@@ -472,6 +472,24 @@
       return '<section class="shell section">\n' + headBlock(st) + '<div class="cols cols-2 pq">\n' + items + '\n</div>\n</section>';
     };
 
+    // ----- sections any page can use: batch 4, sign-up and visiting -----
+    // The sign-up sends nothing itself: it opens the visitor's own email app with a request ready to send.
+    function mailTo() { return SITE.email || "info@grovegallery.com"; }
+    S.signup = function (st) {
+      var t = get(st, "text", ""), e = get(st, "eyebrow", ""), h = get(st, "heading", "");
+      return '<section class="shell section">\n<div class="panel on-ink signup" data-reveal>\n<div class="su-head">' + (e ? '<p class="eyebrow">' + txt(e) + '</p>' : "") + (h ? '<h2 class="h2">' + txt(h) + '</h2>' : "") + (t ? '<p class="intro">' + txt(String(t).trim()) + '</p>' : "") + '</div>\n' +
+        '<form class="form su-form" data-mailform="signup" data-email="' + esc(mailTo()) + '" novalidate>\n<div class="su-row"><label class="field">First name<input name="name" type="text" autocomplete="given-name"></label><label class="field">Email<input name="email" type="email" autocomplete="email" required></label></div>\n' +
+        '<div class="form-foot"><button class="pill pill-mint" type="submit">' + txt(get(st, "button", "") || "Ask to join") + '</button>\n<p class="quiet su-note" role="status">This opens your own email app with a message ready to send to ' + esc(mailTo()) + '.</p></div>\n</form>\n</div>\n</section>';
+    };
+    S.visit = function (st) {
+      var mw = get(st, "map_words", ""), m = String(get(st, "map", "") || ""), map = mw && /^https:\/\//i.test(m) ? '<a class="src vis-map" href="' + esc(m) + '" target="_blank" rel="noopener">' + txt(mw) + '</a>' : "";
+      var cards = liveRows(get(st, "details", [])).map(function (r, k) {
+        var x = r.x;
+        return '<div class="card vis-card" data-adh-b="details.' + r.i + '" data-reveal style="--d:' + (k % 3) * 90 + 'ms"><p class="eyebrow vis-label">' + txt(x.title || "") + '</p><p class="vis-words">' + (x.text ? txt(String(x.text).trim()) : '<span class="tbc">To add</span>') + '</p>' + (k === 0 ? map : "") + '</div>';
+      }).join("\n");
+      return '<section class="shell section">\n' + headBlock(st) + '<div class="cols vis">\n' + cards + '\n</div>\n' + (cards ? "" : map) + '</section>';
+    };
+
     // In the editor each section is marked, so a click on the page can find it.
     function mark(html, id) { return opts.mark ? html.replace(/^(\s*<[a-z]+)/, '$1 data-adh="' + id + '"') : html; }
     // A second copy of a section gets its own names for anything already used

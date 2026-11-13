@@ -34,7 +34,8 @@ function themeHead() {
 const KINDS = ["hero", "status", "timeline", "words", "features", "profiles", "page-links", "method", "page-head", "results-table", "latest-result", "glossary", "panel", "prose", "contact-form",
   "announcement", "columns", "space", "quote", "faq", "button",
   "picture-banner", "slideshow", "gallery", "logo-row", "picture", "text-picture",
-  "artworks", "exhibitions", "career", "press"];
+  "artworks", "exhibitions", "career", "press",
+  "signup", "visit"];
 function checkPages() {
   for (const key of ["header", "footer"]) {
     const part = (pages.shared || {})[key];
