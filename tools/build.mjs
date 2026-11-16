@@ -53,6 +53,15 @@ function checkPages() {
       if (sec.settings != null && typeof sec.settings !== "object") fail("The settings of section '" + sid + "' on page '" + key + "' must be a list of fields.");
     }
   }
+  const gseen = new Set();
+  for (const where of ["top", "bottom"]) {
+    for (const sec of ((pages.groups || {})[where] || [])) {
+      if (!sec || !KINDS.includes(sec.type)) fail("A section shared by every page is of a kind the site cannot draw: " + JSON.stringify(sec && sec.type));
+      const sid = String(sec.id || "");
+      if (!/^every-[a-z0-9-]+$/.test(sid) || gseen.has(sid)) fail("Every shared section needs its own id starting every-: " + JSON.stringify(sid));
+      gseen.add(sid);
+    }
+  }
 }
 
 checkPages();

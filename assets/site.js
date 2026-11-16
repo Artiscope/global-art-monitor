@@ -283,7 +283,7 @@
   if (window.parent === window) { return; }
   var ROOT = new URL(".", new URL("..", (me && me.src) || location.href)).href;
   var BLOCKS = { words: ".word", hero: ".hero-actions a", footer: ".foot-cols > div:last-child a" };
-  var view = { kind: "page", key: "home" }, types = {};
+  var view = { kind: "page", key: "home" }, types = {}, grp = {};
   function loadRender(done) {
     if (window.GAM) { done(); return; }
     var s = document.createElement("script"); s.src = ROOT + "assets/render.js"; s.onload = done; document.head.appendChild(s);
@@ -305,6 +305,7 @@
     if (!out) { out = site.notFound(); }
     view = at; types = {};
     (((m.pages.pages || {})[at.key] || {}).sections || []).forEach(function (x) { types[x.id] = x.type; });
+    grp = {}; ["top", "bottom"].forEach(function (w) { (((m.pages.groups || {})[w]) || []).forEach(function (x) { types[x.id] = x.type; grp[x.id] = 1; }); });
     var moved = out.path !== draw.path; draw.path = out.path;
     var base = document.querySelector("base[data-adh]");
     if (!base) { base = document.createElement("base"); base.setAttribute("data-adh", ""); document.head.insertBefore(base, document.head.firstChild); }
@@ -371,7 +372,7 @@
     var bf = "", tag = e.target.closest("[data-adh-b]");
     if (tag) { var bp = tag.getAttribute("data-adh-b").split("."); bf = bp[0]; block = Number(bp[1]); }
     else { var list = blockEls(id); for (var i = 0; i < list.length; i++) { if (list[i].contains(e.target)) { block = id === "sales" ? Number(list[i].getAttribute("data-adh-row")) : i; break; } } }
-    window.parent.postMessage({ type: "adh-click", id: id, block: block, bf: bf, view: view.kind }, ok);
+    window.parent.postMessage({ type: "adh-click", id: id, block: block, bf: bf, view: grp[id] ? "every" : view.kind }, ok);
   }, true);
 })();
 

@@ -148,9 +148,16 @@
         '<div class="foot-mark" aria-hidden="true">MONITOR</div>\n</footer>\n';
       return body + '<script src="' + rootPath + 'assets/site.js" defer></script>\n</body>\n</html>\n';
     }
+    // Sections shared by every page: announcement bars above the menu bar, the rest at the top and bottom of the page.
+    function groupHtml(where, ann) {
+      return (((PAGES.groups || {})[where]) || []).filter(function (sec) { return sec && sec.visible !== false && S[sec.type] && (where !== "top" || (sec.type === "announcement") === !!ann); })
+        .map(function (sec) { return mark(S[sec.type](sec.settings || {}, { id: sec.id, page: "every" }), sec.id); }).join("\n");
+    }
     function page(path, title, desc, body, current, intro, extraHead, top) {
       var depth = path.split("/").length - 1, rootPath = new Array(depth + 1).join("../");
       var urlPath = /index\.html$/.test(path) ? path.slice(0, -"index.html".length) : path;
+      top = [groupHtml("top", true), top || ""].filter(Boolean).join("\n");
+      body = [groupHtml("top", false), body, groupHtml("bottom")].filter(Boolean).join("\n");
       body = body.split("@@").join(rootPath);
       return { path: path, html: head(rootPath, title, desc, urlPath, extraHead) + "<body" + (intro ? " data-intro" : "") + ">\n" + (top ? top.split("@@").join(rootPath) + "\n" : "") + header(rootPath, current || String(path).replace(/\/?index\.html$/, "")) +
         '<main id="main">\n' + body + '\n</main>\n' + footer(rootPath) };
@@ -593,7 +600,7 @@
     function notFound() {
       var body = '<section class="shell page-head">\n<p class="eyebrow">Page not found</p>\n<h1 class="h1">That page is not in the record.</h1>\n<p class="lede">The link may be old or mistyped.</p>\n' +
         '<div class="hero-actions"><a class="pill pill-ink" href="/">Go to the home page</a><a class="pill pill-mint" href="/auction-results/">Browse auction results</a></div>\n</section>';
-      return { path: "404.html", html: head("/", "Page not found | Global Art Monitor", "Page not found.", "404.html") + "<body>\n" + header("/", "") + '<main id="main">\n' + body + '\n</main>\n' + footer("/") };
+      return { path: "404.html", html: head("/", "Page not found | Global Art Monitor", "Page not found.", "404.html") + "<body>\n" + (groupHtml("top", true) ? groupHtml("top", true).split("@@").join("/") + "\n" : "") + header("/", "") + '<main id="main">\n' + [groupHtml("top", false), body, groupHtml("bottom")].filter(Boolean).join("\n").split("@@").join("/") + '\n</main>\n' + footer("/") };
     }
     // Every published page, in the order the old build wrote them.
     function all() {
