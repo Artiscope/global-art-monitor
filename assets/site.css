@@ -495,3 +495,13 @@ a.aw-item:hover .aw-t { text-decoration: underline; text-underline-offset: 4px; 
 .vis-card .vis-label { font-size: 12px; color: var(--on-blush-quiet); }
 .vis-label::before { display: none; }
 @media (max-width: 700px) { .signup { padding: 32px 24px; border-radius: 24px; } .vis-card { padding: 24px; border-radius: 22px; } .vis-card .vis-words { font-size: 19px; } }
+
+/* ----- a sign-up box that pops up once a visit ----- */
+.supop { position: fixed; right: 24px; bottom: 24px; z-index: 90; width: min(400px, calc(100vw - 32px)); padding: 28px 28px 24px; border-radius: 28px; background: var(--ink); color: var(--paper); display: flex; flex-direction: column; gap: 12px; box-shadow: 0 24px 60px rgba(42, 42, 47, .35); }
+.supop[hidden] { display: none; }
+.supop.adh-picked-block { position: fixed; }
+.supop-x { position: absolute; top: 18px; right: 22px; border: 0; background: none; color: var(--on-ink-quiet); font: 600 12px var(--sans); text-decoration: underline; text-underline-offset: 3px; cursor: pointer; padding: 4px; }
+.supop-h { font-family: var(--serif); font-weight: 400; font-size: 28px; line-height: 1.1; margin: 0; padding-right: 56px; }
+.supop .intro { margin: 0; font-size: 15px; }
+.supop .su-form { flex: none; }
+@media (max-width: 600px) { .supop { left: 16px; right: 16px; bottom: 16px; width: auto; } }

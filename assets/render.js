@@ -134,7 +134,8 @@
         '<div class="menu" id="menu" aria-hidden="true">\n<div class="shell menu-top"><a class="brand" href="' + rootPath + '">' + MARK + name + '</a><button class="menu-close" type="button" data-menu-close>Close</button></div>\n' +
         '<nav class="shell menu-list" aria-label="All sections">\n' + menu + '</nav>\n<div class="shell menu-foot"><span data-london-time>London</span><span>' + txt(get(st, "menu_tagline", "")) + '</span></div>\n</div>\n';
     }
-    function footer(rootPath) {
+    function footer(rootPath, own) {
+      if (own) return '<script src="' + rootPath + 'assets/site.js" defer></script>\n</body>\n</html>\n';
       var sh = shared("footer"), st = sh[0], on = sh[1], hst = shared("header")[0], name = esc(get(hst, "name", "Global Art Monitor"));
       var secs = SECTIONS_LIST.map(function (s) { return '<a href="' + rootPath + s[0] + '/">' + esc(s[1]) + '</a>'; }).join("");
       var arts = ARTIST_KEYS.map(function (slug) { return '<a href="' + rootPath + 'artists/' + slug + '/">' + esc(ARTISTS[slug].name) + '</a>'; }).join("");
@@ -153,14 +154,15 @@
       return (((PAGES.groups || {})[where]) || []).filter(function (sec) { return sec && sec.visible !== false && S[sec.type] && (where !== "top" || (sec.type === "announcement") === !!ann); })
         .map(function (sec) { return mark(S[sec.type](sec.settings || {}, { id: sec.id, page: "every" }), sec.id); }).join("\n");
     }
-    function page(path, title, desc, body, current, intro, extraHead, top) {
+    // A page with its own layout ("own") has no menu bar, footer or shared sections; popups show on every page.
+    function page(path, title, desc, body, current, intro, extraHead, top, own) {
       var depth = path.split("/").length - 1, rootPath = new Array(depth + 1).join("../");
       var urlPath = /index\.html$/.test(path) ? path.slice(0, -"index.html".length) : path;
-      top = [groupHtml("top", true), top || ""].filter(Boolean).join("\n");
-      body = [groupHtml("top", false), body, groupHtml("bottom")].filter(Boolean).join("\n");
+      top = own ? "" : [groupHtml("top", true), top || ""].filter(Boolean).join("\n");
+      body = (own ? [body, groupHtml("popups")] : [groupHtml("top", false), body, groupHtml("bottom"), groupHtml("popups")]).filter(Boolean).join("\n");
       body = body.split("@@").join(rootPath);
-      return { path: path, html: head(rootPath, title, desc, urlPath, extraHead) + "<body" + (intro ? " data-intro" : "") + ">\n" + (top ? top.split("@@").join(rootPath) + "\n" : "") + header(rootPath, current || String(path).replace(/\/?index\.html$/, "")) +
-        '<main id="main">\n' + body + '\n</main>\n' + footer(rootPath) };
+      return { path: path, html: head(rootPath, title, desc, urlPath, extraHead) + "<body" + (intro && !own ? " data-intro" : "") + ">\n" + (top ? top.split("@@").join(rootPath) + "\n" : "") + (own ? "" : header(rootPath, current || String(path).replace(/\/?index\.html$/, ""))) +
+        '<main id="main">\n' + body + '\n</main>\n' + footer(rootPath, own) };
     }
 
     // ----- auction components -----
@@ -494,6 +496,14 @@
         '<form class="form su-form" data-mailform="signup" data-email="' + esc(mailTo()) + '" novalidate>\n<div class="su-row"><label class="field">First name<input name="name" type="text" autocomplete="given-name"></label><label class="field">Email<input name="email" type="email" autocomplete="email" required></label></div>\n' +
         '<div class="form-foot"><button class="pill pill-mint" type="submit">' + txt(get(st, "button", "") || "Ask to join") + '</button>\n<p class="quiet su-note" role="status">This opens your own email app with a message ready to send to ' + esc(mailTo()) + '.</p></div>\n</form>\n</div>\n</section>';
     };
+    // A sign-up box that pops up once a visit; drawn hidden, and shown by the site's script.
+    S["signup-popup"] = function (st, ctx) {
+      var id = (ctx && ctx.id) || "popup", d = Math.max(3, Math.min(60, Number(get(st, "delay", 8)) || 8)), e = get(st, "eyebrow", ""), t = get(st, "text", "");
+      return '<div class="supop on-ink" id="' + esc(id) + '" data-popup data-delay="' + d + '" role="dialog" aria-labelledby="' + esc(id) + '-h" hidden>\n<button type="button" class="supop-x" data-pop-close>Close</button>\n' +
+        (e ? '<p class="eyebrow">' + txt(e) + '</p>' : "") + '<h2 class="supop-h" id="' + esc(id) + '-h">' + txt(get(st, "heading", "")) + '</h2>' + (t ? '<p class="intro">' + txt(String(t).trim()) + '</p>' : "") + '\n' +
+        '<form class="form su-form" data-mailform="signup" data-email="' + esc(mailTo()) + '" novalidate>\n<label class="field">Email<input name="email" type="email" autocomplete="email" required></label>\n' +
+        '<div class="form-foot"><button class="pill pill-mint" type="submit">' + txt(get(st, "button", "") || "Ask to join") + '</button>\n<p class="quiet su-note" role="status">This opens your own email app with a message ready to send to ' + esc(mailTo()) + '.</p></div>\n</form>\n</div>';
+    };
     S.visit = function (st) {
       var mw = get(st, "map_words", ""), m = String(get(st, "map", "") || ""), map = mw && /^https:\/\//i.test(m) ? '<a class="src vis-map" href="' + esc(m) + '" target="_blank" rel="noopener">' + txt(mw) + '</a>' : "";
       var cards = liveRows(get(st, "details", [])).map(function (r, k) {
@@ -530,7 +540,7 @@
       });
       var extra = "";
       if (key === "home") extra = '<script type="application/ld+json">' + pyJson({ "@context": "https://schema.org", "@type": "WebSite", name: "Global Art Monitor", url: SITE.url, description: SITE.intro }) + '</script>\n';
-      return page(pg.path, pg.title || "", pg.description || "", parts.join("\n"), pg.current || "", !!pg.intro, extra, top.join("\n"));
+      return page(pg.path, pg.title || "", pg.description || "", (pg.own ? top.concat(parts) : parts).join("\n"), pg.current || "", !!pg.intro, extra, pg.own ? "" : top.join("\n"), !!pg.own);
     }
     function artistPage(slug) {
       var a = ARTISTS[slug], rows = salesFor(slug), pr = priced(rows), best = maxBy(pr, function (s) { return s.premium; });
@@ -600,7 +610,7 @@
     function notFound() {
       var body = '<section class="shell page-head">\n<p class="eyebrow">Page not found</p>\n<h1 class="h1">That page is not in the record.</h1>\n<p class="lede">The link may be old or mistyped.</p>\n' +
         '<div class="hero-actions"><a class="pill pill-ink" href="/">Go to the home page</a><a class="pill pill-mint" href="/auction-results/">Browse auction results</a></div>\n</section>';
-      return { path: "404.html", html: head("/", "Page not found | Global Art Monitor", "Page not found.", "404.html") + "<body>\n" + (groupHtml("top", true) ? groupHtml("top", true).split("@@").join("/") + "\n" : "") + header("/", "") + '<main id="main">\n' + [groupHtml("top", false), body, groupHtml("bottom")].filter(Boolean).join("\n").split("@@").join("/") + '\n</main>\n' + footer("/") };
+      return { path: "404.html", html: head("/", "Page not found | Global Art Monitor", "Page not found.", "404.html") + "<body>\n" + (groupHtml("top", true) ? groupHtml("top", true).split("@@").join("/") + "\n" : "") + header("/", "") + '<main id="main">\n' + [groupHtml("top", false), body, groupHtml("bottom"), groupHtml("popups")].filter(Boolean).join("\n").split("@@").join("/") + '\n</main>\n' + footer("/") };
     }
     // Every published page, in the order the old build wrote them.
     function all() {

@@ -35,7 +35,7 @@ const KINDS = ["hero", "status", "timeline", "words", "features", "profiles", "p
   "announcement", "columns", "space", "quote", "faq", "button",
   "picture-banner", "slideshow", "gallery", "logo-row", "picture", "text-picture",
   "artworks", "exhibitions", "career", "press",
-  "signup", "visit"];
+  "signup", "visit", "signup-popup"];
 function checkPages() {
   for (const key of ["header", "footer"]) {
     const part = (pages.shared || {})[key];
@@ -54,7 +54,7 @@ function checkPages() {
     }
   }
   const gseen = new Set();
-  for (const where of ["top", "bottom"]) {
+  for (const where of ["top", "popups", "bottom"]) {
     for (const sec of ((pages.groups || {})[where] || [])) {
       if (!sec || !KINDS.includes(sec.type)) fail("A section shared by every page is of a kind the site cannot draw: " + JSON.stringify(sec && sec.type));
       const sid = String(sec.id || "");
