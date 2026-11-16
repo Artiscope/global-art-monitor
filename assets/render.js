@@ -96,7 +96,7 @@
         '<link rel="icon" href="' + rootPath + 'assets/favicon.svg" type="image/svg+xml">\n<link rel="apple-touch-icon" href="' + rootPath + 'assets/brand/gam-tile-180.png">\n' +
         '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
         '<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">\n' +
-        '<link rel="stylesheet" href="' + rootPath + 'assets/site.css">\n<script>document.documentElement.className=\'js\';</script>\n' + (THEME || "") + (extra || "") + '</head>\n';
+        '<link rel="stylesheet" href="' + rootPath + 'assets/site.css">\n<script>document.documentElement.className=\'js\';</script>\n' + (THEME || "") + (extra || "") + secCssTag() + '</head>\n';
     }
     // logos added in the console: each on the left, in the centre or on the right of the menu bar
     function headLogos(st, rootPath, where) {
@@ -152,7 +152,7 @@
     // Sections shared by every page: announcement bars above the menu bar, the rest at the top and bottom of the page.
     function groupHtml(where, ann) {
       return (((PAGES.groups || {})[where]) || []).filter(function (sec) { return sec && sec.visible !== false && S[sec.type] && (where !== "top" || (sec.type === "announcement") === !!ann); })
-        .map(function (sec) { return mark(S[sec.type](sec.settings || {}, { id: sec.id, page: "every" }), sec.id); }).join("\n");
+        .map(function (sec) { return mark(cssMark(S[sec.type](sec.settings || {}, { id: sec.id, page: "every" }), sec), sec.id); }).join("\n");
     }
     // A page with its own layout ("own") has no menu bar, footer or shared sections; popups show on every page.
     function page(path, title, desc, body, current, intro, extraHead, top, own) {
@@ -513,6 +513,28 @@
       return '<section class="shell section">\n' + headBlock(st) + '<div class="cols vis">\n' + cards + '\n</div>\n' + (cards ? "" : map) + '</section>';
     };
 
+    var SEC_CSS;
+    // A section's own CSS (set in the editor), kept inside that section: every rule is limited to it.
+    function scopeCss(css, scope) {
+      var s = String(css || "").replace(/[<>\\]/g, "").replace(/url\s*\(/gi, "none("), out = "", i = 0;
+      while (i < s.length) {
+        var open = s.indexOf("{", i); if (open < 0) break;
+        var sel = s.slice(i, open).replace(/[;}]/g, " ").trim(), depth = 1, j = open + 1;
+        while (j < s.length && depth) { if (s[j] === "{") depth++; else if (s[j] === "}") depth--; j++; }
+        var body = s.slice(open + 1, depth ? j : j - 1);
+        if (/^@(media|supports|container)\b/i.test(sel)) out += sel + "{" + scopeCss(body, scope) + "}\n";
+        else if (/^@(-webkit-)?keyframes\b/i.test(sel)) out += sel + "{" + body + "}\n";
+        else if (sel && sel.charAt(0) !== "@") out += sel.split(",").map(function (x) { x = x.trim(); return /^:scope\b/.test(x) ? scope + x.slice(6) : /^&/.test(x) ? scope + x.slice(1) : scope + " " + x; }).join(", ") + " {" + body + "}\n";
+        i = j;
+      }
+      return out;
+    }
+    function cssMark(html, sec) {
+      if (!sec || !sec.css || !String(sec.css).trim()) return html;
+      (SEC_CSS = SEC_CSS || []).push(scopeCss(sec.css, '[data-css="' + sec.id + '"]'));
+      return html.replace(/^(\s*<[a-z]+)/, '$1 data-css="' + sec.id + '"');
+    }
+    function secCssTag() { var t = SEC_CSS && SEC_CSS.length ? '<style data-sec-css>\n' + SEC_CSS.join("") + '</style>\n' : ""; SEC_CSS = []; return t; }
     // In the editor each section is marked, so a click on the page can find it.
     function mark(html, id) { return opts.mark ? html.replace(/^(\s*<[a-z]+)/, '$1 data-adh="' + id + '"') : html; }
     // A second copy of a section gets its own names for anything already used
@@ -534,7 +556,7 @@
       var seen = {}, top = [], lead = true;
       (pg.sections || []).forEach(function (sec) {
         if (sec.visible === false || !S[sec.type]) return;
-        var html = mark(own(S[sec.type](sec.settings || {}, { id: sec.id, page: key }), sec.id, seen), sec.id);
+        var html = mark(cssMark(own(S[sec.type](sec.settings || {}, { id: sec.id, page: key }), sec.id, seen), sec), sec.id);
         // announcement bars at the start of a page sit above the menu bar
         if (lead && sec.type === "announcement") top.push(html); else { lead = false; parts.push(html); }
       });

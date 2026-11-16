@@ -327,6 +327,9 @@
     var doc = new DOMParser().parseFromString(out.html, "text/html");
     doc.querySelectorAll("script").forEach(function (x) { x.remove(); });
     var t = doc.querySelector("title"); if (t) { document.title = t.textContent; }
+    var oldCss = document.head.querySelector("style[data-sec-css]"), newCss = doc.head.querySelector("style[data-sec-css]");
+    if (oldCss) { oldCss.remove(); }
+    if (newCss) { document.head.appendChild(newCss); }
     var y = window.scrollY;
     document.body.innerHTML = doc.body.innerHTML;
     document.body.removeAttribute("data-intro");
