@@ -118,6 +118,15 @@
   }
 
   // London clock
+  // Header bar tightens a little once the reader scrolls
+  function setupHeadBar() {
+    var wrap = document.querySelector('.head-wrap');
+    if (!wrap) { return; }
+    function check() { wrap.classList.toggle('scrolled', window.scrollY > 40); }
+    check();
+    window.addEventListener('scroll', check, { passive: true });
+  }
+
   function setupClock() {
     var el = document.querySelector('[data-london-time]');
     if (!el) { return; }
@@ -258,11 +267,12 @@
   setupMenu();
   setupFilters();
   setupClock();
+  setupHeadBar();
   setupSmoothScroll();
   runLoader(startReveals);
   // The page editor redraws the page in place, then asks for the behaviours again.
   window.GAMSite = { refresh: function () {
-    setupAnnounce(); setupSlides(); setupGalleries(); setupContact(); setupMailForms(); setupMenu(); setupFilters(); setupClock();
+    setupAnnounce(); setupSlides(); setupGalleries(); setupContact(); setupMailForms(); setupMenu(); setupFilters(); setupClock(); setupHeadBar();
     document.querySelectorAll('[data-reveal]').forEach(function (el) { el.classList.add('in'); });
   } };
 })();

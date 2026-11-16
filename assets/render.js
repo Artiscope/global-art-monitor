@@ -113,18 +113,24 @@
     function header(rootPath, current) {
       var st = shared("header")[0], name = esc(get(st, "name", "Global Art Monitor")), links = "", menu = "", i = 0;
       var logoL = headLogos(st, rootPath, "L"), logoC = headLogos(st, rootPath, "C"), logoR = headLogos(st, rootPath, "R");
+      // Shorter names for the bar only, so six links fit. The pages keep their full names.
+      var shortNames = get(st, "nav_short", { "artists": "Artist Profiles", "research": "Research" }) || {};
       SECTIONS_LIST.forEach(function (s, k) {
         i = k + 1;
         var cur = s[0] === current ? ' aria-current="page"' : "";
-        links += '<a href="' + rootPath + s[0] + '/"' + cur + '>' + esc(s[1]) + '</a>\n';
+        links += '<a href="' + rootPath + s[0] + '/"' + cur + '>' + esc(shortNames[s[0]] || s[1]) + '</a>\n';
         menu += '<a href="' + rootPath + s[0] + '/"><span>' + pad2(i) + '</span>' + esc(s[1]) + '</a>\n';
+      });
+      (get(st, "nav_extra", [["Contact", "contact/"]]) || []).forEach(function (m) {
+        var key = String(m[1]).replace(/\/$/, "");
+        links += '<a href="' + rootPath + m[1] + '"' + (key === current ? ' aria-current="page"' : "") + '>' + txt(m[0]) + '</a>\n';
       });
       (get(st, "menu_extra", []) || []).forEach(function (m) { i += 1; menu += '<a href="' + rootPath + m[1] + '"><span>' + pad2(i) + '</span>' + txt(m[0]) + '</a>\n'; });
       var brand = '<a class="brand" href="' + rootPath + '">' + MARK + name + '</a>';
-      return '<a class="skip" href="#main">Skip to content</a>\n<header class="shell site-head' + (logoL || logoC || logoR ? " has-logos" : "") + '">\n' + (logoL ? '<div class="head-logos">' + brand + logoL + '</div>' : brand) + '\n' +
+      return '<a class="skip" href="#main">Skip to content</a>\n<div class="shell head-wrap">\n<header class="site-head' + (logoL || logoC || logoR ? " has-logos" : "") + '">\n' + (logoL ? '<div class="head-logos">' + brand + logoL + '</div>' : brand) + '\n' +
         '<nav class="nav" aria-label="Sections">\n' + links + '</nav>\n' + (logoC ? '<div class="head-logos head-mid">' + logoC + '</div>\n' : '') + '<div class="head-actions">\n' + logoR +
-        '<a class="pill pill-ink pill-small" href="' + rootPath + get(st, "subscribe_href", "about/#newsletter") + '">' + txt(get(st, "subscribe", "Subscribe")) + '</a>\n' +
-        '<button class="menu-btn" type="button" data-menu-open aria-expanded="false" aria-controls="menu">Menu</button>\n</div>\n</header>\n' +
+        '<a class="pill pill-mint pill-small" href="' + rootPath + get(st, "subscribe_href", "about/#newsletter") + '">' + txt(get(st, "subscribe", "Subscribe")) + '</a>\n' +
+        '<button class="menu-btn" type="button" data-menu-open aria-expanded="false" aria-controls="menu">Menu</button>\n</div>\n</header>\n</div>\n' +
         '<div class="menu" id="menu" aria-hidden="true">\n<div class="shell menu-top"><a class="brand" href="' + rootPath + '">' + MARK + name + '</a><button class="menu-close" type="button" data-menu-close>Close</button></div>\n' +
         '<nav class="shell menu-list" aria-label="All sections">\n' + menu + '</nav>\n<div class="shell menu-foot"><span data-london-time>London</span><span>' + txt(get(st, "menu_tagline", "")) + '</span></div>\n</div>\n';
     }
@@ -146,7 +152,7 @@
       var depth = path.split("/").length - 1, rootPath = new Array(depth + 1).join("../");
       var urlPath = /index\.html$/.test(path) ? path.slice(0, -"index.html".length) : path;
       body = body.split("@@").join(rootPath);
-      return { path: path, html: head(rootPath, title, desc, urlPath, extraHead) + "<body" + (intro ? " data-intro" : "") + ">\n" + (top ? top.split("@@").join(rootPath) + "\n" : "") + header(rootPath, current || "") +
+      return { path: path, html: head(rootPath, title, desc, urlPath, extraHead) + "<body" + (intro ? " data-intro" : "") + ">\n" + (top ? top.split("@@").join(rootPath) + "\n" : "") + header(rootPath, current || String(path).replace(/\/?index\.html$/, "")) +
         '<main id="main">\n' + body + '\n</main>\n' + footer(rootPath) };
     }
 

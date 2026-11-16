@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Monday 16 November 2026, new header bar
+Published: the header on every page is now a rounded charcoal bar that stays in view while scrolling, at the owner's request in a conversation. Larger logo, a lighter pill on the current page, Contact added to the bar, mint Subscribe button. Two labels are shortened in the bar only ("Artist Profiles", "Research"). The pages keep their full names.
+Drafts waiting: none.
+Checked: all pages rebuild, links and markup pass, and the bar fits from 360 pixels to desktop width.
+Needs you: nothing.
+
 ## Wednesday 11 November 2026, second photo placed
 Published: the Konn Artiss picture sent from Artiscope Digital Home is now on his artist profile page (artists/konn-artiss). Resized to 2000 pixels on the longest side, nothing cropped.
 Drafts waiting: none.
