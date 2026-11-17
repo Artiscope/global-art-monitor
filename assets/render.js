@@ -557,6 +557,24 @@
       html.replace(/ id="([^"]+)"/g, function (m, x) { seen[x] = 1; return m; });
       return html;
     }
+    // Templates: an article or an artist page is drawn with the sections of its template around its own content (the "main" section).
+    function tplOf(kind, slug) {
+      var all = ((PAGES.templates || {})[kind]) || {}, o = opts.tpl;
+      var id = o && o.kind === kind && all[o.id] ? o.id : ((((PAGES.assign || {})[kind]) || {})[slug] || "default");
+      return all[id] || all["default"] || null;
+    }
+    function tplWrap(kind, slug, inner) {
+      var t = tplOf(kind, slug); if (!t || !Array.isArray(t.sections)) return inner;
+      var placed = false, seen = {};
+      inner.replace(/ id="([^"]+)"/g, function (m, x) { seen[x] = 1; return m; });
+      var out = t.sections.map(function (sec) {
+        if (sec && sec.type === "main") { placed = true; return inner; }
+        if (!sec || sec.visible === false || !S[sec.type]) return "";
+        return mark(cssMark(own(S[sec.type](sec.settings || {}, { id: sec.id, page: "tpl" }), sec.id, seen), sec), sec.id);
+      });
+      if (!placed) out.unshift(inner);
+      return out.filter(Boolean).join("\n");
+    }
     function sectionsPage(key) {
       var pg = PAGES.pages[key], parts = [];
       var seen = {}, top = [], lead = true;
@@ -606,6 +624,7 @@
         '<aside class="article-side" data-reveal style="--d:120ms">\n' + img + '\n<div class="mini"><h2>Related reading</h2><ul>' + rel + '</ul></div>\n' +
         '<div class="mini"><h2>Background sources</h2><ul>' + srcs + '</ul></div>\n' +
         '<div class="mini"><h2>Spotted a gap?</h2><p>If you can document a sale we have missed, or correct a figure, <a href="@@about/#corrections">tell us</a>.</p></div>\n</aside>\n</section>', "about");
+      body = tplWrap("artist", slug, body);
       var ld = pyJson({ "@context": "https://schema.org", "@type": "ProfilePage", name: a.name + " market profile", url: SITE.url + "artists/" + slug + "/", dateModified: PUBLISHED, mainEntity: { "@type": "Person", name: a.name } });
       return page("artists/" + slug + "/index.html", a.name + " Auction Results and Market Profile | Global Art Monitor",
         a.name + " auction results: every documented sale with estimate, hammer price and premium-inclusive price, sale dates and sources.",
@@ -631,6 +650,7 @@
         '<aside class="article-side">\n<div class="mini"><h2>More research</h2><ul>' + more + '</ul></div>\n' +
         '<div class="mini"><h2>The figures</h2><p>All prices in this piece are on the <a href="@@auction-results/">auction results</a> page, with a source for each.</p></div>\n' +
         '<div class="mini"><h2>Who publishes this</h2><p>' + esc(SITE.disclosure || "") + '</p></div>\n</aside>\n</section>';
+      body = tplWrap("article", f.slug, body);
       var ld = pyJson({ "@context": "https://schema.org", "@type": "Article", headline: f.title, description: f.description, datePublished: PUBLISHED, dateModified: PUBLISHED,
         author: { "@type": "Organization", name: "Global Art Monitor" }, publisher: { "@type": "Organization", name: "Global Art Monitor" }, mainEntityOfPage: SITE.url + "research/" + f.slug + "/" });
       return page("research/" + f.slug + "/index.html", f.title + " | Global Art Monitor", f.description || "", body, "research", false, '<script type="application/ld+json">' + ld + '</script>\n');

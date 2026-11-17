@@ -71,6 +71,21 @@ function checkPages() {
       gseen.add(sid);
     }
   }
+  // templates: the sections article and artist pages are drawn with, around their own content ("main")
+  const templates = pages.templates || {};
+  if (typeof templates !== "object" || Array.isArray(templates)) fail("The templates in data/pages.json must be grouped by kind of page.");
+  for (const [kind, all] of Object.entries(templates)) {
+    if (!["article", "artist"].includes(kind) || !all || typeof all !== "object" || !all.default) fail("Templates are for articles and artists, and each kind needs a default: " + JSON.stringify(kind));
+    for (const [tid, t] of Object.entries(all)) {
+      const secs = t && t.sections;
+      if (!Array.isArray(secs) || secs.filter((x) => x && x.type === "main").length !== 1) fail("The template '" + tid + "' needs a list of sections with the page's own content in it once.");
+      for (const sec of secs) {
+        if (!sec || (sec.type !== "main" && !KINDS.includes(sec.type))) fail("The template '" + tid + "' has a section of a kind the site cannot draw.");
+        if (sec.type !== "main" && !/^t-[a-z0-9-]+$/.test(String(sec.id || ""))) fail("Every section in a template needs its own id starting t-: " + JSON.stringify(sec.id));
+      }
+    }
+  }
+  if (pages.assign != null && (typeof pages.assign !== "object" || Array.isArray(pages.assign))) fail("The templates chosen for articles and artists must be listed by kind.");
 }
 
 checkPages();
