@@ -326,9 +326,9 @@
   function style() {
     if (document.getElementById("adh-style")) { return; }
     var st = document.createElement("style"); st.id = "adh-style";
-    st.textContent = ".adh-picked{outline:2px dashed rgba(42,43,48,.7);outline-offset:-2px}.adh-picked-block{outline:3px solid #2A2B30;outline-offset:3px;box-shadow:0 0 0 8px rgba(242,243,245,.8);position:relative}" +
-      ".adh-picked-block[data-adh-label]::before{content:attr(data-adh-label);position:absolute;left:0;top:-30px;z-index:2147482000;background:#2A2B30;color:#F2F3F5;font:600 12px/1 'Libre Franklin',Arial,sans-serif;padding:6px 10px;border-radius:7px;white-space:nowrap;pointer-events:none}" +
-      "[data-reveal]{opacity:1!important;transform:none!important}td[data-adh-label]{position:relative}td[data-adh-label]::before{content:attr(data-adh-label);position:absolute;left:0;top:-30px;z-index:2147482000;background:#2A2B30;color:#F2F3F5;font:600 12px/1 'Libre Franklin',Arial,sans-serif;padding:6px 10px;border-radius:7px;white-space:nowrap;pointer-events:none}tr.adh-picked-block{position:static}";
+    st.textContent = ".adh-picked{outline:2px dashed #8EC5FF;outline-offset:-2px}.adh-picked-block{outline:2px solid #8EC5FF;outline-offset:3px;position:relative}" +
+      ".adh-picked-block[data-adh-label]::before{content:attr(data-adh-label);position:absolute;left:0;top:-30px;z-index:2147482000;background:#8EC5FF;color:#0E1A26;font:600 12px/1 'Libre Franklin',Arial,sans-serif;padding:6px 10px;border-radius:7px;white-space:nowrap;pointer-events:none}" +
+      "[data-reveal]{opacity:1!important;transform:none!important}td[data-adh-label]{position:relative}td[data-adh-label]::before{content:attr(data-adh-label);position:absolute;left:0;top:-30px;z-index:2147482000;background:#8EC5FF;color:#0E1A26;font:600 12px/1 'Libre Franklin',Arial,sans-serif;padding:6px 10px;border-radius:7px;white-space:nowrap;pointer-events:none}tr.adh-picked-block{position:static}";
     document.head.appendChild(st);
   }
   function draw(m) {
@@ -412,10 +412,10 @@
   function hoverStyle() {
     if (document.getElementById("adh-hover-style")) { return; }
     var st = document.createElement("style"); st.id = "adh-hover-style";
-    st.textContent = "#adh-hover{position:absolute;z-index:2147483000;pointer-events:none;outline:2px solid #2A2B30;outline-offset:2px;box-shadow:0 0 0 5px rgba(242,243,245,.55);display:none}#adh-hover.on{display:block}#adh-hover.blk{outline-style:dashed}" +
-      "#adh-hover .adh-tag{position:absolute;left:-2px;top:-30px;background:#2A2B30;color:#F2F3F5;font:600 12px/1 'Libre Franklin',Arial,sans-serif;padding:6px 10px;border-radius:7px;white-space:nowrap}#adh-hover.inside .adh-tag{top:6px;left:6px}" +
-      "#adh-hover .adh-plus{pointer-events:auto;position:absolute;left:50%;width:28px;height:28px;margin-left:-14px;padding:0;border:0;border-radius:50%;background:#F2F3F5;color:#1C1D20;font:600 18px/28px Arial,sans-serif;text-align:center;box-shadow:0 2px 7px rgba(0,0,0,.4);cursor:pointer}" +
-      "#adh-hover .adh-plus.top{top:-16px}#adh-hover .adh-plus.bottom{bottom:-16px}#adh-hover.noplus .adh-plus{display:none}#adh-hover .adh-plus:hover{background:#2A2B30;color:#F2F3F5}";
+    st.textContent = "#adh-hover{position:absolute;z-index:2147483000;pointer-events:none;outline:2px solid #8EC5FF;outline-offset:2px;display:none}#adh-hover.on{display:block}#adh-hover.blk{outline-style:dashed}" +
+      "#adh-hover .adh-tag{position:absolute;left:-2px;top:-30px;background:#8EC5FF;color:#0E1A26;font:600 12px/1 'Libre Franklin',Arial,sans-serif;padding:6px 10px;border-radius:7px;white-space:nowrap}#adh-hover.inside .adh-tag{top:6px;left:6px}" +
+      "#adh-hover .adh-plus{pointer-events:auto;position:absolute;left:50%;width:28px;height:28px;margin-left:-14px;padding:0;border:0;border-radius:50%;background:#8EC5FF;color:#0E1A26;font:600 18px/28px Arial,sans-serif;text-align:center;box-shadow:none;cursor:pointer}" +
+      "#adh-hover .adh-plus.top{top:-16px}#adh-hover .adh-plus.bottom{bottom:-16px}#adh-hover.noplus .adh-plus{display:none}#adh-hover .adh-plus:hover{background:#7CB9F7;color:#0E1A26}";
     document.head.appendChild(st);
   }
   function hoverBox() {
