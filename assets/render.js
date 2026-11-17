@@ -160,12 +160,31 @@
       return (((PAGES.groups || {})[where]) || []).filter(function (sec) { return sec && sec.visible !== false && S[sec.type] && (where !== "top" || (sec.type === "announcement") === !!ann); })
         .map(function (sec) { return mark(cssMark(S[sec.type](sec.settings || {}, { id: sec.id, page: "every" }), sec), sec.id); }).join("\n");
     }
+
+    // ----- add-ons: our own small extras for every page, switched on in Artiscope Digital Home -----
+    function aoClosed() { try { return typeof localStorage !== "undefined" && localStorage.getItem("ao-privacy-closed") === "1"; } catch (x) { return false; } }
+    function aoHtml(A, kind, url, title, esc, link) {
+      A = A || {}; var out = { share: "", fixed: "" }, on = function (id) { return !!(A[id] && A[id].on === true); };
+      var fits = function (w) { return w === "all" || (w === "items" ? (kind === "article" || kind === "artist") : kind === "article"); };
+      if (on("share") && fits(A.share.where || "articles")) {
+        var u = encodeURIComponent(url), t = encodeURIComponent(title || "");
+        var nets = { email: ["Email", "mailto:?subject=" + t + "&body=" + u], x: ["X", "https://x.com/intent/post?url=" + u + "&text=" + t], linkedin: ["LinkedIn", "https://www.linkedin.com/sharing/share-offsite/?url=" + u], facebook: ["Facebook", "https://www.facebook.com/sharer/sharer.php?u=" + u] };
+        var links = (A.share.networks || []).filter(function (n) { return nets[n]; }).map(function (n) { return '<a href="' + esc(nets[n][1]) + '"' + (n === "email" ? "" : ' target="_blank" rel="noopener noreferrer"') + '>' + nets[n][0] + '</a>'; }).join("");
+        if (links) out.share = '<aside class="ao-share" aria-label="Share this page"><span>' + esc(A.share.heading || "Share this page") + '</span>' + links + '</aside>';
+      }
+      if (on("progress") && fits(A.progress.where || "articles")) out.fixed += A.progress.style === "percent" ? '<div class="ao-progress pct" aria-hidden="true"><b>0%</b></div>' : '<div class="ao-progress" aria-hidden="true"><i></i></div>';
+      if (on("top")) out.fixed += '<button type="button" class="ao-top' + (A.top.side === "left" ? " left" : "") + '" data-after="' + (Number(A.top.after) || 600) + '">' + esc(A.top.label || "Top") + '</button>';
+      if (on("privacy")) out.fixed += '<div class="ao-privacy" role="region" aria-label="Privacy"><p>' + esc(A.privacy.text || "") + (A.privacy.link && A.privacy.link_label ? ' <a href="' + esc(link(A.privacy.link)) + '">' + esc(A.privacy.link_label) + '</a>' : "") + '</p><button type="button" data-ao-close>' + esc(A.privacy.button || "Close") + '</button></div>';
+      return out;
+    }
+    var AO_KIND = "page";
     // A page with its own layout ("own") has no menu bar, footer or shared sections; popups show on every page.
     function page(path, title, desc, body, current, intro, extraHead, top, own) {
       var depth = path.split("/").length - 1, rootPath = new Array(depth + 1).join("../");
       var urlPath = /index\.html$/.test(path) ? path.slice(0, -"index.html".length) : path;
+      var ao = aoHtml(PAGES.addons, AO_KIND, SITE.url + urlPath, String(title || "").split(" | ")[0], esc, function (x) { return /^(https?:|mailto:|#|\/)/.test(x) ? x : "@@" + x; }); AO_KIND = "page";
       top = own ? "" : [groupHtml("top", true), top || ""].filter(Boolean).join("\n");
-      body = (own ? [body, groupHtml("popups")] : [groupHtml("top", false), body, groupHtml("bottom"), groupHtml("popups")]).filter(Boolean).join("\n");
+      body = (own ? [body, groupHtml("popups"), ao.fixed] : [groupHtml("top", false), body, ao.share, groupHtml("bottom"), groupHtml("popups"), ao.fixed]).filter(Boolean).join("\n");
       body = body.split("@@").join(rootPath);
       return { path: path, html: head(rootPath, title, desc, urlPath, extraHead) + "<body" + (intro && !own ? " data-intro" : "") + ">\n" + (top ? top.split("@@").join(rootPath) + "\n" : "") + (own ? "" : header(rootPath, current || String(path).replace(/\/?index\.html$/, ""))) +
         '<main id="main">\n' + body + '\n</main>\n' + footer(rootPath, own) };
@@ -637,7 +656,7 @@
         '<aside class="article-side" data-reveal style="--d:120ms">\n' + img + '\n<div class="mini"><h2>Related reading</h2><ul>' + rel + '</ul></div>\n' +
         '<div class="mini"><h2>Background sources</h2><ul>' + srcs + '</ul></div>\n' +
         '<div class="mini"><h2>Spotted a gap?</h2><p>If you can document a sale we have missed, or correct a figure, <a href="@@about/#corrections">tell us</a>.</p></div>\n</aside>\n</section>', "about");
-      body = tplWrap("artist", slug, body);
+      body = tplWrap("artist", slug, body); AO_KIND = "artist";
       var ld = pyJson({ "@context": "https://schema.org", "@type": "ProfilePage", name: a.name + " market profile", url: SITE.url + "artists/" + slug + "/", dateModified: PUBLISHED, mainEntity: { "@type": "Person", name: a.name } });
       return page("artists/" + slug + "/index.html", a.name + " Auction Results and Market Profile | Global Art Monitor",
         a.name + " auction results: every documented sale with estimate, hammer price and premium-inclusive price, sale dates and sources.",
@@ -663,7 +682,7 @@
         '<aside class="article-side">\n<div class="mini"><h2>More research</h2><ul>' + more + '</ul></div>\n' +
         '<div class="mini"><h2>The figures</h2><p>All prices in this piece are on the <a href="@@auction-results/">auction results</a> page, with a source for each.</p></div>\n' +
         '<div class="mini"><h2>Who publishes this</h2><p>' + esc(SITE.disclosure || "") + '</p></div>\n</aside>\n</section>';
-      body = tplWrap("article", f.slug, body);
+      body = tplWrap("article", f.slug, body); AO_KIND = "article";
       var ld = pyJson({ "@context": "https://schema.org", "@type": "Article", headline: f.title, description: f.description, datePublished: PUBLISHED, dateModified: PUBLISHED,
         author: { "@type": "Organization", name: "Global Art Monitor" }, publisher: { "@type": "Organization", name: "Global Art Monitor" }, mainEntityOfPage: SITE.url + "research/" + f.slug + "/" });
       return page("research/" + f.slug + "/index.html", f.title + " | Global Art Monitor", f.description || "", body, "research", false, '<script type="application/ld+json">' + ld + '</script>\n');

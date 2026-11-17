@@ -284,9 +284,30 @@
   setupHeadBar();
   setupSmoothScroll();
   runLoader(startReveals);
+
+  // add-ons: the Top button, the reading progress and the privacy notice's Close
+  function aoWire() {
+    if (typeof window === "undefined") return;
+    var tick = function () {
+      var t = document.querySelector(".ao-top"); if (t) { t.classList.toggle("on", window.scrollY > (Number(t.getAttribute("data-after")) || 600)); var d = document.getElementById("dock"); t.style.bottom = d && d.classList.contains("show") ? "96px" : ""; }
+      var p = document.querySelector(".ao-progress"); if (p) { var h = document.documentElement.scrollHeight - window.innerHeight, f = h > 0 ? Math.min(1, Math.max(0, window.scrollY / h)) : 0, bar = p.querySelector("i"), n = p.querySelector("b"); if (bar) bar.style.width = (f * 100).toFixed(1) + "%"; if (n) n.textContent = Math.round(f * 100) + "%"; }
+    };
+    var pv = document.querySelector(".ao-privacy"); if (pv && !window.ADH_EDIT) { try { if (localStorage.getItem("ao-privacy-closed") === "1") pv.hidden = true; } catch (x) { } }
+    if (!window.__aoWired) {
+      window.__aoWired = true;
+      window.addEventListener("scroll", function () { requestAnimationFrame(function () { requestAnimationFrame(tick); }); }, { passive: true }); window.addEventListener("resize", function () { requestAnimationFrame(tick); });
+      document.addEventListener("click", function (e) {
+        if (window.ADH_EDIT || !e.target.closest) return;
+        var c = e.target.closest("[data-ao-close]"); if (c) { var n = c.closest(".ao-privacy"); if (n) n.hidden = true; try { localStorage.setItem("ao-privacy-closed", "1"); } catch (x) { } return; }
+        if (e.target.closest(".ao-top")) { e.preventDefault(); try { window.scrollTo({ top: 0, behavior: "smooth" }); } catch (x) { window.scrollTo(0, 0); } }
+      });
+    }
+    tick();
+  }
+  aoWire();
   // The page editor redraws the page in place, then asks for the behaviours again.
   window.GAMSite = { refresh: function () {
-    setupAnnounce(); setupSlides(); setupGalleries(); setupContact(); setupMailForms(); setupPopups(); setupMenu(); setupFilters(); setupClock(); setupHeadBar();
+    aoWire(); setupAnnounce(); setupSlides(); setupGalleries(); setupContact(); setupMailForms(); setupPopups(); setupMenu(); setupFilters(); setupClock(); setupHeadBar();
     document.querySelectorAll('[data-reveal]').forEach(function (el) { el.classList.add('in'); });
   } };
 })();

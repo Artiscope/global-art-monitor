@@ -510,3 +510,21 @@ a.aw-item:hover .aw-t { text-decoration: underline; text-underline-offset: 4px; 
 .foot-social { display: flex; flex-wrap: wrap; gap: 8px 22px; margin: 28px 0 0; font-size: calc(14px * var(--b-scale, 1)); }
 .foot-social a { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 1px; }
 .foot-social a:hover { color: var(--mint); }
+
+/* add-ons: our own small extras, switched on in Artiscope Digital Home */
+.ao-share { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; max-width: 72rem; margin: 2.5rem auto; padding: 0 1.5rem; font-family: 'Libre Franklin', Arial, sans-serif; font-size: calc(13.5px * var(--b-scale, 1)); }
+.ao-share span { opacity: .75; }
+.ao-share a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.ao-top { position: fixed; right: 22px; bottom: 22px; z-index: 80; border: 0; cursor: pointer; padding: 11px 18px; background: #2A2A2F; color: #F3C3C8; font-family: 'Libre Franklin', Arial, sans-serif; font-size: calc(13px * var(--b-scale, 1)); border-radius: 999px; opacity: 0; transform: translateY(8px); pointer-events: none; transition: opacity .2s ease, transform .2s ease; box-shadow: 0 6px 18px rgba(0,0,0,.18); }
+.ao-top.left { right: auto; left: 22px; }
+.ao-top.on { opacity: 1; transform: none; pointer-events: auto; }
+.ao-progress { position: fixed; left: 0; right: 0; top: 0; height: 3px; z-index: 70; pointer-events: none; }
+.ao-progress i { display: block; height: 100%; width: 0; background: #22E3A2; }
+.ao-progress.pct { left: auto; top: auto; right: 22px; bottom: 76px; height: auto; padding: 6px 10px; background: #2A2A2F; color: #F3C3C8; font-family: 'Libre Franklin', Arial, sans-serif; font-size: calc(12px * var(--b-scale, 1)); border-radius: 999px; }
+.ao-progress.pct b { font-weight: 600; }
+.ao-privacy { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 65; max-width: 640px; display: flex; align-items: center; gap: 14px; padding: 12px 14px 12px 18px; background: #2A2A2F; color: #F3C3C8; font-family: 'Libre Franklin', Arial, sans-serif; font-size: calc(13.5px * var(--b-scale, 1)); border-radius: 999px; box-shadow: 0 8px 24px rgba(0,0,0,.2); }
+.ao-privacy[hidden] { display: none; }
+.ao-privacy p { margin: 0; flex: 1; }
+.ao-privacy a { color: inherit; text-decoration: underline; text-underline-offset: 3px; }
+.ao-privacy button { border: 0; cursor: pointer; padding: 8px 14px; background: #F3C3C8; color: #2A2A2F; font: inherit; border-radius: 999px; }
+@media (max-width: 600px) { .ao-top { right: 14px; bottom: 14px; } .ao-top.left { left: 14px; } .ao-privacy { left: 10px; right: 10px; bottom: 10px; } }
