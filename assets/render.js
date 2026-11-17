@@ -93,7 +93,7 @@
         '<meta name="theme-color" content="#F3C3C8">\n<meta property="og:site_name" content="Global Art Monitor">\n' +
         '<meta property="og:title" content="' + esc(title) + '">\n<meta property="og:description" content="' + esc(desc) + '">\n' +
         '<meta property="og:type" content="website">\n<meta property="og:url" content="' + canon + '">\n' +
-        '<link rel="icon" href="' + rootPath + 'assets/favicon.svg" type="image/svg+xml">\n<link rel="apple-touch-icon" href="' + rootPath + 'assets/brand/gam-tile-180.png">\n' +
+        (iconOk() ? '<link rel="icon" href="' + rootPath + opts.favicon + '">\n' : '<link rel="icon" href="' + rootPath + 'assets/favicon.svg" type="image/svg+xml">\n') + '<link rel="apple-touch-icon" href="' + rootPath + 'assets/brand/gam-tile-180.png">\n' +
         '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
         '<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">\n' +
         '<link rel="stylesheet" href="' + rootPath + 'assets/site.css">\n<script>document.documentElement.className=\'js\';</script>\n' + (THEME || "") + (extra || "") + secCssTag() + '</head>\n';
@@ -134,6 +134,12 @@
         '<div class="menu" id="menu" aria-hidden="true">\n<div class="shell menu-top"><a class="brand" href="' + rootPath + '">' + MARK + name + '</a><button class="menu-close" type="button" data-menu-close>Close</button></div>\n' +
         '<nav class="shell menu-list" aria-label="All sections">\n' + menu + '</nav>\n<div class="shell menu-foot"><span data-london-time>London</span><span>' + txt(get(st, "menu_tagline", "")) + '</span></div>\n</div>\n';
     }
+    // Social media addresses chosen in the theme; nothing is shown until one is filled in.
+    function socialHtml() {
+      var all = opts.social && typeof opts.social === "object" ? opts.social : {}, out = Object.keys(all).map(function (k) { return all[k]; }).filter(function (x) { return x && /^https:\/\/[^\s<>"']+$/.test(x.href || ""); });
+      return out.length ? '<nav class="foot-social" aria-label="Social media">' + out.map(function (x) { return '<a href="' + esc(x.href) + '" rel="noopener">' + esc(x.label) + '</a>'; }).join("") + '</nav>\n' : "";
+    }
+    function iconOk() { return typeof opts.favicon === "string" && /^assets\/images\/[A-Za-z0-9._-]{1,120}\.(png|jpe?g|svg|ico)$/.test(opts.favicon); }
     function footer(rootPath, own) {
       if (own) return '<script src="' + rootPath + 'assets/site.js" defer></script>\n</body>\n</html>\n';
       var sh = shared("footer"), st = sh[0], on = sh[1], hst = shared("header")[0], name = esc(get(hst, "name", "Global Art Monitor"));
@@ -145,7 +151,7 @@
         '<a class="pill pill-mint" href="' + rootPath + get(st, "button_href", "about/#newsletter") + '">' + txt(get(st, "button", "")) + '</a>\n</div>\n<div class="foot-cols">\n' +
         '<div><p class="foot-brand">' + MARK + name + '</p><p class="quiet">' + txt(get(st, "blurb", "")) + '</p></div>\n' +
         '<div><h3>Sections</h3>' + secs + '</div>\n<div><h3>Artists</h3>' + arts + '</div>\n<div><h3>About</h3>' + about + '</div>\n</div>\n' +
-        '<p class="foot-legal">' + fill(get(st, "legal", "")) + ' <a href="' + rootPath + legal[1] + '">' + txt(legal[0]) + '</a></p>\n</div>\n' +
+        socialHtml() + '<p class="foot-legal">' + fill(get(st, "legal", "")) + ' <a href="' + rootPath + legal[1] + '">' + txt(legal[0]) + '</a></p>\n</div>\n' +
         '<div class="foot-mark" aria-hidden="true">MONITOR</div>\n</footer>\n';
       return body + '<script src="' + rootPath + 'assets/site.js" defer></script>\n</body>\n</html>\n';
     }

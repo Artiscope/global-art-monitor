@@ -27,7 +27,16 @@ function themeHead() {
   }
   const css = theme.css || "";
   if (css && /^:root\{[^<>{}]*\}$/.test(css)) out += '<style id="theme">' + css + "</style>\n";
+  const rules = theme.rules || "";
+  if (typeof rules === "string" && rules.trim() && !rules.includes("<")) out += '<style id="theme-rules">\n' + rules + "\n</style>\n";
   return out;
+}
+// The social media addresses and favicon chosen in the theme.
+function themeExtras() {
+  const p = path.join(ROOT, "data", "theme.json");
+  if (!fs.existsSync(p)) return {};
+  const theme = JSON.parse(fs.readFileSync(p, "utf8"));
+  return { social: theme.social && typeof theme.social === "object" ? theme.social : {}, favicon: typeof theme.favicon === "string" ? theme.favicon : "" };
 }
 
 // Refuses to build if the page list would not draw, so a bad edit cannot blank the site.
@@ -66,7 +75,7 @@ function checkPages() {
 
 checkPages();
 const data = GAM.fromFiles(content, sales, images, imageFiles);
-const site = GAM.Site(data, pages, themeHead());
+const site = GAM.Site(data, pages, themeHead(), themeExtras());
 const written = [];
 const write = (p, text) => { const out = path.join(ROOT, p); fs.mkdirSync(path.dirname(out), { recursive: true }); fs.writeFileSync(out, text); written.push(p); };
 for (const pg of site.all()) write(pg.path, pg.html);

@@ -311,7 +311,7 @@
     document.head.appendChild(st);
   }
   function draw(m) {
-    var site = window.GAM.Site(m.data, m.pages, "", { mark: true, show: m.show || "", imageSrc: function (name) { return (m.images || {})[name] || ROOT + "assets/images/" + name; } });
+    var site = window.GAM.Site(m.data, m.pages, "", { mark: true, show: m.show || "", social: m.social || {}, imageSrc: function (name) { return (m.images || {})[name] || ROOT + "assets/images/" + name; } });
     var at = m.at || { kind: "page", key: "home" }, out = null;
     if (at.kind === "artist") { out = site.artistPage(at.key); }
     else if (at.kind === "article") { out = site.featurePage(at.key); }
