@@ -563,14 +563,27 @@
       var id = o && o.kind === kind && all[o.id] ? o.id : ((((PAGES.assign || {})[kind]) || {})[slug] || "default");
       return all[id] || all["default"] || null;
     }
+    // A setting in a template can take its value from the page it is drawn on ("connect stored data").
+    function pageFill(v, kind, it) {
+      if (!it) return v;
+      if (Array.isArray(v)) return v.map(function (x) { return pageFill(x, kind, it); });
+      if (v && typeof v === "object") { var o = {}; Object.keys(v).forEach(function (k) { o[k] = pageFill(v[k], kind, it); }); return o; }
+      if (typeof v !== "string" || v.indexOf("{page.") < 0) return v;
+      if (v === "{page.artist}") return kind === "artist" ? it.slug : ((it.artists || [])[0] || "");
+      if (v === "{page.article}") return kind === "article" ? it.slug : "";
+      var plain = function (x) { return String(x == null ? "" : x).replace(/<[^>]*>/g, "").replace(/[<>]/g, ""); };
+      var title = kind === "artist" ? it.name : it.title, sum = kind === "artist" ? (it.summary || it.dek || it.role || "") : (it.dek || it.standfirst || it.description || "");
+      return v.split("{page.title}").join(plain(title)).split("{page.summary}").join(plain(sum));
+    }
     function tplWrap(kind, slug, inner) {
       var t = tplOf(kind, slug); if (!t || !Array.isArray(t.sections)) return inner;
+      var item = kind === "article" ? FEATURE_BY_SLUG[slug] : (ARTISTS[slug] ? Object.assign({ slug: slug }, ARTISTS[slug]) : null);
       var placed = false, seen = {};
       inner.replace(/ id="([^"]+)"/g, function (m, x) { seen[x] = 1; return m; });
       var out = t.sections.map(function (sec) {
         if (sec && sec.type === "main") { placed = true; return inner; }
         if (!sec || sec.visible === false || !S[sec.type]) return "";
-        return mark(cssMark(own(S[sec.type](sec.settings || {}, { id: sec.id, page: "tpl" }), sec.id, seen), sec), sec.id);
+        return mark(cssMark(own(S[sec.type](pageFill(sec.settings || {}, kind, item), { id: sec.id, page: "tpl" }), sec.id, seen), sec), sec.id);
       });
       if (!placed) out.unshift(inner);
       return out.filter(Boolean).join("\n");
