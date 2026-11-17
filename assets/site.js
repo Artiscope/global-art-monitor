@@ -368,15 +368,66 @@
     if (e.origin !== ok || !e.data) { return; }
     if (!active) { active = true; window.ADH_EDIT = true; document.querySelectorAll("[data-popup]").forEach(function (p) { p.hidden = true; }); document.documentElement.classList.add("rm"); style(); }
     if (e.data.type === "adh-pages" && e.data.data && e.data.pages) {
-      var m = e.data;
+      var m = e.data; NAMES = m.names || {}; hoverOff();
       loadRender(function () { var moved = false; try { moved = draw(m); } catch (x) { } pick(m.pick, m.block, m.label, m.scroll || moved, m.bf, m.bi); });
       return;
     }
     if (e.data.type === "adh-pick") { pick(e.data.id, e.data.block, e.data.label, true, e.data.bf, e.data.bi); }
   });
+  function whatAt(t) {
+    var id = "", block = -1, bf = "";
+    if (t.closest("header.site-head, #menu")) { id = "header"; }
+    else if (t.closest("footer.site-foot")) { id = "footer"; }
+    else { var sec = t.closest("[data-adh]"); if (sec) { id = sec.getAttribute("data-adh"); } }
+    if (!id) { return null; }
+    var host = sectionEl(id); if (!host) { return null; }
+    var el = host, tag = t.closest("[data-adh-b]");
+    if (tag && host.contains(tag)) { var bp = tag.getAttribute("data-adh-b").split("."); bf = bp[0]; block = Number(bp[1]); el = tag; }
+    return { id: id, block: block, bf: bf, view: grp[id] ? "every" : view.kind, el: el, plus: !!bf || (id !== "header" && id !== "footer" && (!!grp[id] || view.kind === "page")) };
+  }
+  /* the inspector: an outline and a name tag on whatever the pointer is over, with a plus above and below to add something just there */
+  var NAMES = {}, hov = null, hovBox = null, hovRaf = 0;
+  function hoverStyle() {
+    if (document.getElementById("adh-hover-style")) { return; }
+    var st = document.createElement("style"); st.id = "adh-hover-style";
+    st.textContent = "#adh-hover{position:absolute;z-index:2147483000;pointer-events:none;outline:2px solid #2A2B30;outline-offset:2px;box-shadow:0 0 0 5px rgba(242,243,245,.55);display:none}#adh-hover.on{display:block}#adh-hover.blk{outline-style:dashed}" +
+      "#adh-hover .adh-tag{position:absolute;left:-2px;top:-30px;background:#2A2B30;color:#F2F3F5;font:600 12px/1 'Libre Franklin',Arial,sans-serif;padding:6px 10px;border-radius:7px;white-space:nowrap}#adh-hover.inside .adh-tag{top:6px;left:6px}" +
+      "#adh-hover .adh-plus{pointer-events:auto;position:absolute;left:50%;width:28px;height:28px;margin-left:-14px;padding:0;border:0;border-radius:50%;background:#F2F3F5;color:#1C1D20;font:600 18px/28px Arial,sans-serif;text-align:center;box-shadow:0 2px 7px rgba(0,0,0,.4);cursor:pointer}" +
+      "#adh-hover .adh-plus.top{top:-16px}#adh-hover .adh-plus.bottom{bottom:-16px}#adh-hover.noplus .adh-plus{display:none}#adh-hover .adh-plus:hover{background:#2A2B30;color:#F2F3F5}";
+    document.head.appendChild(st);
+  }
+  function hoverBox() {
+    if (hovBox && hovBox.parentNode) { return hovBox; }
+    hoverStyle();
+    hovBox = document.createElement("div"); hovBox.id = "adh-hover";
+    hovBox.innerHTML = '<span class="adh-tag"></span><button type="button" class="adh-plus top" tabindex="-1" title="Add here, above" aria-label="Add here, above">+</button><button type="button" class="adh-plus bottom" tabindex="-1" title="Add here, below" aria-label="Add here, below">+</button>';
+    document.documentElement.appendChild(hovBox); return hovBox;
+  }
+  function hoverOff() { if (hovBox) { hovBox.className = ""; } hov = null; }
+  function hoverAt(target) {
+    if (!active || !target || !target.closest) { return; }
+    if (target.closest("#adh-hover")) { return; }
+    var w = null; try { w = whatAt(target); } catch (x) { w = null; }
+    if (!w || !w.el) { hoverOff(); return; }
+    var r = w.el.getBoundingClientRect(); if (!r.width || !r.height) { hoverOff(); return; }
+    var box = hoverBox(); hov = w;
+    box.style.left = (r.left + window.scrollX) + "px"; box.style.top = (r.top + window.scrollY) + "px"; box.style.width = r.width + "px"; box.style.height = r.height + "px";
+    box.querySelector(".adh-tag").textContent = w.bf ? (NAMES[w.id + ":" + w.bf] || "Block") : (NAMES[w.id] || "Section");
+    box.className = "on" + (w.bf ? " blk" : "") + (w.plus ? "" : " noplus") + (r.top < 34 ? " inside" : "");
+  }
+  document.addEventListener("mousemove", function (e) { if (!active) { return; } var t = e.target; cancelAnimationFrame(hovRaf); hovRaf = requestAnimationFrame(function () { hoverAt(t); }); }, true);
+  document.documentElement.addEventListener("mouseleave", hoverOff);
+  window.addEventListener("scroll", function () { if (!hov || !hovBox) { return; } var r = hov.el.getBoundingClientRect(); if (!r.width) { hoverOff(); return; } hovBox.style.left = (r.left + window.scrollX) + "px"; hovBox.style.top = (r.top + window.scrollY) + "px"; }, true);
+  function plusClick(e) {
+    e.preventDefault(); e.stopPropagation();
+    var b = e.target.closest(".adh-plus"); if (!b || !hov) { return; }
+    window.parent.postMessage({ type: "adh-add", id: hov.id, block: hov.block, bf: hov.bf, view: hov.view, edge: b.classList.contains("top") ? "top" : "bottom" }, ok);
+    hoverOff();
+  }
   // A click on a link inside the site goes to that page; anything else, or a click with Alt held, picks what was clicked.
   document.addEventListener("click", function (e) {
     if (!active) { return; }
+    if (e.target.closest && e.target.closest("#adh-hover")) { plusClick(e); return; }
     e.preventDefault(); e.stopPropagation();
     var link = e.target.closest("a[href]");
     if (link && !e.altKey) {
