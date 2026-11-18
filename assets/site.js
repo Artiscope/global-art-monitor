@@ -384,7 +384,7 @@
     else { el.classList.add("adh-picked-block"); }
     // a table row cannot carry the label itself, so its first cell does
     if (label) { (target.tagName === "TR" && target.cells[0] ? target.cells[0] : target).setAttribute("data-adh-label", label); }
-    if (scroll) { try { target.scrollIntoView({ behavior: "smooth", block: "center" }); } catch (x) { target.scrollIntoView(); } }
+    if (scroll) { var r0 = target.getBoundingClientRect(), y0 = window.pageYOffset + r0.top - (r0.height < window.innerHeight ? (window.innerHeight - r0.height) / 2 : 20); try { window.scrollTo({ top: Math.max(0, y0), behavior: "smooth" }); } catch (x) { window.scrollTo(0, Math.max(0, y0)); } }
   }
   window.addEventListener("message", function (e) {
     if (e.origin !== ok || !e.data) { return; }
