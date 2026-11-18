@@ -643,6 +643,9 @@
         var src = opts.imageSrc ? opts.imageSrc(a.image) : "@@assets/images/" + a.image;
         img = '<figure class="art-slot" data-reveal><img src="' + src + '" alt="' + esc(alt) + '" loading="lazy"><figcaption>' + esc(cap) + '</figcaption></figure>';
       }
+      // in the editor, a profile with no picture yet shows where it goes, so a click picks the Picture part
+      else if (opts.mark) img = '<figure class="art-slot"><div class="pic-frame" style="aspect-ratio:4/5"><span class="supply">' + W("missing.picture", "Picture to supply") + '</span></div></figure>';
+      if (img && opts.mark) img = img.replace('<figure class="art-slot"', '<figure class="art-slot" data-adh="picture"');
       var bestFact = best ? '<span class="v">' + money(best.premium, best.currency) + '</span><span class="s">With premium. ' + esc(best.title) + ', ' + esc(best.house) + ', ' + esc(best.date ? best.date_text : "date to confirm") + '.</span>'
         : '<span class="v">' + W("missing.tbc", "To confirm") + '</span><span class="s">' + W("missing.no-priced", "No priced sale documented yet.") + '</span>';
       var firstFact = first ? '<span class="v">' + esc(first.date_text) + '</span><span class="s">' + esc(first.title) + ', ' + esc(first.house) + '.</span>' : '<span class="v">' + W("missing.tbc", "To confirm") + '</span><span class="s">' + W("missing.no-dated", "No dated sale yet.") + '</span>';
