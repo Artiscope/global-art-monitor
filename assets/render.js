@@ -67,6 +67,15 @@
     var ARTISTS = {}, ARTIST_KEYS = [];
     (D.artists || []).forEach(function (a) { ARTISTS[a.slug] = a; ARTIST_KEYS.push(a.slug); });
     var SALES = [];
+    // The fixed words of the design. Edit default text in Artiscope Digital Home keeps changed ones in the
+    // page list file under "words"; any word not changed keeps the site's own, written beside each W().
+    var WORDS = PAGES.words && typeof PAGES.words === "object" ? PAGES.words : {};
+    function W(key, dflt, slots) {
+      var t = txt(typeof WORDS[key] === "string" && WORDS[key].trim() ? WORDS[key] : dflt).replace(/"/g, "&quot;");
+      Object.keys(slots || {}).forEach(function (k) { t = t.split("{" + k + "}").join(slots[k]); });
+      return t;
+    }
+    function wordsTag() { return Object.keys(WORDS).length ? '<script type="application/json" id="adh-words">' + JSON.stringify(WORDS).replace(/</g, "\\u003c") + '</script>\n' : ""; }
     (D.artists || []).forEach(function (a) { (a.sales || []).forEach(function (s, i) { SALES.push(Object.assign({}, s, { artist: a.slug, _i: i })); }); });
 
     function fill(text, isHtml) {
@@ -96,7 +105,7 @@
         (iconOk() ? '<link rel="icon" href="' + rootPath + opts.favicon + '">\n' : '<link rel="icon" href="' + rootPath + 'assets/favicon.svg" type="image/svg+xml">\n') + '<link rel="apple-touch-icon" href="' + rootPath + 'assets/brand/gam-tile-180.png">\n' +
         '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
         '<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">\n' +
-        '<link rel="stylesheet" href="' + rootPath + 'assets/site.css">\n<script>document.documentElement.className=\'js\';</script>\n' + (THEME || "") + (extra || "") + secCssTag() + '</head>\n';
+        '<link rel="stylesheet" href="' + rootPath + 'assets/site.css">\n<script>document.documentElement.className=\'js\';</script>\n' + (THEME || "") + (extra || "") + secCssTag() + wordsTag() + '</head>\n';
     }
     // logos added in the console: each on the left, in the centre or on the right of the menu bar
     function headLogos(st, rootPath, where) {
@@ -127,17 +136,17 @@
       });
       (get(st, "menu_extra", []) || []).forEach(function (m) { i += 1; menu += '<a href="' + rootPath + m[1] + '"><span>' + pad2(i) + '</span>' + txt(m[0]) + '</a>\n'; });
       var brand = '<a class="brand" href="' + rootPath + '">' + MARK + name + '</a>';
-      return '<a class="skip" href="#main">Skip to content</a>\n<div class="shell head-wrap">\n<header class="site-head' + (logoL || logoC || logoR ? " has-logos" : "") + '">\n' + (logoL ? '<div class="head-logos">' + brand + logoL + '</div>' : brand) + '\n' +
-        '<nav class="nav" aria-label="Sections">\n' + links + '</nav>\n' + (logoC ? '<div class="head-logos head-mid">' + logoC + '</div>\n' : '') + '<div class="head-actions">\n' + logoR +
+      return '<a class="skip" href="#main">' + W("menu.skip", "Skip to content") + '</a>\n<div class="shell head-wrap">\n<header class="site-head' + (logoL || logoC || logoR ? " has-logos" : "") + '">\n' + (logoL ? '<div class="head-logos">' + brand + logoL + '</div>' : brand) + '\n' +
+        '<nav class="nav" aria-label="' + W("sr.nav", "Sections") + '">\n' + links + '</nav>\n' + (logoC ? '<div class="head-logos head-mid">' + logoC + '</div>\n' : '') + '<div class="head-actions">\n' + logoR +
         '<a class="pill pill-mint pill-small" href="' + rootPath + get(st, "subscribe_href", "about/#newsletter") + '">' + txt(get(st, "subscribe", "Subscribe")) + '</a>\n' +
-        '<button class="menu-btn" type="button" data-menu-open aria-expanded="false" aria-controls="menu">Menu</button>\n</div>\n</header>\n</div>\n' +
-        '<div class="menu" id="menu" aria-hidden="true">\n<div class="shell menu-top"><a class="brand" href="' + rootPath + '">' + MARK + name + '</a><button class="menu-close" type="button" data-menu-close>Close</button></div>\n' +
-        '<nav class="shell menu-list" aria-label="All sections">\n' + menu + '</nav>\n<div class="shell menu-foot"><span data-london-time>London</span><span>' + txt(get(st, "menu_tagline", "")) + '</span></div>\n</div>\n';
+        '<button class="menu-btn" type="button" data-menu-open aria-expanded="false" aria-controls="menu">' + W("menu.open", "Menu") + '</button>\n</div>\n</header>\n</div>\n' +
+        '<div class="menu" id="menu" aria-hidden="true">\n<div class="shell menu-top"><a class="brand" href="' + rootPath + '">' + MARK + name + '</a><button class="menu-close" type="button" data-menu-close>' + W("menu.close", "Close") + '</button></div>\n' +
+        '<nav class="shell menu-list" aria-label="' + W("sr.menu", "All sections") + '">\n' + menu + '</nav>\n<div class="shell menu-foot"><span data-london-time>London</span><span>' + txt(get(st, "menu_tagline", "")) + '</span></div>\n</div>\n';
     }
     // Social media addresses chosen in the theme; nothing is shown until one is filled in.
     function socialHtml() {
       var all = opts.social && typeof opts.social === "object" ? opts.social : {}, out = Object.keys(all).map(function (k) { return all[k]; }).filter(function (x) { return x && /^https:\/\/[^\s<>"']+$/.test(x.href || ""); });
-      return out.length ? '<nav class="foot-social" aria-label="Social media">' + out.map(function (x) { return '<a href="' + esc(x.href) + '" rel="noopener">' + esc(x.label) + '</a>'; }).join("") + '</nav>\n' : "";
+      return out.length ? '<nav class="foot-social" aria-label="' + W("sr.social", "Social media") + '">' + out.map(function (x) { return '<a href="' + esc(x.href) + '" rel="noopener">' + esc(x.label) + '</a>'; }).join("") + '</nav>\n' : "";
     }
     function iconOk() { return typeof opts.favicon === "string" && /^assets\/images\/[A-Za-z0-9._-]{1,120}\.(png|jpe?g|svg|ico)$/.test(opts.favicon); }
     function footer(rootPath, own) {
@@ -150,7 +159,7 @@
       var body = !on ? "" : '<footer class="site-foot">\n<div class="shell foot-inner">\n<div class="foot-cta">\n<h2>' + txt(get(st, "heading", "")) + '</h2>\n' +
         '<a class="pill pill-mint" href="' + rootPath + get(st, "button_href", "about/#newsletter") + '">' + txt(get(st, "button", "")) + '</a>\n</div>\n<div class="foot-cols">\n' +
         '<div><p class="foot-brand">' + MARK + name + '</p><p class="quiet">' + txt(get(st, "blurb", "")) + '</p></div>\n' +
-        '<div><h3>Sections</h3>' + secs + '</div>\n<div><h3>Artists</h3>' + arts + '</div>\n<div><h3>About</h3>' + about + '</div>\n</div>\n' +
+        '<div><h3>' + W("menu.foot-sections", "Sections") + '</h3>' + secs + '</div>\n<div><h3>' + W("menu.foot-artists", "Artists") + '</h3>' + arts + '</div>\n<div><h3>' + W("menu.foot-about", "About") + '</h3>' + about + '</div>\n</div>\n' +
         socialHtml() + '<p class="foot-legal">' + fill(get(st, "legal", "")) + ' <a href="' + rootPath + legal[1] + '">' + txt(legal[0]) + '</a></p>\n</div>\n' +
         '<div class="foot-mark" aria-hidden="true">MONITOR</div>\n</footer>\n';
       return body + '<script src="' + rootPath + 'assets/site.js" defer></script>\n</body>\n</html>\n';
@@ -170,11 +179,11 @@
         var u = encodeURIComponent(url), t = encodeURIComponent(title || "");
         var nets = { email: ["Email", "mailto:?subject=" + t + "&body=" + u], x: ["X", "https://x.com/intent/post?url=" + u + "&text=" + t], linkedin: ["LinkedIn", "https://www.linkedin.com/sharing/share-offsite/?url=" + u], facebook: ["Facebook", "https://www.facebook.com/sharer/sharer.php?u=" + u] };
         var links = (A.share.networks || []).filter(function (n) { return nets[n]; }).map(function (n) { return '<a href="' + esc(nets[n][1]) + '"' + (n === "email" ? "" : ' target="_blank" rel="noopener noreferrer"') + '>' + nets[n][0] + '</a>'; }).join("");
-        if (links) out.share = '<aside class="ao-share" aria-label="Share this page"><span>' + esc(A.share.heading || "Share this page") + '</span>' + links + '</aside>';
+        if (links) out.share = '<aside class="ao-share" aria-label="' + W("sr.share", "Share this page") + '"><span>' + esc(A.share.heading || "Share this page") + '</span>' + links + '</aside>';
       }
       if (on("progress") && fits(A.progress.where || "articles")) out.fixed += A.progress.style === "percent" ? '<div class="ao-progress pct" aria-hidden="true"><b>0%</b></div>' : '<div class="ao-progress" aria-hidden="true"><i></i></div>';
       if (on("top")) out.fixed += '<button type="button" class="ao-top' + (A.top.side === "left" ? " left" : "") + '" data-after="' + (Number(A.top.after) || 600) + '">' + esc(A.top.label || "Top") + '</button>';
-      if (on("privacy")) out.fixed += '<div class="ao-privacy" role="region" aria-label="Privacy"><p>' + esc(A.privacy.text || "") + (A.privacy.link && A.privacy.link_label ? ' <a href="' + esc(link(A.privacy.link)) + '">' + esc(A.privacy.link_label) + '</a>' : "") + '</p><button type="button" data-ao-close>' + esc(A.privacy.button || "Close") + '</button></div>';
+      if (on("privacy")) out.fixed += '<div class="ao-privacy" role="region" aria-label="' + W("sr.privacy", "Privacy") + '"><p>' + esc(A.privacy.text || "") + (A.privacy.link && A.privacy.link_label ? ' <a href="' + esc(link(A.privacy.link)) + '">' + esc(A.privacy.link_label) + '</a>' : "") + '</p><button type="button" data-ao-close>' + esc(A.privacy.button || "Close") + '</button></div>';
       return out;
     }
     var AO_KIND = "page";
@@ -193,14 +202,14 @@
     // ----- auction components -----
     function estCell(s) {
       if (s.est_low && s.est_high) return plain(s.est_low) + " to " + plain(s.est_high);
-      if (s.est_low) return "From " + plain(s.est_low) + '<span class="sub">High estimate to confirm</span>';
-      return '<span class="tbc">To confirm</span>';
+      if (s.est_low) return W("table.from", "From {low}", { low: plain(s.est_low) }) + '<span class="sub">' + W("missing.high", "High estimate to confirm") + '</span>';
+      return '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>';
     }
     function hamCell(s) {
-      if (!s.hammer) return '<span class="tbc">To confirm</span>';
-      return '<span class="ham">' + plain(s.hammer) + '</span>' + (s.hammer_basis === "calculated" ? '<span class="sub">Our calculation</span>' : "");
+      if (!s.hammer) return '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>';
+      return '<span class="ham">' + plain(s.hammer) + '</span>' + (s.hammer_basis === "calculated" ? '<span class="sub">' + W("table.calculated", "Our calculation") + '</span>' : "");
     }
-    function premCell(s) { return !s.premium ? '<span class="tbc">To confirm</span>' : '<span class="prem">' + plain(s.premium) + '</span>'; }
+    function premCell(s) { return !s.premium ? '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>' : '<span class="prem">' + plain(s.premium) + '</span>'; }
     function sourceCell(s) {
       var out = '<a href="' + esc(s.source_url) + '" rel="noopener">' + esc(s.source_label) + '</a>';
       if (s.source2_url) out += '<span class="sub"><a href="' + esc(s.source2_url) + '" rel="noopener">' + esc(s.source2_label) + '</a></span>';
@@ -210,61 +219,61 @@
       rootPath = rootPath == null ? "@@" : rootPath;
       var body = "";
       rows.forEach(function (s) {
-        var lot = s.lot ? '<span class="sub">Lot ' + esc(s.lot) + '</span>' : "";
+        var lot = s.lot ? '<span class="sub">' + W("table.lot", "Lot {lot}", { lot: esc(s.lot) }) + '</span>' : "";
         var work = esc(s.title) + " (" + esc(s.year) + ")";
         var artist = showArtist ? '<td><a href="' + rootPath + 'artists/' + s.artist + '/">' + esc(ARTISTS[s.artist].name) + '</a></td>' : "";
         body += '<tr' + (opts.mark ? ' data-adh-row="' + s._i + '"' : "") + ' data-artist="' + s.artist + '" data-house="' + esc(s.house) + '"><td>' + esc(s.date_text) + '</td>' + artist + '<td>' + work + lot + '</td>' +
           '<td>' + esc(s.house) + '<span class="sub">' + esc(s.sale) + '</span></td><td>' + estCell(s) + '</td><td>' + hamCell(s) + '</td><td>' + premCell(s) + '</td>' +
           '<td>' + esc(s.currency) + '</td><td>' + sourceCell(s) + '</td></tr>\n';
       });
-      return '<p class="swipe">Swipe sideways to see every column.</p>\n<div class="table-wrap" tabindex="0" role="region" aria-label="Auction results table">\n<table class="tl" id="' + tableId + '">\n' +
-        '<thead><tr><th scope="col">Sale date</th>' + (showArtist ? '<th scope="col">Artist</th>' : "") + '<th scope="col">Work</th><th scope="col">House and sale</th><th scope="col">Estimate</th><th scope="col">Hammer price</th><th scope="col">With premium</th><th scope="col">Currency</th><th scope="col">Source</th></tr></thead>\n' +
+      return '<p class="swipe">' + W("table.swipe", "Swipe sideways to see every column.") + '</p>\n<div class="table-wrap" tabindex="0" role="region" aria-label="' + W("sr.table", "Auction results table") + '">\n<table class="tl" id="' + tableId + '">\n' +
+        '<thead><tr><th scope="col">' + W("table.date", "Sale date") + '</th>' + (showArtist ? '<th scope="col">' + W("table.artist", "Artist") + '</th>' : "") + '<th scope="col">' + W("table.work", "Work") + '</th><th scope="col">' + W("table.house", "House and sale") + '</th><th scope="col">' + W("table.estimate", "Estimate") + '</th><th scope="col">' + W("table.hammer", "Hammer price") + '</th><th scope="col">' + W("table.premium", "With premium") + '</th><th scope="col">' + W("table.currency", "Currency") + '</th><th scope="col">' + W("table.source", "Source") + '</th></tr></thead>\n' +
         '<tbody>\n' + body + '</tbody>\n</table>\n</div>';
     }
-    var LEGEND = '<div class="chips">\n<span class="chip" style="background:var(--ink-2)"><span class="dot dot-mint"></span>Hammer price</span>\n' +
-      '<span class="chip" style="background:var(--ink-2)"><span class="dot dot-blush"></span>Price with premium</span>\n' +
-      '<span class="chip" style="background:var(--ink-2)"><span class="dot dot-grey"></span>Estimate</span>\n</div>';
+    var LEGEND = '<div class="chips">\n<span class="chip" style="background:var(--ink-2)"><span class="dot dot-mint"></span>' + W("table.key-hammer", "Hammer price") + '</span>\n' +
+      '<span class="chip" style="background:var(--ink-2)"><span class="dot dot-blush"></span>' + W("table.key-premium", "Price with premium") + '</span>\n' +
+      '<span class="chip" style="background:var(--ink-2)"><span class="dot dot-grey"></span>' + W("table.key-estimate", "Estimate") + '</span>\n</div>';
     var TABLE_NOTE = '<p class="note">Prices come from auction house lot pages and public auction databases, and are shown in the currency of the sale. ' +
-      '"Our calculation" means the hammer price was worked back from the published total using the house\'s buyer\'s premium. ' +
-      '"To confirm" means we have not yet been able to check the figure. <a class="text-link" href="@@about/#method">How we report a price</a></p>';
+      '"' + W("table.calculated", "Our calculation") + '" means the hammer price was worked back from the published total using the house\'s buyer\'s premium. ' +
+      '"' + W("missing.tbc", "To confirm") + '" means we have not yet been able to check the figure. <a class="text-link" href="@@about/#method">How we report a price</a></p>';
     function ladder(rows) {
       rows = priced(rows);
       if (!rows.length) return "";
       var top = Math.max.apply(null, rows.map(function (s) { return s.premium; })), out = "";
       rows.forEach(function (s) {
         var bars = "", w;
-        if (s.est_high) { w = s.est_high / top * 68; bars += '<div class="bar bar-est"><i style="width:' + w.toFixed(1) + '%"></i>High estimate ' + money(s.est_high, s.currency) + '</div>'; }
-        if (s.hammer) { w = s.hammer / top * 68; bars += '<div class="bar bar-ham"><i style="width:' + w.toFixed(1) + '%"></i>Hammer ' + money(s.hammer, s.currency) + (s.hammer_basis === "calculated" ? ", our calculation" : "") + '</div>'; }
+        if (s.est_high) { w = s.est_high / top * 68; bars += '<div class="bar bar-est"><i style="width:' + w.toFixed(1) + '%"></i>' + W("table.bar-high", "High estimate {price}", { price: money(s.est_high, s.currency) }) + '</div>'; }
+        if (s.hammer) { w = s.hammer / top * 68; bars += '<div class="bar bar-ham"><i style="width:' + w.toFixed(1) + '%"></i>' + W("table.bar-hammer", "Hammer {price}", { price: money(s.hammer, s.currency) }) + (s.hammer_basis === "calculated" ? ", " + W("table.calculated", "Our calculation").toLowerCase() : "") + '</div>'; }
         w = s.premium / top * 68;
-        bars += '<div class="bar bar-prem"><i style="width:' + w.toFixed(1) + '%"></i>With premium ' + money(s.premium, s.currency) + '</div>';
+        bars += '<div class="bar bar-prem"><i style="width:' + w.toFixed(1) + '%"></i>' + W("table.bar-premium", "With premium {price}", { price: money(s.premium, s.currency) }) + '</div>';
         out += '<div class="ladder-row"><div class="ladder-label">' + esc(s.title) + '<span class="sub">' + esc(s.house) + ', ' + esc(s.date_text) + '</span></div>' +
           '<div class="ladder-bars">' + bars + '</div></div>\n';
       });
-      return '<div class="ladder" data-reveal role="img" aria-label="Bar comparison of estimate, hammer price and price with premium for each priced sale. The same figures are in the table.">\n' + out + '</div>';
+      return '<div class="ladder" data-reveal role="img" aria-label="' + W("sr.ladder", "Bar comparison of estimate, hammer price and price with premium for each priced sale. The same figures are in the table.") + '">\n' + out + '</div>';
     }
     function featureCard(f, n, big, delay) {
       var num = n ? pad2(n) + " &nbsp; " : "";
       return '<article class="' + (big ? "card card-big" : "card") + '" data-reveal style="--d:' + (delay || 0) + 'ms"><p class="kicker">' + num + esc(f.kicker) + '</p>' +
         '<h3><a href="@@research/' + f.slug + '/">' + esc(f.title) + '</a></h3><p>' + esc(f.standfirst) + '</p>' +
-        '<a class="text-link" href="@@research/' + f.slug + '/">Read the feature</a></article>\n';
+        '<a class="text-link" href="@@research/' + f.slug + '/">' + W("btn.read-feature", "Read the feature") + '</a></article>\n';
     }
     function profileCard(slug, delay) {
       var a = ARTISTS[slug], rows = salesFor(slug), best = maxBy(priced(rows), function (s) { return s.premium; });
       var houses = (a.houses || []).map(function (h) { return '<span class="chip">' + esc(h) + '</span>'; }).join("");
       var line = best ? '<p>Highest documented price: ' + money(best.premium, best.currency) + ' with premium for ' + esc(best.title) + ', ' + esc(best.house) + (best.date ? ", " + best.date_text : "") + '.</p>'
-        : '<p>No priced sale documented yet.</p>';
+        : '<p>' + W("missing.no-priced", "No priced sale documented yet.") + '</p>';
       return '<article class="card card-profile card-ink on-ink" data-reveal style="--d:' + delay + 'ms"><h3><a href="@@artists/' + slug + '/">' + esc(a.name) + '</a></h3>' +
         '<p class="quiet">' + esc(a.line) + '</p>' + line + '<div class="chips">' + houses + '</div>' +
-        '<a class="text-link" href="@@artists/' + slug + '/">Open the market profile</a></article>\n';
+        '<a class="text-link" href="@@artists/' + slug + '/">' + W("btn.open-profile", "Open the market profile") + '</a></article>\n';
     }
     var MORE_ARTISTS = '<article class="card card-profile" data-reveal style="--d:180ms"><h3>More artists to follow</h3>' +
       '<p>Profiles for further Grove Gallery artists are added once an artist has a documented public sale we can source and check.</p>' +
-      '<a class="text-link" href="@@about/#newsletter">Tell me when a profile is added</a></article>\n';
+      '<a class="text-link" href="@@about/#newsletter">' + W("btn.tell-me", "Tell me when a profile is added") + '</a></article>\n';
     var METHOD = '<div class="panel on-ink" data-reveal>\n<h2 class="h2" style="max-width:640px">How we report a price</h2>\n<div class="method">\n' +
       '<div><h3>Two prices, never one</h3><p>Hammer and premium-inclusive prices are shown in separate columns and never merged.</p></div>\n' +
       '<div><h3>Currency as sold</h3><p>Figures stay in the currency of the sale. Any conversion carries its date and rate.</p></div>\n' +
       '<div><h3>A source on every row</h3><p>Each result links to the lot page or database it came from. Gaps are labelled, not filled.</p></div>\n' +
-      '</div>\n<a class="text-link" href="@@about/#method">Read the full method</a>\n</div>';
+      '</div>\n<a class="text-link" href="@@about/#method">' + W("btn.full-method", "Read the full method") + '</a>\n</div>';
 
     // ----- sections -----
     function wordsBlock(st) {
@@ -301,7 +310,7 @@
         card = '<aside class="result-card on-ink" data-reveal style="--d:260ms" aria-label="' + txt(get(st, "result_label", "Latest documented result")) + '">\n' +
           '<p class="label">' + txt(get(st, "result_label", "Latest documented result")) + '</p>\n<p class="work">' + esc(a.name) + ', ' + esc(s.title) + ' (' + esc(s.year) + ')</p>\n' +
           '<p class="price">' + money(s.premium, s.currency) + '</p>\n<p class="where">' + esc(s.house) + ', ' + esc(s.sale) + '. ' + esc(s.date_text) + '.</p>\n' +
-          '<div class="chips"><span class="chip">With buyer\'s premium</span>' + est + '</div>\n' +
+          '<div class="chips"><span class="chip">' + W("table.chip-premium", "With buyer's premium") + '</span>' + est + '</div>\n' +
           '<a class="text-link" href="@@artists/' + s.artist + '/">' + txt(get(st, "result_link", "See the full timeline")) + '</a>\n</aside>\n';
       }
       return '<section class="shell hero">\n<div class="hero-copy">\n<p class="eyebrow" data-reveal>' + fill(get(st, "eyebrow", "")) + '</p>\n' +
@@ -357,7 +366,7 @@
       var houseBtns = '<button class="filter" type="button" data-key="house" data-value="all" aria-pressed="true">' + txt(get(st, "all_houses", "All houses")) + '</button>';
       houses.forEach(function (h) { houseBtns += '<button class="filter" type="button" data-key="house" data-value="' + esc(h) + '" aria-pressed="false">' + esc(h) + '</button>'; });
       return '<section class="shell section">\n<div class="panel on-ink" data-reveal>\n<div data-filter-group="all-results" style="display:flex;flex-direction:column;gap:10px">\n' +
-        '<div class="filters" role="group" aria-label="Filter by artist">' + artistBtns + '</div>\n<div class="filters" role="group" aria-label="Filter by auction house">' + houseBtns + '</div>\n</div>\n' +
+        '<div class="filters" role="group" aria-label="' + W("sr.filter-artist", "Filter by artist") + '">' + artistBtns + '</div>\n<div class="filters" role="group" aria-label="' + W("sr.filter-house", "Filter by auction house") + '">' + houseBtns + '</div>\n</div>\n' +
         LEGEND + '\n' + table(all, "all-results", true) + '\n<p class="note" id="all-results-empty" hidden>' + txt(get(st, "empty", "")) + '</p>\n' + TABLE_NOTE + '\n</div>\n</section>';
     };
     S["latest-result"] = function (st) {
@@ -402,7 +411,7 @@
         return '<p class="ann-msg' + (k ? "" : " on") + '" data-adh-b="messages.' + r.i + '"><span>' + txt(m.text || "") + '</span>' + (m.link && addrOk(m.href) ? '<a href="' + esc(hrefOf(m.href)) + '">' + txt(m.link) + '</a>' : "") + '</p>';
       }).join("");
       return '<div class="announce ' + look + '" data-announce data-secs="' + secs + '"><div class="shell ann-in"><div class="ann-msgs">' + msgs + '</div>' +
-        (rows.length > 1 ? '<span class="ann-count" aria-hidden="true">1 of ' + rows.length + '</span>' : "") + '</div></div>';
+        (rows.length > 1 ? '<span class="ann-count" aria-hidden="true">' + W("btn.count", "{n} of {total}", { n: "1", total: String(rows.length) }) + '</span>' : "") + '</div></div>';
     };
     S.columns = function (st) {
       var per = { "2": 2, "3": 3, "4": 4 }[String(get(st, "per_row", "3"))] || 3, num = get(st, "numbered", true) !== false;
@@ -436,7 +445,7 @@
     // ----- sections any page can use: batch 2, pictures -----
     function picOf(x) {
       if (x && x.image) return '<img src="' + esc(opts.imageSrc ? opts.imageSrc(x.image) : "@@assets/images/" + x.image) + '" alt="' + esc(x.alt || "") + '" loading="lazy">';
-      return opts.mark ? '<span class="supply">Picture to supply</span>' : "";
+      return opts.mark ? '<span class="supply">' + W("missing.picture", "Picture to supply") + '</span>' : "";
     }
     S["picture-banner"] = function (st) {
       var place = { C: "pb-c", R: "pb-r" }[get(st, "place", "L")] || "pb-l", box = get(st, "box", "ink") === "blush" ? "pb-blush" : "pb-ink";
@@ -449,7 +458,7 @@
     S.slideshow = function (st) {
       var rows = liveRows(get(st, "slides", [])), n = rows.length, secs = Math.max(3, Math.min(30, Number(get(st, "seconds", 6)) || 6));
       var slides = rows.map(function (r, k) { return '<figure class="ss-slide' + (k ? "" : " on") + '" data-adh-b="slides.' + r.i + '"><div class="ss-pic">' + picOf(r.x) + '</div><figcaption>' + txt(r.x.caption || "") + '</figcaption></figure>'; }).join("");
-      var nav = n > 1 ? '<div class="ss-nav"><button type="button" class="ss-btn" data-ss="prev">Previous</button><span class="ss-at" aria-live="polite">1 of ' + n + '</span><button type="button" class="ss-btn ss-next" data-ss="next">Next</button></div>' : "";
+      var nav = n > 1 ? '<div class="ss-nav"><button type="button" class="ss-btn" data-ss="prev">' + W("btn.previous", "Previous") + '</button><span class="ss-at" aria-live="polite">' + W("btn.count", "{n} of {total}", { n: "1", total: String(n) }) + '</span><button type="button" class="ss-btn ss-next" data-ss="next">' + W("btn.next", "Next") + '</button></div>' : "";
       return '<section class="shell section">\n' + headBlock(st) + '<div class="ss" data-slides data-auto="' + (get(st, "auto", true) === false ? 0 : 1) + '" data-secs="' + secs + '" aria-roledescription="slideshow" data-reveal>' + slides + nav + '</div>\n</section>';
     };
     S.gallery = function (st) {
@@ -478,21 +487,21 @@
     };
 
     // ----- sections any page can use: batch 3, art and reading -----
-    function rep(x) { return x && x.reported ? '<span class="rep">Reported</span> ' : ""; }
-    function srcLink(h, words) { return addrOk(h) ? '<a class="src" href="' + esc(hrefOf(h)) + '" rel="noopener">' + (words || "Source") + '</a>' : ""; }
+    function rep(x) { return x && x.reported ? '<span class="rep">' + W("item.reported", "Reported") + '</span> ' : ""; }
+    function srcLink(h, words) { return addrOk(h) ? '<a class="src" href="' + esc(hrefOf(h)) + '" rel="noopener">' + (words || W("btn.source", "Source")) + '</a>' : ""; }
     S.artworks = function (st) {
       var per = { "2": 2, "3": 3, "4": 4 }[String(get(st, "per_row", "3"))] || 3;
       var items = liveRows(get(st, "artworks", [])).map(function (r, k) {
         var w = r.x, tag = addrOk(w.href) ? "a" : "div", line = [w.year, w.medium].filter(Boolean).join(", ");
         return '<' + tag + ' class="aw-item"' + (tag === "a" ? ' href="' + esc(hrefOf(w.href)) + '"' : "") + ' data-adh-b="artworks.' + r.i + '" data-reveal style="--d:' + (k % 4) * 80 + 'ms"><span class="aw-pic">' + picOf(w) + '</span>' +
-          '<span class="aw-t">' + (w.title ? txt(w.title) : '<span class="tbc">Title to confirm</span>') + '</span>' + (line ? '<span class="aw-d">' + txt(line) + '</span>' : "") + (w.size ? '<span class="aw-d">' + txt(w.size) + '</span>' : "") + (w.note ? '<span class="aw-n">' + txt(w.note) + '</span>' : "") + '</' + tag + '>';
+          '<span class="aw-t">' + (w.title ? txt(w.title) : '<span class="tbc">' + W("missing.title", "Title to confirm") + '</span>') + '</span>' + (line ? '<span class="aw-d">' + txt(line) + '</span>' : "") + (w.size ? '<span class="aw-d">' + txt(w.size) + '</span>' : "") + (w.note ? '<span class="aw-n">' + txt(w.note) + '</span>' : "") + '</' + tag + '>';
       }).join("\n");
       return '<section class="shell section">\n' + headBlock(st) + '<div class="gl aw gl-' + per + '">\n' + items + '\n</div>\n</section>';
     };
     S.exhibitions = function (st) {
       var rows = liveRows(get(st, "shows", [])).map(function (r) {
         var x = r.x;
-        return '<li class="exh-row" data-adh-b="shows.' + r.i + '"><span class="exh-when">' + (x.dates ? txt(x.dates) : '<span class="tbc">To confirm</span>') + '</span><span class="exh-what"><span class="exh-t">' + rep(x) + txt(x.title || "") + '</span>' + (x.place ? '<span class="exh-d">' + txt(x.place) + '</span>' : "") + '</span>' +
+        return '<li class="exh-row" data-adh-b="shows.' + r.i + '"><span class="exh-when">' + (x.dates ? txt(x.dates) : '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>') + '</span><span class="exh-what"><span class="exh-t">' + rep(x) + txt(x.title || "") + '</span>' + (x.place ? '<span class="exh-d">' + txt(x.place) + '</span>' : "") + '</span>' +
           '<span class="exh-side">' + (x.kind ? '<span class="chip">' + txt(x.kind) + '</span>' : "") + srcLink(x.href) + '</span></li>';
       }).join("\n");
       return '<section class="shell section">\n' + headBlock(st) + '<ol class="exh" data-reveal>\n' + rows + '\n</ol>\n</section>';
@@ -500,14 +509,14 @@
     S.career = function (st) {
       var rows = liveRows(get(st, "events", [])).map(function (r) {
         var x = r.x;
-        return '<li class="exh-row car-row" data-adh-b="events.' + r.i + '"><span class="exh-when">' + (x.when ? txt(x.when) : '<span class="tbc">To confirm</span>') + '</span><span class="exh-what"><span class="car-t">' + rep(x) + txt(x.what || "") + '</span></span><span class="exh-side">' + srcLink(x.href) + '</span></li>';
+        return '<li class="exh-row car-row" data-adh-b="events.' + r.i + '"><span class="exh-when">' + (x.when ? txt(x.when) : '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>') + '</span><span class="exh-what"><span class="car-t">' + rep(x) + txt(x.what || "") + '</span></span><span class="exh-side">' + srcLink(x.href) + '</span></li>';
       }).join("\n");
       return '<section class="shell section">\n' + headBlock(st) + '<ol class="exh car" data-reveal>\n' + rows + '\n</ol>\n</section>';
     };
     S.press = function (st) {
       var items = liveRows(get(st, "quotes", [])).filter(function (r) { return r.x.quote; }).map(function (r, k) {
         var x = r.x, by = [x.who, x.publication, x.date].filter(Boolean).map(txt).join(", ");
-        return '<figure class="card pq-card" data-adh-b="quotes.' + r.i + '" data-reveal style="--d:' + (k % 3) * 90 + 'ms"><blockquote>“' + txt(String(x.quote).trim()) + '”</blockquote>' + (by ? '<figcaption>' + by + '</figcaption>' : "") + srcLink(x.href, "Read it at the source") + '</figure>';
+        return '<figure class="card pq-card" data-adh-b="quotes.' + r.i + '" data-reveal style="--d:' + (k % 3) * 90 + 'ms"><blockquote>“' + txt(String(x.quote).trim()) + '”</blockquote>' + (by ? '<figcaption>' + by + '</figcaption>' : "") + srcLink(x.href, W("btn.read-source", "Read it at the source")) + '</figure>';
       }).join("\n");
       return '<section class="shell section">\n' + headBlock(st) + '<div class="cols cols-2 pq">\n' + items + '\n</div>\n</section>';
     };
@@ -518,22 +527,22 @@
     S.signup = function (st) {
       var t = get(st, "text", ""), e = get(st, "eyebrow", ""), h = get(st, "heading", "");
       return '<section class="shell section">\n<div class="panel on-ink signup" data-reveal>\n<div class="su-head">' + (e ? '<p class="eyebrow">' + txt(e) + '</p>' : "") + (h ? '<h2 class="h2">' + txt(h) + '</h2>' : "") + (t ? '<p class="intro">' + txt(String(t).trim()) + '</p>' : "") + '</div>\n' +
-        '<form class="form su-form" data-mailform="signup" data-email="' + esc(mailTo()) + '" novalidate>\n<div class="su-row"><label class="field">First name<input name="name" type="text" autocomplete="given-name"></label><label class="field">Email<input name="email" type="email" autocomplete="email" required></label></div>\n' +
-        '<div class="form-foot"><button class="pill pill-mint" type="submit">' + txt(get(st, "button", "") || "Ask to join") + '</button>\n<p class="quiet su-note" role="status">This opens your own email app with a message ready to send to ' + esc(mailTo()) + '.</p></div>\n</form>\n</div>\n</section>';
+        '<form class="form su-form" data-mailform="signup" data-email="' + esc(mailTo()) + '" novalidate>\n<div class="su-row"><label class="field">' + W("form.first-name", "First name") + '<input name="name" type="text" autocomplete="given-name"></label><label class="field">' + W("form.email", "Email") + '<input name="email" type="email" autocomplete="email" required></label></div>\n' +
+        '<div class="form-foot"><button class="pill pill-mint" type="submit">' + (get(st, "button", "") ? txt(get(st, "button", "")) : W("btn.join", "Ask to join")) + '</button>\n<p class="quiet su-note" role="status">' + W("form.note", "This opens your own email app with a message ready to send to {email}.", { email: esc(mailTo()) }) + '</p></div>\n</form>\n</div>\n</section>';
     };
     // A sign-up box that pops up once a visit; drawn hidden, and shown by the site's script.
     S["signup-popup"] = function (st, ctx) {
       var id = (ctx && ctx.id) || "popup", d = Math.max(3, Math.min(60, Number(get(st, "delay", 8)) || 8)), e = get(st, "eyebrow", ""), t = get(st, "text", "");
-      return '<div class="supop on-ink" id="' + esc(id) + '" data-popup data-delay="' + d + '" role="dialog" aria-labelledby="' + esc(id) + '-h" hidden>\n<button type="button" class="supop-x" data-pop-close>Close</button>\n' +
+      return '<div class="supop on-ink" id="' + esc(id) + '" data-popup data-delay="' + d + '" role="dialog" aria-labelledby="' + esc(id) + '-h" hidden>\n<button type="button" class="supop-x" data-pop-close>' + W("btn.close", "Close") + '</button>\n' +
         (e ? '<p class="eyebrow">' + txt(e) + '</p>' : "") + '<h2 class="supop-h" id="' + esc(id) + '-h">' + txt(get(st, "heading", "")) + '</h2>' + (t ? '<p class="intro">' + txt(String(t).trim()) + '</p>' : "") + '\n' +
-        '<form class="form su-form" data-mailform="signup" data-email="' + esc(mailTo()) + '" novalidate>\n<label class="field">Email<input name="email" type="email" autocomplete="email" required></label>\n' +
-        '<div class="form-foot"><button class="pill pill-mint" type="submit">' + txt(get(st, "button", "") || "Ask to join") + '</button>\n<p class="quiet su-note" role="status">This opens your own email app with a message ready to send to ' + esc(mailTo()) + '.</p></div>\n</form>\n</div>';
+        '<form class="form su-form" data-mailform="signup" data-email="' + esc(mailTo()) + '" novalidate>\n<label class="field">' + W("form.email", "Email") + '<input name="email" type="email" autocomplete="email" required></label>\n' +
+        '<div class="form-foot"><button class="pill pill-mint" type="submit">' + (get(st, "button", "") ? txt(get(st, "button", "")) : W("btn.join", "Ask to join")) + '</button>\n<p class="quiet su-note" role="status">' + W("form.note", "This opens your own email app with a message ready to send to {email}.", { email: esc(mailTo()) }) + '</p></div>\n</form>\n</div>';
     };
     S.visit = function (st) {
       var mw = get(st, "map_words", ""), m = String(get(st, "map", "") || ""), map = mw && /^https:\/\//i.test(m) ? '<a class="src vis-map" href="' + esc(m) + '" target="_blank" rel="noopener">' + txt(mw) + '</a>' : "";
       var cards = liveRows(get(st, "details", [])).map(function (r, k) {
         var x = r.x;
-        return '<div class="card vis-card" data-adh-b="details.' + r.i + '" data-reveal style="--d:' + (k % 3) * 90 + 'ms"><p class="eyebrow vis-label">' + txt(x.title || "") + '</p><p class="vis-words">' + (x.text ? txt(String(x.text).trim()) : '<span class="tbc">To add</span>') + '</p>' + (k === 0 ? map : "") + '</div>';
+        return '<div class="card vis-card" data-adh-b="details.' + r.i + '" data-reveal style="--d:' + (k % 3) * 90 + 'ms"><p class="eyebrow vis-label">' + txt(x.title || "") + '</p><p class="vis-words">' + (x.text ? txt(String(x.text).trim()) : '<span class="tbc">' + W("missing.to-add", "To add") + '</span>') + '</p>' + (k === 0 ? map : "") + '</div>';
       }).join("\n");
       return '<section class="shell section">\n' + headBlock(st) + '<div class="cols vis">\n' + cards + '\n</div>\n' + (cards ? "" : map) + '</section>';
     };
@@ -635,27 +644,27 @@
         img = '<figure class="art-slot" data-reveal><img src="' + src + '" alt="' + esc(alt) + '" loading="lazy"><figcaption>' + esc(cap) + '</figcaption></figure>';
       }
       var bestFact = best ? '<span class="v">' + money(best.premium, best.currency) + '</span><span class="s">With premium. ' + esc(best.title) + ', ' + esc(best.house) + ', ' + esc(best.date ? best.date_text : "date to confirm") + '.</span>'
-        : '<span class="v">To confirm</span><span class="s">No priced sale documented yet.</span>';
-      var firstFact = first ? '<span class="v">' + esc(first.date_text) + '</span><span class="s">' + esc(first.title) + ', ' + esc(first.house) + '.</span>' : '<span class="v">To confirm</span><span class="s">No dated sale yet.</span>';
+        : '<span class="v">' + W("missing.tbc", "To confirm") + '</span><span class="s">' + W("missing.no-priced", "No priced sale documented yet.") + '</span>';
+      var firstFact = first ? '<span class="v">' + esc(first.date_text) + '</span><span class="s">' + esc(first.title) + ', ' + esc(first.house) + '.</span>' : '<span class="v">' + W("missing.tbc", "To confirm") + '</span><span class="s">' + W("missing.no-dated", "No dated sale yet.") + '</span>';
       var M = function (h, id) { return opts.mark ? h.replace(/^(\s*<[a-z]+)/, '$1 data-adh="' + id + '"') : h; };
-      var body = M('<section class="shell page-head">\n<p class="crumbs" data-reveal><a href="@@artists/">Artist Market Profiles</a></p>\n<h1 class="h1" data-reveal style="--d:80ms">' + esc(a.name) + '</h1>\n' +
+      var body = M('<section class="shell page-head">\n<p class="crumbs" data-reveal><a href="@@artists/">' + W("item.crumb-artists", "Artist Market Profiles") + '</a></p>\n<h1 class="h1" data-reveal style="--d:80ms">' + esc(a.name) + '</h1>\n' +
         '<p class="lede" data-reveal style="--d:200ms">' + esc(a.summary) + '</p>\n</section>', "words") + '\n' +
         M('<section class="shell section" style="padding-top:48px">\n<div class="facts">\n' +
-        '<div class="fact" data-reveal><span class="k">Highest documented price</span>' + bestFact + '</div>\n' +
-        '<div class="fact" data-reveal style="--d:90ms"><span class="k">Priced results</span><span class="v">' + pr.length + '</span><span class="s">Out of ' + rows.length + ' lots we have found.</span></div>\n' +
-        '<div class="fact" data-reveal style="--d:180ms"><span class="k">Earliest dated sale</span>' + firstFact + '</div>\n' +
-        '<div class="fact" data-reveal style="--d:270ms"><span class="k">Auction houses</span><span class="v">' + (a.houses || []).length + '</span><span class="s">' + esc((a.houses || []).join(", ")) + '.</span></div>\n' +
+        '<div class="fact" data-reveal><span class="k">' + W("item.highest", "Highest documented price") + '</span>' + bestFact + '</div>\n' +
+        '<div class="fact" data-reveal style="--d:90ms"><span class="k">' + W("item.priced", "Priced results") + '</span><span class="v">' + pr.length + '</span><span class="s">' + W("item.out-of", "Out of {total} lots we have found.", { total: String(rows.length) }) + '</span></div>\n' +
+        '<div class="fact" data-reveal style="--d:180ms"><span class="k">' + W("item.earliest", "Earliest dated sale") + '</span>' + firstFact + '</div>\n' +
+        '<div class="fact" data-reveal style="--d:270ms"><span class="k">' + W("item.houses", "Auction houses") + '</span><span class="v">' + (a.houses || []).length + '</span><span class="s">' + esc((a.houses || []).join(", ")) + '.</span></div>\n' +
         '</div>\n</section>', "words") + '\n' +
-        M('<section class="shell section" id="timeline">\n<div class="panel on-ink" data-reveal>\n<p class="eyebrow">Artist auction timeline</p>\n<div class="split"><h2 class="h2">' + esc(a.name) + ' at auction</h2>\n' +
+        M('<section class="shell section" id="timeline">\n<div class="panel on-ink" data-reveal>\n<p class="eyebrow">' + W("item.timeline", "Artist auction timeline") + '</p>\n<div class="split"><h2 class="h2">' + W("item.at-auction", "{name} at auction", { name: esc(a.name) }) + '</h2>\n' +
         '<p class="intro">Every public sale we can document, in date order. Estimate, hammer price and price with premium each have their own column.</p></div>\n' +
         LEGEND + '\n' + table(rows, "timeline-" + slug) + '\n' + TABLE_NOTE + '\n</div>\n</section>', "sales") + '\n' +
-        M('<section class="shell section">\n<div class="panel on-ink" data-reveal>\n<h2 class="h2">Estimate, hammer and total, side by side</h2>\n' +
+        M('<section class="shell section">\n<div class="panel on-ink" data-reveal>\n<h2 class="h2">' + W("item.side-by-side", "Estimate, hammer and total, side by side") + '</h2>\n' +
         '<p class="intro" style="max-width:620px">The bars use one scale, so you can compare sales with each other as well as the three figures within each sale.</p>\n' + ladder(rows) + '\n</div>\n</section>', "sales") + '\n' +
-        M('<section class="shell article" style="padding-top:104px">\n<div class="article-body prose" data-reveal>\n<h2 style="margin-top:0">About the artist</h2>\n' + paras + '\n' +
+        M('<section class="shell article" style="padding-top:104px">\n<div class="article-body prose" data-reveal>\n<h2 style="margin-top:0">' + W("item.about", "About the artist") + '</h2>\n' + paras + '\n' +
         '<p>These figures are a record of past public sales. They are not a valuation and they are not advice. For how to read them, start with <a href="@@research/what-an-auction-result-tells-collectors/">what an auction result actually tells collectors</a>.</p>\n</div>\n' +
-        '<aside class="article-side" data-reveal style="--d:120ms">\n' + img + '\n<div class="mini"><h2>Related reading</h2><ul>' + rel + '</ul></div>\n' +
-        '<div class="mini"><h2>Background sources</h2><ul>' + srcs + '</ul></div>\n' +
-        '<div class="mini"><h2>Spotted a gap?</h2><p>If you can document a sale we have missed, or correct a figure, <a href="@@about/#corrections">tell us</a>.</p></div>\n</aside>\n</section>', "about");
+        '<aside class="article-side" data-reveal style="--d:120ms">\n' + img + '\n<div class="mini"><h2>' + W("item.related", "Related reading") + '</h2><ul>' + rel + '</ul></div>\n' +
+        '<div class="mini"><h2>' + W("item.sources", "Background sources") + '</h2><ul>' + srcs + '</ul></div>\n' +
+        '<div class="mini"><h2>' + W("item.gap", "Spotted a gap?") + '</h2><p>If you can document a sale we have missed, or correct a figure, <a href="@@about/#corrections">tell us</a>.</p></div>\n</aside>\n</section>', "about");
       body = tplWrap("artist", slug, body); AO_KIND = "artist";
       var ld = pyJson({ "@context": "https://schema.org", "@type": "ProfilePage", name: a.name + " market profile", url: SITE.url + "artists/" + slug + "/", dateModified: PUBLISHED, mainEntity: { "@type": "Person", name: a.name } });
       return page("artists/" + slug + "/index.html", a.name + " Auction Results and Market Profile | Global Art Monitor",
@@ -668,28 +677,28 @@
         var token = "[[TIMELINE:" + slug + "]]";
         if (html.indexOf(token) >= 0) {
           var block = '<div class="panel on-ink" style="padding:28px 22px;gap:18px">' + LEGEND + table(salesFor(slug), "feature-" + slug) +
-            '<p class="note">Sources are linked in the last column. "Our calculation" means a hammer price worked back from the published total.</p></div>';
+            '<p class="note">Sources are linked in the last column. "' + W("table.calculated", "Our calculation") + '" means a hammer price worked back from the published total.</p></div>';
           html = html.split(token).join(block);
         }
       });
       var others = FEATURES.filter(function (o) { return o.slug !== f.slug; }).slice(0, 4);
       var more = others.map(function (o) { return '<li><a href="@@research/' + o.slug + '/">' + esc(o.title) + '</a></li>'; }).join("");
       var M = function (h, id) { return opts.mark ? h.replace(/^(\s*<[a-z]+)/, '$1 data-adh="' + id + '"') : h; };
-      var body = M('<section class="shell page-head wide">\n<p class="crumbs" data-reveal><a href="@@research/">Research Reports</a></p>\n<p class="eyebrow" data-reveal>' + esc(f.kicker) + '</p>\n' +
+      var body = M('<section class="shell page-head wide">\n<p class="crumbs" data-reveal><a href="@@research/">' + W("item.crumb-research", "Research Reports") + '</a></p>\n<p class="eyebrow" data-reveal>' + esc(f.kicker) + '</p>\n' +
         '<h1 class="h1" data-reveal style="--d:80ms;font-size:clamp(38px,5vw,62px)">' + esc(f.title) + '</h1>\n' +
         '<p class="byline" data-reveal style="--d:160ms">By the Global Art Monitor research desk. Published ' + PUBLISHED_TEXT + '. ' + f.mins + ' minute read.</p>\n</section>', "words") + '\n' +
         '<section class="shell article">\n' + M('<article class="article-body prose">\n' + html + '\n</article>', "body") + '\n' +
-        '<aside class="article-side">\n<div class="mini"><h2>More research</h2><ul>' + more + '</ul></div>\n' +
-        '<div class="mini"><h2>The figures</h2><p>All prices in this piece are on the <a href="@@auction-results/">auction results</a> page, with a source for each.</p></div>\n' +
-        '<div class="mini"><h2>Who publishes this</h2><p>' + esc(SITE.disclosure || "") + '</p></div>\n</aside>\n</section>';
+        '<aside class="article-side">\n<div class="mini"><h2>' + W("item.more", "More research") + '</h2><ul>' + more + '</ul></div>\n' +
+        '<div class="mini"><h2>' + W("item.figures", "The figures") + '</h2><p>All prices in this piece are on the <a href="@@auction-results/">auction results</a> page, with a source for each.</p></div>\n' +
+        '<div class="mini"><h2>' + W("item.who", "Who publishes this") + '</h2><p>' + esc(SITE.disclosure || "") + '</p></div>\n</aside>\n</section>';
       body = tplWrap("article", f.slug, body); AO_KIND = "article";
       var ld = pyJson({ "@context": "https://schema.org", "@type": "Article", headline: f.title, description: f.description, datePublished: PUBLISHED, dateModified: PUBLISHED,
         author: { "@type": "Organization", name: "Global Art Monitor" }, publisher: { "@type": "Organization", name: "Global Art Monitor" }, mainEntityOfPage: SITE.url + "research/" + f.slug + "/" });
       return page("research/" + f.slug + "/index.html", f.title + " | Global Art Monitor", f.description || "", body, "research", false, '<script type="application/ld+json">' + ld + '</script>\n');
     }
     function notFound() {
-      var body = '<section class="shell page-head">\n<p class="eyebrow">Page not found</p>\n<h1 class="h1">That page is not in the record.</h1>\n<p class="lede">The link may be old or mistyped.</p>\n' +
-        '<div class="hero-actions"><a class="pill pill-ink" href="/">Go to the home page</a><a class="pill pill-mint" href="/auction-results/">Browse auction results</a></div>\n</section>';
+      var body = '<section class="shell page-head">\n<p class="eyebrow">' + W("nf.eyebrow", "Page not found") + '</p>\n<h1 class="h1">' + W("nf.title", "That page is not in the record.") + '</h1>\n<p class="lede">' + W("nf.lede", "The link may be old or mistyped.") + '</p>\n' +
+        '<div class="hero-actions"><a class="pill pill-ink" href="/">' + W("nf.home", "Go to the home page") + '</a><a class="pill pill-mint" href="/auction-results/">' + W("nf.results", "Browse auction results") + '</a></div>\n</section>';
       return { path: "404.html", html: head("/", "Page not found | Global Art Monitor", "Page not found.", "404.html") + "<body>\n" + (groupHtml("top", true) ? groupHtml("top", true).split("@@").join("/") + "\n" : "") + header("/", "") + '<main id="main">\n' + [groupHtml("top", false), body, groupHtml("bottom"), groupHtml("popups")].filter(Boolean).join("\n").split("@@").join("/") + '\n</main>\n' + footer("/") };
     }
     // Every published page, in the order the old build wrote them.

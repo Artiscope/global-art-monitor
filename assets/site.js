@@ -5,6 +5,17 @@
   var lenis = null;
   var MARK = '<svg class="mark" viewBox="0 0 120 120" aria-hidden="true"><path d="M 88.3 31.7 A 40 40 0 1 0 100 60" fill="none" stroke="currentColor" stroke-width="13" stroke-linecap="round"/><line x1="40" y1="60" x2="78" y2="60" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="40" cy="60" r="6" fill="currentColor"/><circle cx="58" cy="60" r="6" fill="currentColor"/><circle cx="78" cy="60" r="10.5" fill="#22E3A2"/></svg>';
 
+  // The site's fixed words. Edit default text in Artiscope Digital Home keeps changed ones, which the page
+  // carries in #adh-words (the editor sets window.ADH_WORDS); every call here carries the site's own words.
+  function SW(key, dflt, slots) {
+    var w = window.ADH_WORDS || null;
+    if (!w) { try { var el = document.getElementById('adh-words'); w = el ? JSON.parse(el.textContent) : {}; } catch (x) { w = {}; } }
+    var t = w && typeof w[key] === 'string' && w[key].trim() ? w[key] : dflt;
+    Object.keys(slots || {}).forEach(function (k) { t = t.split('{' + k + '}').join(slots[k]); });
+    return t;
+  }
+  function SWh(key, dflt) { return SW(key, dflt).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
   function lockScroll(lock) {
     doc.style.overflow = lock ? 'hidden' : '';
     if (lenis) { lock ? lenis.stop() : lenis.start(); }
@@ -37,9 +48,9 @@
     el.setAttribute('role', 'status');
     el.innerHTML =
       '<div><div class="loader-brand">' + MARK + 'Global Art Monitor</div>' +
-      '<p class="loader-line">Art market intelligence, beyond the headlines.</p></div>' +
+      '<p class="loader-line">' + SWh('loading.line', 'Art market intelligence, beyond the headlines.') + '</p></div>' +
       '<div class="loader-bar"><div class="loader-track"><div class="loader-fill"></div></div>' +
-      '<div class="loader-meta"><span>Loading</span><span class="loader-count">000</span></div></div>';
+      '<div class="loader-meta"><span>' + SWh('loading.word', 'Loading') + '</span><span class="loader-count">000</span></div></div>';
     document.body.appendChild(el);
     lockScroll(true);
 
@@ -181,12 +192,12 @@
         var note = form.querySelector('.su-note'), to = form.getAttribute('data-email');
         var say = function (t, bad) { if (note) { note.textContent = t; note.classList.toggle('err', !!bad); } };
         var email = form.elements.email;
-        if (email && (!email.value.trim() || !email.checkValidity())) { email.focus(); say('We need a working email address, so we can reply.', true); return; }
+        if (email && (!email.value.trim() || !email.checkValidity())) { email.focus(); say(SW('form.need-email', 'We need a working email address, so we can reply.'), true); return; }
         var body = 'Please add me to the Global Art Monitor market note.\n\nName: ' + v('name') + '\nEmail: ' + v('email');
-        var url = 'mailto:' + to + '?subject=' + encodeURIComponent('Please add me to the market note') + '&body=' + encodeURIComponent(body);
+        var url = 'mailto:' + to + '?subject=' + encodeURIComponent(SW('form.subject', 'Please add me to the market note')) + '&body=' + encodeURIComponent(body);
         form.setAttribute('data-mailto', url);
         window.location.href = url;
-        say('Your email app should now be open with the message ready. Send it and you are on the list. If nothing opened, write to ' + to + '.');
+        say(SW('form.sent', 'Your email app should now be open with the message ready. Send it and you are on the list. If nothing opened, write to {email}.', { email: to }));
       });
     });
   }
@@ -201,7 +212,7 @@
       var at = 0, paused = false, secs = Number(bar.getAttribute('data-secs')) || 6;
       function show(n) {
         msgs[at].classList.remove('on'); at = (n + msgs.length) % msgs.length; msgs[at].classList.add('on');
-        if (count) { count.textContent = (at + 1) + ' of ' + msgs.length; }
+        if (count) { count.textContent = SW('btn.count', '{n} of {total}', { n: String(at + 1), total: String(msgs.length) }); }
       }
       bar.adhShow = function (el) { for (var i = 0; i < msgs.length; i++) { if (msgs[i] === el) { show(i); } } };
       bar.addEventListener('mouseenter', function () { paused = true; });
@@ -221,7 +232,7 @@
       var sl = box.querySelectorAll('.ss-slide'), at = box.querySelector('.ss-at');
       if (sl.length < 2) { return; }
       var i = 0, paused = false, stopped = false;
-      function show(n) { sl[i].classList.remove('on'); i = (n + sl.length) % sl.length; sl[i].classList.add('on'); if (at) { at.textContent = (i + 1) + ' of ' + sl.length; } }
+      function show(n) { sl[i].classList.remove('on'); i = (n + sl.length) % sl.length; sl[i].classList.add('on'); if (at) { at.textContent = SW('btn.count', '{n} of {total}', { n: String(i + 1), total: String(sl.length) }); } }
       box.adhShow = function (el) { for (var k = 0; k < sl.length; k++) { if (sl[k] === el) { show(k); } } };
       box.querySelector('[data-ss="prev"]').addEventListener('click', function () { stopped = true; show(i - 1); });
       box.querySelector('[data-ss="next"]').addEventListener('click', function () { stopped = true; show(i + 1); });
@@ -235,15 +246,15 @@
   var LB = null;
   function lightbox() {
     if (LB) { return LB; }
-    var d = document.createElement('div'); d.className = 'lb'; d.hidden = true; d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true'); d.setAttribute('aria-label', 'Larger picture');
-    d.innerHTML = '<div class="lb-pic"></div><p class="lb-cap"></p><div class="lb-nav"><button type="button" data-lb="prev">Previous</button><button type="button" data-lb="close">Close</button><button type="button" data-lb="next">Next</button></div>';
+    var d = document.createElement('div'); d.className = 'lb'; d.hidden = true; d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true'); d.setAttribute('aria-label', SW('sr.larger', 'Larger picture'));
+    d.innerHTML = '<div class="lb-pic"></div><p class="lb-cap"></p><div class="lb-nav"><button type="button" data-lb="prev">' + SWh('btn.previous', 'Previous') + '</button><button type="button" data-lb="close">' + SWh('btn.close', 'Close') + '</button><button type="button" data-lb="next">' + SWh('btn.next', 'Next') + '</button></div>';
     document.body.appendChild(d);
     LB = { el: d, items: [], i: 0, back: null };
     LB.show = function (k) {
       var it = LB.items; LB.i = (k + it.length) % it.length;
       var b = it[LB.i], img = b.querySelector('img'), t = b.querySelector('.gl-t'), pic = d.querySelector('.lb-pic');
       pic.textContent = '';
-      if (img) { var c = img.cloneNode(); c.removeAttribute('loading'); pic.appendChild(c); } else { var sp = document.createElement('span'); sp.className = 'lb-none'; sp.textContent = 'Picture to supply'; pic.appendChild(sp); }
+      if (img) { var c = img.cloneNode(); c.removeAttribute('loading'); pic.appendChild(c); } else { var sp = document.createElement('span'); sp.className = 'lb-none'; sp.textContent = SW('missing.picture', 'Picture to supply'); pic.appendChild(sp); }
       d.querySelector('.lb-cap').textContent = t ? t.textContent : (img ? img.alt : '');
       d.querySelector('[data-lb="prev"]').hidden = d.querySelector('[data-lb="next"]').hidden = it.length < 2;
     };
