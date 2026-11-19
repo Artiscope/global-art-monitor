@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Thursday 19 November 2026
+Published: nothing on the site. This log entry and one topic idea in the content calendar.
+Drafts waiting: none.
+Checked: the site rebuilds with no changes and the live homepage loads with all six Zara Muse rows. No long dashes or US spellings. No photos in the inbox. Read Tate Ward, Roseberys and FAD Magazine and searched for Christie's results: no sold prices found for Ava or Unspoken, so both stay "To confirm". Invaluable and MutualArt refused automated visits today. Monday's run was missed, so the first topic idea is added today: Zara Muse prints at auction.
+Needs you: (1) A yes or no on the prints idea in the content calendar. (2) Roseberys offers Kerry and Vivienne and Calliope on Tuesday 24 November. I will draft the results once they are published. (3) The article "How to Compare Primary Gallery Prices with Auction Results" opens with the word "bargain", which is on the voice guide's never-use list. Tell me to draft a rewording. (4) Roseberys gives Zara Muse's birth year as 1972. The site says 1971, as Bonhams and Tate Ward do. No change made. (5) Still open: the Gilded Promise row has no sale date or lot page.
+
 ## Monday 16 November 2026, new header bar
 Published: the header on every page is now a rounded charcoal bar that stays in view while scrolling, at the owner's request in a conversation. Larger logo, a lighter pill on the current page, Contact added to the bar, mint Subscribe button. Two labels are shortened in the bar only ("Artist Profiles", "Research"). The pages keep their full names.
 Drafts waiting: none.
