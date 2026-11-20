@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Friday 20 November 2026, Christie's prices added
+Published: the two Christie's rows in the Zara Muse timeline now show the price with premium, on the owner's instruction in a conversation: Ava GBP 44,450 and Unspoken GBP 30,720. The owner supplied both from Christie's sold lots page, where they are labelled "Price Realised". Hammer price stays "To confirm" for both, as the owner chose, because Christie's does not publish it and the premium rate for each sale is not confirmed. Three articles were brought up to date to match (the Zara Muse timeline, the record sale piece and the liquidity piece).
+Drafts waiting: none.
+Checked: all pages rebuild, links and markup pass, phone and desktop widths hold. The homepage "Latest documented result" is now Unspoken. Highest documented price is unchanged at GBP 51,200.
+Needs you: the address of each lot's own page on Christie's, if you would like the table to link to those in place of the search page.
+
 ## Thursday 19 November 2026
 Published: nothing on the site. This log entry and one topic idea in the content calendar.
 Drafts waiting: none.

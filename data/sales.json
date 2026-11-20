@@ -4,12 +4,18 @@
     "zara-muse": {
       "name": "Zara Muse",
       "line": "British, born 1971. Painter.",
-      "houses": ["Tate Ward", "Bonhams", "Christie's"]
+      "houses": [
+        "Tate Ward",
+        "Bonhams",
+        "Christie's"
+      ]
     },
     "konn-artiss": {
       "name": "Konn Artiss",
       "line": "Anonymous. Installations and public interventions.",
-      "houses": ["Tate Ward"]
+      "houses": [
+        "Tate Ward"
+      ]
     }
   },
   "sales": [
@@ -108,9 +114,11 @@
       "est_high": 8000,
       "hammer": null,
       "hammer_basis": null,
-      "premium": null,
-      "source_label": "Invaluable lot page",
-      "source_url": "https://www.invaluable.com/auction-lot/zara-muse-b-1971-ava-acrylic-on-canvas39-1-8-x-39-429-c-4fceabcd4f"
+      "premium": 44450,
+      "source_label": "Christie's sold lots",
+      "source_url": "https://www.christies.com/en/search?entry=zara%20muse&page=1&sortby=relevance&tab=sold_lots",
+      "source2_label": "Invaluable lot page",
+      "source2_url": "https://www.invaluable.com/auction-lot/zara-muse-b-1971-ava-acrylic-on-canvas39-1-8-x-39-429-c-4fceabcd4f"
     },
     {
       "artist": "zara-muse",
@@ -127,11 +135,11 @@
       "est_high": 8000,
       "hammer": null,
       "hammer_basis": null,
-      "premium": null,
-      "source_label": "Invaluable lot page",
-      "source_url": "https://www.invaluable.com/auction-lot/zara-muse-b-1971-unspoken-oil-on-canvas39-3-8-x-3-1075-c-76ad02ca74",
-      "source2_label": "MutualArt",
-      "source2_url": "https://www.mutualart.com/Artist/Zara-Muse/D79DDE75F7A21C49"
+      "premium": 30720,
+      "source_label": "Christie's sold lots",
+      "source_url": "https://www.christies.com/en/search?entry=zara%20muse&page=1&sortby=relevance&tab=sold_lots",
+      "source2_label": "Invaluable lot page",
+      "source2_url": "https://www.invaluable.com/auction-lot/zara-muse-b-1971-unspoken-oil-on-canvas39-3-8-x-3-1075-c-76ad02ca74"
     },
     {
       "artist": "konn-artiss",
