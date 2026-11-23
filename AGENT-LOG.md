@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Monday 23 November 2026, images for the new street artists (draft)
+Published: nothing. Prepared as a draft on the owner's request in a conversation to add images for the five new street artists.
+Drafts waiting: profile images for Vhils, OSGEMEOS and Faith XLVII (link in the pull request list).
+Checked: each licence on the photo's own Wikimedia Commons page. Credits sit in the captions. The pages build and hold at phone and desktop width.
+Needs you: these photos come from the web, not the inbox, and each shows the artist's work, so they wait for your yes. Nothing usable was found for KAWS or Eko Nugroho.
+
 ## Monday 23 November 2026, auction guides and why each artist is valued (draft)
 Published: nothing. Prepared as a draft on the owner's request in a conversation to research more and update every section.
 Drafts waiting: six new guides (how an auction works, the buyer's premium with 2026 rates, guarantees and catalogue symbols, unique works and editions, provenance and authentication, what makes an artist's work valued), a "Why the work is valued" section on all thirteen profiles, 17 new glossary terms, and hammer prices worked back for 11 Christie's lots (link in the pull request list).
