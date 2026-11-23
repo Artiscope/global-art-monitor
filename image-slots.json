@@ -12,6 +12,36 @@
       "group": "Artist profile images",
       "label": "Konn Artiss",
       "filled": true
+    },
+    {
+      "id": "artist-banksy",
+      "group": "Artist profile images",
+      "label": "Banksy",
+      "filled": true
+    },
+    {
+      "id": "artist-yayoi-kusama",
+      "group": "Artist profile images",
+      "label": "Yayoi Kusama",
+      "filled": true
+    },
+    {
+      "id": "artist-el-anatsui",
+      "group": "Artist profile images",
+      "label": "El Anatsui",
+      "filled": true
+    },
+    {
+      "id": "artist-s-h-raza",
+      "group": "Artist profile images",
+      "label": "S.H. Raza",
+      "filled": true
+    },
+    {
+      "id": "artist-gerhard-richter",
+      "group": "Artist profile images",
+      "label": "Gerhard Richter",
+      "filled": true
     }
   ]
 }
