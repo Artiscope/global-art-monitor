@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Monday 23 November 2026, autumn 2026 top lots
+Published: a report on the November 2026 New York evening sales (sale totals, the twelve top prices, why they sold, and the autumn sales in London and Hong Kong), new market profiles for Vincent van Gogh and Wassily Kandinsky, and two October London results for Gerhard Richter. Artists page, homepage profiles, auction results page and the "why work is valued" guide updated to fifteen artists. Published on the owner's instruction in a conversation ("once everything is done. merge and publish").
+Drafts waiting: none from this change.
+Checked: Phillips lot pages and sale pages in New York and London give exact prices. Sotheby's hides results unless signed in and Christie's lot pages refused automated visits, so those prices rest on The Art Newspaper, Artsy, Art Insider, Artdaily and others, and rounded figures stay "To confirm" in the tables. Pages build and hold at 390 and 1280 pixels.
+Needs you: exact Christie's and Sotheby's figures if you can read them while signed in. Image spots added for the two new profiles.
+
 ## Monday 23 November 2026, images for the new street artists (draft)
 Published: nothing. Prepared as a draft on the owner's request in a conversation to add images for the five new street artists.
 Drafts waiting: profile images for Vhils, OSGEMEOS and Faith XLVII (link in the pull request list).
