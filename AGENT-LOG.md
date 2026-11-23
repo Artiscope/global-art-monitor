@@ -2,6 +2,11 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Monday 23 November 2026, artist images (draft)
+Published: nothing. Prepared as a draft on the owner's request in a conversation to add images to the sites.
+Drafts waiting: pictures on the profiles of Banksy, Yayoi Kusama, El Anatsui, S.H. Raza and Gerhard Richter (link in the pull request list).
+Checked: every picture comes from Wikimedia Commons under a licence that allows reuse, read on the file's own page, and each caption names the photographer and licence. Portraits for Kusama, Raza and Richter. Banksy: his 2026 statue in Waterloo Place, London. El Anatsui: no free portrait exists, so a public sculpture from his design at the University of Nigeria, Nsukka. Pages build and hold at phone and desktop width.
+Needs you: this site's brief says images come only from the inbox, so these wait for your yes. No usable picture was found for Beatriz Milhazes; her profile stays without one.
 
 ## Monday 23 November 2026, five street artists
 Published: five street artists and their auction results, on the owner's yes ("publish now"). Merged with the eight-artist profiles change, and the five new artists added to the Artists page lists.

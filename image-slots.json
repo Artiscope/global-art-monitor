@@ -17,19 +17,19 @@
       "id": "artist-banksy",
       "group": "Artist profile images",
       "label": "Banksy",
-      "filled": false
+      "filled": true
     },
     {
       "id": "artist-yayoi-kusama",
       "group": "Artist profile images",
       "label": "Yayoi Kusama",
-      "filled": false
+      "filled": true
     },
     {
       "id": "artist-el-anatsui",
       "group": "Artist profile images",
       "label": "El Anatsui",
-      "filled": false
+      "filled": true
     },
     {
       "id": "artist-beatriz-milhazes",
@@ -41,13 +41,13 @@
       "id": "artist-s-h-raza",
       "group": "Artist profile images",
       "label": "S.H. Raza",
-      "filled": false
+      "filled": true
     },
     {
       "id": "artist-gerhard-richter",
       "group": "Artist profile images",
       "label": "Gerhard Richter",
-      "filled": false
+      "filled": true
     },
     {
       "id": "artist-osgemeos",
