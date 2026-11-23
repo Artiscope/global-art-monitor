@@ -6,7 +6,8 @@
    plus the page list from data/pages.json and the theme block for the head. */
 (function (root) {
   "use strict";
-  var SYMBOL = { GBP: "£", USD: "US$", EUR: "€" };
+  // Every price is shown in the currency of the sale. A currency with no symbol here is shown by its code.
+  var SYMBOL = { GBP: "£", USD: "US$", EUR: "€", HKD: "HK$", AUD: "A$", CAD: "C$", SGD: "S$", NZD: "NZ$", JPY: "JP¥", CNY: "CN¥" };
   var MARK_INNER = '<path d="M 88.3 31.7 A 40 40 0 1 0 100 60" fill="none" stroke="{fg}" stroke-width="13" stroke-linecap="round"/>' +
     '<line x1="40" y1="60" x2="78" y2="60" stroke="{fg}" stroke-width="5" stroke-linecap="round"/>' +
     '<circle cx="40" cy="60" r="6" fill="{fg}"/><circle cx="58" cy="60" r="6" fill="{fg}"/>' +
@@ -18,7 +19,18 @@
   function esc(v) { return String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#x27;"); }
   function txt(v) { return String(v).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
   function commas(n) { n = Number(n); var s = Math.abs(n % 1) === 0.5 ? String(2 * Math.round(n / 2)) : n.toFixed(0), neg = s.charAt(0) === "-"; if (neg) s = s.slice(1); return (neg ? "-" : "") + s.replace(/\B(?=(\d{3})+(?!\d))/g, ","); }
-  function money(n, cur) { return (SYMBOL[cur || "GBP"] || "") + commas(n); }
+  function money(n, cur) {
+    if (!cur) return commas(n) + " (currency to confirm)";
+    return (SYMBOL[cur] || (cur + " ")) + commas(n);
+  }
+  // Rough width of a price in ems, so the homepage card can size it to fit on one line.
+  function priceWidth(t) {
+    var w = 0;
+    String(t).split("").forEach(function (ch) {
+      w += /[0-9]/.test(ch) ? 0.5 : /[,. ]/.test(ch) ? 0.26 : /[A-Z]/.test(ch) ? 0.7 : 0.56;
+    });
+    return (w * 1.08).toFixed(2);
+  }
   function plain(n) { return commas(n); }
   function pad2(n) { return n < 10 ? "0" + n : String(n); }
   function slugify(t) { return Array.from(String(t).toLowerCase()).map(function (ch) { return /[\p{L}\p{N}]/u.test(ch) ? ch : "-"; }).join("").replace(/^-+|-+$/g, ""); }
@@ -202,15 +214,15 @@
 
     // ----- auction components -----
     function estCell(s) {
-      if (s.est_low && s.est_high) return plain(s.est_low) + " to " + plain(s.est_high);
-      if (s.est_low) return W("table.from", "From {low}", { low: plain(s.est_low) }) + '<span class="sub">' + W("missing.high", "High estimate to confirm") + '</span>';
+      if (s.est_low && s.est_high) return money(s.est_low, s.currency) + " to " + plain(s.est_high);
+      if (s.est_low) return W("table.from", "From {low}", { low: money(s.est_low, s.currency) }) + '<span class="sub">' + W("missing.high", "High estimate to confirm") + '</span>';
       return '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>';
     }
     function hamCell(s) {
       if (!s.hammer) return '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>';
-      return '<span class="ham">' + plain(s.hammer) + '</span>' + (s.hammer_basis === "calculated" ? '<span class="sub">' + W("table.calculated", "Our calculation") + '</span>' : "");
+      return '<span class="ham">' + money(s.hammer, s.currency) + '</span>' + (s.hammer_basis === "calculated" ? '<span class="sub">' + W("table.calculated", "Our calculation") + '</span>' : "");
     }
-    function premCell(s) { return !s.premium ? '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>' : '<span class="prem">' + plain(s.premium) + '</span>'; }
+    function premCell(s) { return !s.premium ? '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>' : '<span class="prem">' + money(s.premium, s.currency) + '</span>'; }
     function sourceCell(s) {
       var out = '<a href="' + esc(s.source_url) + '" rel="noopener">' + esc(s.source_label) + '</a>';
       if (s.source2_url) out += '<span class="sub"><a href="' + esc(s.source2_url) + '" rel="noopener">' + esc(s.source2_label) + '</a></span>';
@@ -240,9 +252,12 @@
     function ladder(rows) {
       rows = priced(rows);
       if (!rows.length) return "";
-      var top = Math.max.apply(null, rows.map(function (s) { return s.premium; })), out = "";
+      // Sales in different currencies are never measured against each other: each currency has its own scale.
+      var tops = {}, out = "";
+      rows.forEach(function (s) { tops[s.currency] = Math.max(tops[s.currency] || 0, s.premium); });
+      var mixed = Object.keys(tops).length > 1;
       rows.forEach(function (s) {
-        var bars = "", w;
+        var bars = "", w, top = tops[s.currency];
         if (s.est_high) { w = s.est_high / top * 68; bars += '<div class="bar bar-est"><i style="width:' + w.toFixed(1) + '%"></i>' + W("table.bar-high", "High estimate {price}", { price: money(s.est_high, s.currency) }) + '</div>'; }
         if (s.hammer) { w = s.hammer / top * 68; bars += '<div class="bar bar-ham"><i style="width:' + w.toFixed(1) + '%"></i>' + W("table.bar-hammer", "Hammer {price}", { price: money(s.hammer, s.currency) }) + (s.hammer_basis === "calculated" ? ", " + W("table.calculated", "Our calculation").toLowerCase() : "") + '</div>'; }
         w = s.premium / top * 68;
@@ -250,7 +265,8 @@
         out += '<div class="ladder-row"><div class="ladder-label">' + esc(s.title) + '<span class="sub">' + esc(s.house) + ', ' + esc(s.date_text) + '</span></div>' +
           '<div class="ladder-bars">' + bars + '</div></div>\n';
       });
-      return '<div class="ladder" data-reveal role="img" aria-label="' + W("sr.ladder", "Bar comparison of estimate, hammer price and price with premium for each priced sale. The same figures are in the table.") + '">\n' + out + '</div>';
+      return '<div class="ladder" data-reveal role="img" aria-label="' + W("sr.ladder", "Bar comparison of estimate, hammer price and price with premium for each priced sale. The same figures are in the table.") + '">\n' + out + '</div>' +
+        (mixed ? '<p class="note">' + W("table.mixed-note", "These sales were held in more than one currency. Each price is shown in the currency of its sale, and the bars are scaled within each currency, so bars in different currencies cannot be compared with each other.") + '</p>' : "");
     }
     function featureCard(f, n, big, delay) {
       var num = n ? pad2(n) + " &nbsp; " : "";
@@ -258,10 +274,20 @@
         '<h3><a href="@@research/' + f.slug + '/">' + esc(f.title) + '</a></h3><p>' + esc(f.standfirst) + '</p>' +
         '<a class="text-link" href="@@research/' + f.slug + '/">' + W("btn.read-feature", "Read the feature") + '</a></article>\n';
     }
+    // The highest priced sale in each currency, most used currency first. Prices in different currencies are not ranked against each other.
+    function bestPerCurrency(rows) {
+      var groups = {};
+      priced(rows).forEach(function (s) { (groups[s.currency] = groups[s.currency] || []).push(s); });
+      return Object.keys(groups).sort(function (a, b) { return groups[b].length - groups[a].length || (a < b ? -1 : 1); })
+        .map(function (c) { return maxBy(groups[c], function (s) { return s.premium; }); });
+    }
+    function bestLine(s) { return esc(s.title) + ', ' + esc(s.house) + ', ' + esc(s.date ? s.date_text : "date to confirm"); }
     function profileCard(slug, delay) {
       var a = ARTISTS[slug], rows = salesFor(slug), best = maxBy(priced(rows), function (s) { return s.premium; });
       var houses = (a.houses || []).map(function (h) { return '<span class="chip">' + esc(h) + '</span>'; }).join("");
-      var line = best ? '<p>Highest documented price: ' + money(best.premium, best.currency) + ' with premium for ' + esc(best.title) + ', ' + esc(best.house) + (best.date ? ", " + best.date_text : "") + '.</p>'
+      var bests = bestPerCurrency(rows);
+      var line = bests.length > 1 ? '<p>Highest documented prices, with premium, in each currency of sale: ' + bests.map(function (b) { return money(b.premium, b.currency) + ' (' + bestLine(b) + ')'; }).join("; ") + '.</p>'
+        : best ? '<p>Highest documented price: ' + money(best.premium, best.currency) + ' with premium for ' + esc(best.title) + ', ' + esc(best.house) + (best.date ? ", " + best.date_text : "") + '.</p>'
         : '<p>' + W("missing.no-priced", "No priced sale documented yet.") + '</p>';
       return '<article class="card card-profile card-ink on-ink" data-reveal style="--d:' + delay + 'ms"><h3><a href="@@artists/' + slug + '/">' + esc(a.name) + '</a></h3>' +
         '<p class="quiet">' + esc(a.line) + '</p>' + line + '<div class="chips">' + houses + '</div>' +
@@ -310,7 +336,7 @@
         var est = s.est_low && s.est_high ? '<span class="chip">Estimate ' + money(s.est_low, s.currency) + ' to ' + money(s.est_high, s.currency) + '</span>' : "";
         card = '<aside class="result-card on-ink" data-reveal style="--d:260ms" aria-label="' + txt(get(st, "result_label", "Latest documented result")) + '">\n' +
           '<p class="label">' + txt(get(st, "result_label", "Latest documented result")) + '</p>\n<p class="work">' + esc(a.name) + ', ' + esc(s.title) + ' (' + esc(s.year) + ')</p>\n' +
-          '<p class="price">' + money(s.premium, s.currency) + '</p>\n<p class="where">' + esc(s.house) + ', ' + esc(s.sale) + '. ' + esc(s.date_text) + '.</p>\n' +
+          '<p class="price" style="--w:' + priceWidth(money(s.premium, s.currency)) + '">' + money(s.premium, s.currency) + '</p>\n<p class="where">' + esc(s.house) + ', ' + esc(s.sale) + '. ' + esc(s.date_text) + '.</p>\n' +
           '<div class="chips"><span class="chip">' + W("table.chip-premium", "With buyer's premium") + '</span>' + est + '</div>\n' +
           '<a class="text-link" href="@@artists/' + s.artist + '/">' + txt(get(st, "result_link", "See the full timeline")) + '</a>\n</aside>\n';
       }
@@ -647,7 +673,10 @@
       // in the editor, a profile with no picture yet shows where it goes, so a click picks the Picture part
       else if (opts.mark) img = '<figure class="art-slot"><div class="pic-frame" style="aspect-ratio:4/5"><span class="supply">' + W("missing.picture", "Picture to supply") + '</span></div></figure>';
       if (img && opts.mark) img = img.replace('<figure class="art-slot"', '<figure class="art-slot" data-adh="picture"');
-      var bestFact = best ? '<span class="v">' + money(best.premium, best.currency) + '</span><span class="s">With premium. ' + esc(best.title) + ', ' + esc(best.house) + ', ' + esc(best.date ? best.date_text : "date to confirm") + '.</span>'
+      var bests = bestPerCurrency(rows);
+      var bestFact = bests.length > 1 ? '<span class="v">' + money(bests[0].premium, bests[0].currency) + '</span><span class="s">With premium. ' + bestLine(bests[0]) + '. ' +
+          bests.slice(1).map(function (b) { return 'Highest in ' + esc(b.currency) + ': ' + money(b.premium, b.currency) + ', ' + bestLine(b) + '.'; }).join(" ") + '</span>'
+        : best ? '<span class="v">' + money(best.premium, best.currency) + '</span><span class="s">With premium. ' + esc(best.title) + ', ' + esc(best.house) + ', ' + esc(best.date ? best.date_text : "date to confirm") + '.</span>'
         : '<span class="v">' + W("missing.tbc", "To confirm") + '</span><span class="s">' + W("missing.no-priced", "No priced sale documented yet.") + '</span>';
       var firstFact = first ? '<span class="v">' + esc(first.date_text) + '</span><span class="s">' + esc(first.title) + ', ' + esc(first.house) + '.</span>' : '<span class="v">' + W("missing.tbc", "To confirm") + '</span><span class="s">' + W("missing.no-dated", "No dated sale yet.") + '</span>';
       var M = function (h, id) { return opts.mark ? h.replace(/^(\s*<[a-z]+)/, '$1 data-adh="' + id + '"') : h; };
@@ -663,7 +692,7 @@
         '<p class="intro">Every public sale we can document, newest first. Estimate, hammer price and price with premium each have their own column.</p></div>\n' +
         LEGEND + '\n' + table(rows, "timeline-" + slug) + '\n' + TABLE_NOTE + '\n</div>\n</section>', "sales") + '\n' +
         M('<section class="shell section">\n<div class="panel on-ink" data-reveal>\n<h2 class="h2">' + W("item.side-by-side", "Estimate, hammer and total, side by side") + '</h2>\n' +
-        '<p class="intro" style="max-width:620px">The bars use one scale, so you can compare sales with each other as well as the three figures within each sale.</p>\n' + ladder(rows) + '\n</div>\n</section>', "sales") + '\n' +
+        '<p class="intro" style="max-width:620px">' + (bests.length > 1 ? 'Each bar compares the three figures within one sale. Sales in the same currency share a scale.' : 'The bars use one scale, so you can compare sales with each other as well as the three figures within each sale.') + '</p>\n' + ladder(rows) + '\n</div>\n</section>', "sales") + '\n' +
         M('<section class="shell article" style="padding-top:104px">\n<div class="article-body prose" data-reveal>\n<h2 style="margin-top:0">' + W("item.about", "About the artist") + '</h2>\n' + paras + '\n' +
         '<p>These figures are a record of past public sales. They are not a valuation and they are not advice. For how to read them, start with <a href="@@research/what-an-auction-result-tells-collectors/">what an auction result actually tells collectors</a>.</p>\n</div>\n' +
         '<aside class="article-side" data-reveal style="--d:120ms">\n' + img + '\n<div class="mini"><h2>' + W("item.related", "Related reading") + '</h2><ul>' + rel + '</ul></div>\n' +

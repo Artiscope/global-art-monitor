@@ -133,10 +133,11 @@ img { display: block; max-width: 100%; }
 .hero { padding-top: 56px; display: flex; flex-wrap: wrap; gap: 56px; align-items: flex-end; }
 .hero-copy { flex: 1 1 540px; min-width: 0; display: flex; flex-direction: column; gap: 26px; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
-.result-card { flex: 1 1 380px; min-width: 0; background: var(--ink); color: var(--paper); border-radius: 32px; padding: 36px; display: flex; flex-direction: column; gap: 14px; }
+.result-card { container-type: inline-size; flex: 1 1 380px; min-width: 0; background: var(--ink); color: var(--paper); border-radius: 32px; padding: 36px; display: flex; flex-direction: column; gap: 14px; }
 .result-card .label { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--blush); }
 .result-card .work { font-family: var(--serif); font-size: calc(30px * var(--h-scale, 1)); line-height: 1.15; }
-.result-card .price { font-family: var(--serif); font-size: calc(clamp(60px, 7vw, 84px) * var(--h-scale, 1)); line-height: 1; color: var(--mint); font-variant-numeric: tabular-nums; }
+/* The price always sits on one line inside the card: it shrinks for long figures. */
+.result-card .price { white-space: nowrap; font-family: var(--serif); font-size: min(calc(clamp(60px, 7vw, 84px) * var(--h-scale, 1)), calc(100cqw / var(--w, 4))); line-height: 1; color: var(--mint); font-variant-numeric: tabular-nums; }
 .result-card p.where { font-size: calc(15px * var(--b-scale, 1)); line-height: 1.5; color: var(--on-ink-body); }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .watermark { overflow: hidden; text-align: center; font-family: var(--serif); font-size: calc(clamp(90px, 16vw, 230px) * var(--h-scale, 1)); line-height: .9; color: var(--blush-deep); margin-top: 24px; user-select: none; white-space: nowrap; pointer-events: none; }

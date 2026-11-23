@@ -129,6 +129,22 @@
   }
 
   // London clock
+  // Homepage result card: make sure the price fits the card with the real font loaded
+  function fitPrice() {
+    var el = document.querySelector('.result-card .price');
+    if (!el) { return; }
+    el.style.fontSize = '';
+    var room = el.clientWidth, need = el.scrollWidth;
+    if (need > room && room > 0) {
+      el.style.fontSize = (parseFloat(getComputedStyle(el).fontSize) * room / need * 0.98) + 'px';
+    }
+  }
+  function setupPriceFit() {
+    fitPrice();
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(fitPrice); }
+    window.addEventListener('resize', fitPrice);
+  }
+
   // Header bar tightens a little once the reader scrolls
   function setupHeadBar() {
     var wrap = document.querySelector('.head-wrap');
@@ -293,6 +309,7 @@
   setupFilters();
   setupClock();
   setupHeadBar();
+  setupPriceFit();
   setupSmoothScroll();
   runLoader(startReveals);
 

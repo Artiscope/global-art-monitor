@@ -62,6 +62,11 @@ site.
 - Hammer price, price with buyer's premium, low and high estimate,
   currency and sale date are always kept as separate fields. Never
   merge them or convert currencies.
+- Record every sale in the currency of the saleroom where the work was
+  sold (pounds for London, US dollars for New York, and so on), and set
+  `currency` to its three letter code. The site shows each price in
+  that currency. Prices in different currencies are never ranked or
+  charted against each other.
 - A figure that is not known stays `null`, which the site shows as
   "To confirm". Never estimate or fill a gap.
 - Set `hammer_basis` to `published` when a house or database states the

@@ -2,6 +2,13 @@
 
 A record of what the website agent did on each run, newest first.
 
+
+## Monday 23 November 2026, prices fit and stay in their own currency
+Published: on the owner's instruction in a conversation. (1) The price on the homepage "Latest documented result" card now shrinks to fit on one line inside the card. (2) Every price shows the currency of its sale, including in the table cells. (3) Prices in different currencies are no longer ranked or charted against each other: the bar comparison uses one scale per currency, and "Highest documented price" gives the highest in each currency. A sale with no currency set shows "currency to confirm" in place of assuming pounds. One line was added to the brief (CLAUDE.md) under the auction data rules to record this.
+Drafts waiting: none from this change.
+Checked: all pages rebuild, links and markup pass, the card fits at 360, 390, 1024 and 1440 pixels with short and long prices. All 13 sales already carry the currency of their saleroom.
+Needs you: nothing.
+
 ## Friday 20 November 2026, Christie's prices added
 Published: the two Christie's rows in the Zara Muse timeline now show the price with premium, on the owner's instruction in a conversation: Ava GBP 44,450 and Unspoken GBP 30,720. The owner supplied both from Christie's sold lots page, where they are labelled "Price Realised". Hammer price stays "To confirm" for both, as the owner chose, because Christie's does not publish it and the premium rate for each sale is not confirmed. Three articles were brought up to date to match (the Zara Muse timeline, the record sale piece and the liquidity piece).
 Drafts waiting: none.
