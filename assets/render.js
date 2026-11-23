@@ -254,7 +254,7 @@
       if (!rows.length) return "";
       // Sales in different currencies are never measured against each other: each currency has its own scale.
       var tops = {}, out = "";
-      rows.forEach(function (s) { tops[s.currency] = Math.max(tops[s.currency] || 0, s.premium); });
+      rows.forEach(function (s) { tops[s.currency] = Math.max(tops[s.currency] || 0, s.premium, s.est_high || 0, s.hammer || 0); });
       var mixed = Object.keys(tops).length > 1;
       rows.forEach(function (s) {
         var bars = "", w, top = tops[s.currency];
