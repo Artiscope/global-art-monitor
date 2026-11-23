@@ -88,7 +88,8 @@
     function sortKey(s) { return s.date || "9999"; }
     function salesFor(slug) {
       var rows = SALES.filter(function (s) { return slug == null || s.artist === slug; });
-      return rows.map(function (s, i) { return [s, i]; }).sort(function (a, b) { var x = sortKey(a[0]), y = sortKey(b[0]); return x < y ? -1 : x > y ? 1 : a[1] - b[1]; }).map(function (p) { return p[0]; });
+      // Newest sale first; a sale with no date goes last.
+      return rows.map(function (s, i) { return [s, i]; }).sort(function (a, b) { var x = sortKey(a[0]), y = sortKey(b[0]); if (x === "9999" || y === "9999") return x === y ? a[1] - b[1] : x === "9999" ? 1 : -1; return x > y ? -1 : x < y ? 1 : b[1] - a[1]; }).map(function (p) { return p[0]; });
     }
     function priced(rows) { return rows.filter(function (s) { return s.premium; }); }
     function maxBy(rows, f) { var best = null; rows.forEach(function (r) { if (best === null || f(r) > f(best)) best = r; }); return best; }
@@ -659,7 +660,7 @@
         '<div class="fact" data-reveal style="--d:270ms"><span class="k">' + W("item.houses", "Auction houses") + '</span><span class="v">' + (a.houses || []).length + '</span><span class="s">' + esc((a.houses || []).join(", ")) + '.</span></div>\n' +
         '</div>\n</section>', "words") + '\n' +
         M('<section class="shell section" id="timeline">\n<div class="panel on-ink" data-reveal>\n<p class="eyebrow">' + W("item.timeline", "Artist auction timeline") + '</p>\n<div class="split"><h2 class="h2">' + W("item.at-auction", "{name} at auction", { name: esc(a.name) }) + '</h2>\n' +
-        '<p class="intro">Every public sale we can document, in date order. Estimate, hammer price and price with premium each have their own column.</p></div>\n' +
+        '<p class="intro">Every public sale we can document, newest first. Estimate, hammer price and price with premium each have their own column.</p></div>\n' +
         LEGEND + '\n' + table(rows, "timeline-" + slug) + '\n' + TABLE_NOTE + '\n</div>\n</section>', "sales") + '\n' +
         M('<section class="shell section">\n<div class="panel on-ink" data-reveal>\n<h2 class="h2">' + W("item.side-by-side", "Estimate, hammer and total, side by side") + '</h2>\n' +
         '<p class="intro" style="max-width:620px">The bars use one scale, so you can compare sales with each other as well as the three figures within each sale.</p>\n' + ladder(rows) + '\n</div>\n</section>', "sales") + '\n' +
