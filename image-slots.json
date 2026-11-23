@@ -53,7 +53,7 @@
       "id": "artist-osgemeos",
       "group": "Artist profile images",
       "label": "OSGEMEOS",
-      "filled": false
+      "filled": true
     },
     {
       "id": "artist-vhils",
@@ -77,7 +77,7 @@
       "id": "artist-faith-xlvii",
       "group": "Artist profile images",
       "label": "Faith XLVII",
-      "filled": false
+      "filled": true
     }
   ]
 }
