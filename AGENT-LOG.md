@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Monday 23 November 2026, auction guides and why each artist is valued (draft)
+Published: nothing. Prepared as a draft on the owner's request in a conversation to research more and update every section.
+Drafts waiting: six new guides (how an auction works, the buyer's premium with 2026 rates, guarantees and catalogue symbols, unique works and editions, provenance and authentication, what makes an artist's work valued), a "Why the work is valued" section on all thirteen profiles, 17 new glossary terms, and hammer prices worked back for 11 Christie's lots (link in the pull request list).
+Checked: buyer's premium schedules at Christie's, Phillips and (through The Art Newspaper and the Antiques Trade Gazette) Sotheby's; UK resale right on GOV.UK and the 2006 regulations; Phillips' guide for buyers; Tate and IFPDA print terms; Pest Control's terms; museum and prize pages for every artist. Every worked-back hammer price came out as a whole bidding step. Christie's English help pages and the Richter catalogue site refused automated visits.
+Needs you: a yes or no on the draft. Zara Muse and Konn Artiss have no museum show or collection in the sources read, and their profiles say so plainly next to the disclosure.
+
 ## Monday 23 November 2026, artist images (draft)
 Published: nothing. Prepared as a draft on the owner's request in a conversation to add images to the sites.
 Drafts waiting: pictures on the profiles of Banksy, Yayoi Kusama, El Anatsui, S.H. Raza and Gerhard Richter (link in the pull request list).

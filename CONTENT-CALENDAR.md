@@ -26,7 +26,7 @@ Nothing yet.
 
 ## Written
 
-Nothing yet.
+Commissioned by the owner in a conversation on 23 November 2026, written as one draft (see the pull request list): How an Art Auction Works; The Buyer's Premium Explained, With the 2026 Rates; Guarantees, Irrevocable Bids and the Symbols in a Catalogue; Unique Works, Prints and Editions; Provenance, Authentication and Condition; What Makes an Artist's Work Valued.
 
 ## Declined
 

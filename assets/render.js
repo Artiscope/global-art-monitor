@@ -57,7 +57,7 @@
       else for (var i = 0; i < IMAGE_EXTS.length; i++) { if (imageFiles.indexOf(slug + "." + IMAGE_EXTS[i]) >= 0) { image = slug + "." + IMAGE_EXTS[i]; break; } }
       return {
         slug: slug, name: a.name, line: a.line || "", houses: (a.houses || []).slice(),
-        summary: bio.summary || "", body: (bio.body || []).slice(), sources: (bio.sources || []).map(function (s) { return s.slice(); }),
+        summary: bio.summary || "", body: (bio.body || []).slice(), standing: (bio.standing || []).slice(), sources: (bio.sources || []).map(function (s) { return s.slice(); }),
         image: image, alt: note.alt || "", caption: note.caption || "",
         sales: (sales.sales || []).filter(function (s) { return s.artist === slug; }).map(function (s) { return Object.assign({}, s); }),
       };
@@ -660,6 +660,7 @@
       var a = ARTISTS[slug], rows = salesFor(slug), pr = priced(rows), best = maxBy(pr, function (s) { return s.premium; });
       var dated = rows.filter(function (s) { return s.date; }), first = minBy(dated, function (s) { return s.date; });
       var paras = (a.body || []).map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("");
+      var standing = (a.standing || []).length ? '<h2>' + W("item.standing", "Why the work is valued") + '</h2>\n' + a.standing.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("") + '\n' : "";
       var srcs = (a.sources || []).map(function (s) { return '<li><a href="' + esc(s[1]) + '" rel="noopener">' + esc(s[0]) + '</a></li>'; }).join("");
       var related = FEATURES.filter(function (f) { return f.slug.indexOf(slug) >= 0; });
       if (FEATURE_BY_SLUG["why-one-record-sale-does-not-establish-market-value"]) related.push(FEATURE_BY_SLUG["why-one-record-sale-does-not-establish-market-value"]);
@@ -693,7 +694,7 @@
         LEGEND + '\n' + table(rows, "timeline-" + slug) + '\n' + TABLE_NOTE + '\n</div>\n</section>', "sales") + '\n' +
         M('<section class="shell section">\n<div class="panel on-ink" data-reveal>\n<h2 class="h2">' + W("item.side-by-side", "Estimate, hammer and total, side by side") + '</h2>\n' +
         '<p class="intro" style="max-width:620px">' + (bests.length > 1 ? 'Each bar compares the three figures within one sale. Sales in the same currency share a scale.' : 'The bars use one scale, so you can compare sales with each other as well as the three figures within each sale.') + '</p>\n' + ladder(rows) + '\n</div>\n</section>', "sales") + '\n' +
-        M('<section class="shell article" style="padding-top:104px">\n<div class="article-body prose" data-reveal>\n<h2 style="margin-top:0">' + W("item.about", "About the artist") + '</h2>\n' + paras + '\n' +
+        M('<section class="shell article" style="padding-top:104px">\n<div class="article-body prose" data-reveal>\n<h2 style="margin-top:0">' + W("item.about", "About the artist") + '</h2>\n' + paras + '\n' + standing +
         '<p>These figures are a record of past public sales. They are not a valuation and they are not advice. For how to read them, start with <a href="@@research/what-an-auction-result-tells-collectors/">what an auction result actually tells collectors</a>.</p>\n</div>\n' +
         '<aside class="article-side" data-reveal style="--d:120ms">\n' + img + '\n<div class="mini"><h2>' + W("item.related", "Related reading") + '</h2><ul>' + rel + '</ul></div>\n' +
         '<div class="mini"><h2>' + W("item.sources", "Background sources") + '</h2><ul>' + srcs + '</ul></div>\n' +
