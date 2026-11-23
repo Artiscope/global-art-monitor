@@ -2,12 +2,17 @@
 
 A record of what the website agent did on each run, newest first.
 
-
 ## Monday 23 November 2026, artist images (draft)
 Published: nothing. Prepared as a draft on the owner's request in a conversation to add images to the sites.
 Drafts waiting: pictures on the profiles of Banksy, Yayoi Kusama, El Anatsui, S.H. Raza and Gerhard Richter (link in the pull request list).
 Checked: every picture comes from Wikimedia Commons under a licence that allows reuse, read on the file's own page, and each caption names the photographer and licence. Portraits for Kusama, Raza and Richter. Banksy: his 2026 statue in Waterloo Place, London. El Anatsui: no free portrait exists, so a public sculpture from his design at the University of Nigeria, Nsukka. Pages build and hold at phone and desktop width.
 Needs you: this site's brief says images come only from the inbox, so these wait for your yes. No usable picture was found for Beatriz Milhazes; her profile stays without one.
+
+## Monday 23 November 2026, all eight artist profiles (draft)
+Published: nothing. Prepared as a draft on the owner's instruction in a conversation.
+Drafts waiting: All eight artist profiles on the Artists page, with two prices filled from Christie's https://github.com/Artiscope/global-art-monitor/pull/7.
+Checked: every artist profile page. The Artists page listed only Zara Muse and Konn Artiss, so the other six profiles could not be reached from it. Christie's lot pages for Richter's Kerze (Candle) and Kusama's INFINITY-NETS (OOAXT) gave lot numbers, estimates and prices with premium. Hammer prices are still not published, so they stay "To confirm".
+Needs you: a yes or no on the draft, and photos for the six artists without a profile image (spots added).
 
 ## Monday 23 November 2026, five international artists (draft)
 Published: nothing. Prepared as a draft on the owner's instruction in a conversation.

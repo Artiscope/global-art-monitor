@@ -32,6 +32,12 @@
       "filled": true
     },
     {
+      "id": "artist-beatriz-milhazes",
+      "group": "Artist profile images",
+      "label": "Beatriz Milhazes",
+      "filled": false
+    },
+    {
       "id": "artist-s-h-raza",
       "group": "Artist profile images",
       "label": "S.H. Raza",
