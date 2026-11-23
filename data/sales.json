@@ -16,6 +16,16 @@
       "houses": [
         "Tate Ward"
       ]
+    },
+    "banksy": {
+      "name": "Banksy",
+      "line": "Anonymous. From the Bristol graffiti scene. Stencil paintings, prints and installations.",
+      "houses": [
+        "Bonhams",
+        "Phillips",
+        "Sotheby's",
+        "Heritage Auctions"
+      ]
     }
   },
   "sales": [
@@ -178,6 +188,111 @@
       "premium": 15000,
       "source_label": "Tate Ward",
       "source_url": "https://www.tateward.com/"
+    },
+    {
+      "artist": "banksy",
+      "date": "2026-10-15",
+      "date_text": "15 October 2026",
+      "title": "Keep Ou T",
+      "year": "2019",
+      "lot": "4",
+      "house": "Phillips",
+      "sale": "Modern & Contemporary Art Evening Sale, London",
+      "medium": "Reclaimed airport customs arch, wood, metal and spray paint, unique, 266 x 236 x 42 cm",
+      "currency": "GBP",
+      "est_low": 1200000,
+      "est_high": 1800000,
+      "hammer": null,
+      "hammer_basis": null,
+      "premium": null,
+      "source_label": "Phillips lot page",
+      "source_url": "https://www.phillips.com/detail/banksy/238143",
+      "source2_label": "",
+      "source2_url": ""
+    },
+    {
+      "artist": "banksy",
+      "date": "2026-10-15",
+      "date_text": "15 October 2026",
+      "title": "Laugh Now",
+      "year": "2001",
+      "lot": "9",
+      "house": "Bonhams",
+      "sale": "20th and 21st Century Art Evening Sale, London",
+      "medium": "Acrylic and spray paint on canvas, unique, 91.5 x 91.5 cm",
+      "currency": "GBP",
+      "est_low": null,
+      "est_high": null,
+      "hammer": null,
+      "hammer_basis": null,
+      "premium": 320500,
+      "source_label": "Bonhams lot page",
+      "source_url": "https://www.bonhams.com/auction/32184/lot/9/banksy-b-1975-laugh-now-painted-in-2001/",
+      "source2_label": "",
+      "source2_url": ""
+    },
+    {
+      "artist": "banksy",
+      "date": "2026-10-16",
+      "date_text": "16 October 2026",
+      "title": "Laugh Now",
+      "year": "2002",
+      "lot": "345",
+      "house": "Sotheby's",
+      "sale": "Contemporary Day Auction, London",
+      "medium": "Spray paint on acrylic, unique, 94 x 80.5 cm",
+      "currency": "GBP",
+      "est_low": 60000,
+      "est_high": 80000,
+      "hammer": null,
+      "hammer_basis": null,
+      "premium": null,
+      "source_label": "Sotheby's lot page",
+      "source_url": "https://www.sothebys.com/en/buy/auction/2026/contemporary-day-auction-l26025/laugh-now",
+      "source2_label": "",
+      "source2_url": ""
+    },
+    {
+      "artist": "banksy",
+      "date": "2026-11-10",
+      "date_text": "10 November 2026",
+      "title": "Rat & Heart",
+      "year": "2015",
+      "lot": "77068",
+      "house": "Heritage Auctions",
+      "sale": "Auction 8277",
+      "medium": "Spray paint and emulsion on cut-out canvas in artist's frame, unique, 25.1 x 30.2 cm",
+      "currency": "USD",
+      "est_low": null,
+      "est_high": null,
+      "hammer": null,
+      "hammer_basis": null,
+      "premium": null,
+      "source_label": "Heritage lot page",
+      "source_url": "https://fineart.ha.com/itm/paintings/banksy-b-1974-rat-and-heart-2015-spray-paint-and-emulsion-on-cut-out-canvas-in-artist-s-frame-9-7-8-x-11-7-8-inches/a/8277-77068.s",
+      "source2_label": "",
+      "source2_url": ""
+    },
+    {
+      "artist": "banksy",
+      "date": "2026-11-18",
+      "date_text": "18 November 2026",
+      "title": "Angel",
+      "year": "2006",
+      "lot": "18A",
+      "house": "Bonhams",
+      "sale": "20th and 21st Century Art Evening Sale, New York",
+      "medium": "Spray paint and emulsion on canvas, unique, 213 x 213 cm",
+      "currency": "USD",
+      "est_low": null,
+      "est_high": null,
+      "hammer": null,
+      "hammer_basis": null,
+      "premium": 1398200,
+      "source_label": "Bonhams lot page",
+      "source_url": "https://www.bonhams.com/auction/31893/lot/18A/banksy-b-1974-angel-83-78-x-83-78-in-213-x-213-cm-painted-in-2006/",
+      "source2_label": "",
+      "source2_url": ""
     }
   ]
 }
