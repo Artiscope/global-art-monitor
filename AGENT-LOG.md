@@ -8,6 +8,12 @@ Drafts waiting: pictures on the profiles of Banksy, Yayoi Kusama, El Anatsui, S.
 Checked: every picture comes from Wikimedia Commons under a licence that allows reuse, read on the file's own page, and each caption names the photographer and licence. Portraits for Kusama, Raza and Richter. Banksy: his 2026 statue in Waterloo Place, London. El Anatsui: no free portrait exists, so a public sculpture from his design at the University of Nigeria, Nsukka. Pages build and hold at phone and desktop width.
 Needs you: this site's brief says images come only from the inbox, so these wait for your yes. No usable picture was found for Beatriz Milhazes; her profile stays without one.
 
+## Monday 23 November 2026, five street artists
+Published: five street artists and their auction results, on the owner's yes ("publish now"). Merged with the eight-artist profiles change, and the five new artists added to the Artists page lists.
+Drafts waiting: none.
+Checked: every price on the auction house's own lot page (Christie's, Phillips, Bonhams, Artcurial, Strauss & Co). Sotheby's results need a sign-in and are listed as not priced. Unique works go in the tables; prints are named in the text. Also fixed in the draft: the price bars could run off the screen when a work sold below its estimate, because the scale ignored the estimate. The scale now includes it.
+Needs you: photos for the five new artists (spots added).
+
 ## Monday 23 November 2026, all eight artist profiles (draft)
 Published: nothing. Prepared as a draft on the owner's instruction in a conversation.
 Drafts waiting: All eight artist profiles on the Artists page, with two prices filled from Christie's https://github.com/Artiscope/global-art-monitor/pull/7.

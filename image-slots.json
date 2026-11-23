@@ -48,6 +48,36 @@
       "group": "Artist profile images",
       "label": "Gerhard Richter",
       "filled": true
+    },
+    {
+      "id": "artist-osgemeos",
+      "group": "Artist profile images",
+      "label": "OSGEMEOS",
+      "filled": false
+    },
+    {
+      "id": "artist-vhils",
+      "group": "Artist profile images",
+      "label": "Vhils",
+      "filled": false
+    },
+    {
+      "id": "artist-kaws",
+      "group": "Artist profile images",
+      "label": "KAWS",
+      "filled": false
+    },
+    {
+      "id": "artist-eko-nugroho",
+      "group": "Artist profile images",
+      "label": "Eko Nugroho",
+      "filled": false
+    },
+    {
+      "id": "artist-faith-xlvii",
+      "group": "Artist profile images",
+      "label": "Faith XLVII",
+      "filled": false
     }
   ]
 }
