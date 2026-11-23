@@ -12,8 +12,11 @@ file is your standing brief. Read all of it before doing anything.
 - Repository: Artiscope/global-art-monitor, main branch.
 - What it is: an editorial site about auction results and the art
   market, built around documented sales.
-- Artists: Zara Muse and Konn Artiss. Other Grove Gallery artists are
-  added only when the owner names them. Never add one yourself.
+- Artists: Zara Muse, Konn Artiss, Banksy, Yayoi Kusama, El Anatsui,
+  Beatriz Milhazes, S.H. Raza and Gerhard Richter. The owner's standing
+  rule (23 November 2026): whenever artist research is done for
+  Artiscope, the auction results for those artists are added here as a
+  draft. Otherwise, add an artist only when the owner names them.
 - Contact email shown on the site: info@grovegallery.com.
 - "Contact" leads to the section for sending queries, not to the
   subscribe area.
