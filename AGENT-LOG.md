@@ -5,7 +5,7 @@ A record of what the website agent did on each run, newest first.
 
 ## Monday 23 November 2026, five international artists (draft)
 Published: nothing. Prepared as a draft on the owner's instruction in a conversation.
-Drafts waiting: Five international artists with their auction results (pull request linked once opened).
+Drafts waiting: Five international artists with their auction results https://github.com/Artiscope/global-art-monitor/pull/4.
 Checked: lot pages at Saffronart, AstaGuru, Phillips and Sotheby's, and press reports from The Art Newspaper, HENI News, TheValue, Artdaily and ArtDependence. Sotheby's and Christie's results need a sign-in, so several prices rest on press reports and rounded figures stay "To confirm".
 Needs you: a yes or no on the draft.
 
