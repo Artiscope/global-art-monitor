@@ -64,7 +64,8 @@
       "line": "German, born 1932. Painter.",
       "houses": [
         "Christie's",
-        "Phillips"
+        "Phillips",
+        "Sotheby's"
       ]
     },
     "osgemeos": {
@@ -105,6 +106,20 @@
       "line": "South African, born 1979. Murals, prints and mixed media.",
       "houses": [
         "Strauss & Co"
+      ]
+    },
+    "vincent-van-gogh": {
+      "name": "Vincent van Gogh",
+      "line": "Dutch, 1853 to 1890. Painter.",
+      "houses": [
+        "Sotheby's"
+      ]
+    },
+    "wassily-kandinsky": {
+      "name": "Wassily Kandinsky",
+      "line": "Born in Moscow, 1866 to 1944. Painter.",
+      "houses": [
+        "Christie's"
       ]
     }
   },
@@ -1106,6 +1121,111 @@
       "premium": 4690,
       "source_label": "Strauss & Co lot page",
       "source_url": "https://www.straussart.co.za/auctions/lot/23-nov-2020/511",
+      "source2_label": "",
+      "source2_url": ""
+    },
+    {
+      "artist": "vincent-van-gogh",
+      "date": "2026-11-18",
+      "date_text": "18 November 2026",
+      "title": "Châtaigniers en fleurs",
+      "year": "1890",
+      "lot": "5",
+      "house": "Sotheby's",
+      "sale": "Legendary: The Blaquier-Arrieta Collection Evening Auction, New York",
+      "medium": "Oil on canvas, unique, 70 x 58 cm",
+      "currency": "USD",
+      "est_low": null,
+      "est_high": null,
+      "hammer": null,
+      "hammer_basis": null,
+      "premium": null,
+      "source_label": "Sotheby's lot page",
+      "source_url": "https://www.sothebys.com/buy/bcef4231-708a-4487-9b3f-53b866de0727/lots/ac1f9fd6-946e-473e-9a6a-0483bc4b8ae8",
+      "source2_label": "Art Insider",
+      "source2_url": "https://www.art-insider.com/van-goghs-chataigniers-en-fleurs-sells-for-record-190-4-million-at-sothebys/8934"
+    },
+    {
+      "artist": "wassily-kandinsky",
+      "date": "2026-11-17",
+      "date_text": "17 November 2026",
+      "title": "Betonte Ecken",
+      "year": "1922 to 1923",
+      "lot": null,
+      "house": "Christie's",
+      "sale": "20th Century Evening Sale, New York",
+      "medium": "Painting, unique",
+      "currency": "USD",
+      "est_low": 60000000,
+      "est_high": 80000000,
+      "hammer": null,
+      "hammer_basis": null,
+      "premium": null,
+      "source_label": "The Art Newspaper",
+      "source_url": "https://www.theartnewspaper.com/2026/11/18/kandinsky-record-and-a-trove-consigned-by-jeff-koons-buoy-christies-solid-20th-century-evening-sale-in-new-york",
+      "source2_label": "Artsy",
+      "source2_url": "https://www.artsy.net/article/artsy-editorial-record-breaking-858-million-kandinsky-leads-christie-s-november-2026-new-york-evening-sale"
+    },
+    {
+      "artist": "wassily-kandinsky",
+      "date": "2026-10-14",
+      "date_text": "14 October 2026",
+      "title": "Das bunte Leben",
+      "year": "1907",
+      "lot": null,
+      "house": "Christie's",
+      "sale": "20th/21st Century Evening Sale, London",
+      "medium": "Painting, unique",
+      "currency": "GBP",
+      "est_low": 18000000,
+      "est_high": 35000000,
+      "hammer": 27000000,
+      "hammer_basis": "calculated",
+      "premium": 31560000,
+      "source_label": "London Art Walk",
+      "source_url": "https://www.londonartwalk.com/2026/10/19/christies-sothebys-and-phillips-auction-results-during-frieze-week/",
+      "source2_label": "Apollo",
+      "source2_url": "https://apollo-magazine.com/auction-report-october-2026-london-peter-simon-modern-british/"
+    },
+    {
+      "artist": "gerhard-richter",
+      "date": "2026-10-15",
+      "date_text": "15 October 2026",
+      "title": "Mathis",
+      "year": "1983",
+      "lot": "8",
+      "house": "Phillips",
+      "sale": "Modern & Contemporary Art Evening Sale, London",
+      "medium": "Oil on canvas, unique, 200 x 200 cm",
+      "currency": "GBP",
+      "est_low": 6000000,
+      "est_high": 8000000,
+      "hammer": null,
+      "hammer_basis": null,
+      "premium": 5839000,
+      "source_label": "Phillips lot page",
+      "source_url": "https://www.phillips.com/detail/gerhard-richter/236491",
+      "source2_label": "Phillips press release",
+      "source2_url": "https://www.phillips.com/press/release/phillips-white-glove-evening-sale-of-modern-contemporary-art-achieves-148-million-"
+    },
+    {
+      "artist": "gerhard-richter",
+      "date": "2026-10-15",
+      "date_text": "15 October 2026",
+      "title": "Abstraktes Bild",
+      "year": "1992",
+      "lot": null,
+      "house": "Sotheby's",
+      "sale": "Contemporary Evening Auction, London",
+      "medium": "Squeegee painting, unique",
+      "currency": "GBP",
+      "est_low": 6000000,
+      "est_high": 8000000,
+      "hammer": null,
+      "hammer_basis": null,
+      "premium": null,
+      "source_label": "Artcentron",
+      "source_url": "https://artcentron.com/2026/10/17/sothebys-london-contemporary-art-auction-results/",
       "source2_label": "",
       "source2_url": ""
     }

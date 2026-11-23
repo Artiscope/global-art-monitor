@@ -78,6 +78,18 @@
       "group": "Artist profile images",
       "label": "Faith XLVII",
       "filled": true
+    },
+    {
+      "id": "artist-vincent-van-gogh",
+      "group": "Artist profile images",
+      "label": "Vincent van Gogh",
+      "filled": false
+    },
+    {
+      "id": "artist-wassily-kandinsky",
+      "group": "Artist profile images",
+      "label": "Wassily Kandinsky",
+      "filled": false
     }
   ]
 }
