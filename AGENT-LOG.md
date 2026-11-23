@@ -3,11 +3,17 @@
 A record of what the website agent did on each run, newest first.
 
 
-## Monday 23 November 2026, five street artists (draft)
-Published: nothing. Prepared as a draft under the owner's standing rule for artist research.
-Drafts waiting: five street artists with their auction results (OSGEMEOS, Vhils, KAWS, Eko Nugroho, Faith XLVII), on branch draft/2026-11-23-street-artists.
+## Monday 23 November 2026, five street artists
+Published: five street artists and their auction results, on the owner's yes ("publish now"). Merged with the eight-artist profiles change, and the five new artists added to the Artists page lists.
+Drafts waiting: none.
 Checked: every price on the auction house's own lot page (Christie's, Phillips, Bonhams, Artcurial, Strauss & Co). Sotheby's results need a sign-in and are listed as not priced. Unique works go in the tables; prints are named in the text. Also fixed in the draft: the price bars could run off the screen when a work sold below its estimate, because the scale ignored the estimate. The scale now includes it.
-Needs you: a yes or no on the draft.
+Needs you: photos for the five new artists (spots added).
+
+## Monday 23 November 2026, all eight artist profiles (draft)
+Published: nothing. Prepared as a draft on the owner's instruction in a conversation.
+Drafts waiting: All eight artist profiles on the Artists page, with two prices filled from Christie's https://github.com/Artiscope/global-art-monitor/pull/7.
+Checked: every artist profile page. The Artists page listed only Zara Muse and Konn Artiss, so the other six profiles could not be reached from it. Christie's lot pages for Richter's Kerze (Candle) and Kusama's INFINITY-NETS (OOAXT) gave lot numbers, estimates and prices with premium. Hammer prices are still not published, so they stay "To confirm".
+Needs you: a yes or no on the draft, and photos for the six artists without a profile image (spots added).
 
 ## Monday 23 November 2026, five international artists (draft)
 Published: nothing. Prepared as a draft on the owner's instruction in a conversation.

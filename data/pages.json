@@ -168,7 +168,18 @@
             "heading": "Artist market profiles",
             "artists": [
               "zara-muse",
-              "konn-artiss"
+              "konn-artiss",
+              "banksy",
+              "yayoi-kusama",
+              "el-anatsui",
+              "beatriz-milhazes",
+              "s-h-raza",
+              "gerhard-richter",
+              "osgemeos",
+              "vhils",
+              "kaws",
+              "eko-nugroho",
+              "faith-xlvii"
             ],
             "more_card": true
           }
@@ -192,7 +203,7 @@
     "auction-results": {
       "path": "auction-results/index.html",
       "title": "Auction Results | Global Art Monitor",
-      "description": "Documented auction results for Zara Muse and Konn Artiss at Tate Ward, Bonhams and Christie's, with estimates, hammer prices and premium-inclusive prices in separate columns.",
+      "description": "Documented auction results for the artists we cover, from salerooms around the world, with estimates, hammer prices and premium-inclusive prices in separate columns.",
       "current": "auction-results",
       "intro": false,
       "sections": [
@@ -278,7 +289,7 @@
     "artists": {
       "path": "artists/index.html",
       "title": "Artist Market Profiles | Global Art Monitor",
-      "description": "Market profiles for artists with a documented public auction record, starting with Zara Muse and Konn Artiss.",
+      "description": "Market profiles for artists with a documented public auction record: Zara Muse, Konn Artiss, Banksy, Yayoi Kusama, El Anatsui, Beatriz Milhazes, S.H. Raza and Gerhard Richter.",
       "current": "artists",
       "intro": false,
       "sections": [
@@ -301,7 +312,18 @@
             "heading": "",
             "artists": [
               "zara-muse",
-              "konn-artiss"
+              "konn-artiss",
+              "banksy",
+              "yayoi-kusama",
+              "el-anatsui",
+              "beatriz-milhazes",
+              "s-h-raza",
+              "gerhard-richter",
+              "osgemeos",
+              "vhils",
+              "kaws",
+              "eko-nugroho",
+              "faith-xlvii"
             ],
             "more_card": true
           }

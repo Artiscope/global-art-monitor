@@ -12,6 +12,72 @@
       "group": "Artist profile images",
       "label": "Konn Artiss",
       "filled": true
+    },
+    {
+      "id": "artist-banksy",
+      "group": "Artist profile images",
+      "label": "Banksy",
+      "filled": false
+    },
+    {
+      "id": "artist-yayoi-kusama",
+      "group": "Artist profile images",
+      "label": "Yayoi Kusama",
+      "filled": false
+    },
+    {
+      "id": "artist-el-anatsui",
+      "group": "Artist profile images",
+      "label": "El Anatsui",
+      "filled": false
+    },
+    {
+      "id": "artist-beatriz-milhazes",
+      "group": "Artist profile images",
+      "label": "Beatriz Milhazes",
+      "filled": false
+    },
+    {
+      "id": "artist-s-h-raza",
+      "group": "Artist profile images",
+      "label": "S.H. Raza",
+      "filled": false
+    },
+    {
+      "id": "artist-gerhard-richter",
+      "group": "Artist profile images",
+      "label": "Gerhard Richter",
+      "filled": false
+    },
+    {
+      "id": "artist-osgemeos",
+      "group": "Artist profile images",
+      "label": "OSGEMEOS",
+      "filled": false
+    },
+    {
+      "id": "artist-vhils",
+      "group": "Artist profile images",
+      "label": "Vhils",
+      "filled": false
+    },
+    {
+      "id": "artist-kaws",
+      "group": "Artist profile images",
+      "label": "KAWS",
+      "filled": false
+    },
+    {
+      "id": "artist-eko-nugroho",
+      "group": "Artist profile images",
+      "label": "Eko Nugroho",
+      "filled": false
+    },
+    {
+      "id": "artist-faith-xlvii",
+      "group": "Artist profile images",
+      "label": "Faith XLVII",
+      "filled": false
     }
   ]
 }
