@@ -3,6 +3,12 @@
 A record of what the website agent did on each run, newest first.
 
 
+## Monday 23 November 2026, all eight artist profiles (draft)
+Published: nothing. Prepared as a draft on the owner's instruction in a conversation.
+Drafts waiting: All eight artist profiles on the Artists page, with two prices filled from Christie's https://github.com/Artiscope/global-art-monitor/pull/PRNUM.
+Checked: every artist profile page. The Artists page listed only Zara Muse and Konn Artiss, so the other six profiles could not be reached from it. Christie's lot pages for Richter's Kerze (Candle) and Kusama's INFINITY-NETS (OOAXT) gave lot numbers, estimates and prices with premium. Hammer prices are still not published, so they stay "To confirm".
+Needs you: a yes or no on the draft, and photos for the six artists without a profile image (spots added).
+
 ## Monday 23 November 2026, five international artists (draft)
 Published: nothing. Prepared as a draft on the owner's instruction in a conversation.
 Drafts waiting: Five international artists with their auction results https://github.com/Artiscope/global-art-monitor/pull/4.
