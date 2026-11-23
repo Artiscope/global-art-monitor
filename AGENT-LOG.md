@@ -3,6 +3,12 @@
 A record of what the website agent did on each run, newest first.
 
 
+## Monday 23 November 2026, five international artists (draft)
+Published: nothing. Prepared as a draft on the owner's instruction in a conversation.
+Drafts waiting: Five international artists with their auction results (pull request linked once opened).
+Checked: lot pages at Saffronart, AstaGuru, Phillips and Sotheby's, and press reports from The Art Newspaper, HENI News, TheValue, Artdaily and ArtDependence. Sotheby's and Christie's results need a sign-in, so several prices rest on press reports and rounded figures stay "To confirm".
+Needs you: a yes or no on the draft.
+
 ## Monday 23 November 2026, prices fit and stay in their own currency
 Published: on the owner's instruction in a conversation. (1) The price on the homepage "Latest documented result" card now shrinks to fit on one line inside the card. (2) Every price shows the currency of its sale, including in the table cells. (3) Prices in different currencies are no longer ranked or charted against each other: the bar comparison uses one scale per currency, and "Highest documented price" gives the highest in each currency. A sale with no currency set shows "currency to confirm" in place of assuming pounds. One line was added to the brief (CLAUDE.md) under the auction data rules to record this.
 Drafts waiting: none from this change.
