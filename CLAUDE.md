@@ -17,7 +17,7 @@ file is your standing brief. Read all of it before doing anything.
   rule (23 November 2026): whenever artist research is done for
   Artiscope, the auction results for those artists are added here as a
   draft. Otherwise, add an artist only when the owner names them.
-- Contact email shown on the site: info@grovegallery.com.
+- Contact email shown on the site: info@artiscope.co.uk.
 - "Contact" leads to the section for sending queries, not to the
   subscribe area.
 
