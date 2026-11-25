@@ -3,6 +3,13 @@
 A record of what the website agent did on each run, newest first.
 
 
+
+## Wednesday 25 November 2026, results table was not showing
+Published: a fix for a fault the owner reported. On the Auction Results page everything under the heading was invisible. The page fades each block in once enough of it is on screen, and the results panel had grown so tall (94 lots) that the required share could never fit on a screen, so it never appeared. Blocks now appear as soon as any part of them comes into view. The change is one line in `assets/site.js`.
+Drafts waiting: none from this change.
+Checked: scrolled through eleven pages at desktop and phone width with motion on. Nothing stays hidden.
+Needs you: nothing.
+
 ## Wednesday 25 November 2026, shorter homepage
 Published: on the owner's instruction in a conversation, the homepage no longer lists everything. Research and features shows the first four pieces, with a "See all research pieces" link. Artist market profiles shows the three artists with the most recent priced sale, picked automatically, with a "See all artists" link. The full lists stay on the Research Reports and Artist Market Profiles pages. The settings are on the homepage's two sections in `data/pages.json`: `limit` on both, and `pick: recent` on the profiles. New artists and articles no longer lengthen the homepage, so do not add them to it by hand.
 Drafts waiting: none from this change.
