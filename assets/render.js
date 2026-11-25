@@ -358,7 +358,7 @@
         card = '<aside class="result-card on-ink" data-reveal style="--d:260ms" aria-label="' + txt(get(st, "result_label", "Latest documented result")) + '">\n' +
           '<p class="label">' + txt(get(st, "result_label", "Latest documented result")) + '</p>\n<p class="work">' + esc(a.name) + ', ' + esc(s.title) + ' (' + esc(s.year) + ')</p>\n' +
           '<p class="price" style="--w:' + priceWidth(money(s.premium, s.currency)) + '">' + money(s.premium, s.currency) + '</p>\n<p class="where">' + esc(s.house) + ', ' + esc(s.sale) + '. ' + esc(s.date_text) + '.</p>\n' +
-          '<div class="chips"><span class="chip">' + W("table.chip-premium", "With buyer's premium") + '</span>' + est + '</div>\n' +
+          '<div class="chips"><span class="chip">' + W("table.chip-premium", "With buyer's premium") + '</span>' + (s.premium_basis === "calculated" ? '<span class="chip chip-calc" title="The house reported only the hammer price. We added the buyer\'s premium at the rates the house published for this sale to reach the total.">' + W("table.calculated", "Our calculation") + '</span>' : "") + est + '</div>\n' +
           '<a class="text-link" href="@@artists/' + s.artist + '/">' + txt(get(st, "result_link", "See the full timeline")) + '</a>\n</aside>\n';
       }
       return '<section class="shell hero">\n<div class="hero-copy">\n<p class="eyebrow" data-reveal>' + fill(get(st, "eyebrow", "")) + '</p>\n' +
@@ -421,7 +421,7 @@
       var s = latestPriced(); if (!s) return "";
       var a = ARTISTS[s.artist];
       return '<section class="shell section">\n<div class="panel on-ink" data-reveal>\n<p class="eyebrow">' + txt(get(st, "eyebrow", "")) + '</p>\n' +
-        '<h2 class="h2">' + esc(a.name) + ', ' + esc(s.title) + ': ' + money(s.premium, s.currency) + ' with premium</h2>\n' +
+        '<h2 class="h2">' + esc(a.name) + ', ' + esc(s.title) + ': ' + money(s.premium, s.currency) + ' with premium' + (s.premium_basis === "calculated" ? ', by our calculation' : "") + '</h2>\n' +
         '<p class="intro" style="max-width:640px">' + esc(s.house) + ', ' + esc(s.sale) + ', ' + esc(s.date_text) + '. ' + txt(get(st, "text", "")) + '</p>\n' +
         '<div><a class="pill pill-mint pill-small" href="@@artists/' + s.artist + '/">' + txt(get(st, "button", "")) + '</a></div>\n</div>\n</section>';
     };
@@ -683,7 +683,7 @@
         : '<div class="work-pic work-pic-none"><span>' + W("work.no-photo", "Photo to come") + '</span></div>';
       var line = function (k, v) { return '<div class="work-row"><span class="k">' + k + '</span><span class="v">' + v + '</span></div>'; };
       var srcs = '<a href="' + esc(s.source_url) + '" rel="noopener">' + esc(s.source_label) + '</a>' + (s.source2_url ? ', <a href="' + esc(s.source2_url) + '" rel="noopener">' + esc(s.source2_label) + '</a>' : "");
-      return '<article class="work" id="work-' + esc(s.id) + '">' + pic + '<div class="work-body">' +
+      return '<article class="aw-card" id="work-' + esc(s.id) + '">' + pic + '<div class="work-body">' +
         '<h3>' + esc(s.title) + ' <span class="yr">(' + esc(s.year) + ')</span></h3>' + (s.medium ? '<p class="work-medium">' + esc(s.medium) + '</p>' : "") +
         line(W("work.sold", "Sale"), esc(s.date_text) + ', ' + esc(s.house) + '<span class="sub">' + esc(s.sale) + (s.lot ? ', ' + W("table.lot", "Lot {lot}", { lot: esc(s.lot) }) : "") + '</span>') +
         line(W("table.estimate", "Estimate"), estCell(s)) + line(W("table.hammer", "Hammer price"), hamCell(s)) + line(W("table.premium", "With premium"), premCell(s)) +

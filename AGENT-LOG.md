@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Wednesday 25 November 2026, latest result card fix (draft)
+Published: nothing. Prepared as a draft after the owner asked to fix the homepage "Latest documented result" card.
+Drafts waiting: Fix the latest result card, https://github.com/Artiscope/global-art-monitor/pull/16
+Checked: the title was clipped because the artwork cards added earlier today shared its style name. Renamed them. The card and the "latest result" band now say "Our calculation" when the price is worked out. Homepage, results and artist pages checked at 1280 and 390 pixels.
+Needs you: nothing.
+
 ## Wednesday 25 November 2026, artwork photos and links (draft)
 Published: nothing. Prepared as a draft on the owner's request for artwork photos in the results table, each leading to the full details on the artist's profile.
 Drafts waiting: Artwork photos and links in the results tables, https://github.com/Artiscope/global-art-monitor/pull/15
