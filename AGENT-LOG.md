@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Wednesday 25 November 2026, prices to confirm (draft)
+Published: nothing. Prepared as a draft on the owner's request in a conversation to research every price left "To confirm".
+Drafts waiting: Confirm prices that were marked to confirm, https://github.com/Artiscope/global-art-monitor/pull/12
+Checked: Christie's lot pages (read in the browser on the owner's computer), Phillips, Bonhams, Tate Ward, Strauss, Saffronart and AstaGuru lot pages, Sotheby's and Christie's premium rates, and press reports. 24 sales updated and the Das bunte Leben high estimate corrected to £25 million. "To confirm" cells on the Auction results page fall from 61 to 29.
+Needs you: Hesitant Rivers is still unknown. Hammer prices at Phillips, Saffronart, AstaGuru and Strauss can't be worked back, because the rate that applied isn't published. The lot pages for Christie's 1991 Richter (New York) and Das bunte Leben weren't found.
+
 ## Monday 23 November 2026, autumn 2026 top lots
 Published: a report on the November 2026 New York evening sales (sale totals, the twelve top prices, why they sold, and the autumn sales in London and Hong Kong), new market profiles for Vincent van Gogh and Wassily Kandinsky, and two October London results for Gerhard Richter. Artists page, homepage profiles, auction results page and the "why work is valued" guide updated to fifteen artists. Published on the owner's instruction in a conversation ("once everything is done. merge and publish").
 Drafts waiting: none from this change.
