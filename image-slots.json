@@ -408,6 +408,48 @@
       "group": "Artwork photos",
       "label": "Gerhard Richter, Abstraktes Bild (1992), sold 15 October 2026",
       "filled": false
+    },
+    {
+      "id": "artist-rene-matic",
+      "group": "Artist profile images",
+      "label": "Rene Matić",
+      "filled": false
+    },
+    {
+      "id": "artist-raven-halfmoon",
+      "group": "Artist profile images",
+      "label": "Raven Halfmoon",
+      "filled": false
+    },
+    {
+      "id": "artist-ana-segovia",
+      "group": "Artist profile images",
+      "label": "Ana Segovia",
+      "filled": false
+    },
+    {
+      "id": "artist-dana-awartani",
+      "group": "Artist profile images",
+      "label": "Dana Awartani",
+      "filled": false
+    },
+    {
+      "id": "artist-jes-fan",
+      "group": "Artist profile images",
+      "label": "Jes Fan",
+      "filled": false
+    },
+    {
+      "id": "work-okla-homma-ohoyo-2024-05-15",
+      "group": "Artwork photos",
+      "label": "Raven Halfmoon, OKLA HOMMA OHOYO (2020), sold 15 May 2024",
+      "filled": false
+    },
+    {
+      "id": "work-two-sides-to-every-story-and-historic-glory-2024-09-25",
+      "group": "Artwork photos",
+      "label": "Raven Halfmoon, Two Sides To Every Story and Historic Glory (2020), sold 25 September 2024",
+      "filled": false
     }
   ]
 }

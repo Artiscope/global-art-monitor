@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Wednesday 25 November 2026
+Published: nothing yet.
+Drafts waiting: five new artist market profiles (Rene Matić, Raven Halfmoon, Ana Segovia, Dana Awartani, Jes Fan), with two Phillips results for Raven Halfmoon and new rows in "What makes an artist's work valued". Pull request link to follow.
+Checked: Phillips, Sotheby's and Christie's lot pages for all five artists. Only the two Halfmoon results could be confirmed with a price on the house's own page.
+Needs you: profile photos for the five artists and the two Halfmoon works (spots added to image-slots.json).
+
 ## Wednesday 25 November 2026, latest result card fix (draft)
 Published: nothing. Prepared as a draft after the owner asked to fix the homepage "Latest documented result" card.
 Drafts waiting: Fix the latest result card, https://github.com/Artiscope/global-art-monitor/pull/16
