@@ -239,16 +239,29 @@
       if (s.est_low && s.est_high) return money(s.est_low, s.currency) + " to " + plain(s.est_high);
       if (s.est_low) return W("table.from", "From {low}", { low: money(s.est_low, s.currency) }) + '<span class="sub">' + W("missing.high", "High estimate to confirm") + '</span>';
       if (s.est_on_request) return W("table.on-request", "On request") + '<span class="sub">' + W("table.on-request-note", "No public estimate was printed") + '</span>';
+      var m = s.mutualart;
+      if (m && m.est_low && m.est_high) return money(m.est_low, s.currency) + " to " + plain(m.est_high) + maNote(s);
       return '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>';
     }
+    function maNote(s, extra) {
+      var tip = "The house page we used does not give this figure. It comes from the MutualArt sale record, linked under Source.";
+      return '<span class="sub calc" title="' + tip + '">' + W("table.mutualart", "From MutualArt") + (extra ? ", " + extra : "") + '</span>';
+    }
     function hamCell(s) {
+      var m = s.mutualart;
+      if (!s.hammer && m && m.price && m.price_basis === "hammer") return '<span class="ham">' + money(m.price, s.currency) + '</span>' + maNote(s);
       if (!s.hammer) return '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>';
       return '<span class="ham">' + money(s.hammer, s.currency) + '</span>' + (s.hammer_basis === "calculated" ? calcNote(s, "hammer") : "");
     }
-    function premCell(s) { return !s.premium ? '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>' : '<span class="prem">' + money(s.premium, s.currency) + '</span>' + (s.premium_basis === "calculated" ? calcNote(s, "premium") : ""); }
+    function premCell(s) {
+      var m = s.mutualart;
+      if (!s.premium && m && m.price && m.price_basis !== "hammer") return '<span class="prem">' + money(m.price, s.currency) + '</span>' + maNote(s, m.price_basis === "premium" ? "" : W("table.mutualart-basis", "premium not stated"));
+      return !s.premium ? '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>' : '<span class="prem">' + money(s.premium, s.currency) + '</span>' + (s.premium_basis === "calculated" ? calcNote(s, "premium") : "");
+    }
     function sourceCell(s) {
       var out = '<a href="' + esc(s.source_url) + '" rel="noopener">' + esc(s.source_label) + '</a>';
       if (s.source2_url) out += '<span class="sub"><a href="' + esc(s.source2_url) + '" rel="noopener">' + esc(s.source2_label) + '</a></span>';
+      if (s.mutualart && s.mutualart.url) out += '<span class="sub"><a href="' + esc(s.mutualart.url) + '" rel="noopener">' + W("table.mutualart-link", "MutualArt sale record") + '</a></span>';
       return out;
     }
     function workHref(s, rootPath) { return rootPath + 'artists/' + s.artist + '/#work-' + s.id; }
@@ -267,7 +280,8 @@
       var L = { date: W("table.date", "Sale date"), work: showArtist ? W("table.artist-work", "Artist and work") : W("table.work", "Work"), house: W("table.house", "House and sale"),
         est: W("table.estimate", "Estimate"), ham: W("table.hammer", "Hammer price"), prem: W("table.premium", "With premium"), cur: W("table.currency", "Currency"), src: W("table.source", "Source") };
       rows.forEach(function (s) {
-        var lot = s.lot ? '<span class="sub">' + W("table.lot", "Lot {lot}", { lot: esc(s.lot) }) + '</span>' : "";
+        var lot = s.lot ? '<span class="sub">' + W("table.lot", "Lot {lot}", { lot: esc(s.lot) }) + '</span>'
+          : s.mutualart && s.mutualart.lot ? '<span class="sub">' + W("table.lot", "Lot {lot}", { lot: esc(s.mutualart.lot) }) + ', ' + W("table.mutualart-per", "per MutualArt") + '</span>' : "";
         var who = showArtist ? '<a class="who" href="' + rootPath + 'artists/' + s.artist + '/">' + esc(ARTISTS[s.artist].name) + '</a>' : "";
         var work = thumb(s, rootPath) + '<span class="work-text">' + who + '<a class="title" href="' + workHref(s, rootPath) + '">' + esc(s.title) + " (" + esc(s.year) + ")</a>";
         body += '<tr' + (opts.mark ? ' data-adh-row="' + s._i + '"' : "") + ' data-artist="' + s.artist + '" data-house="' + esc(s.house) + '" data-currency="' + esc(s.currency || "") + '">' +
@@ -726,10 +740,11 @@
         ? '<figure class="work-pic"><img src="' + workImgSrc(s, "@@") + '" alt="' + esc(workAlt(s)) + '" loading="lazy">' + (s.image.credit ? '<figcaption>' + esc(s.image.credit) + '</figcaption>' : "") + '</figure>'
         : '<div class="work-pic work-pic-none"><span>' + W("work.no-photo", "Photo to come") + '</span></div>';
       var line = function (k, v) { return '<div class="work-row"><span class="k">' + k + '</span><span class="v">' + v + '</span></div>'; };
-      var srcs = '<a href="' + esc(s.source_url) + '" rel="noopener">' + esc(s.source_label) + '</a>' + (s.source2_url ? ', <a href="' + esc(s.source2_url) + '" rel="noopener">' + esc(s.source2_label) + '</a>' : "");
+      var srcs = '<a href="' + esc(s.source_url) + '" rel="noopener">' + esc(s.source_label) + '</a>' + (s.source2_url ? ', <a href="' + esc(s.source2_url) + '" rel="noopener">' + esc(s.source2_label) + '</a>' : "") +
+        (s.mutualart && s.mutualart.url ? ', <a href="' + esc(s.mutualart.url) + '" rel="noopener">' + W("table.mutualart-link", "MutualArt sale record") + '</a>' : "");
       return '<article class="aw-card" id="work-' + esc(s.id) + '">' + pic + '<div class="work-body">' +
         '<h3>' + esc(s.title) + ' <span class="yr">(' + esc(s.year) + ')</span></h3>' + (s.medium ? '<p class="work-medium">' + esc(s.medium) + '</p>' : "") +
-        line(W("work.sold", "Sale"), esc(s.date_text) + ', ' + esc(s.house) + '<span class="sub">' + esc(s.sale) + (s.lot ? ', ' + W("table.lot", "Lot {lot}", { lot: esc(s.lot) }) : "") + '</span>') +
+        line(W("work.sold", "Sale"), esc(s.date_text) + ', ' + esc(s.house) + '<span class="sub">' + esc(s.sale) + (s.lot ? ', ' + W("table.lot", "Lot {lot}", { lot: esc(s.lot) }) : s.mutualart && s.mutualart.lot ? ', ' + W("table.lot", "Lot {lot}", { lot: esc(s.mutualart.lot) }) + ' ' + W("table.mutualart-per", "per MutualArt") : "") + '</span>') +
         line(W("table.estimate", "Estimate"), estCell(s)) + line(W("table.hammer", "Hammer price"), hamCell(s)) + line(W("table.premium", "With premium"), premCell(s)) +
         line(W("table.currency", "Currency"), esc(s.currency)) + line(W("table.source", "Source"), srcs) + '</div></article>\n';
     }
