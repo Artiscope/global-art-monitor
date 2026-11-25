@@ -341,6 +341,9 @@
     }
     function featureCards(st) {
       var feats = featureList(get(st, "which", "all")), big = parseInt(get(st, "big", 0) || 0, 10) || 0, numbered = !!get(st, "numbered", false), out = "";
+      // "limit" shows only the first few, in the order the articles are kept (newest first).
+      var limit = parseInt(get(st, "limit", 0) || 0, 10) || 0;
+      if (limit) feats = feats.slice(0, limit);
       feats.forEach(function (f, i) {
         var n = numbered ? i + 1 : null;
         out += i < big ? featureCard(f, n, true, i * 90) : featureCard(f, n, false, (i - big) * 90);
@@ -378,8 +381,14 @@
         '<div><a class="pill pill-blush pill-small" href="@@' + get(st, "button_href", "auction-results/") + '">' + txt(get(st, "button", "")) + '</a></div>\n</div>\n</section>';
     };
     S.words = function (st) { return wordsBlock(st); };
+    // A plain link under a shortened list, leading to the page that holds all of it.
+    function moreLink(label, href) {
+      return '<p class="more-link" data-reveal><a class="text-link" href="@@' + esc(href) + '">' + txt(label) + '</a></p>\n';
+    }
     S.features = function (st, ctx) {
       var cards = featureCards(st);
+      var fLimit = parseInt(get(st, "limit", 0) || 0, 10) || 0, fTotal = featureList(get(st, "which", "all")).length;
+      if (fLimit && fTotal > fLimit) cards += '</div>\n' + moreLink(W("btn.all-research", "See all {n} research pieces", { n: fTotal }), get(st, "more_href", "research/")) + '<div hidden>';
       if (get(st, "compact", false)) return '<section class="shell section" id="' + ctx.id + '"><div class="section-head"><h2 class="h2" data-reveal>' + txt(get(st, "heading", "")) + '</h2></div><div class="cards">\n' + cards + '</div></section>';
       if (!get(st, "heading", "") && !get(st, "eyebrow", "")) return '<section class="shell section" id="' + ctx.id + '"><div class="cards">\n' + cards + '</div></section>';
       var eyebrow = get(st, "eyebrow", "") ? '<p class="eyebrow" data-reveal>' + txt(st.eyebrow) + '</p>\n' : "";
@@ -388,8 +397,17 @@
     S.profiles = function (st, ctx) {
       var slugs = (get(st, "artists", []) || []).filter(function (x) { return ARTISTS[x]; });
       if (!slugs.length) slugs = ARTIST_KEYS.slice();
+      // "pick": "recent" shows the artists with the most recent priced sale, newest first. "limit" caps how many.
+      var pLimit = parseInt(get(st, "limit", 0) || 0, 10) || 0, pTotal = ARTIST_KEYS.length;
+      if (get(st, "pick", "") === "recent") {
+        var last = {};
+        SALES.forEach(function (s) { if (s.date && (s.premium || s.hammer) && (!last[s.artist] || s.date > last[s.artist])) last[s.artist] = s.date; });
+        slugs = ARTIST_KEYS.filter(function (x) { return last[x]; }).sort(function (a, b) { return last[a] < last[b] ? 1 : last[a] > last[b] ? -1 : ARTIST_KEYS.indexOf(a) - ARTIST_KEYS.indexOf(b); });
+      }
+      if (pLimit) slugs = slugs.slice(0, pLimit);
       var cards = slugs.map(function (x, i) { return profileCard(x, i * 90); }).join("");
       if (get(st, "more_card", true)) cards += MORE_ARTISTS;
+      if (pLimit && pTotal > slugs.length) cards += '</div>\n' + moreLink(W("btn.all-artists", "See all {n} artists", { n: pTotal }), get(st, "more_href", "artists/")) + '<div hidden>';
       var headHtml = get(st, "heading", "") ? '<div class="section-head"><h2 class="h2" data-reveal>' + txt(st.heading) + '</h2></div>\n' : "";
       return '<section class="shell section" id="' + ctx.id + '">\n' + headHtml + '<div class="cards">\n' + cards + '</div>\n</section>';
     };

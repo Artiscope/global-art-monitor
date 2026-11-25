@@ -157,7 +157,8 @@
             "heading": "What the numbers say, and what they do not",
             "which": "all",
             "numbered": true,
-            "big": 2
+            "big": 2,
+            "limit": 4
           }
         },
         {
@@ -189,7 +190,9 @@
               "jes-fan",
               "andy-warhol"
             ],
-            "more_card": true
+            "more_card": false,
+            "pick": "recent",
+            "limit": 3
           }
         },
         {
