@@ -1,5 +1,5 @@
 {
-  "_how_to_edit": "One entry per public sale. Leave a number as null if it is not known. hammer_basis is 'published' when a database or house states it, or 'calculated' when it was worked back from the total using the buyer's premium. After editing, run: python3 tools/build.py",
+  "_how_to_edit": "One entry per public sale. Leave a number as null if it is not known. hammer_basis is 'published' when a database or house states it, or 'calculated' when it was worked back from the total using the buyer's premium. After editing, run: python3 tools/build.py Each sale has an id that names its artwork entry on the artist's page (artists/<artist>/#work-<id>). Never change an id once used. A sale can carry image: {file, alt, credit}, with the file in assets/images/works/.",
   "artists": {
     "zara-muse": {
       "name": "Zara Muse",
@@ -125,6 +125,7 @@
   },
   "sales": [
     {
+      "id": "in-her-own-light-2024-09-18",
       "artist": "zara-muse",
       "date": "2024-09-18",
       "date_text": "18 September 2024",
@@ -146,6 +147,7 @@
       "source2_url": "https://www.invaluable.com/artist/muse-zara-n1nrhv8uk9/"
     },
     {
+      "id": "the-shape-of-stillness-2024-12-11",
       "artist": "zara-muse",
       "date": "2024-12-11",
       "date_text": "11 December 2024",
@@ -167,6 +169,7 @@
       "source2_url": "https://www.invaluable.com/artist/muse-zara-n1nrhv8uk9/"
     },
     {
+      "id": "malala-yousafzai-2025-04-03",
       "artist": "zara-muse",
       "date": "2025-04-03",
       "date_text": "3 April 2025",
@@ -186,6 +189,7 @@
       "source_url": "https://www.bonhams.com/auction/30898/lot/134/zara-muse-b-1971-malala-yousafzai-painted-in-2019/"
     },
     {
+      "id": "alya-2026-06-18",
       "artist": "zara-muse",
       "date": "2026-06-18",
       "date_text": "18 June 2026",
@@ -205,6 +209,7 @@
       "source_url": "https://www.bonhams.com/auction/32252/lot/112/zara-muse-b-1971-alya-painted-in-2023/"
     },
     {
+      "id": "ava-2026-07-02",
       "artist": "zara-muse",
       "date": "2026-07-02",
       "date_text": "2 July 2026",
@@ -226,6 +231,7 @@
       "source2_url": "https://www.invaluable.com/auction-lot/zara-muse-b-1971-ava-acrylic-on-canvas39-1-8-x-39-429-c-4fceabcd4f"
     },
     {
+      "id": "unspoken-2026-10-21",
       "artist": "zara-muse",
       "date": "2026-10-21",
       "date_text": "21 October 2026",
@@ -247,6 +253,7 @@
       "source2_url": "https://www.invaluable.com/auction-lot/zara-muse-b-1971-unspoken-oil-on-canvas39-3-8-x-3-1075-c-76ad02ca74"
     },
     {
+      "id": "untitled-2026-05-14",
       "artist": "konn-artiss",
       "date": "2026-05-14",
       "date_text": "14 May 2026",
@@ -266,6 +273,7 @@
       "source_url": "https://www.tateward.com/auction/lot/lot-173---konn-artiss-untitled-2025/?lot=28224&sd=1"
     },
     {
+      "id": "gilded-promise-2026-06-24",
       "artist": "konn-artiss",
       "date": "2026-06-24",
       "date_text": "24 June 2026",
@@ -285,6 +293,7 @@
       "source_url": "https://www.tateward.com/auction/lot/lot-160---konn-artiss-gilded-promise-2025/?lot=28606&sd=1"
     },
     {
+      "id": "keep-ou-t-2026-10-15",
       "artist": "banksy",
       "date": "2026-10-15",
       "date_text": "15 October 2026",
@@ -306,6 +315,7 @@
       "source2_url": ""
     },
     {
+      "id": "laugh-now-2026-10-15",
       "artist": "banksy",
       "date": "2026-10-15",
       "date_text": "15 October 2026",
@@ -327,6 +337,7 @@
       "source2_url": "https://banksyexplained.com/banksy-originals-2026-auction-results"
     },
     {
+      "id": "laugh-now-2026-10-16",
       "artist": "banksy",
       "date": "2026-10-16",
       "date_text": "16 October 2026",
@@ -348,6 +359,7 @@
       "source2_url": "https://banksyexplained.com/banksy-originals-2026-auction-results"
     },
     {
+      "id": "rat-heart-2026-11-10",
       "artist": "banksy",
       "date": "2026-11-10",
       "date_text": "10 November 2026",
@@ -369,6 +381,7 @@
       "source2_url": "https://artdaily.com/news/202192/Banksy--Rat---Heart--leads-Heritage-s--4-7-million-modern---contemporary-art-auction"
     },
     {
+      "id": "angel-2026-11-18",
       "artist": "banksy",
       "date": "2026-11-18",
       "date_text": "18 November 2026",
@@ -390,6 +403,7 @@
       "source2_url": "https://banksyexplained.com/banksy-originals-2026-auction-results"
     },
     {
+      "id": "hitomi-eye-2026-03-07",
       "artist": "yayoi-kusama",
       "date": "2026-03-07",
       "date_text": "7 March 2026",
@@ -411,6 +425,7 @@
       "source2_url": "https://heni.com/news/article/yayoi-kusama-hitomi-eye-2026-03-07"
     },
     {
+      "id": "infinity-nets-2026-03-31",
       "artist": "yayoi-kusama",
       "date": "2026-03-31",
       "date_text": "31 March 2026",
@@ -433,6 +448,7 @@
       "est_on_request": true
     },
     {
+      "id": "flash-towards-the-21st-century-2026-05-21",
       "artist": "yayoi-kusama",
       "date": "2026-05-21",
       "date_text": "21 May 2026",
@@ -454,6 +470,7 @@
       "source2_url": "https://heni.com/news/article/yayoi-kusama-flash-towards-the-21st-century-2026-05-21"
     },
     {
+      "id": "infinity-nets-ooaxt-2026-05-21",
       "artist": "yayoi-kusama",
       "date": "2026-05-21",
       "date_text": "21 May 2026",
@@ -475,6 +492,7 @@
       "source2_url": "https://heni.com/news/article/yayoi-kusama-infinity-nets-ooaxt-2026-05-21"
     },
     {
+      "id": "no-3p-b-2026-11-16",
       "artist": "yayoi-kusama",
       "date": "2026-11-16",
       "date_text": "16 November 2026",
@@ -497,6 +515,7 @@
       "premium_basis": "calculated"
     },
     {
+      "id": "hesitant-rivers-2025-10-16",
       "artist": "el-anatsui",
       "date": "2025-10-16",
       "date_text": "16 October 2025",
@@ -518,6 +537,7 @@
       "source2_url": ""
     },
     {
+      "id": "g6-2026-03-04",
       "artist": "el-anatsui",
       "date": "2026-03-04",
       "date_text": "4 March 2026",
@@ -539,6 +559,7 @@
       "source2_url": "https://artdaily.com/news/193738/images/close.gif"
     },
     {
+      "id": "paraty-2026-05-21",
       "artist": "beatriz-milhazes",
       "date": "2026-05-21",
       "date_text": "21 May 2026",
@@ -560,6 +581,7 @@
       "source2_url": ""
     },
     {
+      "id": "moinho-vermelho-red-mill-2026-06-25",
       "artist": "beatriz-milhazes",
       "date": "2026-06-25",
       "date_text": "25 June 2026",
@@ -581,6 +603,7 @@
       "source2_url": "https://heni.com/news/article/beatriz-milhazes-moinho-vermelho-red-mill-2026-06-25"
     },
     {
+      "id": "shyam-2026-09-19",
       "artist": "s-h-raza",
       "date": "2026-09-19",
       "date_text": "19 September 2026",
@@ -602,6 +625,7 @@
       "source2_url": ""
     },
     {
+      "id": "village-otta-corse-2026-09-19",
       "artist": "s-h-raza",
       "date": "2026-09-19",
       "date_text": "19 September 2026",
@@ -623,6 +647,7 @@
       "source2_url": ""
     },
     {
+      "id": "bindu-2026-09-22",
       "artist": "s-h-raza",
       "date": "2026-09-22",
       "date_text": "21 to 22 September 2026",
@@ -644,6 +669,7 @@
       "source2_url": ""
     },
     {
+      "id": "radiations-2026-09-22",
       "artist": "s-h-raza",
       "date": "2026-09-22",
       "date_text": "21 to 22 September 2026",
@@ -665,6 +691,7 @@
       "source2_url": ""
     },
     {
+      "id": "la-provence-noire-2026-09-30",
       "artist": "s-h-raza",
       "date": "2026-09-30",
       "date_text": "28 to 30 September 2026",
@@ -686,6 +713,7 @@
       "source2_url": ""
     },
     {
+      "id": "abstraktes-bild-2026-03-07",
       "artist": "gerhard-richter",
       "date": "2026-03-07",
       "date_text": "7 March 2026",
@@ -707,6 +735,7 @@
       "source2_url": "https://heni.com/news/article/gerhard-richter-abstraktes-bild-2026-03-07"
     },
     {
+      "id": "abstraktes-bild-2026-03-27",
       "artist": "gerhard-richter",
       "date": "2026-03-27",
       "date_text": "27 March 2026",
@@ -728,6 +757,7 @@
       "source2_url": ""
     },
     {
+      "id": "kerze-candle-2026-05-20",
       "artist": "gerhard-richter",
       "date": "2026-05-20",
       "date_text": "20 May 2026",
@@ -749,6 +779,7 @@
       "source2_url": "https://www.theartnewspaper.com/2026/05/21/christies-marian-goodman-richters-henry-mcneil-minimalism-auction-report-new-york"
     },
     {
+      "id": "abstraktes-bild-522-1-2026-09-30",
       "artist": "gerhard-richter",
       "date": "2026-09-30",
       "date_text": "30 September 2026",
@@ -770,6 +801,7 @@
       "source2_url": "https://www.phillips.com/press/release/gerhard-richter-leads-phillips-hong-kong-sales-of-modern-contemporary-art-"
     },
     {
+      "id": "abstraktes-bild-2026-11-19",
       "artist": "gerhard-richter",
       "date": "2026-11-19",
       "date_text": "19 November 2026",
@@ -792,6 +824,7 @@
       "premium_basis": "calculated"
     },
     {
+      "id": "sem-medo-de-ser-feliz-2026-07-17",
       "artist": "osgemeos",
       "date": "2026-07-17",
       "date_text": "17 July 2026",
@@ -813,6 +846,7 @@
       "source2_url": ""
     },
     {
+      "id": "o-dia-em-que-a-andorinha-nao-voou-2025-05-14",
       "artist": "osgemeos",
       "date": "2025-05-14",
       "date_text": "14 May 2025",
@@ -834,6 +868,7 @@
       "source2_url": ""
     },
     {
+      "id": "untitled-2024-11-19",
       "artist": "osgemeos",
       "date": "2024-11-19",
       "date_text": "19 November 2024",
@@ -855,6 +890,7 @@
       "source2_url": ""
     },
     {
+      "id": "untitled-2022-06-29",
       "artist": "osgemeos",
       "date": "2022-06-29",
       "date_text": "29 June 2022",
@@ -876,6 +912,7 @@
       "source2_url": ""
     },
     {
+      "id": "dentro-do-arco-iris-e-assim-within-the-r-2020-12-08",
       "artist": "osgemeos",
       "date": "2020-12-08",
       "date_text": "8 December 2020",
@@ -897,6 +934,7 @@
       "source2_url": ""
     },
     {
+      "id": "attrition-series-01-2025-10-17",
       "artist": "vhils",
       "date": "2025-10-17",
       "date_text": "17 October 2025",
@@ -918,6 +956,7 @@
       "source2_url": ""
     },
     {
+      "id": "untitled-mbfg10-2026-10-17",
       "artist": "kaws",
       "date": "2026-10-17",
       "date_text": "17 October 2026",
@@ -939,6 +978,7 @@
       "source2_url": ""
     },
     {
+      "id": "camo-can-t-help-you-2026-09-30",
       "artist": "kaws",
       "date": "2026-09-30",
       "date_text": "30 September 2026",
@@ -960,6 +1000,7 @@
       "source2_url": ""
     },
     {
+      "id": "untitled-2026-09-30",
       "artist": "kaws",
       "date": "2026-09-30",
       "date_text": "30 September 2026",
@@ -981,6 +1022,7 @@
       "source2_url": ""
     },
     {
+      "id": "companion-originalfake-2026-06-25",
       "artist": "kaws",
       "date": "2026-06-25",
       "date_text": "25 June 2026",
@@ -1002,6 +1044,7 @@
       "source2_url": ""
     },
     {
+      "id": "gone-and-beyond-c-9-c-4-and-c-6-2026-06-25",
       "artist": "kaws",
       "date": "2026-06-25",
       "date_text": "25 June 2026",
@@ -1023,6 +1066,7 @@
       "source2_url": ""
     },
     {
+      "id": "topi-untuk-haring-a-hat-for-haring-2025-05-02",
       "artist": "eko-nugroho",
       "date": "2025-05-02",
       "date_text": "2 May 2025",
@@ -1044,6 +1088,7 @@
       "source2_url": ""
     },
     {
+      "id": "trap-costum-for-president-1-2022-11-10",
       "artist": "eko-nugroho",
       "date": "2022-11-10",
       "date_text": "10 November 2022",
@@ -1065,6 +1110,7 @@
       "source2_url": ""
     },
     {
+      "id": "empty-kitchen-for-5-months-04-2022-11-10",
       "artist": "eko-nugroho",
       "date": "2022-11-10",
       "date_text": "10 November 2022",
@@ -1086,6 +1132,7 @@
       "source2_url": ""
     },
     {
+      "id": "coltan-oil-diamonds-triptych-2024-06-10",
       "artist": "faith-xlvii",
       "date": "2024-06-10",
       "date_text": "10 June 2024",
@@ -1107,6 +1154,7 @@
       "source2_url": ""
     },
     {
+      "id": "ons-vir-jou-suid-afrika-2020-11-23",
       "artist": "faith-xlvii",
       "date": "2020-11-23",
       "date_text": "23 November 2020",
@@ -1128,6 +1176,7 @@
       "source2_url": ""
     },
     {
+      "id": "chataigniers-en-fleurs-2026-11-18",
       "artist": "vincent-van-gogh",
       "date": "2026-11-18",
       "date_text": "18 November 2026",
@@ -1151,6 +1200,7 @@
       "est_on_request": true
     },
     {
+      "id": "betonte-ecken-2026-11-17",
       "artist": "wassily-kandinsky",
       "date": "2026-11-17",
       "date_text": "17 November 2026",
@@ -1172,6 +1222,7 @@
       "source2_url": "https://theartnewspaper.com/2026/11/18/kandinsky-record-and-a-trove-consigned-by-jeff-koons-buoy-christies-solid-20th-century-evening-sale-in-new-york"
     },
     {
+      "id": "das-bunte-leben-2026-10-14",
       "artist": "wassily-kandinsky",
       "date": "2026-10-14",
       "date_text": "14 October 2026",
@@ -1193,6 +1244,7 @@
       "source2_url": "https://theartnewspaper.com/2026/10/15/christies-achieves-%C2%A3219m-in-steady-solid-london-sales"
     },
     {
+      "id": "mathis-2026-10-15",
       "artist": "gerhard-richter",
       "date": "2026-10-15",
       "date_text": "15 October 2026",
@@ -1214,6 +1266,7 @@
       "source2_url": "https://www.phillips.com/press/release/phillips-white-glove-evening-sale-of-modern-contemporary-art-achieves-148-million-"
     },
     {
+      "id": "abstraktes-bild-2026-10-15",
       "artist": "gerhard-richter",
       "date": "2026-10-15",
       "date_text": "15 October 2026",

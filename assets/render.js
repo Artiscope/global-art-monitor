@@ -235,6 +235,15 @@
       if (s.source2_url) out += '<span class="sub"><a href="' + esc(s.source2_url) + '" rel="noopener">' + esc(s.source2_label) + '</a></span>';
       return out;
     }
+    function workHref(s, rootPath) { return rootPath + 'artists/' + s.artist + '/#work-' + s.id; }
+    function initials(name) { return String(name || "").split(/[\s.]+/).filter(Boolean).map(function (w) { return w.charAt(0); }).join("").slice(0, 2).toUpperCase(); }
+    function workImgSrc(s, rootPath) { return opts.imageSrc ? opts.imageSrc("works/" + s.image.file) : rootPath + "assets/images/works/" + s.image.file; }
+    function workAlt(s) { return s.image.alt || (ARTISTS[s.artist].name + ", " + s.title + " (" + s.year + ")"); }
+    function thumb(s, rootPath) {
+      var inner = s.image && s.image.file ? '<img src="' + workImgSrc(s, rootPath) + '" alt="" loading="lazy" width="56" height="56">'
+        : '<span class="thumb-none" aria-hidden="true">' + esc(initials(ARTISTS[s.artist].name)) + '</span>';
+      return '<a class="thumb" href="' + workHref(s, rootPath) + '" tabindex="-1" aria-hidden="true">' + inner + '</a>';
+    }
     function td(cls, label, html) { return '<td class="' + cls + '" data-label="' + label + '">' + html + '</td>'; }
     function table(rows, tableId, showArtist, rootPath) {
       rootPath = rootPath == null ? "@@" : rootPath;
@@ -244,9 +253,9 @@
       rows.forEach(function (s) {
         var lot = s.lot ? '<span class="sub">' + W("table.lot", "Lot {lot}", { lot: esc(s.lot) }) + '</span>' : "";
         var who = showArtist ? '<a class="who" href="' + rootPath + 'artists/' + s.artist + '/">' + esc(ARTISTS[s.artist].name) + '</a>' : "";
-        var work = who + '<span class="title">' + esc(s.title) + " (" + esc(s.year) + ")</span>";
+        var work = thumb(s, rootPath) + '<span class="work-text">' + who + '<a class="title" href="' + workHref(s, rootPath) + '">' + esc(s.title) + " (" + esc(s.year) + ")</a>";
         body += '<tr' + (opts.mark ? ' data-adh-row="' + s._i + '"' : "") + ' data-artist="' + s.artist + '" data-house="' + esc(s.house) + '">' +
-          td("c-date", L.date, esc(s.date_text)) + td("c-work", L.work, work + lot) +
+          td("c-date", L.date, esc(s.date_text)) + td("c-work", L.work, work + lot + '</span>') +
           td("c-house", L.house, esc(s.house) + '<span class="sub">' + esc(s.sale) + '</span>') + td("c-est", L.est, estCell(s)) +
           td("c-ham", L.ham, hamCell(s)) + td("c-prem", L.prem, premCell(s)) + td("c-cur", L.cur, esc(s.currency)) + td("c-src", L.src, sourceCell(s)) + '</tr>\n';
       });
@@ -668,6 +677,18 @@
       if (key === "home") extra = '<script type="application/ld+json">' + pyJson({ "@context": "https://schema.org", "@type": "WebSite", name: "Global Art Monitor", url: SITE.url, description: SITE.intro }) + '</script>\n';
       return page(pg.path, pg.title || "", pg.description || "", (pg.own ? top.concat(parts) : parts).join("\n"), pg.current || "", !!pg.intro, extra, pg.own ? "" : top.join("\n"), !!pg.own);
     }
+    function workCard(s) {
+      var pic = s.image && s.image.file
+        ? '<figure class="work-pic"><img src="' + workImgSrc(s, "@@") + '" alt="' + esc(workAlt(s)) + '" loading="lazy">' + (s.image.credit ? '<figcaption>' + esc(s.image.credit) + '</figcaption>' : "") + '</figure>'
+        : '<div class="work-pic work-pic-none"><span>' + W("work.no-photo", "Photo to come") + '</span></div>';
+      var line = function (k, v) { return '<div class="work-row"><span class="k">' + k + '</span><span class="v">' + v + '</span></div>'; };
+      var srcs = '<a href="' + esc(s.source_url) + '" rel="noopener">' + esc(s.source_label) + '</a>' + (s.source2_url ? ', <a href="' + esc(s.source2_url) + '" rel="noopener">' + esc(s.source2_label) + '</a>' : "");
+      return '<article class="work" id="work-' + esc(s.id) + '">' + pic + '<div class="work-body">' +
+        '<h3>' + esc(s.title) + ' <span class="yr">(' + esc(s.year) + ')</span></h3>' + (s.medium ? '<p class="work-medium">' + esc(s.medium) + '</p>' : "") +
+        line(W("work.sold", "Sale"), esc(s.date_text) + ', ' + esc(s.house) + '<span class="sub">' + esc(s.sale) + (s.lot ? ', ' + W("table.lot", "Lot {lot}", { lot: esc(s.lot) }) : "") + '</span>') +
+        line(W("table.estimate", "Estimate"), estCell(s)) + line(W("table.hammer", "Hammer price"), hamCell(s)) + line(W("table.premium", "With premium"), premCell(s)) +
+        line(W("table.currency", "Currency"), esc(s.currency)) + line(W("table.source", "Source"), srcs) + '</div></article>\n';
+    }
     function artistPage(slug) {
       var a = ARTISTS[slug], rows = salesFor(slug), pr = priced(rows), best = maxBy(pr, function (s) { return s.premium; });
       var dated = rows.filter(function (s) { return s.date; }), first = minBy(dated, function (s) { return s.date; });
@@ -704,6 +725,9 @@
         M('<section class="shell section" id="timeline">\n<div class="panel on-ink" data-reveal>\n<p class="eyebrow">' + W("item.timeline", "Artist auction timeline") + '</p>\n<div class="split"><h2 class="h2">' + W("item.at-auction", "{name} at auction", { name: esc(a.name) }) + '</h2>\n' +
         '<p class="intro">Every public sale we can document, newest first. Estimate, hammer price and price with premium each have their own column.</p></div>\n' +
         LEGEND + '\n' + table(rows, "timeline-" + slug) + '\n' + TABLE_NOTE + '\n</div>\n</section>', "sales") + '\n' +
+        M('<section class="shell section" id="works">\n<div class="section-head" data-reveal><p class="eyebrow">' + W("item.works-eyebrow", "The works") + '</p>\n<h2 class="h2">' + W("item.works", "Every work in the timeline") + '</h2>\n' +
+        '<p class="intro-blush">Each sale above, with the work, what it is made of and the full sale details. Photos appear where we have one we are allowed to show.</p></div>\n' +
+        '<div class="works">\n' + rows.map(workCard).join("") + '</div>\n</section>', "sales") + '\n' +
         M('<section class="shell section">\n<div class="panel on-ink" data-reveal>\n<h2 class="h2">' + W("item.side-by-side", "Estimate, hammer and total, side by side") + '</h2>\n' +
         '<p class="intro" style="max-width:620px">' + (bests.length > 1 ? 'Each bar compares the three figures within one sale. Sales in the same currency share a scale.' : 'The bars use one scale, so you can compare sales with each other as well as the three figures within each sale.') + '</p>\n' + ladder(rows) + '\n</div>\n</section>', "sales") + '\n' +
         M('<section class="shell article" style="padding-top:104px">\n<div class="article-body prose" data-reveal>\n<h2 style="margin-top:0">' + W("item.about", "About the artist") + '</h2>\n' + paras + '\n' + standing +

@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Wednesday 25 November 2026, artwork photos and links (draft)
+Published: nothing. Prepared as a draft on the owner's request for artwork photos in the results table, each leading to the full details on the artist's profile.
+Drafts waiting: Artwork photos and links in the results tables, https://github.com/Artiscope/global-art-monitor/pull/15
+Checked: tables and artist pages at 1280 and 390 pixels. Wikimedia Commons could not be reached from this run, so no photos were added yet.
+Needs you: photos of the works. 53 artwork spots are now listed in Digital Home under "Artwork photos". Most of these works are still in copyright, so photos need to come from you or with the rights holder's permission.
+
 ## Wednesday 25 November 2026, currency column back (draft)
 Published: nothing. Prepared as a draft after the owner said the Currency column is important.
 Drafts waiting: Bring back the Currency column on the results tables, https://github.com/Artiscope/global-art-monitor/pull/14
