@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Wednesday 25 November 2026, Andy Warhol (draft)
+Published: nothing. Andy Warhol added as a draft after the owner asked for him on all five sites.
+Drafts waiting: Andy Warhol market profile with five unique works sold 16 to 19 November 2026, a row in "What makes an artist's work valued", and a public domain portrait (White House photograph, 1977). Branch draft/2026-11-25-andy-warhol.
+Checked: Sotheby's lot pages (lots, sizes, estimates; results hidden), Christie's results listing, Phillips lot 21, The Art Newspaper, Artdaily, Luxury.it, MyArtBroker.
+Needs you: three Sotheby's totals stay "To confirm" because Sotheby's hides results; The Scream's reported hammer does not match its reported total.
+
 ## Wednesday 25 November 2026
 Published: nothing yet.
 Drafts waiting: five new artist market profiles (Rene Matić, Raven Halfmoon, Ana Segovia, Dana Awartani, Jes Fan), with two Phillips results for Raven Halfmoon and new rows in "What makes an artist's work valued". Pull request link to follow.

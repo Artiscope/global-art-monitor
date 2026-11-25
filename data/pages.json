@@ -186,7 +186,8 @@
               "raven-halfmoon",
               "ana-segovia",
               "dana-awartani",
-              "jes-fan"
+              "jes-fan",
+              "andy-warhol"
             ],
             "more_card": true
           }
@@ -300,7 +301,7 @@
     "artists": {
       "path": "artists/index.html",
       "title": "Artist Market Profiles | Global Art Monitor",
-      "description": "Market profiles for artists with a documented public auction record: Zara Muse, Konn Artiss, Banksy, Yayoi Kusama, El Anatsui, Beatriz Milhazes, S.H. Raza and Gerhard Richter.",
+      "description": "Market profiles for the twenty-one artists we cover, from Andy Warhol and Gerhard Richter to artists with no auction record yet, each with the documented sales we could find.",
       "current": "artists",
       "intro": false,
       "sections": [
@@ -341,7 +342,8 @@
               "raven-halfmoon",
               "ana-segovia",
               "dana-awartani",
-              "jes-fan"
+              "jes-fan",
+              "andy-warhol"
             ],
             "more_card": true
           }
