@@ -109,6 +109,8 @@
     function latestPriced() { return maxBy(priced(SALES).filter(function (s) { return s.date; }), function (s) { return s.date; }); }
 
     function head(rootPath, title, desc, path, extra) {
+      // titles over 60 characters drop the site name, so search results show them in full
+      title = String(title || ""); var cut = title.lastIndexOf(" | "); if (title.length > 60 && cut > 0) title = title.slice(0, cut);
       var canon = (SITE.url || "") + path;
       return '<!doctype html>\n<html lang="en-GB">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n' +
         '<title>' + esc(title) + '</title>\n<meta name="description" content="' + esc(desc) + '">\n<link rel="canonical" href="' + canon + '">\n' +
@@ -693,6 +695,7 @@
       });
       var extra = "";
       if (key === "home") extra = '<script type="application/ld+json">' + pyJson({ "@context": "https://schema.org", "@type": "WebSite", name: "Global Art Monitor", url: SITE.url, description: SITE.intro }) + '</script>\n';
+      else if (/index\.html$/.test(pg.path || "") && pg.path !== "index.html") extra = '<script type="application/ld+json">' + pyJson({ "@context": "https://schema.org", "@type": /^about\//.test(pg.path) ? "AboutPage" : /^contact\//.test(pg.path) ? "ContactPage" : "CollectionPage", name: String(pg.title || "").split(" | ")[0], description: pg.description || "", url: SITE.url + pg.path.slice(0, -"index.html".length), isPartOf: { "@type": "WebSite", name: "Global Art Monitor", url: SITE.url } }) + '</script>\n';
       return page(pg.path, pg.title || "", pg.description || "", (pg.own ? top.concat(parts) : parts).join("\n"), pg.current || "", !!pg.intro, extra, pg.own ? "" : top.join("\n"), !!pg.own);
     }
     function workCard(s) {
