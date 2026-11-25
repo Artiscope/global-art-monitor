@@ -222,7 +222,7 @@
       if (!s.hammer) return '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>';
       return '<span class="ham">' + money(s.hammer, s.currency) + '</span>' + (s.hammer_basis === "calculated" ? '<span class="sub">' + W("table.calculated", "Our calculation") + '</span>' : "");
     }
-    function premCell(s) { return !s.premium ? '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>' : '<span class="prem">' + money(s.premium, s.currency) + '</span>'; }
+    function premCell(s) { return !s.premium ? '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>' : '<span class="prem">' + money(s.premium, s.currency) + '</span>' + (s.premium_basis === "calculated" ? '<span class="sub">' + W("table.calculated", "Our calculation") + '</span>' : ""); }
     function sourceCell(s) {
       var out = '<a href="' + esc(s.source_url) + '" rel="noopener">' + esc(s.source_label) + '</a>';
       if (s.source2_url) out += '<span class="sub"><a href="' + esc(s.source2_url) + '" rel="noopener">' + esc(s.source2_label) + '</a></span>';
@@ -247,7 +247,7 @@
       '<span class="chip" style="background:var(--ink-2)"><span class="dot dot-blush"></span>' + W("table.key-premium", "Price with premium") + '</span>\n' +
       '<span class="chip" style="background:var(--ink-2)"><span class="dot dot-grey"></span>' + W("table.key-estimate", "Estimate") + '</span>\n</div>';
     var TABLE_NOTE = '<p class="note">Prices come from auction house lot pages and public auction databases, and are shown in the currency of the sale. ' +
-      '"' + W("table.calculated", "Our calculation") + '" means the hammer price was worked back from the published total using the house\'s buyer\'s premium. ' +
+      '"' + W("table.calculated", "Our calculation") + '" means the figure was worked out from the other published price using the house\'s published buyer\'s premium rates. ' +
       '"' + W("missing.tbc", "To confirm") + '" means we have not yet been able to check the figure. <a class="text-link" href="@@about/#method">How we report a price</a></p>';
     function ladder(rows) {
       rows = priced(rows);
@@ -711,7 +711,7 @@
         var token = "[[TIMELINE:" + slug + "]]";
         if (html.indexOf(token) >= 0) {
           var block = '<div class="panel on-ink" style="padding:28px 22px;gap:18px">' + LEGEND + table(salesFor(slug), "feature-" + slug) +
-            '<p class="note">Sources are linked in the last column. "' + W("table.calculated", "Our calculation") + '" means a hammer price worked back from the published total.</p></div>';
+            '<p class="note">Sources are linked in the last column. "' + W("table.calculated", "Our calculation") + '" means a figure worked out from the other published price using the house\'s published premium rates.</p></div>';
           html = html.split(token).join(block);
         }
       });
