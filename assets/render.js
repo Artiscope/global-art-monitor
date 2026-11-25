@@ -240,7 +240,7 @@
       rootPath = rootPath == null ? "@@" : rootPath;
       var body = "";
       var L = { date: W("table.date", "Sale date"), work: showArtist ? W("table.artist-work", "Artist and work") : W("table.work", "Work"), house: W("table.house", "House and sale"),
-        est: W("table.estimate", "Estimate"), ham: W("table.hammer", "Hammer price"), prem: W("table.premium", "With premium"), src: W("table.source", "Source") };
+        est: W("table.estimate", "Estimate"), ham: W("table.hammer", "Hammer price"), prem: W("table.premium", "With premium"), cur: W("table.currency", "Currency"), src: W("table.source", "Source") };
       rows.forEach(function (s) {
         var lot = s.lot ? '<span class="sub">' + W("table.lot", "Lot {lot}", { lot: esc(s.lot) }) + '</span>' : "";
         var who = showArtist ? '<a class="who" href="' + rootPath + 'artists/' + s.artist + '/">' + esc(ARTISTS[s.artist].name) + '</a>' : "";
@@ -248,10 +248,10 @@
         body += '<tr' + (opts.mark ? ' data-adh-row="' + s._i + '"' : "") + ' data-artist="' + s.artist + '" data-house="' + esc(s.house) + '">' +
           td("c-date", L.date, esc(s.date_text)) + td("c-work", L.work, work + lot) +
           td("c-house", L.house, esc(s.house) + '<span class="sub">' + esc(s.sale) + '</span>') + td("c-est", L.est, estCell(s)) +
-          td("c-ham", L.ham, hamCell(s)) + td("c-prem", L.prem, premCell(s)) + td("c-src", L.src, sourceCell(s)) + '</tr>\n';
+          td("c-ham", L.ham, hamCell(s)) + td("c-prem", L.prem, premCell(s)) + td("c-cur", L.cur, esc(s.currency)) + td("c-src", L.src, sourceCell(s)) + '</tr>\n';
       });
       return '<div class="table-wrap" tabindex="0" role="region" aria-label="' + W("sr.table", "Auction results table") + '">\n<table class="tl tl-sales" id="' + tableId + '">\n' +
-        '<thead><tr><th scope="col">' + L.date + '</th><th scope="col">' + L.work + '</th><th scope="col">' + L.house + '</th><th scope="col">' + L.est + '</th><th scope="col">' + L.ham + '</th><th scope="col">' + L.prem + '</th><th scope="col">' + L.src + '</th></tr></thead>\n' +
+        '<thead><tr><th scope="col">' + L.date + '</th><th scope="col">' + L.work + '</th><th scope="col">' + L.house + '</th><th scope="col">' + L.est + '</th><th scope="col">' + L.ham + '</th><th scope="col">' + L.prem + '</th><th scope="col">' + L.cur + '</th><th scope="col">' + L.src + '</th></tr></thead>\n' +
         '<tbody>\n' + body + '</tbody>\n</table>\n</div>';
     }
     var LEGEND = '<div class="chips">\n<span class="chip" style="background:var(--ink-2)"><span class="dot dot-mint"></span>' + W("table.key-hammer", "Hammer price") + '</span>\n' +

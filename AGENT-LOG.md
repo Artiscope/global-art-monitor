@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Wednesday 25 November 2026, currency column back (draft)
+Published: nothing. Prepared as a draft after the owner said the Currency column is important.
+Drafts waiting: Bring back the Currency column on the results tables, https://github.com/Artiscope/global-art-monitor/pull/14
+Checked: the results tables on the auction results, artist, homepage and research pages fit at 1280 and 390 pixels with nothing cut off.
+Needs you: nothing.
+
 ## Wednesday 25 November 2026, results table layout (draft)
 Published: nothing. Prepared as a draft on the owner's request in a conversation ("fix this properly") about the auction results table.
 Drafts waiting: Make the auction results table fit on every screen, https://github.com/Artiscope/global-art-monitor/pull/13
