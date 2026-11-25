@@ -90,6 +90,324 @@
       "group": "Artist profile images",
       "label": "Wassily Kandinsky",
       "filled": false
+    },
+    {
+      "id": "work-in-her-own-light-2024-09-18",
+      "group": "Artwork photos",
+      "label": "Zara Muse, In Her Own Light (2023), sold 18 September 2024",
+      "filled": false
+    },
+    {
+      "id": "work-the-shape-of-stillness-2024-12-11",
+      "group": "Artwork photos",
+      "label": "Zara Muse, The Shape of Stillness (2024), sold 11 December 2024",
+      "filled": false
+    },
+    {
+      "id": "work-malala-yousafzai-2025-04-03",
+      "group": "Artwork photos",
+      "label": "Zara Muse, Malala Yousafzai (2019), sold 3 April 2025",
+      "filled": false
+    },
+    {
+      "id": "work-alya-2026-06-18",
+      "group": "Artwork photos",
+      "label": "Zara Muse, Alya (2023), sold 18 June 2026",
+      "filled": false
+    },
+    {
+      "id": "work-ava-2026-07-02",
+      "group": "Artwork photos",
+      "label": "Zara Muse, Ava (2025), sold 2 July 2026",
+      "filled": false
+    },
+    {
+      "id": "work-unspoken-2026-10-21",
+      "group": "Artwork photos",
+      "label": "Zara Muse, Unspoken (2025), sold 21 October 2026",
+      "filled": false
+    },
+    {
+      "id": "work-untitled-2026-05-14",
+      "group": "Artwork photos",
+      "label": "Konn Artiss, Untitled (2025), sold 14 May 2026",
+      "filled": false
+    },
+    {
+      "id": "work-gilded-promise-2026-06-24",
+      "group": "Artwork photos",
+      "label": "Konn Artiss, Gilded Promise (2025), sold 24 June 2026",
+      "filled": false
+    },
+    {
+      "id": "work-keep-ou-t-2026-10-15",
+      "group": "Artwork photos",
+      "label": "Banksy, Keep Ou T (2019), sold 15 October 2026",
+      "filled": false
+    },
+    {
+      "id": "work-laugh-now-2026-10-15",
+      "group": "Artwork photos",
+      "label": "Banksy, Laugh Now (2001), sold 15 October 2026",
+      "filled": false
+    },
+    {
+      "id": "work-laugh-now-2026-10-16",
+      "group": "Artwork photos",
+      "label": "Banksy, Laugh Now (2002), sold 16 October 2026",
+      "filled": false
+    },
+    {
+      "id": "work-rat-heart-2026-11-10",
+      "group": "Artwork photos",
+      "label": "Banksy, Rat & Heart (2015), sold 10 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-angel-2026-11-18",
+      "group": "Artwork photos",
+      "label": "Banksy, Angel (2006), sold 18 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-hitomi-eye-2026-03-07",
+      "group": "Artwork photos",
+      "label": "Yayoi Kusama, Hitomi (Eye) (1989), sold 7 March 2026",
+      "filled": false
+    },
+    {
+      "id": "work-infinity-nets-2026-03-31",
+      "group": "Artwork photos",
+      "label": "Yayoi Kusama, Infinity Nets (1970), sold 31 March 2026",
+      "filled": false
+    },
+    {
+      "id": "work-flash-towards-the-21st-century-2026-05-21",
+      "group": "Artwork photos",
+      "label": "Yayoi Kusama, Flash Towards the 21st Century (1988), sold 21 May 2026",
+      "filled": false
+    },
+    {
+      "id": "work-infinity-nets-ooaxt-2026-05-21",
+      "group": "Artwork photos",
+      "label": "Yayoi Kusama, INFINITY-NETS (OOAXT) (2008), sold 21 May 2026",
+      "filled": false
+    },
+    {
+      "id": "work-no-3p-b-2026-11-16",
+      "group": "Artwork photos",
+      "label": "Yayoi Kusama, No. 3P.B. (1960), sold 16 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-hesitant-rivers-2025-10-16",
+      "group": "Artwork photos",
+      "label": "El Anatsui, Hesitant Rivers (2012), sold 16 October 2025",
+      "filled": false
+    },
+    {
+      "id": "work-g6-2026-03-04",
+      "group": "Artwork photos",
+      "label": "El Anatsui, G6 (2023), sold 4 March 2026",
+      "filled": false
+    },
+    {
+      "id": "work-paraty-2026-05-21",
+      "group": "Artwork photos",
+      "label": "Beatriz Milhazes, Paraty (2001 to 2002), sold 21 May 2026",
+      "filled": false
+    },
+    {
+      "id": "work-moinho-vermelho-red-mill-2026-06-25",
+      "group": "Artwork photos",
+      "label": "Beatriz Milhazes, Moinho vermelho (Red Mill) (1999), sold 25 June 2026",
+      "filled": false
+    },
+    {
+      "id": "work-shyam-2026-09-19",
+      "group": "Artwork photos",
+      "label": "S.H. Raza, Shyam (1999), sold 19 September 2026",
+      "filled": false
+    },
+    {
+      "id": "work-village-otta-corse-2026-09-19",
+      "group": "Artwork photos",
+      "label": "S.H. Raza, Village Otta Corse (1958), sold 19 September 2026",
+      "filled": false
+    },
+    {
+      "id": "work-bindu-2026-09-22",
+      "group": "Artwork photos",
+      "label": "S.H. Raza, Bindu (2002), sold 21 to 22 September 2026",
+      "filled": false
+    },
+    {
+      "id": "work-radiations-2026-09-22",
+      "group": "Artwork photos",
+      "label": "S.H. Raza, Radiations (1998), sold 21 to 22 September 2026",
+      "filled": false
+    },
+    {
+      "id": "work-la-provence-noire-2026-09-30",
+      "group": "Artwork photos",
+      "label": "S.H. Raza, La Provence Noire (1965), sold 28 to 30 September 2026",
+      "filled": false
+    },
+    {
+      "id": "work-abstraktes-bild-2026-03-07",
+      "group": "Artwork photos",
+      "label": "Gerhard Richter, Abstraktes Bild (1992), sold 7 March 2026",
+      "filled": false
+    },
+    {
+      "id": "work-abstraktes-bild-2026-03-27",
+      "group": "Artwork photos",
+      "label": "Gerhard Richter, Abstraktes Bild (1991), sold 27 March 2026",
+      "filled": false
+    },
+    {
+      "id": "work-kerze-candle-2026-05-20",
+      "group": "Artwork photos",
+      "label": "Gerhard Richter, Kerze (Candle) (1982), sold 20 May 2026",
+      "filled": false
+    },
+    {
+      "id": "work-abstraktes-bild-522-1-2026-09-30",
+      "group": "Artwork photos",
+      "label": "Gerhard Richter, Abstraktes Bild (522-1) (1983), sold 30 September 2026",
+      "filled": false
+    },
+    {
+      "id": "work-abstraktes-bild-2026-11-19",
+      "group": "Artwork photos",
+      "label": "Gerhard Richter, Abstraktes Bild (1991), sold 19 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-sem-medo-de-ser-feliz-2026-07-17",
+      "group": "Artwork photos",
+      "label": "OSGEMEOS, Sem medo de ser feliz (2010), sold 17 July 2026",
+      "filled": false
+    },
+    {
+      "id": "work-o-dia-em-que-a-andorinha-nao-voou-2025-05-14",
+      "group": "Artwork photos",
+      "label": "OSGEMEOS, O dia em que a Andorinha não voou (2005), sold 14 May 2025",
+      "filled": false
+    },
+    {
+      "id": "work-untitled-2024-11-19",
+      "group": "Artwork photos",
+      "label": "OSGEMEOS, Untitled (2010), sold 19 November 2024",
+      "filled": false
+    },
+    {
+      "id": "work-untitled-2022-06-29",
+      "group": "Artwork photos",
+      "label": "OSGEMEOS, Untitled (2012), sold 29 June 2022",
+      "filled": false
+    },
+    {
+      "id": "work-dentro-do-arco-iris-e-assim-within-the-r-2020-12-08",
+      "group": "Artwork photos",
+      "label": "OSGEMEOS, Dentro do arco-iris, é assim (Within the Rainbow) (2010), sold 8 December 2020",
+      "filled": false
+    },
+    {
+      "id": "work-attrition-series-01-2025-10-17",
+      "group": "Artwork photos",
+      "label": "Vhils, Attrition series #01 (2018), sold 17 October 2025",
+      "filled": false
+    },
+    {
+      "id": "work-untitled-mbfg10-2026-10-17",
+      "group": "Artwork photos",
+      "label": "KAWS, UNTITLED (MBFG10) (2014), sold 17 October 2026",
+      "filled": false
+    },
+    {
+      "id": "work-camo-can-t-help-you-2026-09-30",
+      "group": "Artwork photos",
+      "label": "KAWS, CAMO CAN'T HELP YOU (2013), sold 30 September 2026",
+      "filled": false
+    },
+    {
+      "id": "work-untitled-2026-09-30",
+      "group": "Artwork photos",
+      "label": "KAWS, UNTITLED (1997), sold 30 September 2026",
+      "filled": false
+    },
+    {
+      "id": "work-companion-originalfake-2026-06-25",
+      "group": "Artwork photos",
+      "label": "KAWS, COMPANION (ORIGINALFAKE) (2011), sold 25 June 2026",
+      "filled": false
+    },
+    {
+      "id": "work-gone-and-beyond-c-9-c-4-and-c-6-2026-06-25",
+      "group": "Artwork photos",
+      "label": "KAWS, GONE AND BEYOND (C-9), (C-4) and (C-6) (2012), sold 25 June 2026",
+      "filled": false
+    },
+    {
+      "id": "work-topi-untuk-haring-a-hat-for-haring-2025-05-02",
+      "group": "Artwork photos",
+      "label": "Eko Nugroho, Topi untuk Haring (A Hat for Haring) (2012), sold 2 May 2025",
+      "filled": false
+    },
+    {
+      "id": "work-trap-costum-for-president-1-2022-11-10",
+      "group": "Artwork photos",
+      "label": "Eko Nugroho, Trap Costum for President 1 (2011), sold 10 November 2022",
+      "filled": false
+    },
+    {
+      "id": "work-empty-kitchen-for-5-months-04-2022-11-10",
+      "group": "Artwork photos",
+      "label": "Eko Nugroho, Empty Kitchen for 5 Months #04 (2011), sold 10 November 2022",
+      "filled": false
+    },
+    {
+      "id": "work-coltan-oil-diamonds-triptych-2024-06-10",
+      "group": "Artwork photos",
+      "label": "Faith XLVII, Coltan; Oil; Diamonds, triptych (), sold 10 June 2024",
+      "filled": false
+    },
+    {
+      "id": "work-ons-vir-jou-suid-afrika-2020-11-23",
+      "group": "Artwork photos",
+      "label": "Faith XLVII, Ons vir Jou Suid-Afrika (), sold 23 November 2020",
+      "filled": false
+    },
+    {
+      "id": "work-chataigniers-en-fleurs-2026-11-18",
+      "group": "Artwork photos",
+      "label": "Vincent van Gogh, Châtaigniers en fleurs (1890), sold 18 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-betonte-ecken-2026-11-17",
+      "group": "Artwork photos",
+      "label": "Wassily Kandinsky, Betonte Ecken (1922 to 1923), sold 17 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-das-bunte-leben-2026-10-14",
+      "group": "Artwork photos",
+      "label": "Wassily Kandinsky, Das bunte Leben (1907), sold 14 October 2026",
+      "filled": false
+    },
+    {
+      "id": "work-mathis-2026-10-15",
+      "group": "Artwork photos",
+      "label": "Gerhard Richter, Mathis (1983), sold 15 October 2026",
+      "filled": false
+    },
+    {
+      "id": "work-abstraktes-bild-2026-10-15",
+      "group": "Artwork photos",
+      "label": "Gerhard Richter, Abstraktes Bild (1992), sold 15 October 2026",
+      "filled": false
     }
   ]
 }
