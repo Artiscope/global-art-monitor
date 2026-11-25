@@ -121,6 +121,33 @@
       "houses": [
         "Christie's"
       ]
+    },
+    "rene-matic": {
+      "name": "Rene Matić",
+      "line": "British, born 1997. Photographs, film, sound and installation.",
+      "houses": []
+    },
+    "raven-halfmoon": {
+      "name": "Raven Halfmoon",
+      "line": "Caddo Nation, born 1991, Norman, Oklahoma. Sculptor in stoneware.",
+      "houses": [
+        "Phillips"
+      ]
+    },
+    "ana-segovia": {
+      "name": "Ana Segovia",
+      "line": "Born Mexico City, 1991. Painter.",
+      "houses": []
+    },
+    "dana-awartani": {
+      "name": "Dana Awartani",
+      "line": "Palestinian-Saudi, born 1987. Installation, textile and sculpture.",
+      "houses": []
+    },
+    "jes-fan": {
+      "name": "Jes Fan",
+      "line": "Born Toronto, 1990, raised in Hong Kong. Sculptor.",
+      "houses": []
     }
   },
   "sales": [
@@ -1287,6 +1314,50 @@
       "source2_label": "Sotheby's lot page",
       "source2_url": "https://www.sothebys.com/en/buy/auction/2026/contemporary-evening-auction-l26024/abstraktes-bild",
       "premium_basis": "calculated"
+    },
+    {
+      "id": "okla-homma-ohoyo-2024-05-15",
+      "artist": "raven-halfmoon",
+      "date": "2024-05-15",
+      "date_text": "15 May 2024",
+      "title": "OKLA HOMMA OHOYO",
+      "year": "2020",
+      "lot": "310",
+      "house": "Phillips",
+      "sale": "Modern & Contemporary Art Day Sale, New York",
+      "medium": "Stoneware and glaze, unique, 91.4 x 40.6 x 35.6 cm",
+      "currency": "USD",
+      "est_low": 10000,
+      "est_high": 15000,
+      "hammer": null,
+      "hammer_basis": null,
+      "premium": 22860,
+      "source_label": "Phillips lot page",
+      "source_url": "https://www.phillips.com/detail/raven-halfmoon/199868",
+      "source2_label": "",
+      "source2_url": ""
+    },
+    {
+      "id": "two-sides-to-every-story-and-historic-glory-2024-09-25",
+      "artist": "raven-halfmoon",
+      "date": "2024-09-25",
+      "date_text": "25 September 2024",
+      "title": "Two Sides To Every Story and Historic Glory",
+      "year": "2020",
+      "lot": "55",
+      "house": "Phillips",
+      "sale": "New Now: Modern & Contemporary Art, New York",
+      "medium": "Stoneware and glaze, unique, 85.7 x 71.8 x 69.2 cm",
+      "currency": "USD",
+      "est_low": 10000,
+      "est_high": 15000,
+      "hammer": null,
+      "hammer_basis": null,
+      "premium": 20320,
+      "source_label": "Phillips lot page",
+      "source_url": "https://www.phillips.com/detail/raven-halfmoon/208524",
+      "source2_label": "",
+      "source2_url": ""
     }
   ]
 }
