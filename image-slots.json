@@ -440,6 +440,12 @@
       "filled": false
     },
     {
+      "id": "artist-andy-warhol",
+      "group": "Artist profile images",
+      "label": "Andy Warhol",
+      "filled": true
+    },
+    {
       "id": "work-okla-homma-ohoyo-2024-05-15",
       "group": "Artwork photos",
       "label": "Raven Halfmoon, OKLA HOMMA OHOYO (2020), sold 15 May 2024",
@@ -449,6 +455,36 @@
       "id": "work-two-sides-to-every-story-and-historic-glory-2024-09-25",
       "group": "Artwork photos",
       "label": "Raven Halfmoon, Two Sides To Every Story and Historic Glory (2020), sold 25 September 2024",
+      "filled": false
+    },
+    {
+      "id": "work-campbells-soup-can-turkey-noodle-2026-11-19",
+      "group": "Artwork photos",
+      "label": "Andy Warhol, Campbell's Soup Can (Turkey Noodle) (1962), sold 19 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-dolly-parton-2026-11-16",
+      "group": "Artwork photos",
+      "label": "Andy Warhol, Dolly Parton (1985), sold 16 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-flowers-48-inch-2026-11-16",
+      "group": "Artwork photos",
+      "label": "Andy Warhol, Flowers (48 inch) (1964 to 1965), sold 16 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-flowers-24-inch-2026-11-16",
+      "group": "Artwork photos",
+      "label": "Andy Warhol, Flowers (24 inch) (1964), sold 16 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-the-scream-after-munch-2026-11-16",
+      "group": "Artwork photos",
+      "label": "Andy Warhol, The Scream (After Munch) (1984), sold 16 November 2026",
       "filled": false
     }
   ]
