@@ -9,6 +9,13 @@ A record of what the website agent did on each run, newest first.
 
 
 
+
+## Wednesday 25 November 2026, notice says the site does not sell
+Published: on the owner's instruction, the footer notice now opens "Global Art Monitor does not sell art" and says what the site does. It keeps one line telling readers that a gallery elsewhere in the Artiscope group sells work by some of the artists covered. The notes on the Zara Muse and Konn Artiss pages and one research piece match.
+Drafts waiting: none from this change.
+Checked: all pages rebuild, links and markup pass.
+Needs you: nothing.
+
 ## Wednesday 25 November 2026, corrected who sells the work
 Published: the owner pointed out that Artiscope itself does not sell work. The footer notice, artist notes and source labels now say a gallery in the Artiscope group shows and sells work by artists covered here. The gallery is not named, on the owner's instruction. The notice to readers stays.
 Drafts waiting: none from this change.
