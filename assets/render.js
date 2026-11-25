@@ -256,7 +256,7 @@
         var lot = s.lot ? '<span class="sub">' + W("table.lot", "Lot {lot}", { lot: esc(s.lot) }) + '</span>' : "";
         var who = showArtist ? '<a class="who" href="' + rootPath + 'artists/' + s.artist + '/">' + esc(ARTISTS[s.artist].name) + '</a>' : "";
         var work = thumb(s, rootPath) + '<span class="work-text">' + who + '<a class="title" href="' + workHref(s, rootPath) + '">' + esc(s.title) + " (" + esc(s.year) + ")</a>";
-        body += '<tr' + (opts.mark ? ' data-adh-row="' + s._i + '"' : "") + ' data-artist="' + s.artist + '" data-house="' + esc(s.house) + '">' +
+        body += '<tr' + (opts.mark ? ' data-adh-row="' + s._i + '"' : "") + ' data-artist="' + s.artist + '" data-house="' + esc(s.house) + '" data-currency="' + esc(s.currency || "") + '">' +
           td("c-date", L.date, esc(s.date_text)) + td("c-work", L.work, work + lot + '</span>') +
           td("c-house", L.house, esc(s.house) + '<span class="sub">' + esc(s.sale) + '</span>') + td("c-est", L.est, estCell(s)) +
           td("c-ham", L.ham, hamCell(s)) + td("c-prem", L.prem, premCell(s)) + td("c-cur", L.cur, esc(s.currency)) + td("c-src", L.src, sourceCell(s)) + '</tr>\n';
@@ -428,14 +428,26 @@
     };
     S["results-table"] = function (st) {
       var all = salesFor(null);
-      var artistBtns = '<button class="filter" type="button" data-key="artist" data-value="all" aria-pressed="true">' + txt(get(st, "all_artists", "All artists")) + '</button>';
-      ARTIST_KEYS.forEach(function (slug) { artistBtns += '<button class="filter" type="button" data-key="artist" data-value="' + slug + '" aria-pressed="false">' + esc(ARTISTS[slug].name) + '</button>'; });
+      // One search box and three menus. It stays one row however many artists and houses there are.
+      var byName = ARTIST_KEYS.filter(function (k) { return all.some(function (x) { return x.artist === k; }); })
+        .sort(function (x, y) { return ARTISTS[x].name.localeCompare(ARTISTS[y].name); });
       var houses = Array.from(new Set(all.map(function (x) { return x.house; }))).sort();
-      var houseBtns = '<button class="filter" type="button" data-key="house" data-value="all" aria-pressed="true">' + txt(get(st, "all_houses", "All houses")) + '</button>';
-      houses.forEach(function (h) { houseBtns += '<button class="filter" type="button" data-key="house" data-value="' + esc(h) + '" aria-pressed="false">' + esc(h) + '</button>'; });
-      return '<section class="shell section">\n<div class="panel on-ink" data-reveal>\n<div data-filter-group="all-results" style="display:flex;flex-direction:column;gap:10px">\n' +
-        '<div class="filters" role="group" aria-label="' + W("sr.filter-artist", "Filter by artist") + '">' + artistBtns + '</div>\n<div class="filters" role="group" aria-label="' + W("sr.filter-house", "Filter by auction house") + '">' + houseBtns + '</div>\n</div>\n' +
-        LEGEND + '\n' + table(all, "all-results", true) + '\n<p class="note" id="all-results-empty" hidden>' + txt(get(st, "empty", "")) + '</p>\n' + TABLE_NOTE + '\n</div>\n</section>';
+      var currencies = Array.from(new Set(all.map(function (x) { return x.currency; }).filter(Boolean))).sort();
+      function menu(key, label, allLabel, options) {
+        return '<label class="finder-field"><span>' + label + '</span><span class="finder-select"><select data-key="' + key + '">' +
+          '<option value="all">' + allLabel + '</option>' + options + '</select><i aria-hidden="true">' + W("filter.choose", "Choose") + '</i></span></label>\n';
+      }
+      var artistOpts = byName.map(function (k) { return '<option value="' + k + '">' + esc(ARTISTS[k].name) + '</option>'; }).join("");
+      var houseOpts = houses.map(function (h) { return '<option value="' + esc(h) + '">' + esc(h) + '</option>'; }).join("");
+      var curOpts = currencies.map(function (c) { return '<option value="' + esc(c) + '">' + esc(c) + ' (' + esc((SYMBOL[c] || c).trim()) + ')</option>'; }).join("");
+      return '<section class="shell section">\n<div class="panel on-ink" data-reveal>\n<div class="finder" data-filter-group="all-results" data-total="' + all.length + '">\n' +
+        '<label class="finder-field finder-search"><span>' + W("filter.search", "Search") + '</span><input type="search" data-search placeholder="' + W("filter.search-hint", "Artist, work or sale") + '" autocomplete="off"></label>\n' +
+        menu("artist", W("filter.artist", "Artist"), W("filter.all-artists", "All {n} artists", { n: byName.length }), artistOpts) +
+        menu("house", W("filter.house", "Auction house"), W("filter.all-houses", "All {n} houses", { n: houses.length }), houseOpts) +
+        menu("currency", W("filter.currency", "Currency"), W("filter.all-currencies", "All currencies"), curOpts) +
+        '</div>\n<div class="finder-foot"><p class="finder-count" id="all-results-count" role="status">' + W("filter.showing-all", "Showing all {n} lots", { n: all.length }) + '</p>' +
+        '<button class="text-link finder-clear" type="button" data-clear hidden>' + W("filter.clear", "Clear filters") + '</button>' + LEGEND + '</div>\n' +
+        table(all, "all-results", true) + '\n<p class="note" id="all-results-empty" hidden>' + txt(get(st, "empty", "")) + '</p>\n' + TABLE_NOTE + '\n</div>\n</section>';
     };
     S["latest-result"] = function (st) {
       var s = latestPriced(); if (!s) return "";

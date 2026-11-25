@@ -101,19 +101,59 @@
     document.querySelectorAll('[data-filter-group]').forEach(function (group) {
       var table = document.getElementById(group.getAttribute('data-filter-group'));
       if (!table) { return; }
-      var state = {};
+      var state = {}, words = '';
       var empty = document.getElementById(table.id + '-empty');
+      var count = document.getElementById(table.id + '-count');
+      var foot = count ? count.parentNode : null;
+      var clear = foot ? foot.querySelector('[data-clear]') : null;
+      var search = group.querySelector('[data-search]');
+      var selects = group.querySelectorAll('select[data-key]');
+      var rows = table.querySelectorAll('tbody tr');
       function apply() {
-        var shown = 0;
-        table.querySelectorAll('tbody tr').forEach(function (tr) {
+        var shown = 0, terms = words.toLowerCase().split(/\s+/).filter(Boolean);
+        rows.forEach(function (tr) {
           var ok = Object.keys(state).every(function (k) {
             return state[k] === 'all' || tr.getAttribute('data-' + k) === state[k];
           });
+          if (ok && terms.length) {
+            var text = tr.textContent.toLowerCase();
+            ok = terms.every(function (t) { return text.indexOf(t) !== -1; });
+          }
           tr.hidden = !ok;
           if (ok) { shown += 1; }
         });
+        var filtered = shown !== rows.length;
         if (empty) { empty.hidden = shown !== 0; }
+        if (count) { count.textContent = filtered ? 'Showing ' + shown + ' of ' + rows.length + ' lots' : 'Showing all ' + rows.length + ' lots'; }
+        if (clear) { clear.hidden = !filtered && !terms.length; }
       }
+      // a chosen menu turns mint and its hint reads "Change"
+      function mark(sel) {
+        var on = sel.value !== 'all', hint = sel.parentNode.querySelector('i');
+        sel.classList.toggle('on', on);
+        if (hint) { hint.textContent = on ? 'Change' : 'Choose'; }
+      }
+      selects.forEach(function (sel) {
+        var key = sel.getAttribute('data-key');
+        state[key] = sel.value;
+        sel.addEventListener('change', function () {
+          state[key] = sel.value;
+          mark(sel);
+          apply();
+        });
+      });
+      if (search) {
+        search.addEventListener('input', function () { words = search.value; apply(); });
+      }
+      if (clear) {
+        clear.addEventListener('click', function () {
+          selects.forEach(function (sel) { sel.value = 'all'; mark(sel); state[sel.getAttribute('data-key')] = 'all'; });
+          if (search) { search.value = ''; }
+          words = '';
+          apply();
+        });
+      }
+      // older pages: a row of buttons per filter
       group.querySelectorAll('.filter').forEach(function (btn) {
         var key = btn.getAttribute('data-key');
         if (btn.getAttribute('aria-pressed') === 'true') { state[key] = btn.getAttribute('data-value'); }

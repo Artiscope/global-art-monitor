@@ -244,6 +244,26 @@ img { display: block; max-width: 100%; }
 .aw-card .calc { display: block; width: fit-content; text-decoration: underline dotted; text-underline-offset: 3px; cursor: help; }
 .aw-card a { text-decoration: underline; text-underline-offset: 3px; }
 .aw-card a:hover { color: var(--mint); }
+/* Results finder: one search box and three menus */
+.finder { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 14px; }
+.finder-field { flex: 1 1 190px; min-width: 0; display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 600; color: var(--on-ink-quiet); }
+.finder-search { flex: 1.6 1 260px; }
+.finder input, .finder select { font: inherit; font-size: 15px; font-weight: 400; width: 100%; border: 2px solid transparent; border-radius: 16px; padding: 14px 18px; }
+.finder input { background: var(--blush-light); color: var(--ink); }
+.finder input::placeholder { color: var(--on-blush-quiet); opacity: 1; }
+.finder-select { position: relative; display: block; }
+.finder select { -webkit-appearance: none; appearance: none; background: var(--ink-2); color: var(--paper); padding-right: 84px; cursor: pointer; text-overflow: ellipsis; transition: background-color .2s, color .2s; }
+.finder select:hover { background: var(--ink-3); }
+.finder select.on { background: var(--mint); color: var(--ink); font-weight: 500; }
+.finder select option { background: var(--ink); color: var(--paper); font-weight: 400; }
+.finder-select i { position: absolute; right: 18px; top: 50%; transform: translateY(-50%); font-style: normal; font-size: 13px; font-weight: 500; color: var(--on-ink-quiet); pointer-events: none; }
+.finder select.on + i { color: var(--ink); }
+.finder input:focus, .finder select:focus { outline: none; border-color: var(--mint); }
+.finder select.on:focus { border-color: var(--paper); }
+.finder-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; }
+.finder-count { font-size: 14px; color: var(--on-ink-body); }
+.finder-foot .chips { margin-left: auto; }
+@media (max-width: 700px) { .finder-foot .chips { margin-left: 0; } }
 .filters { display: flex; flex-wrap: wrap; gap: 8px; }
 .filter { background: var(--ink-2); color: var(--paper); border-radius: 999px; padding: 10px 18px; font-size: 14px; font-weight: 500; transition: background-color .2s, color .2s; }
 .filter:hover { background: var(--ink-3); }

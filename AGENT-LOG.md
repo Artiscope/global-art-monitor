@@ -4,6 +4,13 @@ A record of what the website agent did on each run, newest first.
 
 
 
+
+## Wednesday 25 November 2026, new filter on Auction Results
+Published: on the owner's instruction in a conversation, the rows of artist and house buttons above the results table are replaced by one search box and three menus (artist, auction house, currency). A line shows how many lots are showing, with a "Clear filters" link. The filter now stays one row on desktop however many artists are added, so nothing needs changing there when an artist joins the site.
+Drafts waiting: none from this change.
+Checked: menus, search, clear and the lot count at desktop, tablet and phone width. All pages rebuild, links and markup pass.
+Needs you: nothing.
+
 ## Wednesday 25 November 2026, results table was not showing
 Published: a fix for a fault the owner reported. On the Auction Results page everything under the heading was invisible. The page fades each block in once enough of it is on screen, and the results panel had grown so tall (94 lots) that the required share could never fit on a screen, so it never appeared. Blocks now appear as soon as any part of them comes into view. The change is one line in `assets/site.js`.
 Drafts waiting: none from this change.
