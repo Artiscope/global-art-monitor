@@ -78,6 +78,10 @@
     var FEATURE_BY_SLUG = {}; FEATURES.forEach(function (f) { FEATURE_BY_SLUG[f.slug] = f; });
     var ARTISTS = {}, ARTIST_KEYS = [];
     (D.artists || []).forEach(function (a) { ARTISTS[a.slug] = a; ARTIST_KEYS.push(a.slug); });
+    // Artists in alphabetical order by the name as written, so a new artist lands in the right place by itself.
+    function byArtistName(list) {
+      return list.slice().sort(function (x, y) { return ARTISTS[x].name.localeCompare(ARTISTS[y].name, "en", { sensitivity: "base" }); });
+    }
     var SALES = [];
     // The fixed words of the design. Edit default text in Artiscope Digital Home keeps changed ones in the
     // page list file under "words"; any word not changed keeps the site's own, written beside each W().
@@ -168,7 +172,7 @@
       if (own) return '<script src="' + rootPath + 'assets/site.js" defer></script>\n</body>\n</html>\n';
       var sh = shared("footer"), st = sh[0], on = sh[1], hst = shared("header")[0], name = esc(get(hst, "name", "Global Art Monitor"));
       var secs = SECTIONS_LIST.map(function (s) { return '<a href="' + rootPath + s[0] + '/">' + esc(s[1]) + '</a>'; }).join("");
-      var arts = ARTIST_KEYS.map(function (slug) { return '<a href="' + rootPath + 'artists/' + slug + '/">' + esc(ARTISTS[slug].name) + '</a>'; }).join("");
+      var arts = byArtistName(ARTIST_KEYS).map(function (slug) { return '<a href="' + rootPath + 'artists/' + slug + '/">' + esc(ARTISTS[slug].name) + '</a>'; }).join("");
       var about = (get(st, "about_links", []) || []).map(function (l) { return '<a href="' + rootPath + l[1] + '">' + txt(l[0]) + '</a>'; }).join("");
       var legal = get(st, "legal_link", null) || ["", ""];
       var body = !on ? "" : '<footer class="site-foot">\n<div class="shell foot-inner">\n<div class="foot-cta">\n<h2>' + txt(get(st, "heading", "")) + '</h2>\n' +
@@ -399,6 +403,8 @@
     S.profiles = function (st, ctx) {
       var slugs = (get(st, "artists", []) || []).filter(function (x) { return ARTISTS[x]; });
       if (!slugs.length) slugs = ARTIST_KEYS.slice();
+      // Alphabetical unless the section is set to "sort": "manual", which keeps the order given.
+      if (get(st, "sort", "name") !== "manual") slugs = byArtistName(slugs);
       // "pick": "recent" shows the artists with the most recent priced sale, newest first. "limit" caps how many.
       var pLimit = parseInt(get(st, "limit", 0) || 0, 10) || 0, pTotal = ARTIST_KEYS.length;
       if (get(st, "pick", "") === "recent") {
@@ -429,8 +435,7 @@
     S["results-table"] = function (st) {
       var all = salesFor(null);
       // One search box and three menus. It stays one row however many artists and houses there are.
-      var byName = ARTIST_KEYS.filter(function (k) { return all.some(function (x) { return x.artist === k; }); })
-        .sort(function (x, y) { return ARTISTS[x].name.localeCompare(ARTISTS[y].name); });
+      var byName = byArtistName(ARTIST_KEYS.filter(function (k) { return all.some(function (x) { return x.artist === k; }); }));
       var houses = Array.from(new Set(all.map(function (x) { return x.house; }))).sort();
       var currencies = Array.from(new Set(all.map(function (x) { return x.currency; }).filter(Boolean))).sort();
       function menu(key, label, allLabel, options) {

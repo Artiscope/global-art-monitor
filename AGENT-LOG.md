@@ -5,6 +5,13 @@ A record of what the website agent did on each run, newest first.
 
 
 
+
+## Wednesday 25 November 2026, artists in alphabetical order
+Published: on the owner's instruction in a conversation, the artist cards on the Artist Market Profiles page and the artist list in the footer are now in alphabetical order by the name as written. The sorting is automatic, so a new artist lands in the right place and nothing needs arranging by hand. The homepage's three cards still follow the most recent priced sale.
+Drafts waiting: none from this change.
+Checked: all pages rebuild, links and markup pass, and the order reads A to Z on the profiles page, the footer and the results filter menu.
+Needs you: nothing.
+
 ## Wednesday 25 November 2026, new filter on Auction Results
 Published: on the owner's instruction in a conversation, the rows of artist and house buttons above the results table are replaced by one search box and three menus (artist, auction house, currency). A line shows how many lots are showing, with a "Clear filters" link. The filter now stays one row on desktop however many artists are added, so nothing needs changing there when an artist joins the site.
 Drafts waiting: none from this change.
