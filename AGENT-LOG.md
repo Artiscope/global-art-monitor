@@ -9,6 +9,11 @@ Checked: Sotheby's lot pages (lots, sizes, estimates; results hidden), Christie'
 Needs you: three Sotheby's totals stay "To confirm" because Sotheby's hides results; The Scream's reported hammer does not match its reported total.
 
 ## Wednesday 25 November 2026
+Published: "Fuller artist profiles", on the owner's go ahead. Made on the owner's request to write more about every artist. Nineteen market profiles gain Life and career, Key works and what reaches auction, In the artist's words, Reading the prices, and a Compare with box linking related profiles. New sources are added to each profile's Background sources. Sales tables, verified flags and existing text are unchanged. Konn Artiss is unchanged, and Zara Muse gets only a quote and Compare with links, because her profile depends on facts from Grove Gallery.
+Checked: every new fact and quote against its linked page; the site builds; profiles hold at 390 and 1280 pixels; no long dashes; CNAME unchanged.
+Needs you: approval to publish.
+
+## Wednesday 25 November 2026
 Published: nothing yet.
 Drafts waiting: five new artist market profiles (Rene Matić, Raven Halfmoon, Ana Segovia, Dana Awartani, Jes Fan), with two Phillips results for Raven Halfmoon and new rows in "What makes an artist's work valued". Pull request link to follow.
 Checked: Phillips, Sotheby's and Christie's lot pages for all five artists. Only the two Halfmoon results could be confirmed with a price on the house's own page.
