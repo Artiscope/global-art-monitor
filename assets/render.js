@@ -57,7 +57,7 @@
       else for (var i = 0; i < IMAGE_EXTS.length; i++) { if (imageFiles.indexOf(slug + "." + IMAGE_EXTS[i]) >= 0) { image = slug + "." + IMAGE_EXTS[i]; break; } }
       return {
         slug: slug, name: a.name, line: a.line || "", houses: (a.houses || []).slice(),
-        summary: bio.summary || "", body: (bio.body || []).slice(), standing: (bio.standing || []).slice(), sources: (bio.sources || []).map(function (s) { return s.slice(); }),
+        summary: bio.summary || "", body: (bio.body || []).slice(), standing: (bio.standing || []).slice(), career: (bio.career || []).slice(), works: (bio.works || []).map(function (w) { return Object.assign({}, w); }), quotes: (bio.quotes || []).map(function (q) { return Object.assign({}, q); }), reading: (bio.reading || []).slice(), compare: (bio.compare || []).slice(), sources: (bio.sources || []).map(function (s) { return s.slice(); }),
         image: image, alt: note.alt || "", caption: note.caption || "",
         sales: (sales.sales || []).filter(function (s) { return s.artist === slug; }).map(function (s) { return Object.assign({}, s); }),
       };
@@ -694,6 +694,13 @@
       var dated = rows.filter(function (s) { return s.date; }), first = minBy(dated, function (s) { return s.date; });
       var paras = (a.body || []).map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("");
       var standing = (a.standing || []).length ? '<h2>' + W("item.standing", "Why the work is valued") + '</h2>\n' + a.standing.map(function (p) { return "<p>" + esc(p) + "</p>"; }).join("") + '\n' : "";
+      // The fuller profile: life and career, key works, the artist's own words and how to read the prices.
+      var P = function (arr) { return (arr || []).map(function (p) { return "<p>" + esc(p) + "</p>"; }).join(""); };
+      var career = (a.career || []).length ? '<h2>' + W("item.career", "Life and career") + '</h2>\n' + P(a.career) + '\n' : "";
+      var kworks = (a.works || []).length ? '<h2>' + W("item.key-works", "Key works, and what reaches auction") + '</h2>\n' + a.works.map(function (w) { return '<h3>' + esc(w.t) + (w.y ? ' (' + esc(w.y) + ')' : "") + '</h3>' + (w.m ? '<p class="wmed">' + esc(w.m) + '</p>' : "") + '<p>' + esc(w.note) + '</p>'; }).join("") + '\n' : "";
+      var quotes = (a.quotes || []).length ? '<h2>' + W("item.own-words", "In the artist's words") + '</h2>\n' + a.quotes.map(function (q) { return '<figure class="aq"><blockquote>' + esc(q.q) + '</blockquote><figcaption>' + esc(q.who) + '</figcaption></figure>'; }).join("") + '\n' : "";
+      var reading = (a.reading || []).length ? '<h2>' + W("item.reading", "Reading the prices") + '</h2>\n' + P(a.reading) + '\n' : "";
+      var cmp = (a.compare || []).map(function (c) { return ARTISTS[c] ? '<li><a href="@@artists/' + c + '/">' + esc(ARTISTS[c].name) + '</a></li>' : ""; }).join("");
       var srcs = (a.sources || []).map(function (s) { return '<li><a href="' + esc(s[1]) + '" rel="noopener">' + esc(s[0]) + '</a></li>'; }).join("");
       var related = FEATURES.filter(function (f) { return f.slug.indexOf(slug) >= 0; });
       if (FEATURE_BY_SLUG["why-one-record-sale-does-not-establish-market-value"]) related.push(FEATURE_BY_SLUG["why-one-record-sale-does-not-establish-market-value"]);
@@ -730,10 +737,10 @@
         '<div class="works">\n' + rows.map(workCard).join("") + '</div>\n</section>', "sales") + '\n' +
         M('<section class="shell section">\n<div class="panel on-ink" data-reveal>\n<h2 class="h2">' + W("item.side-by-side", "Estimate, hammer and total, side by side") + '</h2>\n' +
         '<p class="intro" style="max-width:620px">' + (bests.length > 1 ? 'Each bar compares the three figures within one sale. Sales in the same currency share a scale.' : 'The bars use one scale, so you can compare sales with each other as well as the three figures within each sale.') + '</p>\n' + ladder(rows) + '\n</div>\n</section>', "sales") + '\n' +
-        M('<section class="shell article" style="padding-top:104px">\n<div class="article-body prose" data-reveal>\n<h2 style="margin-top:0">' + W("item.about", "About the artist") + '</h2>\n' + paras + '\n' + standing +
+        M('<section class="shell article" style="padding-top:104px">\n<div class="article-body prose" data-reveal>\n<h2 style="margin-top:0">' + W("item.about", "About the artist") + '</h2>\n' + paras + '\n' + career + standing + kworks + quotes + reading +
         '<p>These figures are a record of past public sales. They are not a valuation and they are not advice. For how to read them, start with <a href="@@research/what-an-auction-result-tells-collectors/">what an auction result actually tells collectors</a>.</p>\n</div>\n' +
         '<aside class="article-side" data-reveal style="--d:120ms">\n' + img + '\n<div class="mini"><h2>' + W("item.related", "Related reading") + '</h2><ul>' + rel + '</ul></div>\n' +
-        '<div class="mini"><h2>' + W("item.sources", "Background sources") + '</h2><ul>' + srcs + '</ul></div>\n' +
+        (cmp ? '<div class="mini"><h2>' + W("item.compare", "Compare with") + '</h2><ul>' + cmp + '</ul></div>\n' : "") + '<div class="mini"><h2>' + W("item.sources", "Background sources") + '</h2><ul>' + srcs + '</ul></div>\n' +
         '<div class="mini"><h2>' + W("item.gap", "Spotted a gap?") + '</h2><p>If you can document a sale we have missed, or correct a figure, <a href="@@about/#corrections">tell us</a>.</p></div>\n</aside>\n</section>', "about");
       body = tplWrap("artist", slug, body); AO_KIND = "artist";
       var ld = pyJson({ "@context": "https://schema.org", "@type": "ProfilePage", name: a.name + " market profile", url: SITE.url + "artists/" + slug + "/", dateModified: PUBLISHED, mainEntity: { "@type": "Person", name: a.name } });

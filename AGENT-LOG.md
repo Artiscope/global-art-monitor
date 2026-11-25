@@ -3,6 +3,11 @@
 A record of what the website agent did on each run, newest first.
 
 ## Wednesday 25 November 2026
+Drafts waiting: "Fuller artist profiles" (pull request link in the PR list). Made on the owner's request to write more about every artist. Nineteen market profiles gain Life and career, Key works and what reaches auction, In the artist's words, Reading the prices, and a Compare with box linking related profiles. New sources are added to each profile's Background sources. Sales tables, verified flags and existing text are unchanged. Konn Artiss is unchanged, and Zara Muse gets only a quote and Compare with links, because her profile depends on facts from Grove Gallery.
+Checked: every new fact and quote against its linked page; the site builds; profiles hold at 390 and 1280 pixels; no long dashes; CNAME unchanged.
+Needs you: approval to publish.
+
+## Wednesday 25 November 2026
 Published: nothing yet.
 Drafts waiting: five new artist market profiles (Rene Matić, Raven Halfmoon, Ana Segovia, Dana Awartani, Jes Fan), with two Phillips results for Raven Halfmoon and new rows in "What makes an artist's work valued". Pull request link to follow.
 Checked: Phillips, Sotheby's and Christie's lot pages for all five artists. Only the two Halfmoon results could be confirmed with a price on the house's own page.
