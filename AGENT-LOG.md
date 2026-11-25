@@ -6,6 +6,13 @@ A record of what the website agent did on each run, newest first.
 
 
 
+
+## Wednesday 25 November 2026, shorter footer
+Published: on the owner's instruction in a conversation, the footer's Artists column shows six artists, the ones with the most recent priced sale, followed by an "All artists" link to the Artist Market Profiles page. It had grown to 33 links on every page. The number is the footer setting `artists_limit` (default 6). New artists no longer lengthen the footer.
+Drafts waiting: none from this change.
+Checked: all pages rebuild, links and markup pass, footer holds at phone and desktop width.
+Needs you: nothing.
+
 ## Wednesday 25 November 2026, artists in alphabetical order
 Published: on the owner's instruction in a conversation, the artist cards on the Artist Market Profiles page and the artist list in the footer are now in alphabetical order by the name as written. The sorting is automatic, so a new artist lands in the right place and nothing needs arranging by hand. The homepage's three cards still follow the most recent priced sale.
 Drafts waiting: none from this change.

@@ -402,6 +402,7 @@ img { display: block; max-width: 100%; }
 .foot-cols h3 { font-size: calc(12px * var(--h-scale, 1)); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--on-ink-quiet); }
 .foot-cols a { display: inline-block; opacity: .8; transition: transform .3s var(--ease), opacity .3s; }
 .foot-cols a:hover { transform: translateX(4px); opacity: 1; }
+.foot-cols a.foot-all { opacity: 1; font-weight: 600; text-decoration: underline; text-underline-offset: 4px; margin-top: 4px; }
 .site-foot .quiet { color: var(--on-ink-quiet); }
 .foot-brand { font-family: var(--serif); font-size: calc(24px * var(--h-scale, 1)); color: var(--blush); display: flex; align-items: center; gap: 10px; }
 .foot-legal { font-size: 13px; line-height: 1.6; color: var(--on-ink-quiet); max-width: 820px; }

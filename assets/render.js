@@ -79,6 +79,12 @@
     var ARTISTS = {}, ARTIST_KEYS = [];
     (D.artists || []).forEach(function (a) { ARTISTS[a.slug] = a; ARTIST_KEYS.push(a.slug); });
     // Artists in alphabetical order by the name as written, so a new artist lands in the right place by itself.
+    // Artists with a priced sale, the most recent sale first.
+    function recentArtists() {
+      var last = {};
+      SALES.forEach(function (s) { if (s.date && (s.premium || s.hammer) && (!last[s.artist] || s.date > last[s.artist])) last[s.artist] = s.date; });
+      return ARTIST_KEYS.filter(function (x) { return last[x]; }).sort(function (a, b) { return last[a] < last[b] ? 1 : last[a] > last[b] ? -1 : ARTIST_KEYS.indexOf(a) - ARTIST_KEYS.indexOf(b); });
+    }
     function byArtistName(list) {
       return list.slice().sort(function (x, y) { return ARTISTS[x].name.localeCompare(ARTISTS[y].name, "en", { sensitivity: "base" }); });
     }
@@ -172,7 +178,11 @@
       if (own) return '<script src="' + rootPath + 'assets/site.js" defer></script>\n</body>\n</html>\n';
       var sh = shared("footer"), st = sh[0], on = sh[1], hst = shared("header")[0], name = esc(get(hst, "name", "Global Art Monitor"));
       var secs = SECTIONS_LIST.map(function (s) { return '<a href="' + rootPath + s[0] + '/">' + esc(s[1]) + '</a>'; }).join("");
-      var arts = byArtistName(ARTIST_KEYS).map(function (slug) { return '<a href="' + rootPath + 'artists/' + slug + '/">' + esc(ARTISTS[slug].name) + '</a>'; }).join("");
+      // The footer names only a few artists, the ones with the most recent priced sale, then links to the full list.
+      var footMax = parseInt(get(st, "artists_limit", 6), 10) || 0;
+      var footList = footMax && ARTIST_KEYS.length > footMax ? recentArtists().slice(0, footMax) : byArtistName(ARTIST_KEYS);
+      var arts = footList.map(function (slug) { return '<a href="' + rootPath + 'artists/' + slug + '/">' + esc(ARTISTS[slug].name) + '</a>'; }).join("");
+      if (footList.length < ARTIST_KEYS.length) arts += '<a class="foot-all" href="' + rootPath + 'artists/">' + W("menu.foot-all-artists", "All {n} artists", { n: ARTIST_KEYS.length }) + '</a>';
       var about = (get(st, "about_links", []) || []).map(function (l) { return '<a href="' + rootPath + l[1] + '">' + txt(l[0]) + '</a>'; }).join("");
       var legal = get(st, "legal_link", null) || ["", ""];
       var body = !on ? "" : '<footer class="site-foot">\n<div class="shell foot-inner">\n<div class="foot-cta">\n<h2>' + txt(get(st, "heading", "")) + '</h2>\n' +
@@ -407,11 +417,7 @@
       if (get(st, "sort", "name") !== "manual") slugs = byArtistName(slugs);
       // "pick": "recent" shows the artists with the most recent priced sale, newest first. "limit" caps how many.
       var pLimit = parseInt(get(st, "limit", 0) || 0, 10) || 0, pTotal = ARTIST_KEYS.length;
-      if (get(st, "pick", "") === "recent") {
-        var last = {};
-        SALES.forEach(function (s) { if (s.date && (s.premium || s.hammer) && (!last[s.artist] || s.date > last[s.artist])) last[s.artist] = s.date; });
-        slugs = ARTIST_KEYS.filter(function (x) { return last[x]; }).sort(function (a, b) { return last[a] < last[b] ? 1 : last[a] > last[b] ? -1 : ARTIST_KEYS.indexOf(a) - ARTIST_KEYS.indexOf(b); });
-      }
+      if (get(st, "pick", "") === "recent") slugs = recentArtists();
       if (pLimit) slugs = slugs.slice(0, pLimit);
       var cards = slugs.map(function (x, i) { return profileCard(x, i * 90); }).join("");
       if (get(st, "more_card", true)) cards += MORE_ARTISTS;
