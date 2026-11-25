@@ -2,6 +2,13 @@
 
 A record of what the website agent did on each run, newest first.
 
+
+## Wednesday 25 November 2026, shorter homepage
+Published: on the owner's instruction in a conversation, the homepage no longer lists everything. Research and features shows the first four pieces, with a "See all research pieces" link. Artist market profiles shows the three artists with the most recent priced sale, picked automatically, with a "See all artists" link. The full lists stay on the Research Reports and Artist Market Profiles pages. The settings are on the homepage's two sections in `data/pages.json`: `limit` on both, and `pick: recent` on the profiles. New artists and articles no longer lengthen the homepage, so do not add them to it by hand.
+Drafts waiting: none from this change.
+Checked: all pages rebuild, links and markup pass, phone and desktop widths hold.
+Needs you: nothing.
+
 ## Wednesday 25 November 2026, Andy Warhol (draft)
 Published: nothing. Andy Warhol added as a draft after the owner asked for him on all five sites.
 Drafts waiting: Andy Warhol market profile with five unique works sold 16 to 19 November 2026, a row in "What makes an artist's work valued", and a public domain portrait (White House photograph, 1977). Branch draft/2026-11-25-andy-warhol.

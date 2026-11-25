@@ -278,6 +278,8 @@ img { display: block; max-width: 100%; }
 .card h3 { font-family: var(--serif); font-weight: 400; font-size: calc(25px * var(--h-scale, 1)); line-height: 1.18; }
 .card p { font-size: calc(14px * var(--b-scale, 1)); line-height: 1.55; color: var(--on-blush-body); }
 .card .text-link { margin-top: auto; }
+.more-link { margin-top: 28px; }
+.more-link .text-link { font-size: 16px; }
 .card-big { flex: 1 1 520px; background: var(--ink); color: var(--paper); border-radius: 32px; padding: 36px; min-height: 300px; gap: 14px; }
 .card-big .kicker { color: var(--mint); }
 .card-big h3 { font-size: calc(clamp(26px, 2.6vw, 34px) * var(--h-scale, 1)); line-height: 1.12; }
