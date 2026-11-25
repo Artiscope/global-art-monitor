@@ -2,8 +2,14 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Wednesday 25 November 2026, Andy Warhol (draft)
+Published: nothing. Andy Warhol added as a draft after the owner asked for him on all five sites.
+Drafts waiting: Andy Warhol market profile with five unique works sold 16 to 19 November 2026, a row in "What makes an artist's work valued", and a public domain portrait (White House photograph, 1977). Branch draft/2026-11-25-andy-warhol.
+Checked: Sotheby's lot pages (lots, sizes, estimates; results hidden), Christie's results listing, Phillips lot 21, The Art Newspaper, Artdaily, Luxury.it, MyArtBroker.
+Needs you: three Sotheby's totals stay "To confirm" because Sotheby's hides results; The Scream's reported hammer does not match its reported total.
+
 ## Wednesday 25 November 2026
-Drafts waiting: "Fuller artist profiles" (pull request link in the PR list). Made on the owner's request to write more about every artist. Nineteen market profiles gain Life and career, Key works and what reaches auction, In the artist's words, Reading the prices, and a Compare with box linking related profiles. New sources are added to each profile's Background sources. Sales tables, verified flags and existing text are unchanged. Konn Artiss is unchanged, and Zara Muse gets only a quote and Compare with links, because her profile depends on facts from Grove Gallery.
+Published: "Fuller artist profiles", on the owner's go ahead. Made on the owner's request to write more about every artist. Nineteen market profiles gain Life and career, Key works and what reaches auction, In the artist's words, Reading the prices, and a Compare with box linking related profiles. New sources are added to each profile's Background sources. Sales tables, verified flags and existing text are unchanged. Konn Artiss is unchanged, and Zara Muse gets only a quote and Compare with links, because her profile depends on facts from Grove Gallery.
 Checked: every new fact and quote against its linked page; the site builds; profiles hold at 390 and 1280 pixels; no long dashes; CNAME unchanged.
 Needs you: approval to publish.
 
