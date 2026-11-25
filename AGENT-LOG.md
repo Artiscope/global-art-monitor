@@ -10,6 +10,12 @@ A record of what the website agent did on each run, newest first.
 
 
 
+## Wednesday 25 November 2026, missing figures checked on MutualArt
+Published: nothing yet.
+Drafts waiting: "Fill missing figures from MutualArt" (https://github.com/Artiscope/global-art-monitor/pull/22). Adds eight figures the house pages did not give: four pairs of estimates (Zara Muse, Malala Yousafzai; OSGEMEOS, Untitled at Bonhams 2024; Vhils, Attrition series #01; Picasso, Tête de femme (Dora Maar), plus its lot number 23A) and four sale prices (El Anatsui, Hesitant Rivers; Warhol, The Scream (After Munch), Flowers and Dolly Parton). Each is labelled "From MutualArt" with a link. MutualArt does not say whether its sale prices include the buyer's premium, so the four prices say "premium not stated".
+Checked: all 60 sales with a gap, using the owner's MutualArt account. 53 were found. In every one the price and estimate MutualArt gives match the figures already on the site. MutualArt never states a hammer price for these lots, so the 52 missing hammer prices stay "To confirm".
+Needs you: your yes on the draft.
+
 ## Wednesday 25 November 2026, notice says the site does not sell
 Published: on the owner's instruction, the footer notice now opens "Global Art Monitor does not sell art" and says what the site does. It keeps one line telling readers that a gallery elsewhere in the Artiscope group sells work by some of the artists covered. The notes on the Zara Muse and Konn Artiss pages and one research piece match.
 Drafts waiting: none from this change.

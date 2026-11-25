@@ -1,5 +1,5 @@
 {
-  "_how_to_edit": "One entry per public sale. Leave a number as null if it is not known. hammer_basis is 'published' when a database or house states it, or 'calculated' when it was worked back from the total using the buyer's premium. After editing, run: python3 tools/build.py Each sale has an id that names its artwork entry on the artist's page (artists/<artist>/#work-<id>). Never change an id once used. A sale can carry image: {file, alt, credit}, with the file in assets/images/works/.",
+  "_how_to_edit": "One entry per public sale. Leave a number as null if it is not known. hammer_basis is 'published' when a database or house states it, or 'calculated' when it was worked back from the total using the buyer's premium. After editing, run: python3 tools/build.py Each sale has an id that names its artwork entry on the artist's page (artists/<artist>/#work-<id>). Never change an id once used. A sale can carry image: {file, alt, credit}, with the file in assets/images/works/. A sale can carry mutualart: {url, est_low, est_high, price, price_basis, lot, checked}. It holds figures taken from the MutualArt sale record only where the house page we used does not give them. They are shown labelled 'From MutualArt' and never replace a house figure. price_basis is 'hammer' or 'premium' only when MutualArt states it, otherwise null.",
   "artists": {
     "zara-muse": {
       "name": "Zara Muse",
@@ -302,7 +302,13 @@
       "hammer_basis": "calculated",
       "premium": 51200,
       "source_label": "Bonhams lot page",
-      "source_url": "https://www.bonhams.com/auction/30898/lot/134/zara-muse-b-1971-malala-yousafzai-painted-in-2019/"
+      "source_url": "https://www.bonhams.com/auction/30898/lot/134/zara-muse-b-1971-malala-yousafzai-painted-in-2019/",
+      "mutualart": {
+        "url": "https://www.mutualart.com/Artwork/Malala-Yousafzai/DBFDE0906D6571EDB1F90821023FA56B",
+        "est_low": 8000,
+        "est_high": 12000,
+        "checked": "2026-11-25"
+      }
     },
     {
       "id": "alya-2026-06-18",
@@ -650,7 +656,13 @@
       "source_label": "Sotheby's lot page",
       "source_url": "https://www.sothebys.com/en/buy/auction/2025/contemporary-evening-auction-2/hesitant-rivers",
       "source2_label": "",
-      "source2_url": ""
+      "source2_url": "",
+      "mutualart": {
+        "url": "https://www.mutualart.com/Artwork/Hesitant-Rivers/4A3C18892BD49EECC0078D5F5E37FED5",
+        "price": 1199000,
+        "price_basis": null,
+        "checked": "2026-11-25"
+      }
     },
     {
       "id": "g6-2026-03-04",
@@ -1003,7 +1015,13 @@
       "source_label": "Bonhams lot page",
       "source_url": "https://www.bonhams.com/auction/29913/lot/20/os-gemeos-born-1974-untitled-2010-186-x-120-x-175cm-73-14-x-47-14-x-6-78in/",
       "source2_label": "",
-      "source2_url": ""
+      "source2_url": "",
+      "mutualart": {
+        "url": "https://www.mutualart.com/Artwork/Untitled--2010/98453A26FF796741487060587A2E0823",
+        "est_low": 40000,
+        "est_high": 60000,
+        "checked": "2026-11-25"
+      }
     },
     {
       "id": "untitled-2022-06-29",
@@ -1069,7 +1087,13 @@
       "source_label": "Bonhams lot page",
       "source_url": "https://www.bonhams.com/auction/31240/lot/231/vhils-b-1987-attrition-series-01-executed-in-2018/",
       "source2_label": "",
-      "source2_url": ""
+      "source2_url": "",
+      "mutualart": {
+        "url": "https://www.mutualart.com/Artwork/Attrition-series--01/06EE390BBB74C3E74203B85C319C8D38",
+        "est_low": 8000,
+        "est_high": 12000,
+        "checked": "2026-11-25"
+      }
     },
     {
       "id": "untitled-mbfg10-2026-10-17",
@@ -1490,7 +1514,13 @@
       "source_label": "Sotheby's lot page",
       "source_url": "https://www.sothebys.com/en/buy/auction/2026/the-now-contemporary-evening-auction-2/andy-warhol-dolly-parton",
       "source2_label": "Artdaily",
-      "source2_url": "https://artdaily.com/news/202347/Sotheby-s-sales-of-contemporary-art-realize--378-7M-in-one-evening"
+      "source2_url": "https://artdaily.com/news/202347/Sotheby-s-sales-of-contemporary-art-realize--378-7M-in-one-evening",
+      "mutualart": {
+        "url": "https://www.mutualart.com/Artwork/Dolly-Parton/70A09ABA8BBC08C8A44A735F83DE6A39",
+        "price": 4146000,
+        "price_basis": null,
+        "checked": "2026-11-25"
+      }
     },
     {
       "id": "flowers-48-inch-2026-11-16",
@@ -1535,7 +1565,13 @@
       "source_label": "Sotheby's lot page",
       "source_url": "https://www.sothebys.com/en/buy/auction/2026/the-now-contemporary-evening-auction-2/flowers",
       "source2_label": "Artdaily",
-      "source2_url": "https://artdaily.com/news/202347/Sotheby-s-sales-of-contemporary-art-realize--378-7M-in-one-evening"
+      "source2_url": "https://artdaily.com/news/202347/Sotheby-s-sales-of-contemporary-art-realize--378-7M-in-one-evening",
+      "mutualart": {
+        "url": "https://www.mutualart.com/Artwork/Flowers/2EB4CF2F28B93A8209BFB806671FD201",
+        "price": 6098000,
+        "price_basis": null,
+        "checked": "2026-11-25"
+      }
     },
     {
       "id": "the-scream-after-munch-2026-11-16",
@@ -1557,7 +1593,13 @@
       "source_label": "Sotheby's lot page",
       "source_url": "https://www.sothebys.com/en/buy/auction/2026/vision-the-extraordinary-collection-of-theodore-and-ruth-baum-evening-auction/andy-warhol-the-scream-after-edvard-munch",
       "source2_label": "The Art Newspaper",
-      "source2_url": "https://www.theartnewspaper.com/2026/11/16/yayoi-kusama-sets-15m-auction-record-as-sothebys-opens-new-york-mega-sales"
+      "source2_url": "https://www.theartnewspaper.com/2026/11/16/yayoi-kusama-sets-15m-auction-record-as-sothebys-opens-new-york-mega-sales",
+      "mutualart": {
+        "url": "https://www.mutualart.com/Artwork/The-Scream--After-Munch-/AF7928AA25C128FD1005E5724A8151A3",
+        "price": 7986000,
+        "price_basis": null,
+        "checked": "2026-11-25"
+      }
     },
     {
       "id": "untitled-leonardo-and-his-five-grotesque-heads-2026-11-19",
@@ -1780,7 +1822,14 @@
       "source_url": "https://www.theartnewspaper.com/2026/11/18/kandinsky-record-and-a-trove-consigned-by-jeff-koons-buoy-christies-solid-20th-century-evening-sale-in-new-york",
       "source2_label": "",
       "source2_url": "",
-      "premium_basis": "calculated"
+      "premium_basis": "calculated",
+      "mutualart": {
+        "url": "https://www.mutualart.com/Artwork/Tete-de-femme--Dora-Maar-/0D23651782ED83A4103A147B10FB113D",
+        "est_low": 25000000,
+        "est_high": 35000000,
+        "lot": "23A",
+        "checked": "2026-11-25"
+      }
     },
     {
       "id": "dora-maar-and-marie-therese-1939-40-2026-11-17",
