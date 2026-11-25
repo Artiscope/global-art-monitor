@@ -7,6 +7,13 @@ A record of what the website agent did on each run, newest first.
 
 
 
+
+## Wednesday 25 November 2026, publisher named as Artiscope only
+Published: on the owner's instruction in a conversation, the site no longer names Grove Gallery. The footer notice, the artist notes, the Artist Market Profiles page and source labels now say Artiscope. The notice still tells readers that the publisher sells work by artists covered here.
+Drafts waiting: none from this change.
+Checked: all pages rebuild, links and markup pass. No facts, figures or sources were removed.
+Needs you: five source links still lead to grovegallery.com or to an Artsy page with the gallery name in its address, because that is where the facts come from. Say if you want different sources.
+
 ## Wednesday 25 November 2026, shorter footer
 Published: on the owner's instruction in a conversation, the footer's Artists column shows six artists, the ones with the most recent priced sale, followed by an "All artists" link to the Artist Market Profiles page. It had grown to 33 links on every page. The number is the footer setting `artists_limit` (default 6). New artists no longer lengthen the footer.
 Drafts waiting: none from this change.

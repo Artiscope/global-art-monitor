@@ -331,7 +331,7 @@
         '<a class="text-link" href="@@artists/' + slug + '/">' + W("btn.open-profile", "Open the market profile") + '</a></article>\n';
     }
     var MORE_ARTISTS = '<article class="card card-profile" data-reveal style="--d:180ms"><h3>More artists to follow</h3>' +
-      '<p>Profiles for further Grove Gallery artists are added once an artist has a documented public sale we can source and check.</p>' +
+      '<p>Profiles for further artists are added once an artist has a documented public sale we can source and check.</p>' +
       '<a class="text-link" href="@@about/#newsletter">' + W("btn.tell-me", "Tell me when a profile is added") + '</a></article>\n';
     var METHOD = '<div class="panel on-ink" data-reveal>\n<h2 class="h2" style="max-width:640px">How we report a price</h2>\n<div class="method">\n' +
       '<div><h3>Two prices, never one</h3><p>Hammer and premium-inclusive prices are shown in separate columns and never merged.</p></div>\n' +
