@@ -187,7 +187,19 @@
               "ana-segovia",
               "dana-awartani",
               "jes-fan",
-              "andy-warhol"
+              "andy-warhol",
+              "pablo-picasso",
+              "jean-michel-basquiat",
+              "keith-haring",
+              "david-hockney",
+              "damien-hirst",
+              "david-shrigley",
+              "philip-colbert",
+              "los-talgia",
+              "zen-xander",
+              "frank-canvas",
+              "robi-walters",
+              "amanza-smith"
             ],
             "more_card": true
           }
@@ -301,7 +313,7 @@
     "artists": {
       "path": "artists/index.html",
       "title": "Artist Market Profiles | Global Art Monitor",
-      "description": "Market profiles for the twenty-one artists we cover, from Andy Warhol and Gerhard Richter to artists with no auction record yet, each with the documented sales we could find.",
+      "description": "Market profiles for the thirty-three artists we cover, from Andy Warhol and Gerhard Richter to artists with no auction record yet, each with the documented sales we could find.",
       "current": "artists",
       "intro": false,
       "sections": [
@@ -343,7 +355,19 @@
               "ana-segovia",
               "dana-awartani",
               "jes-fan",
-              "andy-warhol"
+              "andy-warhol",
+              "pablo-picasso",
+              "jean-michel-basquiat",
+              "keith-haring",
+              "david-hockney",
+              "damien-hirst",
+              "david-shrigley",
+              "philip-colbert",
+              "los-talgia",
+              "zen-xander",
+              "frank-canvas",
+              "robi-walters",
+              "amanza-smith"
             ],
             "more_card": true
           }

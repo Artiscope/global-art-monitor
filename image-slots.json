@@ -446,6 +446,78 @@
       "filled": true
     },
     {
+      "id": "artist-pablo-picasso",
+      "group": "Artist profile images",
+      "label": "Pablo Picasso",
+      "filled": true
+    },
+    {
+      "id": "artist-jean-michel-basquiat",
+      "group": "Artist profile images",
+      "label": "Jean-Michel Basquiat",
+      "filled": true
+    },
+    {
+      "id": "artist-keith-haring",
+      "group": "Artist profile images",
+      "label": "Keith Haring",
+      "filled": true
+    },
+    {
+      "id": "artist-david-hockney",
+      "group": "Artist profile images",
+      "label": "David Hockney",
+      "filled": true
+    },
+    {
+      "id": "artist-damien-hirst",
+      "group": "Artist profile images",
+      "label": "Damien Hirst",
+      "filled": true
+    },
+    {
+      "id": "artist-david-shrigley",
+      "group": "Artist profile images",
+      "label": "David Shrigley",
+      "filled": true
+    },
+    {
+      "id": "artist-philip-colbert",
+      "group": "Artist profile images",
+      "label": "Philip Colbert",
+      "filled": false
+    },
+    {
+      "id": "artist-los-talgia",
+      "group": "Artist profile images",
+      "label": "Los-Talgia",
+      "filled": false
+    },
+    {
+      "id": "artist-zen-xander",
+      "group": "Artist profile images",
+      "label": "Zen Xander",
+      "filled": false
+    },
+    {
+      "id": "artist-frank-canvas",
+      "group": "Artist profile images",
+      "label": "Frank Canvas",
+      "filled": false
+    },
+    {
+      "id": "artist-robi-walters",
+      "group": "Artist profile images",
+      "label": "Robi Walters",
+      "filled": false
+    },
+    {
+      "id": "artist-amanza-smith",
+      "group": "Artist profile images",
+      "label": "Amanza Smith",
+      "filled": false
+    },
+    {
       "id": "work-okla-homma-ohoyo-2024-05-15",
       "group": "Artwork photos",
       "label": "Raven Halfmoon, OKLA HOMMA OHOYO (2020), sold 15 May 2024",

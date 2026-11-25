@@ -42,5 +42,29 @@
   "andy-warhol": {
     "alt": "A black and white photograph of Andy Warhol, with pale swept hair and round glasses, wearing a dark suit and striped tie, hands folded, standing in a formal room lit by candles.",
     "caption": "Andy Warhol at a White House reception for artists in the inaugural portfolio, 14 June 1977. Photo: Jack Kightlinger, White House, public domain, via Wikimedia Commons."
+  },
+  "pablo-picasso": {
+    "alt": "A black and white photograph of the young Pablo Picasso in a heavy overcoat, his dark hair falling over his forehead, looking straight at the camera.",
+    "caption": "Pablo Picasso in 1908. Photographer unknown, public domain, via Wikimedia Commons."
+  },
+  "jean-michel-basquiat": {
+    "alt": "A black and white photograph of Jean-Michel Basquiat smiling broadly, in a dark jacket over a pale shirt.",
+    "caption": "Jean-Michel Basquiat in New York, 15 September 1984. Photo: Galerie Bruno Bischofberger, CC BY-SA 4.0, via Wikimedia Commons."
+  },
+  "keith-haring": {
+    "alt": "Keith Haring in a white T-shirt, holding a paper cup in one hand and painting a thick black line on a white wall with the other.",
+    "caption": "Keith Haring at work in the Stedelijk Museum, Amsterdam, 14 March 1986. Photo: Rob Bogaerts / Anefo, Nationaal Archief, CC0, via Wikimedia Commons."
+  },
+  "david-hockney": {
+    "alt": "David Hockney in a flat cap and round black glasses, wearing a striped cardigan, looking towards the camera.",
+    "caption": "David Hockney in 2017. Photo: Connaissance des Arts, CC BY 3.0, via Wikimedia Commons."
+  },
+  "damien-hirst": {
+    "alt": "Damien Hirst in a white jacket and red T-shirt standing in a gallery in front of a wall painted with large coloured spots.",
+    "caption": "Damien Hirst at The Complete Spot Paintings 1986 to 2011, Gagosian Gallery, New York, 11 January 2012. Photo: Andrew Russeth, CC BY-SA 2.0, via Wikimedia Commons."
+  },
+  "david-shrigley": {
+    "alt": "David Shrigley in a dark top, looking to one side, in front of a flip chart covered in his line drawings.",
+    "caption": "David Shrigley in 2011. Photo: Andy Miah, CC BY-SA 2.0, via Wikimedia Commons."
   }
 }
