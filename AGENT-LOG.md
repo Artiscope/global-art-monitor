@@ -8,6 +8,13 @@ A record of what the website agent did on each run, newest first.
 
 
 
+
+## Wednesday 25 November 2026, corrected who sells the work
+Published: the owner pointed out that Artiscope itself does not sell work. The footer notice, artist notes and source labels now say a gallery in the Artiscope group shows and sells work by artists covered here. The gallery is not named, on the owner's instruction. The notice to readers stays.
+Drafts waiting: none from this change.
+Checked: all pages rebuild, links and markup pass. No facts, figures or sources were removed.
+Needs you: nothing new. Source links to the gallery's own pages remain, as noted in the entry below.
+
 ## Wednesday 25 November 2026, publisher named as Artiscope only
 Published: on the owner's instruction in a conversation, the site no longer names Grove Gallery. The footer notice, the artist notes, the Artist Market Profiles page and source labels now say Artiscope. The notice still tells readers that the publisher sells work by artists covered here.
 Drafts waiting: none from this change.
