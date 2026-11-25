@@ -429,7 +429,8 @@
       "source_label": "TheValue",
       "source_url": "https://en.thevalue.com/articles/seoul-auction-nara-nothing-about-it-sold-for-17-billion-krw-korea-art-auction-record-2026",
       "source2_label": "HENI News",
-      "source2_url": "https://heni.com/news/article/yayoi-kusama-infinity-nets-2026-03-31"
+      "source2_url": "https://heni.com/news/article/yayoi-kusama-infinity-nets-2026-03-31",
+      "est_on_request": true
     },
     {
       "artist": "yayoi-kusama",
@@ -779,15 +780,15 @@
       "sale": "21st Century Evening Sale, New York",
       "medium": "Squeegee painting, unique",
       "currency": "USD",
-      "est_low": null,
-      "est_high": null,
+      "est_low": 7000000,
+      "est_high": 10000000,
       "hammer": 7600000,
       "hammer_basis": "published",
       "premium": 9392000,
       "source_label": "The Art Newspaper",
       "source_url": "https://theartnewspaper.com/2026/11/20/christies-new-york-november-auction-21st-century-art-gund-sonnabend-basquiat",
-      "source2_label": "",
-      "source2_url": "",
+      "source2_label": "Art History News Report (pre-sale estimate)",
+      "source2_url": "http://arthistorynewsreport.blogspot.com/2026/11/christies-21st-century-evening-sale-19.html",
       "premium_basis": "calculated"
     },
     {
@@ -1146,7 +1147,8 @@
       "source_url": "https://www.theartnewspaper.com/2026/11/19/van-gogh-painting-sells-for-record-7778m-after-nazi-loot-claims",
       "source2_label": "Art Insider",
       "source2_url": "https://www.art-insider.com/van-goghs-chataigniers-en-fleurs-sells-for-record-190-4-million-at-sothebys/8934",
-      "premium_basis": "calculated"
+      "premium_basis": "calculated",
+      "est_on_request": true
     },
     {
       "artist": "wassily-kandinsky",

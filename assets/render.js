@@ -213,41 +213,53 @@
     }
 
     // ----- auction components -----
+    function calcNote(s, which) {
+      var tip = which === "hammer"
+        ? "The house published only the total. We took off the buyer\'s premium at the rates the house published for this sale to reach the hammer price."
+        : "The house reported only the hammer price. We added the buyer\'s premium at the rates the house published for this sale to reach the total.";
+      return '<span class="sub calc" title="' + tip + '">' + W("table.calculated", "Our calculation") + '</span>';
+    }
     function estCell(s) {
       if (s.est_low && s.est_high) return money(s.est_low, s.currency) + " to " + plain(s.est_high);
       if (s.est_low) return W("table.from", "From {low}", { low: money(s.est_low, s.currency) }) + '<span class="sub">' + W("missing.high", "High estimate to confirm") + '</span>';
+      if (s.est_on_request) return W("table.on-request", "On request") + '<span class="sub">' + W("table.on-request-note", "No public estimate was printed") + '</span>';
       return '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>';
     }
     function hamCell(s) {
       if (!s.hammer) return '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>';
-      return '<span class="ham">' + money(s.hammer, s.currency) + '</span>' + (s.hammer_basis === "calculated" ? '<span class="sub">' + W("table.calculated", "Our calculation") + '</span>' : "");
+      return '<span class="ham">' + money(s.hammer, s.currency) + '</span>' + (s.hammer_basis === "calculated" ? calcNote(s, "hammer") : "");
     }
-    function premCell(s) { return !s.premium ? '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>' : '<span class="prem">' + money(s.premium, s.currency) + '</span>' + (s.premium_basis === "calculated" ? '<span class="sub">' + W("table.calculated", "Our calculation") + '</span>' : ""); }
+    function premCell(s) { return !s.premium ? '<span class="tbc">' + W("missing.tbc", "To confirm") + '</span>' : '<span class="prem">' + money(s.premium, s.currency) + '</span>' + (s.premium_basis === "calculated" ? calcNote(s, "premium") : ""); }
     function sourceCell(s) {
       var out = '<a href="' + esc(s.source_url) + '" rel="noopener">' + esc(s.source_label) + '</a>';
       if (s.source2_url) out += '<span class="sub"><a href="' + esc(s.source2_url) + '" rel="noopener">' + esc(s.source2_label) + '</a></span>';
       return out;
     }
+    function td(cls, label, html) { return '<td class="' + cls + '" data-label="' + label + '">' + html + '</td>'; }
     function table(rows, tableId, showArtist, rootPath) {
       rootPath = rootPath == null ? "@@" : rootPath;
       var body = "";
+      var L = { date: W("table.date", "Sale date"), work: showArtist ? W("table.artist-work", "Artist and work") : W("table.work", "Work"), house: W("table.house", "House and sale"),
+        est: W("table.estimate", "Estimate"), ham: W("table.hammer", "Hammer price"), prem: W("table.premium", "With premium"), src: W("table.source", "Source") };
       rows.forEach(function (s) {
         var lot = s.lot ? '<span class="sub">' + W("table.lot", "Lot {lot}", { lot: esc(s.lot) }) + '</span>' : "";
-        var work = esc(s.title) + " (" + esc(s.year) + ")";
-        var artist = showArtist ? '<td><a href="' + rootPath + 'artists/' + s.artist + '/">' + esc(ARTISTS[s.artist].name) + '</a></td>' : "";
-        body += '<tr' + (opts.mark ? ' data-adh-row="' + s._i + '"' : "") + ' data-artist="' + s.artist + '" data-house="' + esc(s.house) + '"><td>' + esc(s.date_text) + '</td>' + artist + '<td>' + work + lot + '</td>' +
-          '<td>' + esc(s.house) + '<span class="sub">' + esc(s.sale) + '</span></td><td>' + estCell(s) + '</td><td>' + hamCell(s) + '</td><td>' + premCell(s) + '</td>' +
-          '<td>' + esc(s.currency) + '</td><td>' + sourceCell(s) + '</td></tr>\n';
+        var who = showArtist ? '<a class="who" href="' + rootPath + 'artists/' + s.artist + '/">' + esc(ARTISTS[s.artist].name) + '</a>' : "";
+        var work = who + '<span class="title">' + esc(s.title) + " (" + esc(s.year) + ")</span>";
+        body += '<tr' + (opts.mark ? ' data-adh-row="' + s._i + '"' : "") + ' data-artist="' + s.artist + '" data-house="' + esc(s.house) + '">' +
+          td("c-date", L.date, esc(s.date_text)) + td("c-work", L.work, work + lot) +
+          td("c-house", L.house, esc(s.house) + '<span class="sub">' + esc(s.sale) + '</span>') + td("c-est", L.est, estCell(s)) +
+          td("c-ham", L.ham, hamCell(s)) + td("c-prem", L.prem, premCell(s)) + td("c-src", L.src, sourceCell(s)) + '</tr>\n';
       });
-      return '<p class="swipe">' + W("table.swipe", "Swipe sideways to see every column.") + '</p>\n<div class="table-wrap" tabindex="0" role="region" aria-label="' + W("sr.table", "Auction results table") + '">\n<table class="tl" id="' + tableId + '">\n' +
-        '<thead><tr><th scope="col">' + W("table.date", "Sale date") + '</th>' + (showArtist ? '<th scope="col">' + W("table.artist", "Artist") + '</th>' : "") + '<th scope="col">' + W("table.work", "Work") + '</th><th scope="col">' + W("table.house", "House and sale") + '</th><th scope="col">' + W("table.estimate", "Estimate") + '</th><th scope="col">' + W("table.hammer", "Hammer price") + '</th><th scope="col">' + W("table.premium", "With premium") + '</th><th scope="col">' + W("table.currency", "Currency") + '</th><th scope="col">' + W("table.source", "Source") + '</th></tr></thead>\n' +
+      return '<div class="table-wrap" tabindex="0" role="region" aria-label="' + W("sr.table", "Auction results table") + '">\n<table class="tl tl-sales" id="' + tableId + '">\n' +
+        '<thead><tr><th scope="col">' + L.date + '</th><th scope="col">' + L.work + '</th><th scope="col">' + L.house + '</th><th scope="col">' + L.est + '</th><th scope="col">' + L.ham + '</th><th scope="col">' + L.prem + '</th><th scope="col">' + L.src + '</th></tr></thead>\n' +
         '<tbody>\n' + body + '</tbody>\n</table>\n</div>';
     }
     var LEGEND = '<div class="chips">\n<span class="chip" style="background:var(--ink-2)"><span class="dot dot-mint"></span>' + W("table.key-hammer", "Hammer price") + '</span>\n' +
       '<span class="chip" style="background:var(--ink-2)"><span class="dot dot-blush"></span>' + W("table.key-premium", "Price with premium") + '</span>\n' +
       '<span class="chip" style="background:var(--ink-2)"><span class="dot dot-grey"></span>' + W("table.key-estimate", "Estimate") + '</span>\n</div>';
-    var TABLE_NOTE = '<p class="note">Prices come from auction house lot pages and public auction databases, and are shown in the currency of the sale. ' +
-      '"' + W("table.calculated", "Our calculation") + '" means the figure was worked out from the other published price using the house\'s published buyer\'s premium rates. ' +
+    var TABLE_NOTE = '<p class="note">Prices come from auction house lot pages and public auction databases, and are shown in the currency of the sale, marked by the symbol or code before each figure. ' +
+      '"' + W("table.calculated", "Our calculation") + '" marks a figure the house did not publish. When only the total is published, we work back to the hammer price. When only the hammer price is reported, as with Sotheby\'s, which shows totals only to signed in users, we work forward to the total. ' +
+      'Either way we use the buyer\'s premium rates the house published for that sale, and we check the result against what the house or the press reported. Point at the words in a row to see the working. ' +
       '"' + W("missing.tbc", "To confirm") + '" means we have not yet been able to check the figure. <a class="text-link" href="@@about/#method">How we report a price</a></p>';
     function ladder(rows) {
       rows = priced(rows);

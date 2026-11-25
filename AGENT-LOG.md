@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Wednesday 25 November 2026, results table layout (draft)
+Published: nothing. Prepared as a draft on the owner's request in a conversation ("fix this properly") about the auction results table.
+Drafts waiting: Make the auction results table fit on every screen, https://github.com/Artiscope/global-art-monitor/pulls (draft branch draft/2026-11-25-results-table-layout)
+Checked: the table on the auction results, artist and research pages at 1280 and 390 pixels. Found the estimate for Christie's 1991 Richter (US$7m to 10m) in a pre-sale listing. The Van Gogh and Seoul Kusama estimates were given only on request, so they now say so.
+Needs you: the "How we report a price" text on the About page is edited in Digital Home, so it still explains only the worked back hammer price.
+
 ## Wednesday 25 November 2026, prices to confirm (draft)
 Published: nothing. Prepared as a draft on the owner's request in a conversation to research every price left "To confirm".
 Drafts waiting: Confirm prices that were marked to confirm, https://github.com/Artiscope/global-art-monitor/pull/12
