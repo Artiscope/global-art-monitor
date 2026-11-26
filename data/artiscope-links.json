@@ -1,0 +1,615 @@
+{
+  "about": "Links between the five Artiscope sites. The same file sits in all five repositories (World Art Review keeps it in content/, the others in data/). Each artist page shows links to the same artist on the other sites, using the paths below. To add an artist, add a line here once their pages are live, then copy this file into the other four repositories. Leave a site out of an artist's line until that site has a page for them. The heading on each site is its own \"heading\" below, where {name} stands for the artist.",
+  "sites": {
+    "gam": {
+      "name": "Global Art Monitor",
+      "url": "https://globalartmonitor.com/",
+      "link": "Auction results and price history",
+      "heading": "Elsewhere at Artiscope"
+    },
+    "war": {
+      "name": "World Art Review",
+      "url": "https://worldartreview.com/",
+      "link": "Portfolio and key works",
+      "heading": "Elsewhere at Artiscope"
+    },
+    "tac": {
+      "name": "The Art Correspondent",
+      "url": "https://theartcorrespondent.com/",
+      "link": "Stories and profile",
+      "heading": "Further reading"
+    },
+    "sad": {
+      "name": "Street Art Dispatch",
+      "url": "https://streetartdispatch.com/",
+      "link": "Profile and work on the street",
+      "heading": "More on {name}"
+    },
+    "tawr": {
+      "name": "The Art World Report",
+      "url": "https://theartworldreport.com/",
+      "heading": "Elsewhere at Artiscope"
+    }
+  },
+  "artists": {
+    "ai-weiwei": {
+      "name": "Ai Weiwei",
+      "gam": "artists/ai-weiwei/",
+      "tac": "subjects/ai-weiwei/",
+      "war": "artists/ai-weiwei/",
+      "tawr": [
+        {
+          "path": "features/scarcity-editions-and-salerooms-ten-artists-autumn-2026/",
+          "title": "Scarcity, Editions and Salerooms: Ten Artists' Autumn Sales"
+        }
+      ]
+    },
+    "amanza-smith": {
+      "name": "Amanza Smith",
+      "gam": "artists/amanza-smith/",
+      "tac": "subjects/amanza-smith/",
+      "war": "artists/amanza-smith/",
+      "tawr": [
+        {
+          "path": "features/unique-works-and-editions-autumn-2026/",
+          "title": "Unique Works and Editions: Two Markets for the Same Artist"
+        }
+      ]
+    },
+    "ana-segovia": {
+      "name": "Ana Segovia",
+      "gam": "artists/ana-segovia/",
+      "tac": "subjects/ana-segovia/",
+      "war": "artists/ana-segovia/",
+      "tawr": [
+        {
+          "path": "features/five-early-career-artists-and-their-records/",
+          "title": "Five Early-Career Artists: Museums First, Auctions Later"
+        }
+      ]
+    },
+    "andy-warhol": {
+      "name": "Andy Warhol",
+      "gam": "artists/andy-warhol/",
+      "tac": "subjects/andy-warhol/",
+      "war": "artists/andy-warhol/",
+      "tawr": [
+        {
+          "path": "features/the-warhol-market-in-one-week/",
+          "title": "The Warhol Market in One Week: New York, November 2026"
+        }
+      ]
+    },
+    "banksy": {
+      "name": "Banksy",
+      "gam": "artists/banksy/",
+      "sad": "artists/banksy/",
+      "tac": "subjects/banksy/",
+      "war": "artists/banksy/",
+      "tawr": [
+        {
+          "path": "features/what-builds-an-artists-market/",
+          "title": "What Builds an Artist's Market: Fourteen Careers, Four Forces"
+        }
+      ]
+    },
+    "beatriz-milhazes": {
+      "name": "Beatriz Milhazes",
+      "gam": "artists/beatriz-milhazes/",
+      "tac": "subjects/beatriz-milhazes/",
+      "war": "artists/beatriz-milhazes/",
+      "tawr": [
+        {
+          "path": "features/what-builds-an-artists-market/",
+          "title": "What Builds an Artist's Market: Fourteen Careers, Four Forces"
+        }
+      ]
+    },
+    "ben-eine": {
+      "name": "Ben Eine",
+      "gam": "artists/ben-eine/",
+      "sad": "artists/ben-eine/",
+      "tac": "subjects/ben-eine/",
+      "war": "artists/ben-eine/",
+      "tawr": [
+        {
+          "path": "features/ben-eine-and-the-print-market/",
+          "title": "Ben Eine and the Print Market: How the Lower End of Auctions Works"
+        }
+      ]
+    },
+    "damien-hirst": {
+      "name": "Damien Hirst",
+      "gam": "artists/damien-hirst/",
+      "tac": "subjects/damien-hirst/",
+      "war": "artists/damien-hirst/",
+      "tawr": [
+        {
+          "path": "features/unique-works-and-editions-autumn-2026/",
+          "title": "Unique Works and Editions: Two Markets for the Same Artist"
+        },
+        {
+          "path": "features/why-luxury-brands-work-with-artists/",
+          "title": "Why Luxury Brands Work With Artists"
+        }
+      ]
+    },
+    "dana-awartani": {
+      "name": "Dana Awartani",
+      "gam": "artists/dana-awartani/",
+      "tac": "subjects/dana-awartani/",
+      "war": "artists/dana-awartani/",
+      "tawr": [
+        {
+          "path": "features/five-early-career-artists-and-their-records/",
+          "title": "Five Early-Career Artists: Museums First, Auctions Later"
+        }
+      ]
+    },
+    "daniel-arsham": {
+      "name": "Daniel Arsham",
+      "gam": "artists/daniel-arsham/",
+      "tac": "subjects/daniel-arsham/",
+      "war": "artists/daniel-arsham/",
+      "tawr": [
+        {
+          "path": "features/scarcity-editions-and-salerooms-ten-artists-autumn-2026/",
+          "title": "Scarcity, Editions and Salerooms: Ten Artists' Autumn Sales"
+        }
+      ]
+    },
+    "david-hockney": {
+      "name": "David Hockney",
+      "gam": "artists/david-hockney/",
+      "tac": "subjects/david-hockney/",
+      "war": "artists/david-hockney/"
+    },
+    "david-shrigley": {
+      "name": "David Shrigley",
+      "gam": "artists/david-shrigley/",
+      "tac": "subjects/david-shrigley/",
+      "war": "artists/david-shrigley/",
+      "tawr": [
+        {
+          "path": "features/unique-works-and-editions-autumn-2026/",
+          "title": "Unique Works and Editions: Two Markets for the Same Artist"
+        }
+      ]
+    },
+    "eko-nugroho": {
+      "name": "Eko Nugroho",
+      "gam": "artists/eko-nugroho/",
+      "sad": "artists/eko-nugroho/",
+      "tac": "subjects/eko-nugroho/",
+      "war": "artists/eko-nugroho/",
+      "tawr": [
+        {
+          "path": "features/what-builds-an-artists-market/",
+          "title": "What Builds an Artist's Market: Fourteen Careers, Four Forces"
+        }
+      ]
+    },
+    "el-anatsui": {
+      "name": "El Anatsui",
+      "gam": "artists/el-anatsui/",
+      "tac": "subjects/el-anatsui/",
+      "war": "artists/el-anatsui/",
+      "tawr": [
+        {
+          "path": "features/what-builds-an-artists-market/",
+          "title": "What Builds an Artist's Market: Fourteen Careers, Four Forces"
+        }
+      ]
+    },
+    "faith-xlvii": {
+      "name": "Faith XLVII",
+      "gam": "artists/faith-xlvii/",
+      "sad": "artists/faith-xlvii/",
+      "tac": "subjects/faith-xlvii/",
+      "war": "artists/faith-xlvii/",
+      "tawr": [
+        {
+          "path": "features/what-builds-an-artists-market/",
+          "title": "What Builds an Artist's Market: Fourteen Careers, Four Forces"
+        }
+      ]
+    },
+    "frank-canvas": {
+      "name": "Frank Canvas",
+      "gam": "artists/frank-canvas/",
+      "tac": "subjects/frank-canvas/",
+      "war": "artists/frank-canvas/",
+      "tawr": [
+        {
+          "path": "features/unique-works-and-editions-autumn-2026/",
+          "title": "Unique Works and Editions: Two Markets for the Same Artist"
+        }
+      ]
+    },
+    "frida-kahlo": {
+      "name": "Frida Kahlo",
+      "gam": "artists/frida-kahlo/",
+      "tac": "subjects/frida-kahlo/",
+      "war": "artists/frida-kahlo/",
+      "tawr": [
+        {
+          "path": "features/scarcity-editions-and-salerooms-ten-artists-autumn-2026/",
+          "title": "Scarcity, Editions and Salerooms: Ten Artists' Autumn Sales"
+        }
+      ]
+    },
+    "gerhard-richter": {
+      "name": "Gerhard Richter",
+      "gam": "artists/gerhard-richter/",
+      "tac": "subjects/gerhard-richter/",
+      "war": "artists/gerhard-richter/",
+      "tawr": [
+        {
+          "path": "features/what-builds-an-artists-market/",
+          "title": "What Builds an Artist's Market: Fourteen Careers, Four Forces"
+        }
+      ]
+    },
+    "invader": {
+      "name": "Invader",
+      "sad": "artists/invader/",
+      "tawr": [
+        {
+          "path": "features/what-builds-an-artists-market/",
+          "title": "What Builds an Artist's Market: Fourteen Careers, Four Forces"
+        }
+      ]
+    },
+    "jean-michel-basquiat": {
+      "name": "Jean-Michel Basquiat",
+      "gam": "artists/jean-michel-basquiat/",
+      "sad": "artists/jean-michel-basquiat/",
+      "tac": "subjects/jean-michel-basquiat/",
+      "war": "artists/jean-michel-basquiat/",
+      "tawr": [
+        {
+          "path": "features/unique-works-and-editions-autumn-2026/",
+          "title": "Unique Works and Editions: Two Markets for the Same Artist"
+        }
+      ]
+    },
+    "jenny-holzer": {
+      "name": "Jenny Holzer",
+      "gam": "artists/jenny-holzer/",
+      "sad": "artists/jenny-holzer/",
+      "tac": "subjects/jenny-holzer/",
+      "war": "artists/jenny-holzer/",
+      "tawr": [
+        {
+          "path": "features/scarcity-editions-and-salerooms-ten-artists-autumn-2026/",
+          "title": "Scarcity, Editions and Salerooms: Ten Artists' Autumn Sales"
+        }
+      ]
+    },
+    "jes-fan": {
+      "name": "Jes Fan",
+      "gam": "artists/jes-fan/",
+      "tac": "subjects/jes-fan/",
+      "war": "artists/jes-fan/",
+      "tawr": [
+        {
+          "path": "features/five-early-career-artists-and-their-records/",
+          "title": "Five Early-Career Artists: Museums First, Auctions Later"
+        }
+      ]
+    },
+    "jr": {
+      "name": "JR",
+      "gam": "artists/jr/",
+      "sad": "artists/jr/",
+      "tac": "subjects/jr/",
+      "war": "artists/jr/",
+      "tawr": [
+        {
+          "path": "features/jr-and-the-business-of-free-public-art/",
+          "title": "JR and the Business of Free Public Art"
+        }
+      ]
+    },
+    "kaws": {
+      "name": "KAWS",
+      "gam": "artists/kaws/",
+      "sad": "artists/kaws/",
+      "tac": "subjects/kaws/",
+      "war": "artists/kaws/",
+      "tawr": [
+        {
+          "path": "features/what-builds-an-artists-market/",
+          "title": "What Builds an Artist's Market: Fourteen Careers, Four Forces"
+        }
+      ]
+    },
+    "keith-haring": {
+      "name": "Keith Haring",
+      "gam": "artists/keith-haring/",
+      "sad": "artists/keith-haring/",
+      "tac": "subjects/keith-haring/",
+      "war": "artists/keith-haring/",
+      "tawr": [
+        {
+          "path": "features/unique-works-and-editions-autumn-2026/",
+          "title": "Unique Works and Editions: Two Markets for the Same Artist"
+        }
+      ]
+    },
+    "konn-artiss": {
+      "name": "Konn Artiss",
+      "gam": "artists/konn-artiss/",
+      "sad": "artists/konn-artiss/",
+      "tac": "subjects/konn-artiss/",
+      "war": "artists/konn-artiss/"
+    },
+    "los-talgia": {
+      "name": "Los-Talgia",
+      "gam": "artists/los-talgia/",
+      "tac": "subjects/los-talgia/",
+      "war": "artists/los-talgia/",
+      "tawr": [
+        {
+          "path": "features/unique-works-and-editions-autumn-2026/",
+          "title": "Unique Works and Editions: Two Markets for the Same Artist"
+        }
+      ]
+    },
+    "mai-trung-thu": {
+      "name": "Mai Trung Thứ",
+      "gam": "artists/mai-trung-thu/",
+      "tac": "subjects/mai-trung-thu/",
+      "war": "artists/mai-trung-thu/",
+      "tawr": [
+        {
+          "path": "features/scarcity-editions-and-salerooms-ten-artists-autumn-2026/",
+          "title": "Scarcity, Editions and Salerooms: Ten Artists' Autumn Sales"
+        }
+      ]
+    },
+    "mohamed-lghacham": {
+      "name": "Mohamed L'Ghacham",
+      "sad": "artists/mohamed-l-ghacham/",
+      "tac": "subjects/mohamed-lghacham/",
+      "war": "artists/mohamed-lghacham/"
+    },
+    "mona-hatoum": {
+      "name": "Mona Hatoum",
+      "gam": "artists/mona-hatoum/",
+      "tac": "subjects/mona-hatoum/",
+      "war": "artists/mona-hatoum/",
+      "tawr": [
+        {
+          "path": "features/scarcity-editions-and-salerooms-ten-artists-autumn-2026/",
+          "title": "Scarcity, Editions and Salerooms: Ten Artists' Autumn Sales"
+        }
+      ]
+    },
+    "osgemeos": {
+      "name": "OSGEMEOS",
+      "gam": "artists/osgemeos/",
+      "sad": "artists/osgemeos/",
+      "tac": "subjects/osgemeos/",
+      "war": "artists/osgemeos/",
+      "tawr": [
+        {
+          "path": "features/what-builds-an-artists-market/",
+          "title": "What Builds an Artist's Market: Fourteen Careers, Four Forces"
+        }
+      ]
+    },
+    "pablo-picasso": {
+      "name": "Pablo Picasso",
+      "gam": "artists/pablo-picasso/",
+      "tac": "subjects/pablo-picasso/",
+      "war": "artists/pablo-picasso/",
+      "tawr": [
+        {
+          "path": "features/unique-works-and-editions-autumn-2026/",
+          "title": "Unique Works and Editions: Two Markets for the Same Artist"
+        },
+        {
+          "path": "industry-news/new-york-november-2026-auctions/",
+          "title": "New York November 2026 Auctions: Collections, Guarantees and a Van Gogh Record"
+        }
+      ]
+    },
+    "philip-colbert": {
+      "name": "Philip Colbert",
+      "gam": "artists/philip-colbert/",
+      "tac": "subjects/philip-colbert/",
+      "war": "artists/philip-colbert/",
+      "tawr": [
+        {
+          "path": "features/unique-works-and-editions-autumn-2026/",
+          "title": "Unique Works and Editions: Two Markets for the Same Artist"
+        }
+      ]
+    },
+    "raven-halfmoon": {
+      "name": "Raven Halfmoon",
+      "gam": "artists/raven-halfmoon/",
+      "tac": "subjects/raven-halfmoon/",
+      "war": "artists/raven-halfmoon/",
+      "tawr": [
+        {
+          "path": "features/five-early-career-artists-and-their-records/",
+          "title": "Five Early-Career Artists: Museums First, Auctions Later"
+        }
+      ]
+    },
+    "rene-matic": {
+      "name": "Rene Matić",
+      "gam": "artists/rene-matic/",
+      "tac": "subjects/rene-matic/",
+      "war": "artists/rene-matic/",
+      "tawr": [
+        {
+          "path": "features/five-early-career-artists-and-their-records/",
+          "title": "Five Early-Career Artists: Museums First, Auctions Later"
+        }
+      ]
+    },
+    "robi-walters": {
+      "name": "Robi Walters",
+      "gam": "artists/robi-walters/",
+      "tac": "subjects/robi-walters/",
+      "war": "artists/robi-walters/",
+      "tawr": [
+        {
+          "path": "features/unique-works-and-editions-autumn-2026/",
+          "title": "Unique Works and Editions: Two Markets for the Same Artist"
+        }
+      ]
+    },
+    "s-h-raza": {
+      "name": "S.H. Raza",
+      "gam": "artists/s-h-raza/",
+      "tac": "subjects/s-h-raza/",
+      "war": "artists/s-h-raza/",
+      "tawr": [
+        {
+          "path": "features/what-builds-an-artists-market/",
+          "title": "What Builds an Artist's Market: Fourteen Careers, Four Forces"
+        }
+      ]
+    },
+    "shepard-fairey": {
+      "name": "Shepard Fairey",
+      "sad": "artists/shepard-fairey/"
+    },
+    "takashi-murakami": {
+      "name": "Takashi Murakami",
+      "gam": "artists/takashi-murakami/",
+      "tac": "subjects/takashi-murakami/",
+      "war": "artists/takashi-murakami/",
+      "tawr": [
+        {
+          "path": "features/scarcity-editions-and-salerooms-ten-artists-autumn-2026/",
+          "title": "Scarcity, Editions and Salerooms: Ten Artists' Autumn Sales"
+        },
+        {
+          "path": "features/why-luxury-brands-work-with-artists/",
+          "title": "Why Luxury Brands Work With Artists"
+        }
+      ]
+    },
+    "vhils": {
+      "name": "Vhils",
+      "gam": "artists/vhils/",
+      "sad": "artists/vhils/",
+      "tac": "subjects/vhils/",
+      "war": "artists/vhils/",
+      "tawr": [
+        {
+          "path": "features/what-builds-an-artists-market/",
+          "title": "What Builds an Artist's Market: Fourteen Careers, Four Forces"
+        }
+      ]
+    },
+    "vincent-van-gogh": {
+      "name": "Vincent van Gogh",
+      "gam": "artists/vincent-van-gogh/",
+      "tac": "subjects/vincent-van-gogh/",
+      "war": "artists/vincent-van-gogh/",
+      "tawr": [
+        {
+          "path": "features/what-builds-an-artists-market/",
+          "title": "What Builds an Artist's Market: Fourteen Careers, Four Forces"
+        },
+        {
+          "path": "industry-news/new-york-november-2026-auctions/",
+          "title": "New York November 2026 Auctions: Collections, Guarantees and a Van Gogh Record"
+        }
+      ]
+    },
+    "wassily-kandinsky": {
+      "name": "Wassily Kandinsky",
+      "gam": "artists/wassily-kandinsky/",
+      "tac": "subjects/wassily-kandinsky/",
+      "war": "artists/wassily-kandinsky/",
+      "tawr": [
+        {
+          "path": "features/what-builds-an-artists-market/",
+          "title": "What Builds an Artist's Market: Fourteen Careers, Four Forces"
+        },
+        {
+          "path": "industry-news/new-york-november-2026-auctions/",
+          "title": "New York November 2026 Auctions: Collections, Guarantees and a Van Gogh Record"
+        }
+      ]
+    },
+    "william-kentridge": {
+      "name": "William Kentridge",
+      "gam": "artists/william-kentridge/",
+      "sad": "artists/william-kentridge/",
+      "tac": "subjects/william-kentridge/",
+      "war": "artists/william-kentridge/",
+      "tawr": [
+        {
+          "path": "features/scarcity-editions-and-salerooms-ten-artists-autumn-2026/",
+          "title": "Scarcity, Editions and Salerooms: Ten Artists' Autumn Sales"
+        }
+      ]
+    },
+    "yayoi-kusama": {
+      "name": "Yayoi Kusama",
+      "gam": "artists/yayoi-kusama/",
+      "tac": "subjects/yayoi-kusama/",
+      "war": "artists/yayoi-kusama/",
+      "tawr": [
+        {
+          "path": "features/what-builds-an-artists-market/",
+          "title": "What Builds an Artist's Market: Fourteen Careers, Four Forces"
+        },
+        {
+          "path": "industry-news/new-york-november-2026-auctions/",
+          "title": "New York November 2026 Auctions: Collections, Guarantees and a Van Gogh Record"
+        }
+      ]
+    },
+    "zanele-muholi": {
+      "name": "Zanele Muholi",
+      "gam": "artists/zanele-muholi/",
+      "tac": "subjects/zanele-muholi/",
+      "war": "artists/zanele-muholi/",
+      "tawr": [
+        {
+          "path": "features/scarcity-editions-and-salerooms-ten-artists-autumn-2026/",
+          "title": "Scarcity, Editions and Salerooms: Ten Artists' Autumn Sales"
+        }
+      ]
+    },
+    "zao-wou-ki": {
+      "name": "Zao Wou-Ki",
+      "gam": "artists/zao-wou-ki/",
+      "tac": "subjects/zao-wou-ki/",
+      "war": "artists/zao-wou-ki/",
+      "tawr": [
+        {
+          "path": "features/scarcity-editions-and-salerooms-ten-artists-autumn-2026/",
+          "title": "Scarcity, Editions and Salerooms: Ten Artists' Autumn Sales"
+        }
+      ]
+    },
+    "zara-muse": {
+      "name": "Zara Muse",
+      "gam": "artists/zara-muse/",
+      "tac": "subjects/zara-muse/",
+      "war": "artists/zara-muse/"
+    },
+    "zen-xander": {
+      "name": "Zen Xander",
+      "gam": "artists/zen-xander/",
+      "tac": "subjects/zen-xander/",
+      "war": "artists/zen-xander/",
+      "tawr": [
+        {
+          "path": "features/unique-works-and-editions-autumn-2026/",
+          "title": "Unique Works and Editions: Two Markets for the Same Artist"
+        }
+      ]
+    }
+  }
+}

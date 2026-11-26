@@ -763,6 +763,9 @@
       var reading = (a.reading || []).length ? '<h2>' + W("item.reading", "Reading the prices") + '</h2>\n' + P(a.reading) + '\n' : "";
       var cmp = (a.compare || []).map(function (c) { return ARTISTS[c] ? '<li><a href="@@artists/' + c + '/">' + esc(ARTISTS[c].name) + '</a></li>' : ""; }).join("");
       var srcs = (a.sources || []).map(function (s) { return '<li><a href="' + esc(s[1]) + '" rel="noopener">' + esc(s[0]) + '</a></li>'; }).join("");
+      // the same artist on the other Artiscope sites
+      var ew = (elsewhereFor("gam", "artists/" + slug + "/")[0] || { links: [] }).links;
+      var elsewhere = ew.length ? '<div class="mini"><h2>' + esc(elsewhereHeading("gam", a.name)) + '</h2><ul>' + ew.map(function (l) { return '<li><a href="' + esc(l.href) + '">' + esc(l.text) + '</a> ' + l.on + ' ' + esc(l.site) + '</li>'; }).join("") + '</ul></div>\n' : "";
       var related = FEATURES.filter(function (f) { return f.slug.indexOf(slug) >= 0; });
       if (FEATURE_BY_SLUG["why-one-record-sale-does-not-establish-market-value"]) related.push(FEATURE_BY_SLUG["why-one-record-sale-does-not-establish-market-value"]);
       var rel = related.map(function (f) { return '<li><a href="@@research/' + f.slug + '/">' + esc(f.title) + '</a></li>'; }).join("");
@@ -801,7 +804,7 @@
         M('<section class="shell article" style="padding-top:104px">\n<div class="article-body prose" data-reveal>\n<h2 style="margin-top:0">' + W("item.about", "About the artist") + '</h2>\n' + paras + '\n' + career + standing + kworks + quotes + reading +
         '<p>These figures are a record of past public sales. They are not a valuation and they are not advice. For how to read them, start with <a href="@@research/what-an-auction-result-tells-collectors/">what an auction result actually tells collectors</a>.</p>\n</div>\n' +
         '<aside class="article-side" data-reveal style="--d:120ms">\n' + img + '\n<div class="mini"><h2>' + W("item.related", "Related reading") + '</h2><ul>' + rel + '</ul></div>\n' +
-        (cmp ? '<div class="mini"><h2>' + W("item.compare", "Compare with") + '</h2><ul>' + cmp + '</ul></div>\n' : "") + '<div class="mini"><h2>' + W("item.sources", "Background sources") + '</h2><ul>' + srcs + '</ul></div>\n' +
+        (cmp ? '<div class="mini"><h2>' + W("item.compare", "Compare with") + '</h2><ul>' + cmp + '</ul></div>\n' : "") + elsewhere + '<div class="mini"><h2>' + W("item.sources", "Background sources") + '</h2><ul>' + srcs + '</ul></div>\n' +
         '<div class="mini"><h2>' + W("item.gap", "Spotted a gap?") + '</h2><p>If you can document a sale we have missed, or correct a figure, <a href="@@about/#corrections">tell us</a>.</p></div>\n</aside>\n</section>', "about");
       body = tplWrap("artist", slug, body); AO_KIND = "artist";
       var ld = pyJson({ "@context": "https://schema.org", "@type": "ProfilePage", name: a.name + " market profile", url: SITE.url + "artists/" + slug + "/", dateModified: PUBLISHED_DT, mainEntity: { "@type": "Person", name: a.name } });
@@ -870,6 +873,32 @@
     };
   }
 
-  var GAM = { fromFiles: fromFiles, Site: Site, pyJson: pyJson, MARK_INNER: MARK_INNER, slugify: slugify };
+  // Links to the same artist on the other Artiscope sites. The list is data/artiscope-links.json,
+  // the same file in all five repositories; tools/build.mjs hands it over with setElsewhere().
+  var ELSEWHERE = null;
+  function setElsewhere(x) { ELSEWHERE = x && typeof x === "object" && x.artists && x.sites ? x : null; }
+  // here is this site's key, path this page's address (such as "artists/banksy/").
+  // Gives one entry per artist on the page: { name, links: [{ href, text, site, on }] }, where on is "in" for a magazine.
+  function elsewhereFor(here, path) {
+    if (!ELSEWHERE) return [];
+    var sites = ELSEWHERE.sites, out = [];
+    Object.keys(ELSEWHERE.artists).forEach(function (k) {
+      var e = ELSEWHERE.artists[k] || {}, mine = e[here];
+      var on = Array.isArray(mine) ? mine.some(function (t) { return t && t.path === path; }) : mine === path;
+      if (!on) return;
+      var links = [];
+      ["war", "gam", "tac", "sad", "tawr"].forEach(function (s) {
+        var site = sites[s] || {}, base = String(site.url || "");
+        if (s === here || !e[s] || !/^https:\/\/[a-z0-9.-]+\/$/.test(base)) return;
+        (Array.isArray(e[s]) ? e[s] : [{ path: e[s], title: site.link }]).forEach(function (t) {
+          if (t && /^[a-z0-9-]+\/[a-z0-9-]+\/$/.test(String(t.path || "")) && t.title) links.push({ href: base + t.path, text: String(t.title), site: String(site.name || ""), on: s === "tac" || s === "tawr" ? "in" : "on" });
+        });
+      });
+      if (links.length) out.push({ name: String(e.name || ""), links: links });
+    });
+    return out;
+  }
+  function elsewhereHeading(here, name) { return String(((ELSEWHERE || {}).sites || {})[here] && ELSEWHERE.sites[here].heading || "Elsewhere").split("{name}").join(name); }
+  var GAM = { fromFiles: fromFiles, setElsewhere: setElsewhere, Site: Site, pyJson: pyJson, MARK_INNER: MARK_INNER, slugify: slugify };
   if (typeof module !== "undefined" && module.exports) module.exports = GAM; else root.GAM = GAM;
 })(typeof window !== "undefined" ? window : this);

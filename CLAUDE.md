@@ -342,3 +342,11 @@ Decide, act within the rules above, and report. Work in this order:
 
 A quiet run is a good run. Never publish or draft something only to
 have something to show.
+
+## Links to the other Artiscope sites
+Each artist page links to the same artist on the other Artiscope sites.
+The list is `data/artiscope-links.json`, and the same file sits in all five repositories.
+When an artist gets a page here, add its address to that artist's line,
+copy the file into the other four repositories, and run
+`python3 tools/check_artiscope_links.py gam .` after a build.
+Only list a page once it is live.
