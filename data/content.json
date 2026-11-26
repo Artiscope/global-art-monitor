@@ -2409,6 +2409,95 @@
         "zara-muse",
         "jean-michel-basquiat"
       ]
+    },
+    "ben-eine": {
+      "summary": "Ben Eine is the London street artist Benjamin Flynn, born in 1970, according to Wikipedia. He paints large, brightly coloured capital letters on shop shutters and walls, and ran the screenprinting at Pictures on Walls, the print company he set up with Banksy, according to the Big Issue.",
+      "body": [
+        "The table lists the five most recent sales we could document, newest first. Four are prints and one is a unique spray painting on canvas. That mix is typical: MutualArt lists 776 Eine lots in all, 580 of them prints, and 172 offered between January 2025 and November 2026.",
+        "Only the two Tate Ward results were checked on the auction house's own pages, which give the price including buyer's premium. The Griffin's, Los Angeles Modern Auctions and Ewbank's figures come from MutualArt's sale records. MutualArt says the Griffin's figure of €91 excludes the premium, so we show it as the hammer price. It does not say either way for the other two, so those are marked as MutualArt figures with the basis to confirm.",
+        "Not every lot sells. Tate Ward's set of four Context screenprints (2019), estimated at £200 to 300, found no buyer in its 16 September 2026 sale, and Rosebery's offered three Eine prints on 7 August 2026 that MutualArt records as unsold. Sources can also disagree. MutualArt lists Tate Ward lot 208, the small canvas A (2012), as unsold, but Tate Ward's own search shows it sold for £312 including premium. We follow the auction house."
+      ],
+      "sources": [
+        [
+          "Tate Ward lot 178, Tenderloin A-Z Sandstone (Unique)",
+          "https://www.tateward.com/auction/lot/lot-178---ben-eine-british-1970--tenderloin-a-z-sandstone-crosshatch-black--gold/?lot=29620"
+        ],
+        [
+          "Tate Ward lot 179, Scary (Movember Edition)",
+          "https://www.tateward.com/auction/lot/lot-179---ben-eine-british-1970--scary-movember-edition-2019/?lot=29416"
+        ],
+        [
+          "Tate Ward, past Ben Eine lots",
+          "https://www.tateward.com/auction/search/?st=Ben+Eine"
+        ],
+        [
+          "MutualArt, Ben Eine auction results",
+          "https://www.mutualart.com/Artist/Ben-Eine/AAEF07BB447196D3/auction-results"
+        ],
+        [
+          "The Guardian via Dawn, Patrick Wintour, Cameron's gifts for Obama (22 July 2010)",
+          "https://www.dawn.com/news/548500"
+        ],
+        [
+          "Big Issue, Maeve Doyle, guest editor Ben Eine (11 March 2020)",
+          "https://bigissue.com/culture/art/rise-up-stand-up-speak-up-with-guest-editor-ben-eine"
+        ],
+        [
+          "Interview Magazine, Georgia Frances King, Ben Eine's Age of Innocence (14 June 2013)",
+          "https://www.interviewmagazine.com/art/ben-eine-innocence"
+        ],
+        [
+          "Ocula, Ben Eine",
+          "https://ocula.com/artists/ben-eine/"
+        ],
+        [
+          "Wikipedia, Ben Eine",
+          "https://en.wikipedia.org/wiki/Ben_Eine"
+        ]
+      ],
+      "standing": [
+        "Eine's best known sale was not an auction. In July 2010 the prime minister, David Cameron, gave President Obama his painting Twenty First Century City as an official gift. The Guardian reported its value as £2,500, which is a valuation, not a price anyone paid.",
+        "Ocula reports that his work is in the collection of the Victoria and Albert Museum, and he was included in Art in the Streets at the Museum of Contemporary Art, Los Angeles, in 2011, according to Wikipedia. His auction market is mostly editions sold for hundreds of pounds, with paintings appearing less often."
+      ],
+      "career": [
+        "Eine told the Observer he started writing graffiti at about 14 and was arrested 15 to 20 times, as reported by the Guardian in 2010. He met Banksy at a party near Old Street and they set up Pictures on Walls to sell affordable screenprints. Interview Magazine describes him as its principal screenprinter, printing for Banksy and David Shrigley before he worked under his own name.",
+        "In 2010 he painted the whole alphabet across the shop shutters of Middlesex Street in London, according to the Big Issue. He has since painted lettering in cities from Beijing and San Francisco to Copenhagen, according to Interview Magazine."
+      ],
+      "works": [
+        {
+          "t": "Twenty First Century City",
+          "y": "2010",
+          "m": "Painting",
+          "note": "Given by David Cameron to Barack Obama in July 2010. Valued at £2,500 by the Guardian. Not an auction result."
+        },
+        {
+          "t": "Tenderloin A-Z",
+          "y": "2013",
+          "m": "Screenprints, Nelly Duff",
+          "note": "His Tenderloin alphabet printed as screenprints. One unique 1 of 1 variant sold at Tate Ward in October 2026 for £500 including premium, within its estimate."
+        },
+        {
+          "t": "The Middlesex Street alphabet",
+          "y": "2010",
+          "m": "Spray paint on 26 shop shutters, London",
+          "note": "Public work, not for sale. It is the series most people know his lettering from."
+        }
+      ],
+      "quotes": [
+        {
+          "q": "Typography guides you around a city without you being aware of it.",
+          "who": "Ben Eine, Big Issue, March 2020"
+        }
+      ],
+      "reading": [
+        "Compare like with like. A unique canvas such as STAR, a 1 of 1 screenprint and an artist's proof from an edition of 100 are three different things, and their prices should not be averaged together.",
+        "These are small sums, and at this level the buyer's premium makes a real difference to the total. Check whether a figure is the hammer or includes fees before comparing it with another. Five sales over a few weeks are not enough to show a trend."
+      ],
+      "compare": [
+        "banksy",
+        "david-shrigley",
+        "kaws"
+      ]
     }
   },
   "features": [

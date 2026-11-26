@@ -558,6 +558,42 @@
       "group": "Artwork photos",
       "label": "Andy Warhol, The Scream (After Munch) (1984), sold 16 November 2026",
       "filled": false
+    },
+    {
+      "id": "artist-ben-eine",
+      "group": "Artist profile images",
+      "label": "Ben Eine",
+      "filled": true
+    },
+    {
+      "id": "work-detroit-313-2026-11-17",
+      "group": "Artwork photos",
+      "label": "Ben Eine, Detroit 313 (2018), sold 17 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-star-2026-11-06",
+      "group": "Artwork photos",
+      "label": "Ben Eine, STAR, sold 6 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-london-2026-10-29",
+      "group": "Artwork photos",
+      "label": "Ben Eine, London, sold 29 October 2026",
+      "filled": false
+    },
+    {
+      "id": "work-tenderloin-a-z-sandstone-unique-2026-10-29",
+      "group": "Artwork photos",
+      "label": "Ben Eine, Tenderloin A-Z Sandstone (Unique) (2013), sold 29 October 2026",
+      "filled": false
+    },
+    {
+      "id": "work-scary-movember-edition-2026-10-29",
+      "group": "Artwork photos",
+      "label": "Ben Eine, Scary (Movember Edition) (2019), sold 29 October 2026",
+      "filled": false
     }
   ]
 }
