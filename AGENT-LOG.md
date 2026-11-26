@@ -10,6 +10,11 @@ A record of what the website agent did on each run, newest first.
 
 
 
+## Thursday 26 November 2026, gallery activity piece (draft)
+Published: nothing. The owner's new brief asks Global Art Monitor to cover gallery activity and collector intelligence, which it did not. New research piece, Gallery Activity in 2025: What Dealers Sold, and Who Bought, built on Art Basel's published summaries of the Art Basel and UBS report.
+Checked: the site builds, the new page holds at 390 pixels and desktop width.
+Needs you: a yes on the pull request.
+
 ## Wednesday 25 November 2026, missing figures checked on MutualArt
 Published: nothing yet.
 Drafts waiting: "Fill missing figures from MutualArt" (https://github.com/Artiscope/global-art-monitor/pull/22). Adds eight figures the house pages did not give: four pairs of estimates (Zara Muse, Malala Yousafzai; OSGEMEOS, Untitled at Bonhams 2024; Vhils, Attrition series #01; Picasso, Tête de femme (Dora Maar), plus its lot number 23A) and four sale prices (El Anatsui, Hesitant Rivers; Warhol, The Scream (After Munch), Flowers and Dolly Parton). Each is labelled "From MutualArt" with a link. MutualArt does not say whether its sale prices include the buyer's premium, so the four prices say "premium not stated".
