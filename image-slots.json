@@ -630,6 +630,342 @@
       "group": "Artwork photos",
       "label": "JR, Eyes On Bricks, New Delhi, LA (2010), sold 13 August 2026",
       "filled": false
+    },
+    {
+      "id": "artist-takashi-murakami",
+      "group": "Artist profile images",
+      "label": "Takashi Murakami",
+      "filled": true
+    },
+    {
+      "id": "work-kiki-blue-eyes-and-kaikai-blue-eyes-2026-11-24",
+      "group": "Artwork photos",
+      "label": "Takashi Murakami, Kiki (Blue Eyes) and Kaikai (Blue Eyes) (2020 to 2021), sold 24 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-homage-to-francis-bacon-three-studies-of-lucian-freud-2026-11-19",
+      "group": "Artwork photos",
+      "label": "Takashi Murakami, Homage to Francis Bacon (Three Studies of Lucian Freud) (2016 to 2017), sold 19 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-splash-nude-2026-11-19",
+      "group": "Artwork photos",
+      "label": "Takashi Murakami, Splash Nude (2001), sold 19 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-flowers-small-2026-11-19",
+      "group": "Artwork photos",
+      "label": "Takashi Murakami, Flowers (Small) (2025), sold 19 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-school-entrance-ceremony-2026-11-17",
+      "group": "Artwork photos",
+      "label": "Takashi Murakami, School Entrance Ceremony (2021), sold 17 November 2026",
+      "filled": false
+    },
+    {
+      "id": "artist-daniel-arsham",
+      "group": "Artist profile images",
+      "label": "Daniel Arsham",
+      "filled": false
+    },
+    {
+      "id": "work-amethyst-crystallized-poliwhirl-2026-11-24",
+      "group": "Artwork photos",
+      "label": "Daniel Arsham, Amethyst Crystallized Poliwhirl (2019 to 2020), sold 24 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-rose-quartz-eroded-giuliano-di-medici-2026-11-19",
+      "group": "Artwork photos",
+      "label": "Daniel Arsham, Rose Quartz Eroded Giuliano di Medici (2021), sold 19 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-white-crystalized-pikachu-2026-11-17",
+      "group": "Artwork photos",
+      "label": "Daniel Arsham, White Crystalized Pikachu (year to confirm), sold 17 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-eroded-porsche-911-turbo-930-2026-11-17",
+      "group": "Artwork photos",
+      "label": "Daniel Arsham, Eroded Porsche 911 Turbo (930) (year to confirm), sold 17 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-veiled-porsche-blue-2026-11-11",
+      "group": "Artwork photos",
+      "label": "Daniel Arsham, Veiled Porsche Blue (2023), sold 11 November 2026",
+      "filled": false
+    },
+    {
+      "id": "artist-ai-weiwei",
+      "group": "Artist profile images",
+      "label": "Ai Weiwei",
+      "filled": true
+    },
+    {
+      "id": "work-finger-from-the-ex-votos-series-2026-11-17",
+      "group": "Artwork photos",
+      "label": "Ai Weiwei, Finger (from the Ex-Votos series) (2018), sold 17 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-set-of-60-sunflower-seeds-2026-11-11",
+      "group": "Artwork photos",
+      "label": "Ai Weiwei, Set of 60 Sunflower Seeds (2010), sold 11 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-to-fight-with-crossed-arms-2026-11-11",
+      "group": "Artwork photos",
+      "label": "Ai Weiwei, To Fight With Crossed Arms (2007), sold 11 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-namelist-2008-2011-2026-11-07",
+      "group": "Artwork photos",
+      "label": "Ai Weiwei, Namelist 2008-2011 (2014), sold 7 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-tree-2026-11-05",
+      "group": "Artwork photos",
+      "label": "Ai Weiwei, Tree (year to confirm), sold 5 November 2026",
+      "filled": false
+    },
+    {
+      "id": "artist-william-kentridge",
+      "group": "Artist profile images",
+      "label": "William Kentridge",
+      "filled": true
+    },
+    {
+      "id": "work-dove-2026-11-18",
+      "group": "Artwork photos",
+      "label": "William Kentridge, DOVE (year to confirm), sold 18 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-untitled-viii-nose-on-horseback-2026-11-17",
+      "group": "Artwork photos",
+      "label": "William Kentridge, Untitled VIII (Nose on Horseback) (2007 to 2008), sold 17 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-casspirs-full-of-love-2026-11-17",
+      "group": "Artwork photos",
+      "label": "William Kentridge, Casspirs Full of Love (1989), sold 17 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-universal-archive-nine-trees-2026-11-17",
+      "group": "Artwork photos",
+      "label": "William Kentridge, Universal Archive (Nine Trees) (2012), sold 17 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-universal-archive-horse-2026-11-17",
+      "group": "Artwork photos",
+      "label": "William Kentridge, Universal Archive (Horse) (2013), sold 17 November 2026",
+      "filled": false
+    },
+    {
+      "id": "artist-zao-wou-ki",
+      "group": "Artist profile images",
+      "label": "Zao Wou-Ki",
+      "filled": false
+    },
+    {
+      "id": "work-paysage-rose-et-bleu-2026-11-23",
+      "group": "Artwork photos",
+      "label": "Zao Wou-Ki, Paysage rose et bleu (1954), sold 23 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-les-petits-bateaux-2026-11-23",
+      "group": "Artwork photos",
+      "label": "Zao Wou-Ki, Les Petits Bateaux (1953), sold 23 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-untitled-2026-11-14",
+      "group": "Artwork photos",
+      "label": "Zao Wou-Ki, Untitled (1974), sold 14 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-mars-03-04-2003-2026-11-13",
+      "group": "Artwork photos",
+      "label": "Zao Wou-Ki, Mars – 03.04.2003 (2003), sold 13 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-composition-bleue-2026-11-11",
+      "group": "Artwork photos",
+      "label": "Zao Wou-Ki, Composition bleue (1970), sold 11 November 2026",
+      "filled": false
+    },
+    {
+      "id": "artist-mai-trung-thu",
+      "group": "Artist profile images",
+      "label": "Mai Trung Thứ",
+      "filled": true
+    },
+    {
+      "id": "work-la-lecture-2026-11-07",
+      "group": "Artwork photos",
+      "label": "Mai Trung Thứ, La lecture (1976), sold 7 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-femme-pres-de-la-fenetre-2026-09-30",
+      "group": "Artwork photos",
+      "label": "Mai Trung Thứ, Femme près de la fenêtre (Lady by the Window) (1951), sold 30 September 2026",
+      "filled": false
+    },
+    {
+      "id": "work-quatre-garcons-lecture-2026-09-29",
+      "group": "Artwork photos",
+      "label": "Mai Trung Thứ, Quatre garçons, lecture (1975), sold 29 September 2026",
+      "filled": false
+    },
+    {
+      "id": "work-recitations-2026-09-29",
+      "group": "Artwork photos",
+      "label": "Mai Trung Thứ, Récitations (1954), sold 29 September 2026",
+      "filled": false
+    },
+    {
+      "id": "work-melodie-2026-09-28",
+      "group": "Artwork photos",
+      "label": "Mai Trung Thứ, Mélodie (1950), sold 28 September 2026",
+      "filled": false
+    },
+    {
+      "id": "artist-frida-kahlo",
+      "group": "Artist profile images",
+      "label": "Frida Kahlo",
+      "filled": true
+    },
+    {
+      "id": "work-naturaleza-muerta-con-hucha-y-caballo-negro-2026-11-18",
+      "group": "Artwork photos",
+      "label": "Frida Kahlo, Naturaleza muerta con hucha y caballo negro (c. 1928), sold 18 November 2026",
+      "filled": false
+    },
+    {
+      "id": "artist-jenny-holzer",
+      "group": "Artist profile images",
+      "label": "Jenny Holzer",
+      "filled": false
+    },
+    {
+      "id": "work-rubber-stamp-set-2026-11-24",
+      "group": "Artwork photos",
+      "label": "Jenny Holzer, Rubber Stamp Set (1992), sold 24 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-protect-me-from-what-i-want-2026-11-23",
+      "group": "Artwork photos",
+      "label": "Jenny Holzer, Untitled, from the Survival Series (Protect me from what I want) (1986), sold 23 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-the-future-is-stupid-2026-11-17",
+      "group": "Artwork photos",
+      "label": "Jenny Holzer, The Future is Stupid (2000), sold 17 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-truisms-stamp-set-2026-11-14",
+      "group": "Artwork photos",
+      "label": "Jenny Holzer, Truisms Stamp Set (1991), sold 14 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-the-beginning-of-the-war-card-turn-soft-and-lovely-2026-11-11",
+      "group": "Artwork photos",
+      "label": "Jenny Holzer, The Beginning of the War Card / Turn Soft and Lovely (2018), sold 11 November 2026",
+      "filled": false
+    },
+    {
+      "id": "artist-mona-hatoum",
+      "group": "Artist profile images",
+      "label": "Mona Hatoum",
+      "filled": true
+    },
+    {
+      "id": "work-kapancik-2026-07-09",
+      "group": "Artwork photos",
+      "label": "Mona Hatoum, KAPANCIK (2012), sold 9 July 2026",
+      "filled": false
+    },
+    {
+      "id": "work-roadworks-2026-07-09",
+      "group": "Artwork photos",
+      "label": "Mona Hatoum, Roadworks (1985), sold 9 July 2026",
+      "filled": false
+    },
+    {
+      "id": "work-infinity-2026-06-25",
+      "group": "Artwork photos",
+      "label": "Mona Hatoum, ∞ (1991 to 2001), sold 25 June 2026",
+      "filled": false
+    },
+    {
+      "id": "work-untitled-crutches-2026-02-19",
+      "group": "Artwork photos",
+      "label": "Mona Hatoum, Untitled (Crutches) (1991 to 2001), sold 19 February 2026",
+      "filled": false
+    },
+    {
+      "id": "work-infinity-sign-2025-11-20",
+      "group": "Artwork photos",
+      "label": "Mona Hatoum, ∞ (infinity sign) (1991 to 2001), sold 20 November 2025",
+      "filled": false
+    },
+    {
+      "id": "artist-zanele-muholi",
+      "group": "Artist profile images",
+      "label": "Zanele Muholi",
+      "filled": true
+    },
+    {
+      "id": "work-hlonipha-cassilhaus-2026-10-23",
+      "group": "Artwork photos",
+      "label": "Zanele Muholi, Hlonipha, Cassilhaus, Chapel Hill, North Carolina (2016), sold 23 October 2026",
+      "filled": false
+    },
+    {
+      "id": "work-musa-london-2026-10-21",
+      "group": "Artwork photos",
+      "label": "Zanele Muholi, Musa, London (2015), sold 21 October 2026",
+      "filled": false
+    },
+    {
+      "id": "work-aphumelela-2026-10-21",
+      "group": "Artwork photos",
+      "label": "Zanele Muholi, Aphumelela (2021), sold 21 October 2026",
+      "filled": false
+    },
+    {
+      "id": "work-bester-iv-mayotte-2026-10-20",
+      "group": "Artwork photos",
+      "label": "Zanele Muholi, Bester IV, Mayotte (2015), sold 20 October 2026",
+      "filled": false
+    },
+    {
+      "id": "work-thembitshe-parktown-2026-10-08",
+      "group": "Artwork photos",
+      "label": "Zanele Muholi, Thembitshe, Parktown (2014), sold 8 October 2026",
+      "filled": false
     }
   ]
 }
