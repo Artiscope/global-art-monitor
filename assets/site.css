@@ -639,3 +639,40 @@ form[aria-busy="true"] [type="submit"]{opacity:.6;cursor:progress}
 
 /* Palette, Nov 2026: mint buttons and pills carry charcoal text so they pass contrast */
 .pill-mint, .pill-mint:hover, .w-mint { color: var(--page); }
+
+/* Tighter spacing (26 Nov 2026). Less empty space between and inside
+   sections, on desktop and phone. Colours and type are unchanged. */
+.hero { padding-top: 36px; gap: 40px; }
+.section { padding-top: 64px; }
+.section-last { padding-bottom: 64px; }
+.panel { padding: 38px 36px; gap: 20px; }
+.words { padding-top: 44px; gap: 14px; }
+.word-pill { height: 112px; }
+.card { padding: 26px; min-height: 230px; }
+.card-big { padding: 30px; min-height: 240px; }
+.page-head { padding-top: 40px; gap: 16px; }
+.article { padding-top: 40px; gap: 40px; }
+.prose h2 { margin-top: 36px; }
+.site-foot { margin-top: 64px; }
+.foot-inner { padding-top: 56px; gap: 40px; }
+.foot-cols { gap: 32px; }
+.pbanner { min-height: 420px; }
+.tp { gap: 44px; }
+.signup { gap: 24px 40px; }
+@media (max-width: 700px) {
+  .hero { padding-top: 24px; gap: 28px; }
+  .section { padding-top: 44px; }
+  .section-last { padding-bottom: 44px; }
+  .panel { padding: 28px 20px; gap: 16px; }
+  .words { padding-top: 32px; }
+  .word-pill { height: 80px; }
+  .card { min-height: 0; padding: 22px; }
+  .card-big { min-height: 0; padding: 24px; }
+  .page-head { padding-top: 28px; }
+  .article { padding-top: 28px; gap: 28px; }
+  .prose h2 { margin-top: 30px; }
+  .site-foot { margin-top: 44px; }
+  .foot-inner { padding-top: 40px; gap: 32px; }
+  .pbanner { min-height: 360px; }
+  .tp { gap: 28px; }
+}
