@@ -61,9 +61,9 @@
 </section>
 <section class="shell article">
 <div class="article-body">
-<form class="form" id="contact-form" data-email="info@artiscope.co.uk" data-reveal>
-<div class="field"><label for="cf-name">Your name</label><input id="cf-name" name="name" type="text" autocomplete="name" required></div>
-<div class="field"><label for="cf-email">Your email</label><input id="cf-email" name="email" type="email" autocomplete="email" required></div>
+<form class="form" id="contact-form" novalidate data-email="info@artiscope.co.uk" data-reveal>
+<div class="field"><label for="cf-name">Your name</label><input id="cf-name" name="name" type="text" autocomplete="name" required maxlength="120"></div>
+<div class="field"><label for="cf-email">Your email</label><input id="cf-email" name="email" type="email" autocomplete="email" required maxlength="254"></div>
 <div class="field"><label for="cf-topic">What is it about?</label>
 <select id="cf-topic" name="topic">
 <option>General question</option>
@@ -73,9 +73,10 @@
 <option>Monthly market note</option>
 <option>Something else</option>
 </select></div>
-<div class="field"><label for="cf-message">Your message</label><textarea id="cf-message" name="message" rows="7" required></textarea></div>
+<div class="field"><label for="cf-message">Your message</label><textarea id="cf-message" name="message" rows="7" required maxlength="5000"></textarea></div>
+<div class="hp" aria-hidden="true"><label>Leave this box empty<input name="website" type="text" tabindex="-1" autocomplete="off"></label></div>
 <div class="form-foot"><button class="pill pill-ink" type="submit">Send your message</button>
-<p class="quiet" id="contact-status" role="status">This opens your email app with the message ready to send.</p></div>
+<p class="quiet" id="contact-status" role="status"></p></div>
 <noscript><p class="quiet">This form needs scripts switched on. You can also write to info@artiscope.co.uk.</p></noscript>
 </form>
 </div>
