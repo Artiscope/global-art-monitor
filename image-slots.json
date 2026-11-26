@@ -83,13 +83,13 @@
       "id": "artist-vincent-van-gogh",
       "group": "Artist profile images",
       "label": "Vincent van Gogh",
-      "filled": false
+      "filled": true
     },
     {
       "id": "artist-wassily-kandinsky",
       "group": "Artist profile images",
       "label": "Wassily Kandinsky",
-      "filled": false
+      "filled": true
     },
     {
       "id": "work-in-her-own-light-2024-09-18",
@@ -431,7 +431,7 @@
       "id": "artist-dana-awartani",
       "group": "Artist profile images",
       "label": "Dana Awartani",
-      "filled": false
+      "filled": true
     },
     {
       "id": "artist-jes-fan",
@@ -485,7 +485,7 @@
       "id": "artist-philip-colbert",
       "group": "Artist profile images",
       "label": "Philip Colbert",
-      "filled": false
+      "filled": true
     },
     {
       "id": "artist-los-talgia",
@@ -863,7 +863,7 @@
       "id": "artist-jenny-holzer",
       "group": "Artist profile images",
       "label": "Jenny Holzer",
-      "filled": false
+      "filled": true
     },
     {
       "id": "work-rubber-stamp-set-2026-11-24",
