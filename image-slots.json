@@ -594,6 +594,42 @@
       "group": "Artwork photos",
       "label": "Ben Eine, Scary (Movember Edition) (2019), sold 29 October 2026",
       "filled": false
+    },
+    {
+      "id": "artist-jr",
+      "group": "Artist profile images",
+      "label": "JR",
+      "filled": true
+    },
+    {
+      "id": "work-28-millimetres-women-are-heroes-phnom-penh-2026-11-18",
+      "group": "Artwork photos",
+      "label": "JR, 28 millimètres: Women Are Heroes, Action in Phnom Penh, Open Eyes, Cambodia (2009 to 2012), sold 18 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-station-service-death-valley-2026-11-18",
+      "group": "Artwork photos",
+      "label": "JR, Station service, Death Valley (2006), sold 18 November 2026",
+      "filled": false
+    },
+    {
+      "id": "work-favela-2026-10-29",
+      "group": "Artwork photos",
+      "label": "JR, Favela (2009), sold 29 October 2026",
+      "filled": false
+    },
+    {
+      "id": "work-ballet-palais-royal-paris-2026-10-22",
+      "group": "Artwork photos",
+      "label": "JR, Ballet, Palais Royal, Paris, France (2022), sold 22 October 2026",
+      "filled": false
+    },
+    {
+      "id": "work-eyes-on-bricks-new-delhi-la-2026-08-13",
+      "group": "Artwork photos",
+      "label": "JR, Eyes On Bricks, New Delhi, LA (2010), sold 13 August 2026",
+      "filled": false
     }
   ]
 }
