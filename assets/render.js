@@ -822,7 +822,7 @@
       var M = function (h, id) { return opts.mark ? h.replace(/^(\s*<[a-z]+)/, '$1 data-adh="' + id + '"') : h; };
       var body = M('<section class="shell page-head wide">\n<p class="crumbs" data-reveal><a href="@@research/">' + W("item.crumb-research", "Research Reports") + '</a></p>\n<p class="eyebrow" data-reveal>' + esc(f.kicker) + '</p>\n' +
         '<h1 class="h1" data-reveal style="--d:80ms;font-size:clamp(38px,5vw,62px)">' + esc(f.title) + '</h1>\n' +
-        '<p class="byline" data-reveal style="--d:160ms">By the Global Art Monitor research desk. Published ' + PUBLISHED_TEXT + '. ' + f.mins + ' minute read.</p>\n</section>', "words") + '\n' +
+        '<p class="byline" data-reveal style="--d:160ms">By the Global Art Monitor research desk. ' + f.mins + ' minute read.</p>\n</section>', "words") + '\n' +
         '<section class="shell article">\n' + M('<article class="article-body prose">\n' + html + '\n</article>', "body") + '\n' +
         '<aside class="article-side">\n<div class="mini"><h2>' + W("item.more", "More research") + '</h2><ul>' + more + '</ul></div>\n' +
         '<div class="mini"><h2>' + W("item.figures", "The figures") + '</h2><p>All prices in this piece are on the <a href="@@auction-results/">auction results</a> page, with a source for each.</p></div>\n' +
