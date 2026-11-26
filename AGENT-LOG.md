@@ -10,6 +10,11 @@ A record of what the website agent did on each run, newest first.
 
 
 
+## Thursday 26 November 2026, contact form saves messages (draft)
+Published: nothing. The owner asked for an enquiry form on every site, stored in Supabase. The form on the Contact page now sends the message straight to us instead of opening the visitor's email app. Messages are saved to the enquiries table in the Artiscope Digital Home project on Supabase, which visitors can add to but never read. A hidden box catches spam robots. The privacy wording says where messages are kept and how to have them deleted.
+Checked: the site builds; the form shows its sending, thank you and error messages; the layout holds at 390 pixels and desktop width.
+Needs you: a yes on the pull request.
+
 ## Thursday 26 November 2026, gallery activity piece (draft)
 Published: nothing. The owner's new brief asks Global Art Monitor to cover gallery activity and collector intelligence, which it did not. New research piece, Gallery Activity in 2025: What Dealers Sold, and Who Bought, built on Art Basel's published summaries of the Art Basel and UBS report.
 Checked: the site builds, the new page holds at 390 pixels and desktop width.
