@@ -126,7 +126,7 @@
       var canon = (SITE.url || "") + path;
       return '<!doctype html>\n<html lang="en-GB">\n<head>\n<meta charset="utf-8">\n<meta name="viewport" content="width=device-width, initial-scale=1">\n' +
         '<title>' + esc(title) + '</title>\n<meta name="description" content="' + esc(desc) + '">\n<link rel="canonical" href="' + canon + '">\n' +
-        '<meta name="theme-color" content="#F3C3C8">\n<meta property="og:site_name" content="Global Art Monitor">\n' +
+        '<meta name="theme-color" content="#1E2124">\n<meta property="og:site_name" content="Global Art Monitor">\n' +
         '<meta property="og:title" content="' + esc(title) + '">\n<meta property="og:description" content="' + esc(desc) + '">\n' +
         '<meta property="og:type" content="website">\n<meta property="og:url" content="' + canon + '">\n' +
         (iconOk() ? '<link rel="icon" href="' + rootPath + opts.favicon + '">\n' : '<link rel="icon" href="' + rootPath + 'assets/favicon.svg" type="image/svg+xml">\n') + '<link rel="apple-touch-icon" href="' + rootPath + 'assets/brand/gam-tile-180.png">\n' +

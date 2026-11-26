@@ -39,4 +39,4 @@ Save an artist image as `assets/images/<artist-slug>.jpg` (for example `assets/i
 
 ## Colours
 
-Blush Pink `#F3C3C8` (60%), Charcoal Ink `#2A2A2F` (30%), Fresh Mint `#22E3A2` (10%).
+Charcoal `#1E2124` pages, deep charcoal `#15171A` panels, off-white `#F4F2EE` text, mint `#3FBF9F` and coral `#E8708A`.
