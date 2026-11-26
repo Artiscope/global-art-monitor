@@ -11,7 +11,7 @@
   var MARK_INNER = '<path d="M 88.3 31.7 A 40 40 0 1 0 100 60" fill="none" stroke="{fg}" stroke-width="13" stroke-linecap="round"/>' +
     '<line x1="40" y1="60" x2="78" y2="60" stroke="{fg}" stroke-width="5" stroke-linecap="round"/>' +
     '<circle cx="40" cy="60" r="6" fill="{fg}"/><circle cx="58" cy="60" r="6" fill="{fg}"/>' +
-    '<circle cx="78" cy="60" r="10.5" fill="#22E3A2"/>';
+    '<circle cx="78" cy="60" r="10.5" fill="#3FBF9F"/>';
   var MARK = '<svg class="mark" viewBox="0 0 120 120" aria-hidden="true">' + MARK_INNER.split("{fg}").join("currentColor") + '</svg>';
   var IMAGE_EXTS = ["jpg", "jpeg", "png", "webp"];
 
