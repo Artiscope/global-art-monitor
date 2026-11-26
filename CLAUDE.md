@@ -85,6 +85,10 @@ site.
   deep charcoal #15171A panels, off-white #F4F2EE text, mint #3FBF9F for
   rising prices and buttons (with charcoal text), coral #E8708A for falls
   and highlights.
+- Logo (26 November 2026): the G-dial mark in coral #E8708A with a mint
+  #3FBF9F dot, beside the name in off-white. The tab icon and app tile are
+  the coral mark on charcoal #1E2124. Their colours are set in
+  `tools/build.mjs` and `assets/render.js`.
 - Typefaces: Libre Caslon Display for headings, Libre Franklin for
   body text.
 - Layout: data-forward homepage with the timeline table, cards and

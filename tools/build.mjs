@@ -103,9 +103,10 @@ write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="htt
 write("robots.txt", "User-agent: *\nAllow: /\n\nSitemap: " + url + "sitemap.xml\n");
 write(".nojekyll", "");
 const mark = (fg) => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">' + GAM.MARK_INNER.split("{fg}").join(fg) + "</svg>\n";
-const tile = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="26" fill="#2A2A2F"/><g transform="translate(16.8 16.8) scale(.72)">' + GAM.MARK_INNER.split("{fg}").join("#F3C3C8") + "</g></svg>\n";
+const tile = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="26" fill="#1E2124"/><g transform="translate(16.8 16.8) scale(.72)">' + GAM.MARK_INNER.split("{fg}").join("#E8708A") + "</g></svg>\n";
 write("assets/favicon.svg", tile);
 write("assets/brand/gam-tile.svg", tile);
 write("assets/brand/gam-mark-charcoal.svg", mark("#2A2A2F"));
 write("assets/brand/gam-mark-blush.svg", mark("#F3C3C8"));
+write("assets/brand/gam-mark-coral.svg", mark("#E8708A"));
 console.log("Built " + written.length + " files");
