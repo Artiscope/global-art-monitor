@@ -217,3 +217,7 @@ Published: the agent's instructions (`CLAUDE.md`), this log and the `inbox/` fol
 Drafts waiting: none.
 Checked: nothing yet. The first weekday run does the first full check.
 Needs you: photos, when you have them. Upload them to the `inbox/` folder.
+
+## Thursday 26 November 2026
+Drafts waiting: new colour palette, chosen by the owner (https://github.com/Artiscope/global-art-monitor/pull/34).
+Checked: build, homepage and inner pages at desktop and phone widths, text contrast (WCAG AA).
