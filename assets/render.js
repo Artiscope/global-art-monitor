@@ -835,7 +835,11 @@
     function notFound() {
       var body = '<section class="shell page-head">\n<p class="eyebrow">' + W("nf.eyebrow", "Page not found") + '</p>\n<h1 class="h1">' + W("nf.title", "That page is not in the record.") + '</h1>\n<p class="lede">' + W("nf.lede", "The link may be old or mistyped.") + '</p>\n' +
         '<div class="hero-actions"><a class="pill pill-ink" href="/">' + W("nf.home", "Go to the home page") + '</a><a class="pill pill-mint" href="/auction-results/">' + W("nf.results", "Browse auction results") + '</a></div>\n</section>';
-      return { path: "404.html", html: head("/", "Page not found | Global Art Monitor", "Page not found.", "404.html") + "<body>\n" + (groupHtml("top", true) ? groupHtml("top", true).split("@@").join("/") + "\n" : "") + header("/", "") + '<main id="main">\n' + [groupHtml("top", false), body, groupHtml("bottom"), groupHtml("popups")].filter(Boolean).join("\n").split("@@").join("/") + '\n</main>\n' + footer("/") };
+      // A missing page should never be indexed or point search engines at another address.
+      var nfHead = head("/", "Page not found | Global Art Monitor", "Page not found.", "404.html")
+        .replace(/<link rel="canonical"[^>]*>\n/, '<meta name="robots" content="noindex">\n')
+        .replace(/<meta property="og:url"[^>]*>\n/, "");
+      return { path: "404.html", html: nfHead + "<body>\n" + (groupHtml("top", true) ? groupHtml("top", true).split("@@").join("/") + "\n" : "") + header("/", "") + '<main id="main">\n' + [groupHtml("top", false), body, groupHtml("bottom"), groupHtml("popups")].filter(Boolean).join("\n").split("@@").join("/") + '\n</main>\n' + footer("/") };
     }
     // Every published page, in the order the old build wrote them.
     function all() {
