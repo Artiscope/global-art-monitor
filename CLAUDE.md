@@ -34,6 +34,7 @@ because the next build overwrites them.
 | An article to leave off the site | add `"hidden": true` to it in `data/content.json` |
 | Colours, fonts, spacing | `assets/site.css` |
 | Loader, menu, filters, motion | `assets/site.js` |
+| The daily price game (Guess the hammer price) | `assets/game.js`; the lots it may use are chosen in `assets/render.js` (`gameLots`) |
 | Page layouts | `assets/render.js` (drawn by `tools/build.mjs`, which `python3 tools/build.py` runs) |
 
 The content files can also be edited from Artiscope Digital Home. The

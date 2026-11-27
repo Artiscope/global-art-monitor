@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Friday 27 November 2026 (price game)
+Published: nothing.
+Drafts waiting: Guess the hammer price, a daily game at guess-the-price/, linked from the full menu, the home page and the price explorer (draft/2026-11-27-guess-the-hammer-price).
+Checked: the game uses only sales already on the site with a known hammer price, checked on the house page or in the press or a sales database. No figure was added or changed.
+Needs you: your yes on the draft.
+
 ## Friday 27 November 2026 (filter panel)
 Published: nothing.
 Drafts waiting: the results filter panel lined up on a neat grid, so no label is cut off (draft/2026-11-27-filter-layout).
