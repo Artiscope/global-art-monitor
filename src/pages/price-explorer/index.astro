@@ -1,0 +1,22 @@
+---
+// The Price Explorer page. The words around the chart are still made by assets/render.js
+// (so Artiscope Digital Home edits them as before); the two old chart sections are replaced
+// by one React island, which also renders on the server so the chart is in the page itself.
+// React is loaded on this page only.
+import { pageHtml } from "../../lib/site.mjs";
+import PriceExplorer from "../../components/price-explorer/PriceExplorer.jsx";
+import css from "../../components/price-explorer/price-explorer.css?url";
+
+const html = pageHtml("price-explorer/index.html");
+const start = html.indexOf('<section class="shell section" id="history">');
+const data = /<script type="application\/json" id="px-data">([\s\S]*?)<\/script>\n?/.exec(html);
+if (start < 0 || !data || data.index < start) {
+  throw new Error("The price explorer page no longer has the shape src/pages/price-explorer/index.astro expects (the #history section followed by the px-data block). Check explorerPage() in assets/render.js.");
+}
+// checks the block is sound JSON before it reaches the page
+const rows = JSON.stringify(JSON.parse(data[1]));
+const before = html.slice(0, start)
+  .replace("</head>", '<link rel="stylesheet" href="..' + css + '">\n</head>').replace('href="#history"', 'href="#explorer"').replace('href="#compare"', 'href="#explorer"');
+const after = html.slice(data.index + data[0].length);
+---
+<Fragment set:html={before} /><PriceExplorer client:load data={rows} base="../" /><Fragment set:html={after} />

@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Friday 27 November 2026 (richer price explorer)
+Published: nothing.
+Drafts waiting: a richer Price Explorer built with React, with up to four artists on one chart, a date strip to zoom, filters by medium, house and check status, and a link that keeps the view (draft/2026-11-27-price-explorer-react).
+Checked: the explorer uses the same sales as the results table, no figure was added or changed; one currency and one type of work per chart; desktop and phone, mouse and touch.
+Needs you: your yes on the draft.
+
 ## Friday 27 November 2026 (higher or lower)
 Published: nothing.
 Drafts waiting: Higher or lower, a game at higher-or-lower/ where you pick which of two real lots made the higher hammer price (draft/2026-11-27-higher-or-lower). Linked from the full menu, the footer, the home page list "Where to start" and the Guess the price page.
