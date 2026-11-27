@@ -11,7 +11,7 @@ This is a plain static site. There is nothing to install.
 | A sale, price, estimate or date | `data/sales.json` |
 | Article text, glossary, artist notes, contact email, disclosure | `data/content.json` |
 | Colours, fonts, spacing | `assets/site.css` |
-| Loader, menu, filters, motion | `assets/site.js` |
+| Menu, site search, filters, forms | `assets/site.js` |
 | Page layouts | `tools/build.py` |
 
 After any change to the first, second or last row, rebuild the pages:

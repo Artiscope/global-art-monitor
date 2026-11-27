@@ -33,7 +33,7 @@ because the next build overwrites them.
 | Article text, glossary, artist notes, site name and contact email | `data/content.json` |
 | An article to leave off the site | add `"hidden": true` to it in `data/content.json` |
 | Colours, fonts, spacing | `assets/site.css` |
-| Loader, menu, filters, motion | `assets/site.js` |
+| Menu, site search, filters, forms | `assets/site.js` (the search list, `assets/search.json`, is written by the build) |
 | The daily price game (Guess the hammer price) | `assets/game.js`; the lots it may use are chosen in `assets/render.js` (`gameLots`) |
 | Page layouts | `assets/render.js` (drawn by `tools/build.mjs`, which `python3 tools/build.py` runs) |
 
@@ -93,7 +93,9 @@ site.
 - Typefaces: Libre Caslon Display for headings, Libre Franklin for
   body text.
 - Layout: data-forward homepage with the timeline table, cards and
-  pills. The loader and hover effects stay as they are.
+  pills. Hover effects stay as they are. There is no loading screen and
+  no fade-in: every page shows its content at once (owner's request,
+  27 November 2026, after the usability report).
 
 ## Voice
 Measured and factual, like a market report. The full voice guide is in `VOICE.md`. Read it

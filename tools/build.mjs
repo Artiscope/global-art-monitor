@@ -97,8 +97,11 @@ const written = [];
 const write = (p, text) => { const out = path.join(ROOT, p); fs.mkdirSync(path.dirname(out), { recursive: true }); fs.writeFileSync(out, text); written.push(p); };
 for (const pg of site.all()) write(pg.path, pg.html);
 
+// The list the site search reads. Rebuilt with the pages, so it always matches them.
+write("assets/search.json", JSON.stringify(site.searchIndex()) + "\n");
+
 const url = data.site.url;
-const urls = written.filter((p) => p.endsWith("index.html")).map((p) => p.slice(0, -"index.html".length));
+const urls = written.filter((p) => p.endsWith("index.html") && !p.startsWith("assets/")).map((p) => p.slice(0, -"index.html".length));
 write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.map((u) => "<url><loc>" + url + u + "</loc><lastmod>" + data.published + "</lastmod></url>\n").join("") + "</urlset>\n");
 write("robots.txt", "User-agent: *\nAllow: /\n\nSitemap: " + url + "sitemap.xml\n");
 write(".nojekyll", "");

@@ -2,8 +2,9 @@
 (function () {
   var doc = document.documentElement;
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var lenis = null;
-  var MARK = '<svg class="mark" viewBox="0 0 120 120" aria-hidden="true"><path d="M 88.3 31.7 A 40 40 0 1 0 100 60" fill="none" stroke="currentColor" stroke-width="13" stroke-linecap="round"/><line x1="40" y1="60" x2="78" y2="60" stroke="currentColor" stroke-width="5" stroke-linecap="round"/><circle cx="40" cy="60" r="6" fill="currentColor"/><circle cx="58" cy="60" r="6" fill="currentColor"/><circle cx="78" cy="60" r="10.5" fill="#22E3A2"/></svg>';
+  // where the site starts, worked out from this script's own address (assets/site.js)
+  var ME = document.currentScript;
+  var ROOT = ME && ME.src ? new URL('..', ME.src).href : new URL('/', location.href).href;
 
   // The site's fixed words. Edit default text in Artiscope Digital Home keeps changed ones, which the page
   // carries in #adh-words (the editor sets window.ADH_WORDS); every call here carries the site's own words.
@@ -18,59 +19,30 @@
 
   function lockScroll(lock) {
     doc.style.overflow = lock ? 'hidden' : '';
-    if (lenis) { lock ? lenis.stop() : lenis.start(); }
   }
 
-  // Reveal on scroll
-  function startReveals() {
-    var items = document.querySelectorAll('[data-reveal]');
-    if (!('IntersectionObserver' in window) || reduce) {
-      items.forEach(function (el) { el.classList.add('in'); });
-      return;
-    }
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (e) {
-        if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-      });
-    }, { rootMargin: '0px 0px -8% 0px', threshold: 0 });
-    items.forEach(function (el) { io.observe(el); });
+  // Content shows straight away. The old loader and fade-in hid each page for several seconds, so both are gone.
+  // Anything still marked to fade in is shown at once.
+  function showAll() {
+    document.querySelectorAll('[data-reveal]').forEach(function (el) { el.classList.add('in'); });
   }
 
-  // Intro loader: home page only, once per browser session
-  function runLoader(done) {
-    var seen = false;
-    try { seen = sessionStorage.getItem('gam-intro') === '1'; } catch (e) {}
-    if (!document.body.hasAttribute('data-intro') || seen || reduce) { done(); return; }
-    try { sessionStorage.setItem('gam-intro', '1'); } catch (e) {}
-
-    var el = document.createElement('div');
-    el.className = 'loader';
-    el.setAttribute('role', 'status');
-    el.innerHTML =
-      '<div><div class="loader-brand">' + MARK + 'Global Art Monitor</div>' +
-      '<p class="loader-line">' + SWh('loading.line', 'Art market intelligence, beyond the headlines.') + '</p></div>' +
-      '<div class="loader-bar"><div class="loader-track"><div class="loader-fill"></div></div>' +
-      '<div class="loader-meta"><span>' + SWh('loading.word', 'Loading') + '</span><span class="loader-count">000</span></div></div>';
-    document.body.appendChild(el);
-    lockScroll(true);
-
-    var fill = el.querySelector('.loader-fill');
-    var count = el.querySelector('.loader-count');
-    var start = null;
-    var FILL_MS = 1300;
-    function ease(t) { return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2; }
-    function frame(now) {
-      if (start === null) { start = now; }
-      var t = Math.min((now - start) / FILL_MS, 1);
-      var p = Math.round(ease(t) * 100);
-      fill.style.width = p + '%';
-      count.textContent = ('00' + p).slice(-3);
-      if (t < 1) { requestAnimationFrame(frame); return; }
-      el.classList.add('done');
-      setTimeout(function () { el.remove(); lockScroll(false); }, 820);
-      setTimeout(done, 250);
-    }
-    requestAnimationFrame(frame);
+  // A link to a part of a page (about/#method, artists/x/#work-y) lands on that part even if the page
+  // grows a little after it opens, for example when the web fonts arrive.
+  function settleHash() {
+    var id = decodeURIComponent((location.hash || '').slice(1));
+    if (!id || id.indexOf('=') >= 0) { return; }
+    var el = document.getElementById(id);
+    if (!el) { return; }
+    var moved = false;
+    var mark = function () { moved = true; };
+    window.addEventListener('wheel', mark, { once: true, passive: true });
+    window.addEventListener('touchstart', mark, { once: true, passive: true });
+    window.addEventListener('keydown', mark, { once: true });
+    var go = function () { if (!moved) { el.scrollIntoView({ block: 'start' }); } };
+    go();
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(go); }
+    window.addEventListener('load', go, { once: true });
   }
 
   // Full screen menu
@@ -91,9 +63,11 @@
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && menu.classList.contains('open')) { set(false); }
     });
-    menu.querySelectorAll('.menu-list a').forEach(function (a, i) {
-      a.style.transitionDelay = (i * 45 + 80) + 'ms';
-    });
+    if (!reduce) {
+      menu.querySelectorAll('.menu-list a').forEach(function (a, i) {
+        a.style.transitionDelay = (i * 30 + 60) + 'ms';
+      });
+    }
   }
 
   // Auction table filters
@@ -209,15 +183,111 @@
     window.__gamClock = setInterval(tick, 30000);
   }
 
-  // Smooth scrolling, loaded only if the network allows it
-  function setupSmoothScroll() {
-    if (reduce) { return; }
-    import('https://unpkg.com/lenis@1.3.23/dist/lenis.mjs').then(function (mod) {
-      doc.style.scrollBehavior = 'auto';
-      lenis = new mod.default({ smoothWheel: true, anchors: true });
-      function raf(t) { lenis.raf(t); requestAnimationFrame(raf); }
-      requestAnimationFrame(raf);
-    }).catch(function () {});
+  // Site search: one box for artists, sales, research and pages. The list it searches is
+  // assets/search.json, written by the build from the same files as the pages.
+  var SEARCH = null, searchList = null;
+  function searchBox() {
+    if (SEARCH) { return SEARCH; }
+    var d = document.createElement('div');
+    d.className = 'search'; d.id = 'site-search'; d.hidden = true;
+    d.setAttribute('role', 'dialog'); d.setAttribute('aria-modal', 'true'); d.setAttribute('aria-labelledby', 'search-h');
+    d.innerHTML = '<div class="shell search-in"><div class="search-top"><h2 class="search-h" id="search-h">' + SWh('search.heading', 'Search the site') + '</h2>' +
+      '<button type="button" class="menu-close" data-search-close>' + SWh('btn.close', 'Close') + '</button></div>' +
+      '<label class="search-field"><span class="sr-only">' + SWh('search.label', 'Search for an artist, a work, an auction house or a topic') + '</span>' +
+      '<input type="search" autocomplete="off" spellcheck="false" placeholder="' + SWh('search.placeholder', 'Artist, work, auction house or topic') + '"></label>' +
+      '<p class="search-count" role="status" aria-live="polite"></p><div class="search-results"></div></div>';
+    document.body.appendChild(d);
+    var input = d.querySelector('input'), out = d.querySelector('.search-results'), count = d.querySelector('.search-count'), back = null;
+    var KIND = { artist: SW('search.kind-artist', 'Artist profile'), sale: SW('search.kind-sale', 'Auction result'), research: SW('search.kind-research', 'Research'), page: SW('search.kind-page', 'Page'), term: SW('search.kind-term', 'Glossary') };
+    var ORDER = ['artist', 'research', 'sale', 'term', 'page'];
+    function norm(t) { return String(t || '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, ''); }
+    function load(done) {
+      if (searchList) { done(); return; }
+      fetch(ROOT + 'assets/search.json').then(function (r) { return r.json(); }).then(function (list) {
+        searchList = list.map(function (x) { x._t = norm(x.t); x._all = norm([x.t, x.d, x.x].join(' ')); return x; }); done();
+      }).catch(function () { count.textContent = SW('search.failed', 'Search could not load just now. Try the menu, or the auction results page.'); });
+    }
+    function esc(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+    function run() {
+      var q = norm(input.value).trim(), words = q.split(/\s+/).filter(Boolean);
+      if (!words.length) { out.innerHTML = ''; count.textContent = SW('search.hint', 'Try an artist such as Richter, a house such as Sotheby\'s, or a word such as premium.'); return; }
+      if (!searchList) { load(run); return; }
+      var hits = searchList.filter(function (x) { return words.every(function (w) { return x._all.indexOf(w) !== -1; }); });
+      hits.forEach(function (x) { x._s = (x._t.indexOf(q) === 0 ? 0 : x._t.indexOf(q) > 0 ? 1 : words.every(function (w) { return x._t.indexOf(w) !== -1; }) ? 2 : 3); });
+      var html = '', shown = 0;
+      // the kind with the closest title match comes first; otherwise artists, research, sales, terms, pages
+      var best = {}; hits.forEach(function (x) { best[x.k] = Math.min(best[x.k] == null ? 9 : best[x.k], x._s); });
+      ORDER.slice().sort(function (a, b) { return (best[a] == null ? 9 : best[a]) - (best[b] == null ? 9 : best[b]) || ORDER.indexOf(a) - ORDER.indexOf(b); }).forEach(function (k) {
+        var group = hits.filter(function (x) { return x.k === k; }).sort(function (a, b) { return a._s - b._s; });
+        if (!group.length) { return; }
+        var cap = k === 'sale' ? 12 : 8;
+        html += '<section class="search-group"><h3>' + esc(KIND[k]) + ' <span>' + group.length + '</span></h3><ul>' +
+          group.slice(0, cap).map(function (x) { return '<li><a href="' + esc(ROOT + x.u) + '"><b>' + esc(x.t) + '</b>' + (x.d ? '<span>' + esc(x.d) + '</span>' : '') + '</a></li>'; }).join('') +
+          (group.length > cap && k === 'sale' ? '<li class="search-more"><a href="' + esc(ROOT + 'auction-results/?q=' + encodeURIComponent(input.value.trim())) + '">' + esc(SW('search.all-sales', 'See all {n} matching sales in the auction results', { n: String(group.length) })) + '</a></li>' : '') +
+          '</ul></section>';
+        shown += group.length;
+      });
+      out.innerHTML = html;
+      count.textContent = shown ? SW('search.found', '{n} found for "{q}".', { n: String(shown), q: input.value.trim() }) :
+        SW('search.none', 'Nothing found for "{q}". Check the spelling, try fewer words, or browse the artist profiles.', { q: input.value.trim() });
+    }
+    input.addEventListener('input', run);
+    function close() { d.hidden = true; lockScroll(false); document.querySelectorAll('[data-search-open]').forEach(function (b) { b.setAttribute('aria-expanded', 'false'); }); if (back) { back.focus(); } }
+    d.querySelector('[data-search-close]').addEventListener('click', close);
+    d.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { close(); return; }
+      if (e.key === 'Tab') {
+        var f = d.querySelectorAll('input, button, a[href]'), first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); } else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+    SEARCH = { open: function (from) {
+      back = from || document.activeElement;
+      var m = document.getElementById('menu'); if (m && m.classList.contains('open')) { var c = m.querySelector('[data-menu-close]'); if (c) { c.click(); } }
+      d.hidden = false; lockScroll(true); input.focus(); input.select(); run(); load(function () {});
+      document.querySelectorAll('[data-search-open]').forEach(function (b) { b.setAttribute('aria-expanded', 'true'); });
+    } };
+    return SEARCH;
+  }
+  function setupSearch() {
+    document.querySelectorAll('[data-search-open]').forEach(function (b) {
+      b.hidden = false;
+      if (b.getAttribute('data-wired')) { return; }
+      b.setAttribute('data-wired', '1');
+      b.addEventListener('click', function (e) { e.preventDefault(); searchBox().open(b); });
+    });
+    if (window.__gamSearchKeys) { return; }
+    window.__gamSearchKeys = true;
+    document.addEventListener('keydown', function (e) {
+      var t = e.target, typing = t && (t.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName));
+      if (((e.key === 'k' || e.key === 'K') && (e.metaKey || e.ctrlKey)) || (e.key === '/' && !typing)) {
+        if (!document.querySelector('[data-search-open]')) { return; }
+        e.preventDefault(); searchBox().open();
+      }
+    });
+  }
+
+  // Wide tables: say so, and fade the right-hand edge, only when a table really is wider than its box.
+  function setupTableHints() {
+    var wraps = document.querySelectorAll('.table-wrap');
+    if (!wraps.length) { return; }
+    function check() {
+      wraps.forEach(function (w) {
+        var more = w.scrollWidth > w.clientWidth + 2;
+        w.classList.toggle('can-scroll', more);
+        w.classList.toggle('at-end', !more || w.scrollLeft + w.clientWidth >= w.scrollWidth - 2);
+        var hint = w.previousElementSibling;
+        if (hint && hint.classList.contains('swipe')) { hint.classList.toggle('show', more); }
+      });
+    }
+    wraps.forEach(function (w) {
+      if (w.getAttribute('data-hint')) { return; }
+      w.setAttribute('data-hint', '1');
+      w.addEventListener('scroll', function () { w.classList.toggle('at-end', w.scrollLeft + w.clientWidth >= w.scrollWidth - 2); }, { passive: true });
+    });
+    check();
+    if (document.fonts && document.fonts.ready) { document.fonts.ready.then(check); }
+    if (!window.__gamTableHints) { window.__gamTableHints = true; window.addEventListener('resize', function () { requestAnimationFrame(setupTableHints); }); }
   }
 
   /* Contact form: each message is saved to the Artiscope enquiries table on Supabase. The key below is the
@@ -370,8 +440,10 @@
   setupClock();
   setupHeadBar();
   setupPriceFit();
-  setupSmoothScroll();
-  runLoader(startReveals);
+  setupSearch();
+  setupTableHints();
+  showAll();
+  settleHash();
 
   // add-ons: the Top button, the reading progress and the privacy notice's Close
   function aoWire() {
@@ -395,8 +467,8 @@
   aoWire();
   // The page editor redraws the page in place, then asks for the behaviours again.
   window.GAMSite = { refresh: function () {
-    aoWire(); setupAnnounce(); setupSlides(); setupGalleries(); setupContact(); setupMailForms(); setupPopups(); setupMenu(); setupFilters(); setupClock(); setupHeadBar();
-    document.querySelectorAll('[data-reveal]').forEach(function (el) { el.classList.add('in'); });
+    aoWire(); setupAnnounce(); setupSlides(); setupGalleries(); setupContact(); setupMailForms(); setupPopups(); setupMenu(); setupFilters(); setupClock(); setupHeadBar(); setupSearch(); setupTableHints();
+    showAll();
   } };
 })();
 
