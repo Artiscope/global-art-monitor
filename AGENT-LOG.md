@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Friday 27 November 2026 (higher or lower)
+Published: nothing.
+Drafts waiting: Higher or lower, a game at higher-or-lower/ where you pick which of two real lots made the higher hammer price (draft/2026-11-27-higher-or-lower). Linked from the full menu, the footer, the home page list "Where to start" and the Guess the price page.
+Checked: the game uses 34 sales already on the site, with a known hammer price, a checked source and a stated type. Two lots are only paired when they share the currency, the type (unique or edition) and how the hammer was reached (published or worked back). No figure was added or changed. React loads on this page only.
+Needs you: your yes on the draft. assets/render.js changed, so copy it to the Digital Home template after merging.
+
 ## Friday 27 November 2026
 Published: nothing.
 Drafts waiting: Usability fixes and polish from the 27 November report, https://github.com/Artiscope/global-art-monitor/pull/43

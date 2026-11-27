@@ -1,0 +1,14 @@
+---
+// Higher or lower. The page around the game is made by assets/render.js (holPage), like every other page,
+// so Artiscope Digital Home previews it as before. The game itself is a React island, and React loads on this page only.
+import { pageHtml } from "../../lib/site.mjs";
+import HigherOrLower from "../../components/higher-or-lower/HigherOrLower.jsx";
+
+const html = pageHtml("higher-or-lower/index.html");
+// the lots, written into the page by holPage, are handed to the game instead
+const data = html.match(/<script type="application\/json" id="hol-data">([\s\S]*?)<\/script>\n?/);
+if (!data || !html.includes("<!--hol-island-->")) throw new Error("higher-or-lower/index.html is missing the game's lots or its place in the page");
+const lots = JSON.parse(data[1]);
+const [before, after] = html.replace(data[0], "").split("<!--hol-island-->");
+---
+<Fragment set:html={before} /><HigherOrLower client:load lots={lots} /><Fragment set:html={after} />

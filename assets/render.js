@@ -240,9 +240,9 @@
       var st = shared("header")[0], name = esc(get(st, "name", "Global Art Monitor")), links = "", menu = "", i = 0;
       var logoL = headLogos(st, rootPath, "L"), logoC = headLogos(st, rootPath, "C"), logoR = headLogos(st, rootPath, "R");
       // Shorter names for the bar only, so six links fit. The pages keep their full names.
-      var shortNames = get(st, "nav_short", { "market-intelligence": "Market", "auction-results": "Results", "price-explorer": "Price Explorer", "artists": "Artists", "research": "Research", "collecting-valuation": "Collecting", "guess-the-price": "Price Game" }) || {};
+      var shortNames = get(st, "nav_short", { "market-intelligence": "Market", "auction-results": "Results", "price-explorer": "Price Explorer", "artists": "Artists", "research": "Research", "collecting-valuation": "Collecting", "guess-the-price": "Price Game", "higher-or-lower": "Higher or Lower" }) || {};
       // Pages listed here stay out of the menu bar, so it still fits on one line. They remain in the full menu.
-      var barSkip = get(st, "nav_skip", ["guess-the-price"]) || [];
+      var barSkip = get(st, "nav_skip", ["guess-the-price", "higher-or-lower"]) || [];
       SECTIONS_LIST.forEach(function (s, k) {
         i = k + 1;
         var cur = s[0] === current ? ' aria-current="page"' : "";
@@ -1061,13 +1061,47 @@
         '<p>Each lot is marked as a unique work or as a print, multiple or edition, and is scored only against its own result. A signed print and a painting by the same artist are different things, so read the type before you guess.</p>\n' +
         '<p>Your score runs from 0 to 100. It depends on how far your guess is from the hammer price in proportion, so being out by half on a £5,000 print counts the same as being out by half on a £5 million painting. The game draws on ' + lots.length + ' lots and a new one appears at midnight, London time. Scores stay on your own device.</p>\n' +
         '<p>These are records of past public sales. They are not valuations and not advice. For every figure with its source, see the <a href="@@auction-results/">auction results</a>, and for the method, <a href="@@about/#method">how we report a price</a>.</p>\n</div>\n' +
-        '<aside class="article-side" data-reveal style="--d:120ms">\n<div class="mini"><h2>' + W("gp.more", "Keep exploring") + '</h2><p><a class="text-link" href="@@price-explorer/">' + W("gp.explorer-link", "Open the price explorer") + '</a></p><p><a class="text-link" href="@@auction-results/">' + W("gp.results-link", "Browse every auction result") + '</a></p></div>\n' +
+        '<aside class="article-side" data-reveal style="--d:120ms">\n<div class="mini"><h2>' + W("gp.more", "Keep exploring") + '</h2><p><a class="text-link" href="@@higher-or-lower/">' + W("gp.hol-link", "Play Higher or lower") + '</a></p><p><a class="text-link" href="@@price-explorer/">' + W("gp.explorer-link", "Open the price explorer") + '</a></p><p><a class="text-link" href="@@auction-results/">' + W("gp.results-link", "Browse every auction result") + '</a></p></div>\n' +
         '<div class="mini"><h2>' + W("item.who", "Who publishes this") + '</h2><p>' + esc(SITE.disclosure || "") + '</p></div>\n</aside>\n</section>';
       var data = '<script type="application/json" id="gp-data">' + JSON.stringify(lots.map(gameRow)).replace(/</g, "\\u003c") + '</script>\n<script src="@@assets/game.js" defer></script>';
       var body = head2 + '\n' + game + '\n' + data + '\n' + how;
       var ld = pyJson({ "@context": "https://schema.org", "@type": "WebPage", name: "Guess the hammer price", url: SITE.url + "guess-the-price/", isPartOf: { "@type": "WebSite", name: "Global Art Monitor", url: SITE.url } });
       return page("guess-the-price/index.html", "Guess the Hammer Price: A Daily Auction Game | Global Art Monitor",
         "One real auction lot a day from our records. Guess the hammer price, then see the documented result and its source.", body, "guess-the-price", false, '<script type="application/ld+json">' + ld + '</script>\n');
+    }
+    // Higher or lower: two real sales side by side, and the reader picks the one that sold for more.
+    // A sale may take part when the daily game could use it (known hammer price, currency and title, source checked)
+    // and the house said whether it is a unique work or one of an edition. Two sales are only ever set against each
+    // other when they share the currency, the type, and how the hammer price was reached (published by the house, or
+    // worked back by us from the total), so a hammer is always weighed against a hammer of the same kind.
+    function holLots() {
+      var lots = gameLots().filter(function (s) { var k = kindOf(s); return k === "unique" || k === "edition"; }), groups = {};
+      lots.forEach(function (s) { var g = [s.currency, kindOf(s), s.hammer_basis === "calculated" ? "calc" : "house"].join("|"); (groups[g] = groups[g] || []).push(s); });
+      // a group needs at least two different hammer prices to make a fair question
+      return lots.filter(function (s) {
+        var g = groups[[s.currency, kindOf(s), s.hammer_basis === "calculated" ? "calc" : "house"].join("|")];
+        return g.some(function (o) { return o.hammer !== s.hammer; });
+      });
+    }
+    function holPage() {
+      var lots = holLots(), rows = lots.map(gameRow);
+      var head2 = '<section class="shell page-head wide">\n<p class="eyebrow">' + W("hol.eyebrow", "Higher or lower") + '</p>\n' +
+        '<h1 class="h1">' + W("hol.title", "Which one sold for more?") + '</h1>\n' +
+        '<p class="lede">' + W("hol.lede", "Two real lots from our auction records, sold in the same currency and of the same kind. Pick the one with the higher hammer price, then see both results and where they come from. Keep going for as long as you can.") + '</p>\n</section>';
+      var game = '<section class="shell section hol-section" id="play">\n<div class="hol-host" data-hol>\n<!--hol-island-->\n' +
+        '<noscript><p class="note">' + W("hol.noscript", "The game needs JavaScript. Every lot it uses is in the auction results table, with its source.") + '</p></noscript>\n</div>\n</section>';
+      var how = '<section class="shell article">\n<div class="article-body prose">\n<h2 style="margin-top:0">' + W("hol.how-heading", "How the game works") + '</h2>\n' +
+        '<p>Each round shows two lots and asks which one made the higher hammer price: the winning bid when the hammer came down, before the buyer\'s premium was added. Get it right and your run goes on. One wrong call ends it.</p>\n' +
+        '<p>We only set two lots against each other when the comparison is fair. Both were sold in the same currency, so nothing is converted. Both are the same kind of thing, two unique works or two prints and editions, never one of each. And both hammer prices were reached the same way: either the house published the hammer price, or the house published only the total and we worked the hammer back from it at the premium rates it published for that sale. The answer says which.</p>\n' +
+        '<p>Every answer shows both hammer prices with a link to each source, and a label saying whether we checked it on the house\'s own page or took it from the press or a sales database. The game draws on ' + lots.length + ' lots. Your best run stays on your own device.</p>\n' +
+        '<p>These are records of past public sales. They are not valuations and not advice. For every figure with its source, see the <a href="@@auction-results/">auction results</a>, and for the method, <a href="@@about/#method">how we report a price</a>.</p>\n</div>\n' +
+        '<aside class="article-side">\n<div class="mini"><h2>' + W("gp.more", "Keep exploring") + '</h2><p><a class="text-link" href="@@guess-the-price/">' + W("hol.daily-link", "Guess today\'s hammer price") + '</a></p><p><a class="text-link" href="@@price-explorer/">' + W("gp.explorer-link", "Open the price explorer") + '</a></p><p><a class="text-link" href="@@auction-results/">' + W("gp.results-link", "Browse every auction result") + '</a></p></div>\n' +
+        '<div class="mini"><h2>' + W("item.who", "Who publishes this") + '</h2><p>' + esc(SITE.disclosure || "") + '</p></div>\n</aside>\n</section>';
+      var data = '<script type="application/json" id="hol-data">' + JSON.stringify(rows).replace(/</g, "\\u003c") + '</script>';
+      var body = head2 + '\n' + game + '\n' + data + '\n' + how;
+      var ld = pyJson({ "@context": "https://schema.org", "@type": "WebPage", name: "Higher or lower", url: SITE.url + "higher-or-lower/", isPartOf: { "@type": "WebSite", name: "Global Art Monitor", url: SITE.url } });
+      return page("higher-or-lower/index.html", "Higher or Lower: Which Lot Sold for More? | Global Art Monitor",
+        "Two real auction lots, same currency, same kind of work. Pick the one with the higher hammer price and see both results with their sources.", body, "higher-or-lower", false, '<link rel="stylesheet" href="../assets/higher-or-lower.css">\n<script type="application/ld+json">' + ld + '</script>\n');
     }
     // Home page: a live chart for one artist, with the way into the explorer.
     S["price-tools"] = function (st, ctx) {
@@ -1127,6 +1161,7 @@
       p("research"); FEATURES.forEach(function (f) { out.push(featurePage(f)); });
       if (!PAGES.pages["price-explorer"]) out.push(explorerPage());
       if (!PAGES.pages["guess-the-price"]) out.push(gamePage());
+      if (!PAGES.pages["higher-or-lower"]) out.push(holPage());
       ["market-intelligence", "collecting-valuation", "about", "contact"].forEach(p);
       keys.forEach(p);
       out.push(notFound());
@@ -1137,6 +1172,7 @@
       artistPage: function (slug) { return ARTISTS[slug] ? artistPage(slug) : null; },
       explorerPage: explorerPage,
       gamePage: gamePage,
+      holPage: holPage,
       featurePage: function (slug) { return FEATURE_BY_SLUG[slug] ? featurePage(FEATURE_BY_SLUG[slug]) : null; },
       // Which page a web address inside the site leads to.
       which: function (path) {
