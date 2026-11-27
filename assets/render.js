@@ -238,11 +238,13 @@
       var st = shared("header")[0], name = esc(get(st, "name", "Global Art Monitor")), links = "", menu = "", i = 0;
       var logoL = headLogos(st, rootPath, "L"), logoC = headLogos(st, rootPath, "C"), logoR = headLogos(st, rootPath, "R");
       // Shorter names for the bar only, so six links fit. The pages keep their full names.
-      var shortNames = get(st, "nav_short", { "market-intelligence": "Market", "artists": "Artist Profiles", "research": "Research", "collecting-valuation": "Collecting" }) || {};
+      var shortNames = get(st, "nav_short", { "market-intelligence": "Market", "artists": "Artist Profiles", "research": "Research", "collecting-valuation": "Collecting", "guess-the-price": "Price Game" }) || {};
+      // Pages listed here stay out of the menu bar, so it still fits on one line. They remain in the full menu.
+      var barSkip = get(st, "nav_skip", ["guess-the-price"]) || [];
       SECTIONS_LIST.forEach(function (s, k) {
         i = k + 1;
         var cur = s[0] === current ? ' aria-current="page"' : "";
-        links += '<a href="' + rootPath + s[0] + '/"' + cur + '>' + esc(shortNames[s[0]] || s[1]) + '</a>\n';
+        if (barSkip.indexOf(s[0]) < 0) links += '<a href="' + rootPath + s[0] + '/"' + cur + '>' + esc(shortNames[s[0]] || s[1]) + '</a>\n';
         menu += '<a href="' + rootPath + s[0] + '/"><span>' + pad2(i) + '</span>' + esc(s[1]) + '</a>\n';
       });
       (get(st, "nav_extra", [["Contact", "contact/"]]) || []).forEach(function (m) {
@@ -958,7 +960,7 @@
       var head2 = '<section class="shell page-head wide">\n<p class="eyebrow" data-reveal>' + W("px.page-eyebrow", "Price explorer") + '</p>\n' +
         '<h1 class="h1" data-reveal style="--d:80ms">' + W("px.page-title", "Look at the prices, sale by sale.") + '</h1>\n' +
         '<p class="lede" data-reveal style="--d:200ms">' + W("px.page-lede", "Pick an artist to see every priced sale we have documented on one chart, or put two artists side by side. The charts use the same {n} lots as the auction results table, with the same sources.", { n: String(all.length) }) + '</p>\n' +
-        '<div class="hero-actions" data-reveal style="--d:260ms"><a class="pill pill-mint pill-small" href="#history">' + W("px.jump-history", "Price history") + '</a><a class="pill pill-ink pill-small" href="#compare">' + W("px.jump-compare", "Compare two artists") + '</a></div>\n</section>';
+        '<div class="hero-actions" data-reveal style="--d:260ms"><a class="pill pill-mint pill-small" href="#history">' + W("px.jump-history", "Price history") + '</a><a class="pill pill-ink pill-small" href="#compare">' + W("px.jump-compare", "Compare two artists") + '</a><a class="pill pill-blush pill-small" href="@@guess-the-price/">' + W("px.jump-game", "Guess the hammer price") + '</a></div>\n</section>';
       var hist = '<section class="shell section" id="history">\n<div class="panel on-ink" data-reveal>\n<p class="eyebrow">' + W("px.eyebrow", "Price history") + '</p>\n<div class="split"><h2 class="h2">' + W("px.pick-heading", "One artist, every priced sale") + '</h2>\n' +
         '<p class="intro">' + W("px.pick-intro", "Each dot is one sale. Tap or hover over it for the work, the house and the source. The thin bar behind a dot is the estimate printed before the sale.") + '</p></div>\n' +
         pxFrame('data-px="pick" data-src="px-data" data-artists="' + withPriced.join(" ") + '"') + '\n</div>\n</section>';
@@ -976,6 +978,38 @@
       return page("price-explorer/index.html", "Price Explorer: Auction Price Charts and Artist Comparison | Global Art Monitor",
         "Chart every documented auction sale for an artist, sale by sale, in the currency of the sale, or compare two artists side by side.", body, "price-explorer", false, '<script type="application/ld+json">' + ld + '</script>\n');
     }
+    // Guess the hammer price: one documented lot a day. Only lots with a known hammer price, checked on the house page
+    // or in the press or a sales database, and with a confirmed title. assets/game.js runs the game from this list.
+    function gameLots() {
+      return salesFor(null).filter(function (s) { return s.hammer && s.currency && s.date && checkOf(s) !== "unchecked" && s.title && !/to confirm/i.test(s.title); });
+    }
+    function gameRow(s) {
+      return { id: s.id, a: s.artist, an: ARTISTS[s.artist].name, al: ARTISTS[s.artist].line || "", t: s.title, y: s.year || "", m: s.medium || "", k: kindOf(s), c: s.currency,
+        h: s.house, sl: s.sale || "", lot: s.lot || "", d: s.date, dt: s.date_text || "", el: s.est_low || null, eh: s.est_high || null,
+        ham: s.hammer, hb: s.hammer_basis === "calculated" ? "calc" : "house", pr: s.premium || null, pb: s.premium_basis === "calculated" ? "calc" : "house",
+        chk: checkOf(s), src: s.source_label || "", srcu: s.source_url || "" };
+    }
+    function gamePage() {
+      var lots = gameLots();
+      var head2 = '<section class="shell page-head wide">\n<p class="eyebrow" data-reveal>' + W("gp.eyebrow", "Lot of the day") + '</p>\n' +
+        '<h1 class="h1" data-reveal style="--d:80ms">' + W("gp.title", "Guess the hammer price.") + '</h1>\n' +
+        '<p class="lede" data-reveal style="--d:200ms">' + W("gp.lede", "Each day we put up one real lot from our auction records. Read the details, name your price, then see what the hammer actually fell at, with a link to the house\'s own result.") + '</p>\n</section>';
+      var game = '<section class="shell section" id="play">\n<div class="panel on-ink gp-panel" data-reveal>\n' +
+        '<div class="gp" data-gp data-src="gp-data"><noscript><p class="note">' + W("gp.noscript", "The game needs JavaScript. Every lot it uses is in the auction results table, with its source.") + '</p></noscript></div>\n</div>\n</section>';
+      var how = '<section class="shell article">\n<div class="article-body prose" data-reveal>\n<h2 style="margin-top:0">' + W("gp.how-heading", "How the game works") + '</h2>\n' +
+        '<p>You are guessing the hammer price: the winning bid when the auctioneer\'s hammer comes down, before the buyer\'s premium is added. After you guess we show both figures, kept apart, in the currency the lot was sold in. Nothing is converted.</p>\n' +
+        '<p>Where the house published only the total, we worked the hammer price back from it at the premium rates the house published for that sale, and the answer says so. Every lot links to its source, and the label under it says whether we checked it on the house\'s own page or took it from the press or a sales database.</p>\n' +
+        '<p>Each lot is marked as a unique work or as a print, multiple or edition, and is scored only against its own result. A signed print and a painting by the same artist are different things, so read the type before you guess.</p>\n' +
+        '<p>Your score runs from 0 to 100. It depends on how far your guess is from the hammer price in proportion, so being out by half on a £5,000 print counts the same as being out by half on a £5 million painting. The game draws on ' + lots.length + ' lots and a new one appears at midnight, London time. Scores stay on your own device.</p>\n' +
+        '<p>These are records of past public sales. They are not valuations and not advice. For every figure with its source, see the <a href="@@auction-results/">auction results</a>, and for the method, <a href="@@about/#method">how we report a price</a>.</p>\n</div>\n' +
+        '<aside class="article-side" data-reveal style="--d:120ms">\n<div class="mini"><h2>' + W("gp.more", "Keep exploring") + '</h2><p><a class="text-link" href="@@price-explorer/">' + W("gp.explorer-link", "Open the price explorer") + '</a></p><p><a class="text-link" href="@@auction-results/">' + W("gp.results-link", "Browse every auction result") + '</a></p></div>\n' +
+        '<div class="mini"><h2>' + W("item.who", "Who publishes this") + '</h2><p>' + esc(SITE.disclosure || "") + '</p></div>\n</aside>\n</section>';
+      var data = '<script type="application/json" id="gp-data">' + JSON.stringify(lots.map(gameRow)).replace(/</g, "\\u003c") + '</script>\n<script src="@@assets/game.js" defer></script>';
+      var body = head2 + '\n' + game + '\n' + data + '\n' + how;
+      var ld = pyJson({ "@context": "https://schema.org", "@type": "WebPage", name: "Guess the hammer price", url: SITE.url + "guess-the-price/", isPartOf: { "@type": "WebSite", name: "Global Art Monitor", url: SITE.url } });
+      return page("guess-the-price/index.html", "Guess the Hammer Price: A Daily Auction Game | Global Art Monitor",
+        "One real auction lot a day from our records. Guess the hammer price, then see the documented result and its source.", body, "guess-the-price", false, '<script type="application/ld+json">' + ld + '</script>\n');
+    }
     // Home page: a live chart for one artist, with the way into the explorer.
     S["price-tools"] = function (st, ctx) {
       // by default, the artist with the most priced sales of one type in one currency, spread over the longest time
@@ -990,7 +1024,8 @@
       return '<section class="shell section" id="' + ctx.id + '">\n<div class="panel on-ink px-teaser" data-reveal>\n<div class="px-teaser-text">\n<p class="eyebrow">' + txt(get(st, "eyebrow", "Price explorer")) + '</p>\n' +
         '<h2 class="h2">' + txt(get(st, "heading", "See the prices for yourself.")) + '</h2>\n<p class="intro">' + txt(get(st, "text", "")).split("{name}").join(esc(ARTISTS[slug].name)) + '</p>\n' +
         '<div class="hero-actions"><a class="pill pill-mint pill-small" href="@@price-explorer/#artist=' + slug + '">' + txt(get(st, "button", "Open the price explorer")) + '</a>' +
-        '<a class="pill pill-blush pill-small" href="@@price-explorer/#compare=' + esc(pair) + '">' + txt(get(st, "button2", "Compare two artists")) + '</a></div>\n</div>\n' +
+        '<a class="pill pill-blush pill-small" href="@@price-explorer/#compare=' + esc(pair) + '">' + txt(get(st, "button2", "Compare two artists")) + '</a>' +
+        '<a class="pill pill-ink pill-small" href="@@guess-the-price/">' + txt(get(st, "button3", "Guess today\'s hammer price")) + '</a></div>\n</div>\n' +
         (opts.mark ? '<div class="px"><p class="note">' + W("px.editor", "The live chart appears on the published page.") + '</p></div>' : pxFrame('data-px="artist" data-src="px-home" data-compact="1"') + '\n' + pxData(salesFor(slug), "px-home")) + '\n</div>\n</section>';
     };
     function notFound() {
@@ -1009,6 +1044,7 @@
       p("home"); p("auction-results"); p("artists"); ARTIST_KEYS.forEach(function (s) { out.push(artistPage(s)); });
       p("research"); FEATURES.forEach(function (f) { out.push(featurePage(f)); });
       if (!PAGES.pages["price-explorer"]) out.push(explorerPage());
+      if (!PAGES.pages["guess-the-price"]) out.push(gamePage());
       ["market-intelligence", "collecting-valuation", "about", "contact"].forEach(p);
       keys.forEach(p);
       out.push(notFound());
@@ -1018,6 +1054,7 @@
       all: all, sectionsPage: sectionsPage, notFound: notFound,
       artistPage: function (slug) { return ARTISTS[slug] ? artistPage(slug) : null; },
       explorerPage: explorerPage,
+      gamePage: gamePage,
       featurePage: function (slug) { return FEATURE_BY_SLUG[slug] ? featurePage(FEATURE_BY_SLUG[slug]) : null; },
       // Which page a web address inside the site leads to.
       which: function (path) {
