@@ -23,7 +23,16 @@ rsync -a "$SRC/" "$OUT/" \
   --exclude '/inbox' \
   --exclude '/preview' \
   --exclude '/tools' \
-  --exclude '/data'
+  --exclude '/data' \
+  --exclude '/node_modules' \
+  --exclude '/src' \
+  --exclude '/public' \
+  --exclude '/.astro' \
+  --exclude '/.site-build' \
+  --exclude '/astro.config.mjs' \
+  --exclude '/package.json' \
+  --exclude '/package-lock.json' \
+  --exclude '/ASTRO.md'
 
 if [ "${3:-}" = "preview" ]; then
   rm -f "$OUT/CNAME" "$OUT/robots.txt" "$OUT/sitemap.xml"

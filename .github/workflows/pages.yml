@@ -30,8 +30,16 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url || steps.second.outputs.page_url || steps.third.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Gather the public site
-        run: bash .github/scripts/assemble.sh . _site
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install Astro
+        run: npm ci --no-audit --no-fund
+      - name: Build the pages
+        # Astro builds the site into _site. The pages are still made from the data files by
+        # .github/scripts/assemble.sh, so they match the Digital Home preview exactly.
+        run: npx astro build
       - name: Add the previews of work not yet published
         # Each working copy made in Artiscope Digital Home is a branch named
         # adh/<name>. It is built into preview/<name>/ beside the live site.
@@ -41,7 +49,17 @@ jobs:
             name="${ref#origin/adh/}"
             case "$name" in *[!a-z0-9-]*|"") continue;; esac
             git worktree add --quiet --detach "/tmp/preview-src/$name" "$ref"
-            if bash .github/scripts/assemble.sh "/tmp/preview-src/$name" "/tmp/preview-out/$name" preview; then
+            # A copy made after the move to Astro is built with Astro; an older copy as before.
+            if [ -f "/tmp/preview-src/$name/astro.config.mjs" ]; then
+              build() {
+                (cd "/tmp/preview-src/$name" && npm ci --no-audit --no-fund --silent && npx astro build && mkdir -p /tmp/preview-out && mv _site "/tmp/preview-out/$name") || return 1
+                rm -f "/tmp/preview-out/$name/CNAME" "/tmp/preview-out/$name/robots.txt" "/tmp/preview-out/$name/sitemap.xml"
+                find "/tmp/preview-out/$name" -name '*.html' -exec sed -i '0,/<head>/s//<head><meta name="robots" content="noindex, nofollow">/' {} +
+              }
+            else
+              build() { bash .github/scripts/assemble.sh "/tmp/preview-src/$name" "/tmp/preview-out/$name" preview; }
+            fi
+            if build; then
               mkdir -p _site/preview && mv "/tmp/preview-out/$name" "_site/preview/$name"
             else
               echo "The preview of $name could not be built and was left out."
