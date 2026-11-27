@@ -9,6 +9,9 @@ import { createRequire } from "node:module";
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const GAM = createRequire(import.meta.url)(path.join(ROOT, "assets", "render.js"));
+// Who may read the site. Everyone is welcome; the search engines and the AI search tools that
+// link back to their sources are also named, so there is no doubt they are allowed in.
+const ROBOTS = "User-agent: *\nAllow: /\n\nUser-agent: Googlebot\nUser-agent: Bingbot\nUser-agent: OAI-SearchBot\nUser-agent: ChatGPT-User\nUser-agent: PerplexityBot\nUser-agent: Perplexity-User\nUser-agent: Claude-SearchBot\nUser-agent: Claude-User\nUser-agent: Applebot\nUser-agent: DuckDuckBot\nAllow: /\n";
 const read = (p) => JSON.parse(fs.readFileSync(path.join(ROOT, p), "utf8"));
 const fail = (msg) => { console.error(msg); process.exit(1); };
 
@@ -103,7 +106,27 @@ write("assets/search.json", JSON.stringify(site.searchIndex()) + "\n");
 const url = data.site.url;
 const urls = written.filter((p) => p.endsWith("index.html") && !p.startsWith("assets/")).map((p) => p.slice(0, -"index.html".length));
 write("sitemap.xml", '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + urls.map((u) => "<url><loc>" + url + u + "</loc><lastmod>" + data.published + "</lastmod></url>\n").join("") + "</urlset>\n");
-write("robots.txt", "User-agent: *\nAllow: /\n\nSitemap: " + url + "sitemap.xml\n");
+write("robots.txt", ROBOTS + "\nSitemap: " + url + "sitemap.xml\n");
+// llms.txt: a plain guide to the site for AI search tools, built from the same data as the pages.
+{
+  const live = (p) => written.includes(p);
+  const lines = ["# " + data.site.name, "", "> " + data.site.tagline + ". " + data.site.intro, "",
+    "Every price on the site comes from a published auction result, with a link to the auction house's lot page or a named sales database. Hammer price, price with buyer's premium and the estimates are kept as separate figures, in the currency of the sale, and are never converted. A figure we have not confirmed is shown as \"To confirm\".", "",
+    data.site.disclosure, "", "## Artist market profiles", ""];
+  for (const [slug, a] of Object.entries(sales.artists || {})) {
+    if (!live("artists/" + slug + "/index.html")) continue;
+    const n = (sales.sales || []).filter((x) => x.artist === slug).length;
+    lines.push("- [" + a.name + " auction results](" + url + "artists/" + slug + "/): " + (a.line ? a.line + " " : "") + (n ? n + " documented " + (n === 1 ? "lot" : "lots") + "." : "No auction result documented yet."));
+  }
+  lines.push("", "## Research reports", "");
+  for (const f of content.features || []) {
+    if (f.hidden || !live("research/" + f.slug + "/index.html")) continue;
+    lines.push("- [" + f.title + "](" + url + "research/" + f.slug + "/)" + (f.description ? ": " + f.description : ""));
+  }
+  lines.push("", "## The whole record", "", "- [Auction results](" + url + "auction-results/): every documented sale in one table, newest first.",
+    "- [Price explorer](" + url + "price-explorer/): each artist's priced sales on a chart.", "- [How we report a price](" + url + "about/#method)", "");
+  write("llms.txt", lines.join("\n"));
+}
 write(".nojekyll", "");
 const mark = (fg) => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">' + GAM.MARK_INNER.split("{fg}").join(fg) + "</svg>\n";
 const tile = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" rx="26" fill="#1E2124"/><g transform="translate(16.8 16.8) scale(.72)">' + GAM.MARK_INNER.split("{fg}").join("#E8708A") + "</g></svg>\n";

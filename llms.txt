@@ -1,0 +1,78 @@
+# Global Art Monitor
+
+> The auction and market research platform. Follow auction activity, artist-market developments and the forces shaping the international art trade. Global Art Monitor examines reported sales, collecting trends and market structures with an emphasis on transparent data and careful interpretation.
+
+Every price on the site comes from a published auction result, with a link to the auction house's lot page or a named sales database. Hammer price, price with buyer's premium and the estimates are kept as separate figures, in the currency of the sale, and are never converted. A figure we have not confirmed is shown as "To confirm".
+
+Global Art Monitor does not sell art. It is part of Artiscope and reports public auctions and their results for the artists it covers. A gallery elsewhere in the Artiscope group sells work by some of those artists, including Zara Muse, Konn Artiss, Zen Xander, Los-Talgia, Frank Canvas, Robi Walters and Amanza Smith.
+
+## Artist market profiles
+
+- [Zara Muse auction results](https://globalartmonitor.com/artists/zara-muse/): British, born 1971. Painter. 6 documented lots.
+- [Konn Artiss auction results](https://globalartmonitor.com/artists/konn-artiss/): Anonymous. Installations and public interventions. 2 documented lots.
+- [Banksy auction results](https://globalartmonitor.com/artists/banksy/): Anonymous. From the Bristol graffiti scene. Stencil paintings, prints and installations. 5 documented lots.
+- [Yayoi Kusama auction results](https://globalartmonitor.com/artists/yayoi-kusama/): Japanese, 1929 to 2026. Painter, sculptor and installation artist. 5 documented lots.
+- [El Anatsui auction results](https://globalartmonitor.com/artists/el-anatsui/): Ghanaian, born 1944, works in Nigeria. Sculptor. 2 documented lots.
+- [Beatriz Milhazes auction results](https://globalartmonitor.com/artists/beatriz-milhazes/): Brazilian, born 1960. Painter and collagist. 2 documented lots.
+- [S.H. Raza auction results](https://globalartmonitor.com/artists/s-h-raza/): Indian, 1922 to 2016. Painter. 5 documented lots.
+- [Gerhard Richter auction results](https://globalartmonitor.com/artists/gerhard-richter/): German, born 1932. Painter. 7 documented lots.
+- [OSGEMEOS auction results](https://globalartmonitor.com/artists/osgemeos/): Brazilian, born 1974. Twin brothers Gustavo and Otavio Pandolfo. Murals, painting and installation. 5 documented lots.
+- [Vhils auction results](https://globalartmonitor.com/artists/vhils/): Portuguese, born 1987. Alexandre Farto. Carved walls, posters and prints. 1 documented lot.
+- [KAWS auction results](https://globalartmonitor.com/artists/kaws/): American, born 1974. Brian Donnelly. Painting, sculpture and prints. 5 documented lots.
+- [Eko Nugroho auction results](https://globalartmonitor.com/artists/eko-nugroho/): Indonesian, born 1977. Murals, painting, embroidery and batik. 3 documented lots.
+- [Faith XLVII auction results](https://globalartmonitor.com/artists/faith-xlvii/): South African, born 1979. Murals, prints and mixed media. 2 documented lots.
+- [Vincent van Gogh auction results](https://globalartmonitor.com/artists/vincent-van-gogh/): Dutch, 1853 to 1890. Painter. 1 documented lot.
+- [Wassily Kandinsky auction results](https://globalartmonitor.com/artists/wassily-kandinsky/): Born in Moscow, 1866 to 1944. Painter. 2 documented lots.
+- [Rene Matić auction results](https://globalartmonitor.com/artists/rene-matic/): British, born 1997. Photographs, film, sound and installation. No auction result documented yet.
+- [Raven Halfmoon auction results](https://globalartmonitor.com/artists/raven-halfmoon/): Caddo Nation, born 1991, Norman, Oklahoma. Sculptor in stoneware. 2 documented lots.
+- [Ana Segovia auction results](https://globalartmonitor.com/artists/ana-segovia/): Born Mexico City, 1991. Painter. No auction result documented yet.
+- [Dana Awartani auction results](https://globalartmonitor.com/artists/dana-awartani/): Palestinian-Saudi, born 1987. Installation, textile and sculpture. No auction result documented yet.
+- [Jes Fan auction results](https://globalartmonitor.com/artists/jes-fan/): Born Toronto, 1990, raised in Hong Kong. Sculptor. No auction result documented yet.
+- [Andy Warhol auction results](https://globalartmonitor.com/artists/andy-warhol/): American, 1928 to 1987. Painter, printmaker and filmmaker. 5 documented lots.
+- [Pablo Picasso auction results](https://globalartmonitor.com/artists/pablo-picasso/): Spanish, 1881 to 1973. Painter, sculptor, printmaker and ceramicist. 5 documented lots.
+- [Jean-Michel Basquiat auction results](https://globalartmonitor.com/artists/jean-michel-basquiat/): American, 1960 to 1988. Painter and draughtsman. 5 documented lots.
+- [Keith Haring auction results](https://globalartmonitor.com/artists/keith-haring/): American, 1958 to 1990. Painter, draughtsman and muralist. 3 documented lots.
+- [David Hockney auction results](https://globalartmonitor.com/artists/david-hockney/): British, 1937 to 2026. Painter, printmaker and photographer. 5 documented lots.
+- [Damien Hirst auction results](https://globalartmonitor.com/artists/damien-hirst/): British, born 1965. Sculptor, painter and installation artist. 5 documented lots.
+- [David Shrigley auction results](https://globalartmonitor.com/artists/david-shrigley/): British, born 1968. Drawings, prints, sculpture and animation. 5 documented lots.
+- [Philip Colbert auction results](https://globalartmonitor.com/artists/philip-colbert/): British, born 1979 in Scotland. Painter. 5 documented lots.
+- [Los-Talgia auction results](https://globalartmonitor.com/artists/los-talgia/): Anonymous collective. Objects and wall works built from the look of past decades. 1 documented lot.
+- [Zen Xander auction results](https://globalartmonitor.com/artists/zen-xander/): Anonymous. Satirical paintings of animals in human situations. No auction result documented yet.
+- [Frank Canvas auction results](https://globalartmonitor.com/artists/frank-canvas/): London-based, working under an alias. Satirical paintings and limited edition prints. No auction result documented yet.
+- [Robi Walters auction results](https://globalartmonitor.com/artists/robi-walters/): British, born 1973. Collage made from discarded vinyl and packaging, and painting. No auction result documented yet.
+- [Amanza Smith auction results](https://globalartmonitor.com/artists/amanza-smith/): American. Mixed media painting. No auction result documented yet.
+- [Ben Eine auction results](https://globalartmonitor.com/artists/ben-eine/): British, born 1970. Benjamin Flynn. Lettering on shutters, paintings and screenprints. 5 documented lots.
+- [JR auction results](https://globalartmonitor.com/artists/jr/): French, born 1983. Large-scale photographic paste-ups, photographs and lithographs. 5 documented lots.
+- [Takashi Murakami auction results](https://globalartmonitor.com/artists/takashi-murakami/): Japanese, born 1962. Paintings, sculpture and prints in his Superflat style. 5 documented lots.
+- [Daniel Arsham auction results](https://globalartmonitor.com/artists/daniel-arsham/): American, born 1980. Eroded and crystallised sculpture, large editions and brand collaborations. 5 documented lots.
+- [Ai Weiwei auction results](https://globalartmonitor.com/artists/ai-weiwei/): Chinese, born 1957. Sculpture, installation, photography and editions. 5 documented lots.
+- [William Kentridge auction results](https://globalartmonitor.com/artists/william-kentridge/): South African, born 1955. Drawings, prints, bronzes and animated films. 5 documented lots.
+- [Zao Wou-Ki auction results](https://globalartmonitor.com/artists/zao-wou-ki/): Chinese-French, 1920 to 2013. Abstract oil paintings, ink and prints. 5 documented lots.
+- [Mai Trung Thứ auction results](https://globalartmonitor.com/artists/mai-trung-thu/): Vietnamese, 1906 to 1980. Ink and gouache on silk. 5 documented lots.
+- [Frida Kahlo auction results](https://globalartmonitor.com/artists/frida-kahlo/): Mexican, 1907 to 1954. Paintings, mostly small self-portraits, and works on paper. 1 documented lot.
+- [Jenny Holzer auction results](https://globalartmonitor.com/artists/jenny-holzer/): American, born 1950. Text works in posters, LED signs, stone and editions. 5 documented lots.
+- [Mona Hatoum auction results](https://globalartmonitor.com/artists/mona-hatoum/): British-Palestinian, born 1952 in Beirut. Sculpture, installation, video and photography. 5 documented lots.
+- [Zanele Muholi auction results](https://globalartmonitor.com/artists/zanele-muholi/): South African, born 1972. Photography and, more recently, painting. 5 documented lots.
+
+## Research reports
+
+- [Gallery Activity in 2025: What Dealers Sold, and Who Bought](https://globalartmonitor.com/research/gallery-activity-in-2025-what-dealers-sold/): What the Art Basel and UBS Global Art Market Report 2026 found about galleries and dealers in 2025: sales by size of dealer, new and local buyers, art fairs, openings and closures, and what the figures cannot tell a collector.
+- [New York, November 2026: The Top Lots and Why They Sold](https://globalartmonitor.com/research/new-york-november-2026-top-lots/): The November 2026 New York evening sales at Christie's, Sotheby's and Phillips: sale totals, the twelve highest prices with hammer and fees kept apart, why the top lots sold as they did, and the autumn sales in London and Hong Kong.
+- [Zara Muse Auction Results: A Documented Market Timeline](https://globalartmonitor.com/research/zara-muse-auction-results/): A sourced timeline of Zara Muse auction results at Tate Ward, Bonhams and Christie's, with estimates, hammer prices and premium-inclusive prices shown separately.
+- [Konn Artiss Auction Results: Early Secondary-Market Activity](https://globalartmonitor.com/research/konn-artiss-auction-results/): Konn Artiss auction results at Tate Ward: two documented sales, their estimates, hammer prices and premium-inclusive totals, and what a two-sale record can and cannot show.
+- [How an Art Auction Works, From Consignment to Collection](https://globalartmonitor.com/research/how-an-art-auction-works/): A plain guide to how an art auction works: consignment, estimates, reserves, bidding, the hammer, the buyer's premium, unsold lots and payment, with sources.
+- [What Does an Auction Result Actually Tell Collectors?](https://globalartmonitor.com/research/what-an-auction-result-tells-collectors/): What an art auction result records, from hammer price and buyer's premium to estimates, and the things a published price does not tell collectors.
+- [The Buyer's Premium Explained, With the 2026 Rates](https://globalartmonitor.com/research/buyers-premium-explained/): The buyer's premium at Christie's, Sotheby's and Phillips in 2026, how the bands work, how to work a hammer price back from a published total, and how the Artist's Resale Right is charged.
+- [What Makes an Artist's Work Valued, and What a Price Cannot Tell You](https://globalartmonitor.com/research/what-makes-an-artists-work-valued/): The factors behind art prices, from museum shows and prizes to scarcity and the work itself, with sourced markers of standing for each artist covered on Global Art Monitor.
+- [Why One Record Sale Does Not Establish Market Value](https://globalartmonitor.com/research/why-one-record-sale-does-not-establish-market-value/): Why an artist's auction record is not the same as market value, and what collectors should look for instead: repeat sales, sell-through, depth of bidding and time.
+- [Unique Works, Prints and Editions: Why We Keep Them Apart](https://globalartmonitor.com/research/unique-works-prints-and-editions/): What an edition is, how prints are numbered, what AP, PP, HC and BAT mean, and why a print result cannot be compared with a unique painting, with examples from our records.
+- [Guarantees, Irrevocable Bids and the Symbols in a Catalogue](https://globalartmonitor.com/research/guarantees-irrevocable-bids-and-catalogue-symbols/): What auction guarantees and irrevocable bids are, who gains from them, how catalogues mark them, and why they matter when you read a result.
+- [Provenance, Authentication and Condition: What Sits Behind a Price](https://globalartmonitor.com/research/provenance-authentication-and-condition/): How provenance, authentication and condition affect an auction price, what a catalogue's wording means, and how Banksy's work is authenticated through Pest Control.
+- [Understanding Liquidity in Emerging Contemporary Art](https://globalartmonitor.com/research/understanding-liquidity-in-emerging-contemporary-art/): A plain guide to liquidity in the market for emerging contemporary artists: how to measure it, why thin markets behave differently, and what it costs to buy and sell.
+- [How to Compare Primary Gallery Prices with Auction Results](https://globalartmonitor.com/research/how-to-compare-primary-gallery-prices-with-auction-results/): A step by step method for comparing primary market gallery prices with auction results, including like for like matching, fees and the limits of the comparison.
+
+## The whole record
+
+- [Auction results](https://globalartmonitor.com/auction-results/): every documented sale in one table, newest first.
+- [Price explorer](https://globalartmonitor.com/price-explorer/): each artist's priced sales on a chart.
+- [How we report a price](https://globalartmonitor.com/about/#method)
