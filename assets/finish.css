@@ -1,0 +1,71 @@
+/* Global Art Monitor: a richer finish (27 November 2026).
+   Loaded after site.css. Same palette, typefaces, logo and spacing; adds depth, glow and
+   firmer hover and focus states. Nothing is hidden while a page loads, and movement on hover
+   only runs for visitors who have not asked for less motion. */
+:root {
+  --glow-mint: rgba(63, 191, 159, .16);
+  --glow-coral: rgba(232, 112, 138, .07);
+  --rim: rgba(244, 242, 238, .07);
+  --deep-shadow: 0 1px 0 rgba(244, 242, 238, .04) inset, 0 24px 48px -28px rgba(0, 0, 0, .75);
+}
+
+/* The page: a faint light from the top so the charcoal has depth */
+body { background-image: radial-gradient(1200px 520px at 80% -120px, var(--glow-mint), transparent 70%), radial-gradient(900px 480px at -10% 8%, var(--glow-coral), transparent 70%); background-repeat: no-repeat; }
+
+/* Headings: a firmer hierarchy */
+.h1 { letter-spacing: -.02em; }
+.h2 { letter-spacing: -.015em; }
+.hero .h1 em, .h2 em { color: var(--mint); }
+
+/* Dark panels and cards: a soft rim and shadow, like a trading screen */
+.panel, .result-card, .card-big, .card-ink, .card { box-shadow: var(--deep-shadow); }
+.result-card, .card-big { background-image: linear-gradient(160deg, rgba(63, 191, 159, .09), transparent 42%), linear-gradient(0deg, rgba(232, 112, 138, .05), transparent 60%); outline: 1px solid var(--rim); outline-offset: -1px; }
+.panel.on-ink { background-image: linear-gradient(180deg, rgba(244, 242, 238, .025), transparent 220px); outline: 1px solid var(--rim); outline-offset: -1px; }
+.result-card .price { text-shadow: 0 0 36px rgba(63, 191, 159, .28); }
+
+/* Cards: a mint edge lights up on hover and keyboard focus */
+.card { transition: transform .45s var(--ease), box-shadow .45s var(--ease), background-color .3s; }
+.card:hover, .card:focus-within { box-shadow: 0 0 0 1px rgba(63, 191, 159, .45), 0 28px 50px -30px rgba(0, 0, 0, .85); }
+.card-profile h3 { letter-spacing: -.015em; }
+
+/* The status line: a mint dot leads it */
+.status-inner { background-image: linear-gradient(90deg, rgba(63, 191, 159, .08), transparent 40%); box-shadow: var(--deep-shadow); }
+.status-inner > :first-child { display: inline-flex; align-items: center; gap: 10px; }
+.status-inner > :first-child::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--mint); box-shadow: 0 0 0 4px rgba(63, 191, 159, .18); }
+
+/* The big background word fades into the page */
+.watermark { background: linear-gradient(180deg, #3A4045 0%, var(--ghost) 55%, rgba(44, 48, 52, 0) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+/* Results table: the row under the pointer is picked out with a mint edge */
+.tl tr td:first-child { box-shadow: inset 3px 0 0 transparent; transition: box-shadow .25s, background-color .25s; }
+.tl tr:hover td:first-child { box-shadow: inset 3px 0 0 var(--mint); }
+.tl td { transition: background-color .25s; }
+
+/* The four words: a lit edge on hover */
+.word-pill { transition: transform .4s var(--ease), box-shadow .4s var(--ease); }
+.word:hover .word-pill { box-shadow: 0 18px 40px -22px rgba(0, 0, 0, .9), 0 0 0 1px var(--rim); }
+.w-mint { background-image: linear-gradient(160deg, rgba(255, 255, 255, .18), transparent 55%); }
+
+/* Where to start: the number turns into a mint chip on hover */
+.row .n { font-variant-numeric: tabular-nums; }
+.row:hover { box-shadow: var(--deep-shadow); }
+.row:hover .t { color: var(--text); }
+
+/* Articles: the opening paragraph reads larger, and quotes stand on a panel */
+.prose > p:first-of-type { font-size: calc(19px * var(--b-scale, 1)); line-height: 1.6; color: var(--text); }
+.prose blockquote { margin: 28px 0; padding: 24px 28px; border-radius: 22px; background: var(--panel); box-shadow: var(--deep-shadow); font-family: var(--serif); font-size: calc(24px * var(--h-scale, 1)); line-height: 1.35; }
+.prose blockquote p { margin: 0; }
+
+/* Buttons and pills */
+.pill { transition: transform .3s var(--ease), box-shadow .3s var(--ease), background-color .25s; }
+.pill-mint:hover { box-shadow: 0 10px 26px -12px rgba(63, 191, 159, .7); }
+
+/* Focus: a mint ring that shows on every surface */
+:focus-visible { outline: 2px solid var(--mint); outline-offset: 3px; }
+
+/* The footer: a soft coral light */
+.site-foot { background-image: radial-gradient(800px 360px at 100% 0%, rgba(232, 112, 138, .08), transparent 70%); }
+
+@media (prefers-reduced-motion: reduce) {
+  .card, .pill, .word-pill, .tl td, .tl tr td:first-child { transition: none; }
+}
