@@ -32,6 +32,11 @@
       "One real lot a day. Name the hammer price, then see the result and its source."
     ],
     [
+      "higher-or-lower",
+      "Higher or Lower",
+      "Two real sales side by side. Pick the one that sold for more."
+    ],
+    [
       "artists",
       "Artist Market Profiles",
       "One page per artist, built on sourced sales only."
