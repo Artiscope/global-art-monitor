@@ -123,6 +123,20 @@
           }
         },
         {
+          "type": "price-tools",
+          "id": "price-tools",
+          "visible": true,
+          "settings": {
+            "eyebrow": "Price explorer",
+            "heading": "See the prices for yourself.",
+            "text": "Every priced sale we have documented for {name}, one dot per lot, in the currency of the sale. Tap a dot for the work, the house and the source, or open the explorer to chart any artist on the site and set two side by side.",
+            "artist": "",
+            "compare": "banksy,kaws",
+            "button": "Open the price explorer",
+            "button2": "Compare two artists"
+          }
+        },
+        {
           "id": "words",
           "type": "words",
           "visible": true,

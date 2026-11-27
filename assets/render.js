@@ -120,6 +120,94 @@
     function minBy(rows, f) { var best = null; rows.forEach(function (r) { if (best === null || f(r) < f(best)) best = r; }); return best; }
     function latestPriced() { return maxBy(priced(SALES).filter(function (s) { return s.date; }), function (s) { return s.date; }); }
 
+    // ----- for the price explorer, the charts and the results finder -----
+    // What kind of object was sold, read from the medium as the house described it. A sale can set "kind" to override.
+    function kindOf(s) {
+      if (s.kind === "unique" || s.kind === "edition") return s.kind;
+      var m = String(s.medium || "").toLowerCase();
+      if (!m) return "unstated";
+      if (/numbered 1 of 1\b/.test(m)) return "unique";
+      if (/edition|numbered|proof|unique variants|multiples?\b/.test(m)) return "edition";
+      if (/\bunique\b/.test(m)) return "unique";
+      // a painting or drawing in paint or ink on a support is one of a kind, even when the house does not say "unique"
+      if (/\b(oil|acrylic|gouache|watercolour|oilstick|ink|tempera|spray paint)\b[^,]*\bon (canvas|linen|panel|board|paper|silk|wood)\b/.test(m) && !/screenprint|silkscreen|print/.test(m)) return "unique";
+      if (/screenprint|silkscreen|lithograph|etching|aquatint|gicl[eé]e|linocut|woodcut|offset/.test(m)) return "edition";
+      return "unstated";
+    }
+    // How far the sale has been checked: on the house's own page, through the press or a database, or not yet.
+    function checkOf(s) {
+      var l = String(s.source_label || "");
+      if (/not checked/i.test(l)) return "unchecked";
+      if (/lot page|sold lots|results listing/i.test(l)) return "house";
+      return "press";
+    }
+    // The one figure a chart can plot for a sale, and what kind of figure it is.
+    function chartPrice(s) {
+      var m = s.mutualart || {};
+      if (s.premium) return { v: s.premium, b: "premium", f: s.premium_basis === "calculated" ? "calc" : "house" };
+      if (m.price && m.price_basis !== "hammer") return { v: m.price, b: m.price_basis === "premium" ? "premium" : "unknown", f: "ma" };
+      if (s.hammer) return { v: s.hammer, b: "hammer", f: s.hammer_basis === "calculated" ? "calc" : "house" };
+      if (m.price) return { v: m.price, b: "hammer", f: "ma" };
+      return null;
+    }
+    function day(d) { var p = String(d).split("-"); return Date.UTC(+p[0], (+p[1] || 1) - 1, +p[2] || 1); }
+    function pxRow(s) {
+      var c = chartPrice(s), m = s.mutualart || {};
+      return { id: s.id, a: s.artist, an: ARTISTS[s.artist].name, t: s.title, y: s.year, d: s.date || "", dt: s.date_text || "", h: s.house, sl: s.sale || "", lot: s.lot || m.lot || "",
+        m: s.medium || "", k: kindOf(s), c: s.currency || "", el: s.est_low || (m.est_low || null), eh: s.est_high || (m.est_high || null), ham: s.hammer || null, pr: s.premium || null,
+        v: c ? c.v : null, vb: c ? c.b : null, vf: c ? c.f : null, chk: checkOf(s), src: s.source_label, srcu: s.source_url };
+    }
+    function pxData(rows, id) {
+      return '<script type="application/json" id="' + (id || "px-data") + '">' + JSON.stringify(rows.map(pxRow)).replace(/</g, "\\u003c") + '</script>';
+    }
+    var KIND_LABEL = { unique: "Unique work", edition: "Print, multiple or edition", unstated: "Type not stated" };
+    var CHECK_LABEL = { house: "Checked on the house page", press: "From press or a sales database", unchecked: "House page not yet checked" };
+    // A chart frame that assets/explorer.js fills in. Without scripts the table below still holds every figure.
+    function pxFrame(attrs) {
+      return '<div class="px" ' + attrs + '><noscript><p class="note">' + W("px.noscript", "The chart needs JavaScript. Every figure is also in the table on this page.") + '</p></noscript></div>';
+    }
+    // The newest priced sales, one per artist, leaving out the artists given.
+    function latestSales(n, skip) {
+      var seen = {}, out = [];
+      (skip || []).forEach(function (k) { seen[k] = 1; });
+      salesFor(null).forEach(function (s) { if (out.length < n && s.date && s.premium && !seen[s.artist]) { seen[s.artist] = 1; out.push(s); } });
+      return out;
+    }
+    function saleLine(s) {
+      return money(s.premium, s.currency) + ' with premium' + (s.premium_basis === "calculated" ? ', by our calculation' : "") + '. ' + esc(s.house) + ', ' + esc(s.date_text) + '.';
+    }
+    function lastPriced(slug) { return priced(salesFor(slug)).filter(function (s) { return s.date; })[0] || null; }
+    function relCard(kicker, title, href, text, link, delay) {
+      return '<article class="card rel-card" data-reveal style="--d:' + (delay || 0) + 'ms"><p class="kicker">' + kicker + '</p><h3><a href="' + href + '">' + title + '</a></h3>' +
+        (text ? '<p>' + text + '</p>' : "") + '<a class="text-link" href="' + href + '">' + link + '</a></article>\n';
+    }
+    function artistRelCard(slug, kicker, delay) {
+      var a = ARTISTS[slug], l = lastPriced(slug), n = salesFor(slug).length;
+      var text = l ? W("rel.latest", "Latest priced sale") + ': ' + esc(l.title) + ', ' + saleLine(l) : W("rel.lots", "{n} documented lots, none priced yet.", { n: String(n) });
+      return relCard(kicker, esc(a.name), '@@artists/' + slug + '/', text, W("rel.see-artist", "See the market profile"), delay);
+    }
+    function saleRelCard(s, delay) {
+      return relCard(W("rel.recent", "Recent sale"), esc(ARTISTS[s.artist].name) + ', ' + esc(s.title), '@@artists/' + s.artist + '/#work-' + esc(s.id), saleLine(s), W("rel.see-sale", "See the sale"), delay);
+    }
+    function featureRelCard(f, delay) {
+      return relCard(esc(f.kicker), esc(f.title), '@@research/' + f.slug + '/', esc(f.standfirst), W("btn.read-feature", "Read the feature"), delay);
+    }
+    // Research that names the artist in its title or its words.
+    function featuresAbout(slug) {
+      var name = ARTISTS[slug].name;
+      return FEATURES.filter(function (f) { return f.slug.indexOf(slug) >= 0 || String(f.title).indexOf(name) >= 0 || String(f.body || "").indexOf(name) >= 0; });
+    }
+    function artistsIn(f) {
+      var html = String(f.body || "") + " " + f.title;
+      return ARTIST_KEYS.filter(function (k) { return html.indexOf(ARTISTS[k].name) >= 0 || html.indexOf("[[TIMELINE:" + k + "]]") >= 0; });
+    }
+    function relSection(eyebrow, heading, groups) {
+      var cards = "", d = 0;
+      groups.forEach(function (g) { g.forEach(function (c) { cards += c.split("--d:0ms").join("--d:" + d + "ms"); d += 70; }); });
+      if (!cards) return "";
+      return '<section class="shell section rel" aria-labelledby="rel-h">\n<div class="section-head"><p class="eyebrow" data-reveal>' + eyebrow + '</p><h2 class="h2" id="rel-h" data-reveal>' + heading + '</h2></div>\n<div class="cards rel-cards">\n' + cards + '</div>\n</section>';
+    }
+
     function head(rootPath, title, desc, path, extra) {
       // titles over 60 characters drop the site name, so search results show them in full
       title = String(title || ""); var cut = title.lastIndexOf(" | "); if (title.length > 60 && cut > 0) title = title.slice(0, cut);
@@ -150,7 +238,7 @@
       var st = shared("header")[0], name = esc(get(st, "name", "Global Art Monitor")), links = "", menu = "", i = 0;
       var logoL = headLogos(st, rootPath, "L"), logoC = headLogos(st, rootPath, "C"), logoR = headLogos(st, rootPath, "R");
       // Shorter names for the bar only, so six links fit. The pages keep their full names.
-      var shortNames = get(st, "nav_short", { "artists": "Artist Profiles", "research": "Research" }) || {};
+      var shortNames = get(st, "nav_short", { "market-intelligence": "Market", "artists": "Artist Profiles", "research": "Research", "collecting-valuation": "Collecting" }) || {};
       SECTIONS_LIST.forEach(function (s, k) {
         i = k + 1;
         var cur = s[0] === current ? ' aria-current="page"' : "";
@@ -177,7 +265,7 @@
     }
     function iconOk() { return typeof opts.favicon === "string" && /^assets\/images\/[A-Za-z0-9._-]{1,120}\.(png|jpe?g|svg|ico)$/.test(opts.favicon); }
     function footer(rootPath, own) {
-      if (own) return '<script src="' + rootPath + 'assets/analytics.js" defer></script>\n<script src="' + rootPath + 'assets/site.js" defer></script>\n</body>\n</html>\n';
+      if (own) return '<script src="' + rootPath + 'assets/analytics.js" defer></script>\n<script src="' + rootPath + 'assets/site.js" defer></script>\n<script src="' + rootPath + 'assets/explorer.js" defer></script>\n</body>\n</html>\n';
       var sh = shared("footer"), st = sh[0], on = sh[1], hst = shared("header")[0], name = esc(get(hst, "name", "Global Art Monitor"));
       var secs = SECTIONS_LIST.map(function (s) { return '<a href="' + rootPath + s[0] + '/">' + esc(s[1]) + '</a>'; }).join("");
       // The footer names only a few artists, the ones with the most recent priced sale, then links to the full list.
@@ -193,7 +281,7 @@
         '<div><h3>' + W("menu.foot-sections", "Sections") + '</h3>' + secs + '</div>\n<div><h3>' + W("menu.foot-artists", "Artists") + '</h3>' + arts + '</div>\n<div><h3>' + W("menu.foot-about", "About") + '</h3>' + about + '</div>\n</div>\n' +
         socialHtml() + '<p class="foot-legal">' + fill(get(st, "legal", "")) + ' <a href="' + rootPath + legal[1] + '">' + txt(legal[0]) + '</a></p>\n</div>\n' +
         '<div class="foot-mark" aria-hidden="true">MONITOR</div>\n</footer>\n';
-      return body + '<script src="' + rootPath + 'assets/analytics.js" defer></script>\n<script src="' + rootPath + 'assets/site.js" defer></script>\n</body>\n</html>\n';
+      return body + '<script src="' + rootPath + 'assets/analytics.js" defer></script>\n<script src="' + rootPath + 'assets/site.js" defer></script>\n<script src="' + rootPath + 'assets/explorer.js" defer></script>\n</body>\n</html>\n';
     }
     // Sections shared by every page: announcement bars above the menu bar, the rest at the top and bottom of the page.
     function groupHtml(where, ann) {
@@ -286,7 +374,9 @@
           : s.mutualart && s.mutualart.lot ? '<span class="sub">' + W("table.lot", "Lot {lot}", { lot: esc(s.mutualart.lot) }) + ', ' + W("table.mutualart-per", "per MutualArt") + '</span>' : "";
         var who = showArtist ? '<a class="who" href="' + rootPath + 'artists/' + s.artist + '/">' + esc(ARTISTS[s.artist].name) + '</a>' : "";
         var work = thumb(s, rootPath) + '<span class="work-text">' + who + '<a class="title" href="' + workHref(s, rootPath) + '">' + esc(s.title) + " (" + esc(s.year) + ")</a>";
-        body += '<tr' + (opts.mark ? ' data-adh-row="' + s._i + '"' : "") + ' data-artist="' + s.artist + '" data-house="' + esc(s.house) + '" data-currency="' + esc(s.currency || "") + '">' +
+        var cp = chartPrice(s);
+        body += '<tr' + (opts.mark ? ' data-adh-row="' + s._i + '"' : "") + ' data-artist="' + s.artist + '" data-house="' + esc(s.house) + '" data-currency="' + esc(s.currency || "") + '"' +
+          ' data-date="' + esc(s.date || "") + '" data-year="' + esc(String(s.date || "").slice(0, 4)) + '" data-kind="' + kindOf(s) + '" data-check="' + checkOf(s) + '" data-price="' + (cp ? cp.v : "") + '" data-name="' + esc(ARTISTS[s.artist].name) + '">' +
           td("c-date", L.date, esc(s.date_text)) + td("c-work", L.work, work + lot + '</span>') +
           td("c-house", L.house, esc(s.house) + '<span class="sub">' + esc(s.sale) + '</span>') + td("c-est", L.est, estCell(s)) +
           td("c-ham", L.ham, hamCell(s)) + td("c-prem", L.prem, premCell(s)) + td("c-cur", L.cur, esc(s.currency)) + td("c-src", L.src, sourceCell(s)) + '</tr>\n';
@@ -467,11 +557,25 @@
       var artistOpts = byName.map(function (k) { return '<option value="' + k + '">' + esc(ARTISTS[k].name) + '</option>'; }).join("");
       var houseOpts = houses.map(function (h) { return '<option value="' + esc(h) + '">' + esc(h) + '</option>'; }).join("");
       var curOpts = currencies.map(function (c) { return '<option value="' + esc(c) + '">' + esc(c) + ' (' + esc((SYMBOL[c] || c).trim()) + ')</option>'; }).join("");
-      return '<section class="shell section">\n<div class="panel on-ink" data-reveal>\n<div class="finder" data-filter-group="all-results" data-total="' + all.length + '">\n' +
+      var years = Array.from(new Set(all.map(function (x) { return String(x.date || "").slice(0, 4); }).filter(Boolean))).sort().reverse();
+      var yearOpts = years.map(function (y) { return '<option value="' + y + '">' + y + '</option>'; }).join("");
+      var KIND_SHORT = { unique: "Unique works", edition: "Prints and editions", unstated: "Type not stated" };
+      var kindOpts = ["unique", "edition", "unstated"].map(function (k) { return '<option value="' + k + '">' + W("kind." + k, KIND_SHORT[k]) + '</option>'; }).join("");
+      var checkOpts = ["house", "press", "unchecked"].map(function (k) { return '<option value="' + k + '">' + W("check." + k, CHECK_LABEL[k]) + '</option>'; }).join("");
+      var sortOpts = [["newest", W("sort.newest", "Newest sale first")], ["oldest", W("sort.oldest", "Oldest sale first")], ["high", W("sort.high", "Highest price")], ["low", W("sort.low", "Lowest price")], ["artist", W("sort.artist", "Artist, A to Z")], ["house", W("sort.house", "Auction house, A to Z")]]
+        .map(function (o) { return '<option value="' + o[0] + '">' + o[1] + '</option>'; }).join("");
+      return '<section class="shell section">\n<div class="panel on-ink" data-reveal>\n<button class="pill pill-ink pill-small finder-toggle" type="button" aria-expanded="false" aria-controls="all-results-finder" hidden>' + W("filter.toggle", "Filter and sort") + '<span class="finder-n" data-active-n></span></button>\n' +
+        '<div class="finder" id="all-results-finder" data-filter-group="all-results" data-explorer="results" data-total="' + all.length + '">\n' +
         '<label class="finder-field finder-search"><span>' + W("filter.search", "Search") + '</span><input type="search" data-search placeholder="' + W("filter.search-hint", "Artist, work or sale") + '" autocomplete="off"></label>\n' +
         menu("artist", W("filter.artist", "Artist"), W("filter.all-artists", "All {n} artists", { n: byName.length }), artistOpts) +
         menu("house", W("filter.house", "Auction house"), W("filter.all-houses", "All {n} houses", { n: houses.length }), houseOpts) +
         menu("currency", W("filter.currency", "Currency"), W("filter.all-currencies", "All currencies"), curOpts) +
+        menu("kind", W("filter.kind", "Type of work"), W("filter.all-kinds", "All types"), kindOpts) +
+        menu("year", W("filter.year", "Year of sale"), W("filter.all-years", "Every year"), yearOpts) +
+        menu("check", W("filter.check", "How it was checked"), W("filter.all-checks", "Every source"), checkOpts) +
+        '<div class="finder-field finder-price"><span id="price-lbl">' + W("filter.price", "Price, in the chosen currency") + '</span><span class="finder-range"><input type="number" inputmode="numeric" min="0" data-price="min" aria-labelledby="price-lbl" placeholder="' + W("filter.price-from", "From") + '" disabled><input type="number" inputmode="numeric" min="0" data-price="max" aria-labelledby="price-lbl" placeholder="' + W("filter.price-to", "To") + '" disabled></span>' +
+        '<span class="finder-hint" data-price-hint>' + W("filter.price-hint", "Choose one currency first. Prices in different currencies are never compared.") + '</span></div>\n' +
+        '<label class="finder-field"><span>' + W("filter.sort", "Sort by") + '</span><span class="finder-select"><select data-sort>' + sortOpts + '</select><i aria-hidden="true">' + W("filter.order", "Order") + '</i></span></label>\n' +
         '</div>\n<div class="finder-foot"><p class="finder-count" id="all-results-count" role="status">' + W("filter.showing-all", "Showing all {n} lots", { n: all.length }) + '</p>' +
         '<button class="text-link finder-clear" type="button" data-clear hidden>' + W("filter.clear", "Clear filters") + '</button>' + LEGEND + '</div>\n' +
         table(all, "all-results", true) + '\n<p class="note" id="all-results-empty" hidden>' + txt(get(st, "empty", "")) + '</p>\n' + TABLE_NOTE + '\n</div>\n</section>';
@@ -790,6 +894,9 @@
         '<div class="fact" data-reveal style="--d:180ms"><span class="k">' + W("item.earliest", "Earliest dated sale") + '</span>' + firstFact + '</div>\n' +
         '<div class="fact" data-reveal style="--d:270ms"><span class="k">' + W("item.houses", "Auction houses") + '</span><span class="v">' + (a.houses || []).length + '</span><span class="s">' + esc((a.houses || []).join(", ")) + '.</span></div>\n' +
         '</div>\n</section>', "words") + '\n' +
+        (opts.mark ? "" : '<section class="shell section" id="price-history">\n<div class="panel on-ink" data-reveal>\n<p class="eyebrow">' + W("px.eyebrow", "Price history") + '</p>\n<div class="split"><h2 class="h2">' + W("px.heading", "Every priced sale, one dot each") + '</h2>\n' +
+        '<p class="intro">' + W("px.intro", "Tap or hover over a dot to see the sale. Each currency has its own chart, and unique works are kept apart from prints and editions.") + '</p></div>\n' +
+        pxFrame('data-px="artist" data-src="px-data"') + '\n' + pxData(rows) + '\n<p class="px-links"><a class="text-link" href="@@price-explorer/#compare=' + slug + ((a.compare || []).filter(function (c) { return ARTISTS[c]; })[0] ? "," + (a.compare || []).filter(function (c) { return ARTISTS[c]; })[0] : "") + '">' + W("px.compare-link", "Compare {name} with another artist", { name: esc(a.name) }) + '</a></p>\n</div>\n</section>\n') +
         M('<section class="shell section" id="timeline">\n<div class="panel on-ink" data-reveal>\n<p class="eyebrow">' + W("item.timeline", "Artist auction timeline") + '</p>\n<div class="split"><h2 class="h2">' + W("item.at-auction", "{name} at auction", { name: esc(a.name) }) + '</h2>\n' +
         '<p class="intro">Every public sale we can document, newest first. Estimate, hammer price and price with premium each have their own column.</p></div>\n' +
         LEGEND + '\n' + table(rows, "timeline-" + slug) + '\n' + TABLE_NOTE + '\n</div>\n</section>', "sales") + '\n' +
@@ -803,6 +910,12 @@
         '<aside class="article-side" data-reveal style="--d:120ms">\n' + img + '\n<div class="mini"><h2>' + W("item.related", "Related reading") + '</h2><ul>' + rel + '</ul></div>\n' +
         (cmp ? '<div class="mini"><h2>' + W("item.compare", "Compare with") + '</h2><ul>' + cmp + '</ul></div>\n' : "") + '<div class="mini"><h2>' + W("item.sources", "Background sources") + '</h2><ul>' + srcs + '</ul></div>\n' +
         '<div class="mini"><h2>' + W("item.gap", "Spotted a gap?") + '</h2><p>If you can document a sale we have missed, or correct a figure, <a href="@@about/#corrections">tell us</a>.</p></div>\n</aside>\n</section>', "about");
+      if (!opts.mark) {
+        var relCmp = (a.compare || []).filter(function (c) { return ARTISTS[c]; }).slice(0, 3).map(function (c) { return artistRelCard(c, W("rel.compare", "Compare with"), 0); });
+        var relSales = latestSales(3, [slug].concat(a.compare || [])).map(function (s) { return saleRelCard(s, 0); });
+        var relRead = featuresAbout(slug).slice(0, 2).map(function (f) { return featureRelCard(f, 0); });
+        body += '\n' + relSection(W("rel.eyebrow", "Keep exploring"), W("rel.artist-heading", "More from the record"), [relCmp, relRead, relSales]);
+      }
       body = tplWrap("artist", slug, body); AO_KIND = "artist";
       var ld = pyJson({ "@context": "https://schema.org", "@type": "ProfilePage", name: a.name + " market profile", url: SITE.url + "artists/" + slug + "/", dateModified: PUBLISHED_DT, mainEntity: { "@type": "Person", name: a.name } });
       return page("artists/" + slug + "/index.html", a.name + " Auction Results and Market Profile | Global Art Monitor",
@@ -829,11 +942,57 @@
         '<aside class="article-side">\n<div class="mini"><h2>' + W("item.more", "More research") + '</h2><ul>' + more + '</ul></div>\n' +
         '<div class="mini"><h2>' + W("item.figures", "The figures") + '</h2><p>All prices in this piece are on the <a href="@@auction-results/">auction results</a> page, with a source for each.</p></div>\n' +
         '<div class="mini"><h2>' + W("item.who", "Who publishes this") + '</h2><p>' + esc(SITE.disclosure || "") + '</p></div>\n</aside>\n</section>';
+      if (!opts.mark) {
+        var inPiece = artistsIn(f).slice(0, 3);
+        body += '\n' + relSection(W("rel.eyebrow", "Keep exploring"), inPiece.length ? W("rel.feature-heading", "The artists in this piece") : W("rel.feature-heading-none", "Recent sales on the record"),
+          [inPiece.map(function (k) { return artistRelCard(k, W("rel.in-piece", "In this piece"), 0); }), latestSales(inPiece.length ? 2 : 3, inPiece).map(function (s) { return saleRelCard(s, 0); })]);
+      }
       body = tplWrap("article", f.slug, body); AO_KIND = "article";
       var ld = pyJson({ "@context": "https://schema.org", "@type": "Article", headline: f.title, description: f.description, datePublished: PUBLISHED_DT, dateModified: PUBLISHED_DT,
         author: { "@type": "Organization", name: "Global Art Monitor" }, publisher: { "@type": "Organization", name: "Global Art Monitor" }, mainEntityOfPage: SITE.url + "research/" + f.slug + "/" });
       return page("research/" + f.slug + "/index.html", f.title + " | Global Art Monitor", f.description || "", body, "research", false, '<script type="application/ld+json">' + ld + '</script>\n');
     }
+    // The price explorer: one artist's prices on a chart, and two artists side by side.
+    function explorerPage() {
+      var all = salesFor(null), withPriced = ARTIST_KEYS.filter(function (k) { return priced(salesFor(k)).length; });
+      var head2 = '<section class="shell page-head wide">\n<p class="eyebrow" data-reveal>' + W("px.page-eyebrow", "Price explorer") + '</p>\n' +
+        '<h1 class="h1" data-reveal style="--d:80ms">' + W("px.page-title", "Look at the prices, sale by sale.") + '</h1>\n' +
+        '<p class="lede" data-reveal style="--d:200ms">' + W("px.page-lede", "Pick an artist to see every priced sale we have documented on one chart, or put two artists side by side. The charts use the same {n} lots as the auction results table, with the same sources.", { n: String(all.length) }) + '</p>\n' +
+        '<div class="hero-actions" data-reveal style="--d:260ms"><a class="pill pill-mint pill-small" href="#history">' + W("px.jump-history", "Price history") + '</a><a class="pill pill-ink pill-small" href="#compare">' + W("px.jump-compare", "Compare two artists") + '</a></div>\n</section>';
+      var hist = '<section class="shell section" id="history">\n<div class="panel on-ink" data-reveal>\n<p class="eyebrow">' + W("px.eyebrow", "Price history") + '</p>\n<div class="split"><h2 class="h2">' + W("px.pick-heading", "One artist, every priced sale") + '</h2>\n' +
+        '<p class="intro">' + W("px.pick-intro", "Each dot is one sale. Tap or hover over it for the work, the house and the source. The thin bar behind a dot is the estimate printed before the sale.") + '</p></div>\n' +
+        pxFrame('data-px="pick" data-src="px-data" data-artists="' + withPriced.join(" ") + '"') + '\n</div>\n</section>';
+      var cmp = '<section class="shell section" id="compare">\n<div class="panel on-ink" data-reveal>\n<p class="eyebrow">' + W("px.cmp-eyebrow", "Side by side") + '</p>\n<div class="split"><h2 class="h2">' + W("px.cmp-heading", "Compare two artists") + '</h2>\n' +
+        '<p class="intro">' + W("px.cmp-intro", "Two artists can only share a chart where both sold in the same currency. We never convert prices, so the chart shows one currency at a time.") + '</p></div>\n' +
+        pxFrame('data-px="compare" data-src="px-data" data-artists="' + withPriced.join(" ") + '"') + '\n</div>\n</section>';
+      var how = '<section class="shell article">\n<div class="article-body prose" data-reveal>\n<h2 style="margin-top:0">' + W("px.how-heading", "How to read the charts") + '</h2>\n' +
+        '<p>A filled dot is the price with buyer\'s premium. A hollow dot means only the hammer price is known. A dashed ring is a figure from the MutualArt sale record that we have not yet matched to the house\'s own page. Lots with no confirmed price sit as small marks along the foot of the chart, so the gaps stay in view.</p>\n' +
+        '<p>Dots are never joined up. Two sales are two different works, often of different sizes and made in different years, so a line between them would suggest a movement that the figures do not show. Where an artist has only a handful of priced sales in a currency, the chart says so.</p>\n' +
+        '<p>Unique works are kept apart from prints, multiples and editions. A signed print and a painting by the same artist are different things and are not compared. The type of work is read from the description the house published. A painting or drawing counts as a unique work. Where the description does not settle it, the sale is marked as type not stated.</p>\n' +
+        '<p>These are records of past public sales. They are not valuations and not advice. For the full method, see <a href="@@about/#method">how we report a price</a>, and for every figure with its source, the <a href="@@auction-results/">auction results</a> table.</p>\n</div>\n' +
+        '<aside class="article-side" data-reveal style="--d:120ms">\n<div class="mini"><h2>' + W("item.who", "Who publishes this") + '</h2><p>' + esc(SITE.disclosure || "") + '</p></div>\n</aside>\n</section>';
+      var body = head2 + '\n' + hist + '\n' + cmp + '\n' + pxData(all) + '\n' + how;
+      var ld = pyJson({ "@context": "https://schema.org", "@type": "WebPage", name: "Price explorer", url: SITE.url + "price-explorer/", isPartOf: { "@type": "WebSite", name: "Global Art Monitor", url: SITE.url } });
+      return page("price-explorer/index.html", "Price Explorer: Auction Price Charts and Artist Comparison | Global Art Monitor",
+        "Chart every documented auction sale for an artist, sale by sale, in the currency of the sale, or compare two artists side by side.", body, "price-explorer", false, '<script type="application/ld+json">' + ld + '</script>\n');
+    }
+    // Home page: a live chart for one artist, with the way into the explorer.
+    S["price-tools"] = function (st, ctx) {
+      // by default, the artist with the most priced sales of one type in one currency, spread over the longest time
+      var counts = ARTIST_KEYS.map(function (k) {
+        var g = {}; salesFor(k).forEach(function (x) { var c = chartPrice(x); if (c && x.date) { var key = x.currency + kindOf(x); (g[key] = g[key] || []).push(x.date); } });
+        var best = Object.keys(g).map(function (key) { var d = g[key].sort(); return g[key].length * 1000 + (day(d[d.length - 1]) - day(d[0])) / 864e5 / 10; }).sort(function (x, y) { return y - x; })[0] || 0;
+        return [k, best];
+      }).sort(function (x, y) { return y[1] - x[1]; });
+      var slug = ARTISTS[get(st, "artist", "")] ? st.artist : (counts[0] || [""])[0];
+      if (!slug) return "";
+      var pair = get(st, "compare", "banksy,kaws");
+      return '<section class="shell section" id="' + ctx.id + '">\n<div class="panel on-ink px-teaser" data-reveal>\n<div class="px-teaser-text">\n<p class="eyebrow">' + txt(get(st, "eyebrow", "Price explorer")) + '</p>\n' +
+        '<h2 class="h2">' + txt(get(st, "heading", "See the prices for yourself.")) + '</h2>\n<p class="intro">' + txt(get(st, "text", "")).split("{name}").join(esc(ARTISTS[slug].name)) + '</p>\n' +
+        '<div class="hero-actions"><a class="pill pill-mint pill-small" href="@@price-explorer/#artist=' + slug + '">' + txt(get(st, "button", "Open the price explorer")) + '</a>' +
+        '<a class="pill pill-blush pill-small" href="@@price-explorer/#compare=' + esc(pair) + '">' + txt(get(st, "button2", "Compare two artists")) + '</a></div>\n</div>\n' +
+        (opts.mark ? '<div class="px"><p class="note">' + W("px.editor", "The live chart appears on the published page.") + '</p></div>' : pxFrame('data-px="artist" data-src="px-home" data-compact="1"') + '\n' + pxData(salesFor(slug), "px-home")) + '\n</div>\n</section>';
+    };
     function notFound() {
       var body = '<section class="shell page-head">\n<p class="eyebrow">' + W("nf.eyebrow", "Page not found") + '</p>\n<h1 class="h1">' + W("nf.title", "That page is not in the record.") + '</h1>\n<p class="lede">' + W("nf.lede", "The link may be old or mistyped.") + '</p>\n' +
         '<div class="hero-actions"><a class="pill pill-ink" href="/">' + W("nf.home", "Go to the home page") + '</a><a class="pill pill-mint" href="/auction-results/">' + W("nf.results", "Browse auction results") + '</a></div>\n</section>';
@@ -849,6 +1008,7 @@
       function p(k) { if (PAGES.pages[k] && !done[k]) { done[k] = 1; out.push(sectionsPage(k)); } }
       p("home"); p("auction-results"); p("artists"); ARTIST_KEYS.forEach(function (s) { out.push(artistPage(s)); });
       p("research"); FEATURES.forEach(function (f) { out.push(featurePage(f)); });
+      if (!PAGES.pages["price-explorer"]) out.push(explorerPage());
       ["market-intelligence", "collecting-valuation", "about", "contact"].forEach(p);
       keys.forEach(p);
       out.push(notFound());
@@ -857,6 +1017,7 @@
     return {
       all: all, sectionsPage: sectionsPage, notFound: notFound,
       artistPage: function (slug) { return ARTISTS[slug] ? artistPage(slug) : null; },
+      explorerPage: explorerPage,
       featurePage: function (slug) { return FEATURE_BY_SLUG[slug] ? featurePage(FEATURE_BY_SLUG[slug]) : null; },
       // Which page a web address inside the site leads to.
       which: function (path) {
