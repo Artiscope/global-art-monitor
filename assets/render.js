@@ -388,8 +388,8 @@
         '<tbody>\n' + body + '</tbody>\n</table>\n</div>';
     }
     var LEGEND = '<div class="chips">\n<span class="chip" style="background:var(--ink-2)"><span class="dot dot-mint"></span>' + W("table.key-hammer", "Hammer price") + '</span>\n' +
-      '<span class="chip" style="background:var(--ink-2)"><span class="dot dot-blush"></span>' + W("table.key-premium", "Price with premium") + '</span>\n' +
-      '<span class="chip" style="background:var(--ink-2)"><span class="dot dot-grey"></span>' + W("table.key-estimate", "Estimate") + '</span>\n</div>';
+      '<span class="chip" style="background:var(--ink-2)"><span class="dot dot-prem"></span>' + W("table.key-premium", "Price with premium") + '</span>\n' +
+      '<span class="chip" style="background:var(--ink-2)"><span class="dot dot-est"></span>' + W("table.key-estimate", "Estimate") + '</span>\n</div>';
     var TABLE_NOTE = '<p class="note">Prices come from auction house lot pages and public auction databases, and are shown in the currency of the sale, marked by the symbol or code before each figure. ' +
       '"' + W("table.calculated", "Our calculation") + '" marks a figure the house did not publish. When only the total is published, we work back to the hammer price. When only the hammer price is reported, as with Sotheby\'s, which shows totals only to signed in users, we work forward to the total. ' +
       'Either way we use the buyer\'s premium rates the house published for that sale, and we check the result against what the house or the press reported. Point at the words in a row to see the working. ' +

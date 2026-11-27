@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Friday 27 November 2026 (clearer colours)
+Published: nothing.
+Drafts waiting: clearer colours for hammer price, price with premium, estimate and check status, and a lilac diamond for the second artist in comparisons (draft/2026-11-27-clearer-colours).
+Checked: results table, legend, artist charts, comparison and the estimate, hammer and total bars at desktop and phone widths.
+Needs you: your yes on the draft.
+
 ## Friday 27 November 2026 (price game)
 Published: nothing.
 Drafts waiting: Guess the hammer price, a daily game at guess-the-price/, linked from the full menu, the home page and the price explorer (draft/2026-11-27-guess-the-hammer-price).
