@@ -5,6 +5,7 @@
 // checks on the content, a local copy that reloads as you edit, and smoother page changes.
 import path from "node:path";
 import { defineConfig } from "astro/config";
+import react from "@astrojs/react";
 import { buildSite } from "./src/lib/site.mjs";
 
 // Builds the pages before Astro starts, and again whenever a data file or asset changes
@@ -32,6 +33,6 @@ export default defineConfig({
   trailingSlash: "always",
   build: { format: "directory" },
   outDir: "_site",
-  integrations: [sitePages()],
+  integrations: [sitePages(), react()],
   devToolbar: { enabled: false },
 });

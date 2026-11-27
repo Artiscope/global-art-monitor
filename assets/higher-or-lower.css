@@ -1,0 +1,79 @@
+/* Global Art Monitor: Higher or lower. Loaded on that page only. Uses the site's own colours and type. */
+.hol { scroll-margin-top: 110px; display: flex; flex-direction: column; gap: 18px; }
+.hol-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px; }
+.hol-stat { display: flex; align-items: baseline; gap: 10px; background: var(--panel); border-radius: 999px; padding: 10px 22px 10px 20px; }
+.hol-stat span { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--on-ink-quiet); }
+.hol-stat b { font-family: var(--serif); font-weight: 400; font-size: 34px; line-height: 1; color: var(--mint); font-variant-numeric: tabular-nums; display: inline-block; }
+.hol-stat + .hol-stat b { color: var(--text); }
+.hol-stat b.bump { animation: hol-bump .45s var(--ease); }
+.hol-fair { display: flex; flex-wrap: wrap; gap: 8px; margin-left: auto; }
+.hol-fair span { font-size: 13px; color: var(--on-ink-body); background: var(--card-2); border-radius: 999px; padding: 6px 14px; }
+.hol-q { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 3.6vw, 44px); line-height: 1.08; margin-top: 6px; }
+
+.hol-pair { display: grid; grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr); gap: 18px; align-items: stretch; }
+.hol-or { align-self: center; font-family: var(--serif); font-style: italic; font-size: 26px; color: var(--on-ink-quiet); }
+.hol-card { position: relative; display: flex; flex-direction: column; gap: 10px; text-align: left; background: var(--panel-2); border-radius: 26px; padding: 28px 26px 26px; min-width: 0;
+  box-shadow: inset 0 0 0 2px transparent; transition: transform .25s var(--ease), box-shadow .2s, background-color .2s; touch-action: manipulation; -webkit-tap-highlight-color: transparent; }
+button.hol-card { cursor: pointer; width: 100%; }
+button.hol-card:hover { transform: translateY(-4px); box-shadow: inset 0 0 0 2px var(--mint); }
+button.hol-card:active { transform: scale(.98); }
+button.hol-card:focus-visible { outline: 3px solid var(--mint); outline-offset: 3px; }
+.hol-side { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--coral); }
+.hol-artist { font-family: var(--serif); font-weight: 400; font-size: clamp(28px, 3vw, 38px); line-height: 1.05; }
+.hol-title { font-family: var(--serif); font-size: 21px; line-height: 1.25; }
+.hol-kind { align-self: flex-start; border-radius: 999px; padding: 5px 13px; font-size: 13px; font-weight: 600; background: var(--text); color: #15171A; }
+.hol-kind-edition { background: var(--coral); }
+.hol-medium { font-size: 14px; line-height: 1.5; color: var(--on-ink-body); overflow-wrap: anywhere; }
+.hol-house { font-size: 14px; line-height: 1.5; color: var(--text); }
+.hol-house span { display: block; font-size: 13px; color: var(--on-ink-quiet); }
+.hol-pick { margin-top: auto; align-self: flex-start; border-radius: 999px; padding: 12px 22px; font-size: 14px; font-weight: 600; background: var(--mint); color: var(--page); transition: transform .25s var(--ease); }
+button.hol-card:hover .hol-pick { transform: scale(1.04); }
+
+.hol-result { margin-top: auto; display: flex; flex-direction: column; gap: 8px; background: var(--panel); border-radius: 18px; padding: 16px 16px 14px; }
+.hol-badge { align-self: flex-start; border-radius: 999px; padding: 5px 13px; font-size: 13px; font-weight: 600; background: var(--panel-3); color: var(--text); }
+.hol-price { display: flex; flex-direction: column; gap: 2px; }
+.hol-price-k { font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--on-ink-quiet); }
+.hol-price-n { font-family: var(--serif); font-size: clamp(30px, 3.4vw, 42px); line-height: 1.05; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.hol-basis { font-size: 12px; line-height: 1.5; color: var(--on-ink-quiet); }
+.hol-src { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; font-size: 14px; }
+.hol-card.is-higher { box-shadow: inset 0 0 0 2px var(--mint); }
+.hol-card.is-higher .hol-badge { background: var(--mint); color: #15171A; }
+.hol-card.is-higher .hol-price-n { color: var(--mint); }
+.hol-card.is-lower .hol-price-n { color: var(--coral); }
+.hol-card.is-lower.is-picked { box-shadow: inset 0 0 0 2px var(--coral); }
+.hol-card.is-lower.is-picked .hol-badge { background: var(--coral); color: #15171A; }
+.hol-pair.is-shown .hol-result { animation: hol-rise .45s var(--ease) both; }
+.hol-pair.is-shown .hol-card.is-picked.is-higher { animation: hol-pop .5s var(--ease); }
+.hol-pair.is-shown .hol-card.is-picked.is-lower { animation: hol-shake .4s ease-in-out; }
+.hol-pair.is-dealt:not(.is-shown) .hol-card { animation: hol-deal .35s var(--ease) both; }
+.hol-pair.is-dealt:not(.is-shown) .hol-b { animation-delay: .06s; }
+
+.hol-hint, .hol-count { font-size: 13px; color: var(--on-ink-quiet); }
+.hol-after { scroll-margin-bottom: 24px; display: flex; flex-direction: column; gap: 10px; }
+.hol-verdict { font-size: 18px; line-height: 1.5; }
+.hol-verdict b { font-weight: 600; }
+.hol-verdict.is-right b { color: var(--mint); }
+.hol-verdict.is-wrong b { color: var(--coral); }
+.hol-best { font-size: 15px; color: var(--mint); font-weight: 600; }
+.hol-note { font-size: 14px; line-height: 1.6; color: var(--on-ink-body); }
+.hol-acts { display: flex; flex-wrap: wrap; gap: 10px; }
+.hol-shared { font-size: 13px; color: var(--on-ink-body); overflow-wrap: anywhere; }
+
+@keyframes hol-bump { 0% { transform: scale(1); } 40% { transform: scale(1.35); } 100% { transform: scale(1); } }
+@keyframes hol-rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes hol-pop { 0% { transform: scale(1); } 45% { transform: scale(1.025); } 100% { transform: scale(1); } }
+@keyframes hol-shake { 0%, 100% { transform: none; } 25% { transform: translateX(-6px); } 50% { transform: translateX(5px); } 75% { transform: translateX(-3px); } }
+@keyframes hol-deal { from { opacity: .4; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 760px) {
+  .hol-pair { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .hol-or { justify-self: center; font-size: 22px; }
+  .hol-card { padding: 22px 20px 20px; border-radius: 22px; }
+  .hol-fair { margin-left: 0; }
+  .hol-medium { display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .is-shown .hol-medium { display: block; }
+  .hol-pick { align-self: stretch; text-align: center; padding: 14px 22px; font-size: 15px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hol-card, .hol-pair.is-dealt .hol-card, .hol-pair.is-shown .hol-result, .hol-pair.is-shown .hol-card.is-picked, .hol-stat b.bump { animation: none !important; transition: none !important; }
+}
