@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Friday 27 November 2026
+Published: nothing.
+Drafts waiting: Price explorer, sortable results table and price charts, https://github.com/Artiscope/global-art-monitor/pull/39
+Checked: built only on the sales already in data/sales.json. No new figures.
+Needs you: look at the draft and the screenshots in the project's engagement folder.
+
 
 
 

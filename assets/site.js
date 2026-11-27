@@ -100,7 +100,8 @@
   function setupFilters() {
     document.querySelectorAll('[data-filter-group]').forEach(function (group) {
       var table = document.getElementById(group.getAttribute('data-filter-group'));
-      if (!table) { return; }
+      // the full results finder is run by assets/explorer.js, which also sorts
+      if (!table || group.hasAttribute('data-explorer')) { return; }
       var state = {}, words = '';
       var empty = document.getElementById(table.id + '-empty');
       var count = document.getElementById(table.id + '-count');

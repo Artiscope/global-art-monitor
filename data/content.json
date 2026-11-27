@@ -22,6 +22,11 @@
       "Documented sales, with hammer and premium kept apart."
     ],
     [
+      "price-explorer",
+      "Price Explorer",
+      "Charts of every documented sale, and two artists side by side."
+    ],
+    [
       "artists",
       "Artist Market Profiles",
       "One page per artist, built on sourced sales only."
