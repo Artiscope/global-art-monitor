@@ -1,0 +1,16 @@
+---
+// Every page of the site, at the same address it had before the move to Astro.
+import { getCollection } from "astro:content";
+import { pages, pageHtml, routeOf } from "../lib/site.mjs";
+import { collections } from "../content.config";
+
+export async function getStaticPaths() {
+  // reading the collections runs the content checks in src/content.config.ts
+  for (const name of Object.keys(collections)) await getCollection(name);
+  return pages()
+    .filter((p) => p !== "404.html")
+    .map((p) => ({ params: { path: routeOf(p) }, props: { file: p } }));
+}
+const html = pageHtml(Astro.props.file);
+---
+<Fragment set:html={html} />

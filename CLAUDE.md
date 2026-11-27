@@ -41,7 +41,12 @@ The content files can also be edited from Artiscope Digital Home. The
 pages are rebuilt automatically on every publish, so a change to the
 content goes live without anyone running the build. When you edit by
 hand, still run `python3 tools/build.py` to check it builds, then
-commit the source files and the rebuilt pages together. Every push to main is published by the workflow in
+commit the source files and the rebuilt pages together. The published
+site is built with Astro (see `ASTRO.md`): `npm ci` once, then
+`npx astro build` runs the same build plus checks on every sale and
+article, and stops with a plain message if an entry breaks the auction
+data rules below. `npx astro dev` gives a local copy that reloads as you
+edit. Do not commit `_site`, `public`, `.site-build` or `node_modules`. Every push to main is published by the workflow in
 `.github/workflows/pages.yml`. Do not edit that file. It leaves your
 working files (this brief, the voice guide, the log, the calendar,
 `image-slots.json`, `inbox/`, `tools/` and `data/`) out of the public
