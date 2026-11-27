@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Friday 27 November 2026
+Published: nothing.
+Drafts waiting: Usability fixes and polish from the 27 November report, https://github.com/Artiscope/global-art-monitor/pull/43
+Checked: every page builds and shows its content at once; header fits from 320 to 1366 pixels.
+Needs you: approve or send back the draft.
+
 ## Friday 27 November 2026 (clearer colours)
 Published: nothing.
 Drafts waiting: clearer colours for hammer price, price with premium, estimate and check status, and a lilac diamond for the second artist in comparisons (draft/2026-11-27-clearer-colours).
