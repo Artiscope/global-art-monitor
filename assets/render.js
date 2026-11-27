@@ -963,6 +963,14 @@
       var ldObj = { "@context": "https://schema.org", "@type": "ProfilePage", name: a.name + " market profile", url: pageUrl, dateModified: PUBLISHED_DT, mainEntity: person,
         isPartOf: { "@type": "WebSite", name: "Global Art Monitor", url: SITE.url } };
       var ldOut = '<script type="application/ld+json">' + pyJson(ldObj) + '</script>\n';
+      // the key works named in the profile, each as an artwork by this artist
+      (a.works || []).forEach(function (w) {
+        if (!w.t) return;
+        var art = { "@context": "https://schema.org", "@type": "VisualArtwork", name: w.t, creator: { "@type": "Person", "@id": pageUrl + "#artist", name: a.name }, url: pageUrl };
+        if (/^\d{4}$/.test(String(w.y || ""))) art.dateCreated = String(w.y);
+        if (w.m) art.artMedium = w.m;
+        ldOut += '<script type="application/ld+json">' + pyJson(art) + '</script>\n';
+      });
       if (rows.length) {
         var ds = { "@context": "https://schema.org", "@type": "Dataset", name: a.name + " auction results", url: pageUrl + "#timeline",
           description: "Every public auction sale of work by " + a.name + " that Global Art Monitor has documented: " + rows.length + " lots, with the low and high estimate, hammer price, price with buyer's premium, currency, sale date and a source for each.",
