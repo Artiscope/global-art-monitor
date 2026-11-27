@@ -234,30 +234,33 @@
         return href ? '<a class="' + cls + '" href="' + esc(href) + '"' + tag + (/^https?:/i.test(href) ? ' rel="noopener"' : "") + ">" + inner + "</a>" : '<span class="' + cls + '"' + tag + ">" + inner + "</span>";
       }).join("");
     }
+    // a small magnifying glass for the Search button, shown on its own on narrow phones
+    var SEARCH_ICON = '<svg class="search-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" fill="none" stroke="currentColor" stroke-width="2.4"/><line x1="15.6" y1="15.6" x2="20.5" y2="20.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>';
     function header(rootPath, current) {
       var st = shared("header")[0], name = esc(get(st, "name", "Global Art Monitor")), links = "", menu = "", i = 0;
       var logoL = headLogos(st, rootPath, "L"), logoC = headLogos(st, rootPath, "C"), logoR = headLogos(st, rootPath, "R");
       // Shorter names for the bar only, so six links fit. The pages keep their full names.
-      var shortNames = get(st, "nav_short", { "market-intelligence": "Market", "artists": "Artist Profiles", "research": "Research", "collecting-valuation": "Collecting", "guess-the-price": "Price Game" }) || {};
+      var shortNames = get(st, "nav_short", { "market-intelligence": "Market", "auction-results": "Results", "price-explorer": "Price Explorer", "artists": "Artists", "research": "Research", "collecting-valuation": "Collecting", "guess-the-price": "Price Game" }) || {};
       // Pages listed here stay out of the menu bar, so it still fits on one line. They remain in the full menu.
       var barSkip = get(st, "nav_skip", ["guess-the-price"]) || [];
       SECTIONS_LIST.forEach(function (s, k) {
         i = k + 1;
         var cur = s[0] === current ? ' aria-current="page"' : "";
         if (barSkip.indexOf(s[0]) < 0) links += '<a href="' + rootPath + s[0] + '/"' + cur + '>' + esc(shortNames[s[0]] || s[1]) + '</a>\n';
-        menu += '<a href="' + rootPath + s[0] + '/"><span>' + pad2(i) + '</span>' + esc(s[1]) + '</a>\n';
+        menu += '<a href="' + rootPath + s[0] + '/"' + cur + '><span>' + pad2(i) + '</span>' + esc(s[1]) + '</a>\n';
       });
       (get(st, "nav_extra", [["Contact", "contact/"]]) || []).forEach(function (m) {
         var key = String(m[1]).replace(/\/$/, "");
         links += '<a href="' + rootPath + m[1] + '"' + (key === current ? ' aria-current="page"' : "") + '>' + txt(m[0]) + '</a>\n';
       });
-      (get(st, "menu_extra", []) || []).forEach(function (m) { i += 1; menu += '<a href="' + rootPath + m[1] + '"><span>' + pad2(i) + '</span>' + txt(m[0]) + '</a>\n'; });
+      (get(st, "menu_extra", []) || []).forEach(function (m) { i += 1; var key = String(m[1]).replace(/\/$/, ""); menu += '<a href="' + rootPath + m[1] + '"' + (key === current ? ' aria-current="page"' : "") + '><span>' + pad2(i) + '</span>' + txt(m[0]) + '</a>\n'; });
       var brand = '<a class="brand" href="' + rootPath + '">' + MARK + name + '</a>';
       return '<a class="skip" href="#main">' + W("menu.skip", "Skip to content") + '</a>\n<div class="shell head-wrap">\n<header class="site-head' + (logoL || logoC || logoR ? " has-logos" : "") + '">\n' + (logoL ? '<div class="head-logos">' + brand + logoL + '</div>' : brand) + '\n' +
         '<nav class="nav" aria-label="' + W("sr.nav", "Sections") + '">\n' + links + '</nav>\n' + (logoC ? '<div class="head-logos head-mid">' + logoC + '</div>\n' : '') + '<div class="head-actions">\n' + logoR +
-        '<a class="pill pill-mint pill-small" href="' + rootPath + get(st, "subscribe_href", "about/#newsletter") + '">' + txt(get(st, "subscribe", "Subscribe")) + '</a>\n' +
+        '<button class="search-btn" type="button" data-search-open aria-expanded="false" aria-controls="site-search" hidden>' + SEARCH_ICON + '<span class="search-word">' + W("menu.search", "Search") + '</span></button>\n' +
+        '<a class="pill pill-mint pill-small head-sub" href="' + rootPath + get(st, "subscribe_href", "subscribe/") + '"' + (current === "subscribe" ? ' aria-current="page"' : "") + '>' + txt(get(st, "subscribe", "Subscribe")) + '</a>\n' +
         '<button class="menu-btn" type="button" data-menu-open aria-expanded="false" aria-controls="menu">' + W("menu.open", "Menu") + '</button>\n</div>\n</header>\n</div>\n' +
-        '<div class="menu" id="menu" aria-hidden="true">\n<div class="shell menu-top"><a class="brand" href="' + rootPath + '">' + MARK + name + '</a><button class="menu-close" type="button" data-menu-close>' + W("menu.close", "Close") + '</button></div>\n' +
+        '<div class="menu" id="menu" aria-hidden="true">\n<div class="shell menu-top"><a class="brand" href="' + rootPath + '">' + MARK + name + '</a><div class="head-actions"><button class="search-btn" type="button" data-search-open aria-expanded="false" aria-controls="site-search" hidden>' + SEARCH_ICON + '<span class="search-word">' + W("menu.search", "Search") + '</span></button><button class="menu-close" type="button" data-menu-close>' + W("menu.close", "Close") + '</button></div></div>\n' +
         '<nav class="shell menu-list" aria-label="' + W("sr.menu", "All sections") + '">\n' + menu + '</nav>\n<div class="shell menu-foot"><span data-london-time>London</span><span>' + txt(get(st, "menu_tagline", "")) + '</span></div>\n</div>\n';
     }
     // Social media addresses chosen in the theme; nothing is shown until one is filled in.
@@ -278,7 +281,7 @@
       var about = (get(st, "about_links", []) || []).map(function (l) { return '<a href="' + rootPath + l[1] + '">' + txt(l[0]) + '</a>'; }).join("");
       var legal = get(st, "legal_link", null) || ["", ""];
       var body = !on ? "" : '<footer class="site-foot">\n<div class="shell foot-inner">\n<div class="foot-cta">\n<h2>' + txt(get(st, "heading", "")) + '</h2>\n' +
-        '<a class="pill pill-mint" href="' + rootPath + get(st, "button_href", "about/#newsletter") + '">' + txt(get(st, "button", "")) + '</a>\n</div>\n<div class="foot-cols">\n' +
+        '<a class="pill pill-mint" href="' + rootPath + get(st, "button_href", "subscribe/") + '">' + txt(get(st, "button", "")) + '</a>\n</div>\n<div class="foot-cols">\n' +
         '<div><p class="foot-brand">' + MARK + name + '</p><p class="quiet">' + txt(get(st, "blurb", "")) + '</p></div>\n' +
         '<div><h3>' + W("menu.foot-sections", "Sections") + '</h3>' + secs + '</div>\n<div><h3>' + W("menu.foot-artists", "Artists") + '</h3>' + arts + '</div>\n<div><h3>' + W("menu.foot-about", "About") + '</h3>' + about + '</div>\n</div>\n' +
         socialHtml() + '<p class="foot-legal">' + fill(get(st, "legal", "")) + ' <a href="' + rootPath + legal[1] + '">' + txt(legal[0]) + '</a></p>\n</div>\n' +
@@ -316,7 +319,7 @@
       top = own ? "" : [groupHtml("top", true), top || ""].filter(Boolean).join("\n");
       body = (own ? [body, groupHtml("popups"), ao.fixed] : [groupHtml("top", false), body, ao.share, groupHtml("bottom"), groupHtml("popups"), ao.fixed]).filter(Boolean).join("\n");
       body = body.split("@@").join(rootPath);
-      return { path: path, html: head(rootPath, title, desc, urlPath, extraHead) + "<body" + (intro && !own ? " data-intro" : "") + ">\n" + (top ? top.split("@@").join(rootPath) + "\n" : "") + (own ? "" : header(rootPath, current || String(path).replace(/\/?index\.html$/, ""))) +
+      return { path: path, html: head(rootPath, title, desc, urlPath, extraHead) + "<body>\n" + (top ? top.split("@@").join(rootPath) + "\n" : "") + (own ? "" : header(rootPath, current || String(path).replace(/\/?index\.html$/, ""))) +
         '<main id="main">\n' + body + '\n</main>\n' + footer(rootPath, own) };
     }
 
@@ -431,7 +434,7 @@
       var a = ARTISTS[slug], rows = salesFor(slug), best = maxBy(priced(rows), function (s) { return s.premium; });
       var houses = (a.houses || []).map(function (h) { return '<span class="chip">' + esc(h) + '</span>'; }).join("");
       var bests = bestPerCurrency(rows);
-      var line = bests.length > 1 ? '<p>Highest documented prices, with premium, in each currency of sale: ' + bests.map(function (b) { return money(b.premium, b.currency) + ' (' + bestLine(b) + ')'; }).join("; ") + '.</p>'
+      var line = bests.length > 1 ? '<p>Highest documented prices, with premium, in each currency of sale: ' + bests.map(function (b) { return 'in ' + esc(b.currency) + ', ' + money(b.premium, b.currency) + ' (' + bestLine(b) + ')'; }).join("; ") + '.</p>'
         : best ? '<p>Highest documented price: ' + money(best.premium, best.currency) + ' with premium for ' + esc(best.title) + ', ' + esc(best.house) + (best.date ? ", " + best.date_text : "") + '.</p>'
         : '<p>' + W("missing.no-priced", "No priced sale documented yet.") + '</p>';
       return '<article class="card card-profile card-ink on-ink" data-reveal style="--d:' + delay + 'ms"><h3><a href="@@artists/' + slug + '/">' + esc(a.name) + '</a></h3>' +
@@ -440,7 +443,7 @@
     }
     var MORE_ARTISTS = '<article class="card card-profile" data-reveal style="--d:180ms"><h3>More artists to follow</h3>' +
       '<p>Profiles for further artists are added once an artist has a documented public sale we can source and check.</p>' +
-      '<a class="text-link" href="@@about/#newsletter">' + W("btn.tell-me", "Tell me when a profile is added") + '</a></article>\n';
+      '<a class="text-link" href="@@subscribe/">' + W("btn.tell-me", "Tell me when a profile is added") + '</a></article>\n';
     var METHOD = '<div class="panel on-ink" data-reveal>\n<h2 class="h2" style="max-width:640px">How we report a price</h2>\n<div class="method">\n' +
       '<div><h3>Two prices, never one</h3><p>Hammer and premium-inclusive prices are shown in separate columns and never merged.</p></div>\n' +
       '<div><h3>Currency as sold</h3><p>Figures stay in the currency of the sale. Any conversion carries its date and rate.</p></div>\n' +
@@ -478,7 +481,9 @@
     S.hero = function (st) {
       var s = latestPriced(), a = s ? ARTISTS[s.artist] : null;
       var kinds = { mint: "pill-mint", ink: "pill-ink", blush: "pill-blush" };
-      var buttons = (get(st, "buttons", []) || []).map(function (b) { return '<a class="pill ' + (kinds[b.length > 2 ? b[2] : "ink"] || "pill-ink") + '" href="@@' + b[1] + '">' + txt(b[0]) + '</a>\n'; }).join("");
+      // "research/latest" leads to the newest research piece (the articles are kept newest first)
+      var hrefOfBtn = function (h) { return h === "research/latest" ? (FEATURES[0] ? "research/" + FEATURES[0].slug + "/" : "research/") : h; };
+      var buttons = (get(st, "buttons", []) || []).map(function (b) { return '<a class="pill ' + (kinds[b.length > 2 ? b[2] : "ink"] || "pill-ink") + '" href="@@' + hrefOfBtn(b[1]) + '">' + txt(b[0]) + '</a>\n'; }).join("");
       var card = "";
       if (get(st, "result_card", true) && s) {
         var est = s.est_low && s.est_high ? '<span class="chip">Estimate ' + money(s.est_low, s.currency) + ' to ' + money(s.est_high, s.currency) + '</span>' : "";
@@ -739,7 +744,7 @@
     function mailTo() { return SITE.email || "info@artiscope.co.uk"; }
     S.signup = function (st) {
       var t = get(st, "text", ""), e = get(st, "eyebrow", ""), h = get(st, "heading", "");
-      return '<section class="shell section">\n<div class="panel on-ink signup" data-reveal>\n<div class="su-head">' + (e ? '<p class="eyebrow">' + txt(e) + '</p>' : "") + (h ? '<h2 class="h2">' + txt(h) + '</h2>' : "") + (t ? '<p class="intro">' + txt(String(t).trim()) + '</p>' : "") + '</div>\n' +
+      return '<section class="shell section">\n<div class="panel on-ink signup" data-reveal>\n<div class="su-head">' + (e ? '<p class="eyebrow">' + txt(e) + '</p>' : "") + (h ? '<h2 class="h2">' + txt(h) + '</h2>' : "") + (t ? '<p class="intro">' + fill(String(t).trim()) + '</p>' : "") + '</div>\n' +
         '<form class="form su-form" data-mailform="signup" data-email="' + esc(mailTo()) + '" novalidate>\n<div class="su-row"><label class="field">' + W("form.first-name", "First name") + '<input name="name" type="text" autocomplete="given-name"></label><label class="field">' + W("form.email", "Email") + '<input name="email" type="email" autocomplete="email" required></label></div>\n' +
         '<div class="form-foot"><button class="pill pill-mint" type="submit">' + (get(st, "button", "") ? txt(get(st, "button", "")) : W("btn.join", "Ask to join")) + '</button>\n<p class="quiet su-note" role="status">' + W("form.note", "This opens your own email app with a message ready to send to {email}.", { email: esc(mailTo()) }) + '</p></div>\n</form>\n</div>\n</section>';
     };
@@ -882,16 +887,17 @@
       else if (opts.mark) img = '<figure class="art-slot"><div class="pic-frame" style="aspect-ratio:4/5"><span class="supply">' + W("missing.picture", "Picture to supply") + '</span></div></figure>';
       if (img && opts.mark) img = img.replace('<figure class="art-slot"', '<figure class="art-slot" data-adh="picture"');
       var bests = bestPerCurrency(rows);
-      var bestFact = bests.length > 1 ? '<span class="v">' + money(bests[0].premium, bests[0].currency) + '</span><span class="s">With premium. ' + bestLine(bests[0]) + '. ' +
-          bests.slice(1).map(function (b) { return 'Highest in ' + esc(b.currency) + ': ' + money(b.premium, b.currency) + ', ' + bestLine(b) + '.'; }).join(" ") + '</span>'
-        : best ? '<span class="v">' + money(best.premium, best.currency) + '</span><span class="s">With premium. ' + esc(best.title) + ', ' + esc(best.house) + ', ' + esc(best.date ? best.date_text : "date to confirm") + '.</span>'
+      // One line per currency of sale, each labelled. Prices in different currencies are never ranked, so none is called the highest overall.
+      var bestFact = bests.length > 1 ? '<ul class="fact-list">' + bests.map(function (b) { return '<li><span class="cur">' + W("item.in-cur", "In {cur}", { cur: esc(b.currency) }) + '</span><span class="v v-sm">' + money(b.premium, b.currency) + '</span><span class="s">' + bestLine(b) + '.</span></li>'; }).join("") + '</ul>' +
+          '<span class="s">' + W("item.multi-cur", "With premium. Sold in {n} currencies, so each has its own top price. We do not convert them.", { n: String(bests.length) }) + '</span>'
+        : best ? '<span class="v">' + money(best.premium, best.currency) + '</span><span class="s">With premium, in ' + esc(best.currency) + '. ' + esc(best.title) + ', ' + esc(best.house) + ', ' + esc(best.date ? best.date_text : "date to confirm") + '.</span>'
         : '<span class="v">' + W("missing.tbc", "To confirm") + '</span><span class="s">' + W("missing.no-priced", "No priced sale documented yet.") + '</span>';
       var firstFact = first ? '<span class="v">' + esc(first.date_text) + '</span><span class="s">' + esc(first.title) + ', ' + esc(first.house) + '.</span>' : '<span class="v">' + W("missing.tbc", "To confirm") + '</span><span class="s">' + W("missing.no-dated", "No dated sale yet.") + '</span>';
       var M = function (h, id) { return opts.mark ? h.replace(/^(\s*<[a-z]+)/, '$1 data-adh="' + id + '"') : h; };
       var body = M('<section class="shell page-head">\n<p class="crumbs" data-reveal><a href="@@artists/">' + W("item.crumb-artists", "Artist Market Profiles") + '</a></p>\n<h1 class="h1" data-reveal style="--d:80ms">' + esc(a.name) + '</h1>\n' +
         '<p class="lede" data-reveal style="--d:200ms">' + esc(a.summary) + '</p>\n</section>', "words") + '\n' +
         M('<section class="shell section" style="padding-top:48px">\n<div class="facts">\n' +
-        '<div class="fact" data-reveal><span class="k">' + W("item.highest", "Highest documented price") + '</span>' + bestFact + '</div>\n' +
+        '<div class="fact' + (bests.length > 1 ? " fact-wide" : "") + '" data-reveal><span class="k">' + (bests.length > 1 ? W("item.highest-each", "Highest documented price in each currency") : W("item.highest", "Highest documented price")) + '</span>' + bestFact + '</div>\n' +
         '<div class="fact" data-reveal style="--d:90ms"><span class="k">' + W("item.priced", "Priced results") + '</span><span class="v">' + pr.length + '</span><span class="s">' + W("item.out-of", "Out of {total} lots we have found.", { total: String(rows.length) }) + '</span></div>\n' +
         '<div class="fact" data-reveal style="--d:180ms"><span class="k">' + W("item.earliest", "Earliest dated sale") + '</span>' + firstFact + '</div>\n' +
         '<div class="fact" data-reveal style="--d:270ms"><span class="k">' + W("item.houses", "Auction houses") + '</span><span class="v">' + (a.houses || []).length + '</span><span class="s">' + esc((a.houses || []).join(", ")) + '.</span></div>\n' +
@@ -1037,6 +1043,29 @@
         .replace(/<meta property="og:url"[^>]*>\n/, "");
       return { path: "404.html", html: nfHead + "<body>\n" + (groupHtml("top", true) ? groupHtml("top", true).split("@@").join("/") + "\n" : "") + header("/", "") + '<main id="main">\n' + [groupHtml("top", false), body, groupHtml("bottom"), groupHtml("popups")].filter(Boolean).join("\n").split("@@").join("/") + '\n</main>\n' + footer("/") };
     }
+    // The list the site search looks through (assets/search.json): artists, research, every sale,
+    // glossary terms and the main pages. Plain text only, built from the same data as the pages.
+    function searchIndex() {
+      var strip = function (h) { return String(h || "").replace(/\[\[[^\]]*\]\]/g, " ").replace(/<[^>]*>/g, " ").replace(/&amp;/g, "&").replace(/&[a-z#0-9]+;/gi, " ").replace(/\s+/g, " ").trim(); };
+      var out = [];
+      byArtistName(ARTIST_KEYS).forEach(function (k) {
+        var a = ARTISTS[k];
+        out.push({ k: "artist", t: a.name, d: a.line || "", u: "artists/" + k + "/", x: [a.summary, (a.houses || []).join(" ")].join(" ") });
+      });
+      FEATURES.forEach(function (f) { out.push({ k: "research", t: f.title, d: f.standfirst || "", u: "research/" + f.slug + "/", x: [f.kicker, (f.tags || []).join(" "), strip(f.body).slice(0, 4000)].join(" ") }); });
+      salesFor(null).forEach(function (x) {
+        var a = ARTISTS[x.artist], price = x.premium ? money(x.premium, x.currency) + " with premium" : x.hammer ? money(x.hammer, x.currency) + " hammer" : "Price to confirm";
+        out.push({ k: "sale", t: a.name + ", " + x.title, d: [x.house, x.date_text, price].filter(Boolean).join(". "), u: "artists/" + x.artist + "/#work-" + x.id, x: [x.sale, x.medium, x.year, x.currency, x.lot ? "lot " + x.lot : ""].join(" ") });
+      });
+      GLOSSARY.forEach(function (g) { out.push({ k: "term", t: g[0], d: g[1], u: "collecting-valuation/#" + slugify(g[0]), x: "" }); });
+      SECTIONS_LIST.forEach(function (x) { out.push({ k: "page", t: x[1], d: x[2], u: x[0] + "/", x: "" }); });
+      Object.keys(PAGES.pages || {}).forEach(function (k) {
+        var pg = PAGES.pages[k], u = String(pg.path || "").replace(/index\.html$/, "");
+        if (!u || SECTIONS_LIST.some(function (x) { return x[0] + "/" === u; })) return;
+        out.push({ k: "page", t: String(pg.title || k).split(" | ")[0], d: pg.description || "", u: u, x: "" });
+      });
+      return out;
+    }
     // Every published page, in the order the old build wrote them.
     function all() {
       var out = [], keys = Object.keys(PAGES.pages || {}), done = {};
@@ -1051,7 +1080,7 @@
       return out;
     }
     return {
-      all: all, sectionsPage: sectionsPage, notFound: notFound,
+      all: all, sectionsPage: sectionsPage, notFound: notFound, searchIndex: searchIndex,
       artistPage: function (slug) { return ARTISTS[slug] ? artistPage(slug) : null; },
       explorerPage: explorerPage,
       gamePage: gamePage,

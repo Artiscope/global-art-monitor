@@ -7,7 +7,7 @@
       "settings": {
         "name": "Global Art Monitor",
         "subscribe": "Subscribe",
-        "subscribe_href": "about/#newsletter",
+        "subscribe_href": "subscribe/",
         "menu_extra": [
           [
             "About and method",
@@ -16,6 +16,10 @@
           [
             "Contact",
             "contact/"
+          ],
+          [
+            "Subscribe",
+            "subscribe/"
           ]
         ],
         "menu_tagline": "The auction and market research platform"
@@ -26,8 +30,8 @@
       "visible": true,
       "settings": {
         "heading": "The monthly market note, sent when there is something to report.",
-        "button": "Subscribe by email",
-        "button_href": "about/#newsletter",
+        "button": "Subscribe",
+        "button_href": "subscribe/",
         "blurb": "Auction and market research for collectors who want the record, not the rumour.",
         "about_links": [
           [
@@ -82,7 +86,7 @@
             "buttons": [
               [
                 "Read the latest analysis",
-                "research/",
+                "research/latest",
                 "mint"
               ],
               [
@@ -282,7 +286,7 @@
           "settings": {
             "all_artists": "All artists",
             "all_houses": "All houses",
-            "empty": "No documented sales match those two filters yet."
+            "empty": "No documented sales match your filters. Check the spelling, or clear the filters and try one at a time."
           }
         },
         {
@@ -443,7 +447,7 @@
           "settings": {
             "eyebrow": "Research Reports",
             "headline": "Longer studies, with sources and method shown.",
-            "lede": "Our commissioned features. Each one states what the evidence supports and where it stops.",
+            "lede": "Our commissioned features, newest first. Each one states what the evidence supports and where it stops.",
             "wide": true
           }
         },
@@ -588,7 +592,7 @@
           "type": "prose",
           "visible": true,
           "settings": {
-            "html": "<h2 id=\"disclosure\" style=\"margin-top:0\">Who publishes this</h2>\n<p>{disclosure}</p>\n<p>We think the best answer to that interest is to show our working. Every figure carries a source. Lower results and unconfirmed lots are listed next to the highest ones. Our features say plainly what a small auction record cannot prove.</p>\n\n<h2 id=\"method\">Method</h2>\n<p>We record public auction sales only. For each lot we note the sale date, the house, the sale title, the lot number, the estimate, the hammer price, the price with buyer's premium and the currency.</p>\n<ul>\n<li><strong>Hammer and premium stay separate.</strong> Where a house publishes only the total, we work the hammer price back using that house's published buyer's premium for the date of the sale and label it \"our calculation\". We only do this when the answer comes out as a whole bidding step, and not for houses where different buyers can pay different rates in the same sale. Our <a href=\"@@research/buyers-premium-explained/\">guide to the buyer's premium</a> shows the working.</li>\n<li><strong>Currency stays as sold.</strong> We do not convert prices in the tables. If a conversion appears in an article, it carries the date and rate.</li>\n<li><strong>Gaps are shown.</strong> If we cannot confirm a figure it reads \"to confirm\". We do not estimate missing prices.</li>\n<li><strong>Unsold lots count.</strong> When we can document a lot that was offered and not sold, it goes in the record.</li>\n</ul>\n\n<h2 id=\"sources\">Sources</h2>\n<p>Our first source is always the auction house's own lot page. Where a house does not publish a figure, we use public auction databases such as Invaluable, MutualArt and Artnet, and say which. News reports are used for context and are linked. Background on each artist, such as museum shows and prizes, comes from museum and prize body pages and named press, listed on each profile.</p>\n<p>The source for each result is linked in the last column of every table.</p>\n\n<h2 id=\"corrections\">Corrections</h2>\n<p>If a figure here is wrong or out of date, we want to know. Email <a href=\"mailto:{email}?subject=Correction\">{email}</a> with the page, the figure and your source. We correct the record and note material changes on the page concerned.</p>\n\n<h2 id=\"newsletter\">The monthly market note</h2>\n<p>A short email with new documented results and new research, sent when there is something to report. To join the list, email <a href=\"mailto:{email}?subject=Subscribe%20to%20the%20monthly%20market%20note\">{email}</a> with the subject line \"Subscribe\".</p>\n\n<h2 id=\"contact\">Contact</h2>\n<p>For questions, press enquiries or anything else, use the <a href=\"@@contact/\">contact page</a>.</p>\n\n<h2 id=\"advice\">Not advice</h2>\n<p>Nothing on this site is investment, tax or legal advice. Auction results describe past sales of particular works. They do not predict what any work will sell for in future.</p>",
+            "html": "<h2 id=\"disclosure\" style=\"margin-top:0\">Who publishes this</h2>\n<p>{disclosure}</p>\n<p>We think the best answer to that interest is to show our working. Every figure carries a source. Lower results and unconfirmed lots are listed next to the highest ones. Our features say plainly what a small auction record cannot prove.</p>\n\n<h2 id=\"method\">Method</h2>\n<p>We record public auction sales only. For each lot we note the sale date, the house, the sale title, the lot number, the estimate, the hammer price, the price with buyer's premium and the currency.</p>\n<ul>\n<li><strong>Hammer and premium stay separate.</strong> Where a house publishes only the total, we work the hammer price back using that house's published buyer's premium for the date of the sale and label it \"our calculation\". We only do this when the answer comes out as a whole bidding step, and not for houses where different buyers can pay different rates in the same sale. Our <a href=\"@@research/buyers-premium-explained/\">guide to the buyer's premium</a> shows the working.</li>\n<li><strong>Currency stays as sold.</strong> We do not convert prices in the tables. If a conversion appears in an article, it carries the date and rate.</li>\n<li><strong>Gaps are shown.</strong> If we cannot confirm a figure it reads \"to confirm\". We do not estimate missing prices.</li>\n<li><strong>Unsold lots count.</strong> When we can document a lot that was offered and not sold, it goes in the record.</li>\n</ul>\n\n<h2 id=\"sources\">Sources</h2>\n<p>Our first source is always the auction house's own lot page. Where a house does not publish a figure, we use public auction databases such as Invaluable, MutualArt and Artnet, and say which. News reports are used for context and are linked. Background on each artist, such as museum shows and prizes, comes from museum and prize body pages and named press, listed on each profile.</p>\n<p>The source for each result is linked in the last column of every table.</p>\n\n<h2 id=\"corrections\">Corrections</h2>\n<p>If a figure here is wrong or out of date, we want to know. Email <a href=\"mailto:{email}?subject=Correction\">{email}</a> with the page, the figure and your source. We correct the record and note material changes on the page concerned.</p>\n\n<h2 id=\"newsletter\">The monthly market note</h2>\n<p>A short email with new documented results and new research, sent when there is something to report. To join, use the <a href=\"@@subscribe/\">subscribe page</a>, or email <a href=\"mailto:{email}?subject=Subscribe\">{email}</a> with the subject line \"Subscribe\". Both reach the same inbox.</p>\n\n<h2 id=\"contact\">Contact</h2>\n<p>For questions, press enquiries or anything else, use the <a href=\"@@contact/\">contact page</a>.</p>\n\n<h2 id=\"advice\">Not advice</h2>\n<p>Nothing on this site is investment, tax or legal advice. Auction results describe past sales of particular works. They do not predict what any work will sell for in future.</p>",
             "aside": "<div class=\"mini\"><h2>On this page</h2><ul><li><a href=\"#disclosure\">Who publishes this</a></li><li><a href=\"#method\">Method</a></li><li><a href=\"#sources\">Sources</a></li><li><a href=\"#corrections\">Corrections</a></li><li><a href=\"#newsletter\">Monthly market note</a></li><li><a href=\"@@contact/\">Contact</a></li></ul></div>\n<div class=\"mini\"><h2>Last updated</h2><p>{published}</p></div>"
           }
         }
@@ -617,8 +621,8 @@
           "type": "contact-form",
           "visible": true,
           "settings": {
-            "html": "<form class=\"form\" id=\"contact-form\" novalidate data-email=\"{email}\" data-reveal>\n<div class=\"field\"><label for=\"cf-name\">Your name</label><input id=\"cf-name\" name=\"name\" type=\"text\" autocomplete=\"name\" required maxlength=\"120\"></div>\n<div class=\"field\"><label for=\"cf-email\">Your email</label><input id=\"cf-email\" name=\"email\" type=\"email\" autocomplete=\"email\" required maxlength=\"254\"></div>\n<div class=\"field\"><label for=\"cf-topic\">What is it about?</label>\n<select id=\"cf-topic\" name=\"topic\">\n<option>General question</option>\n<option>Correction to a figure</option>\n<option>A sale or source to add</option>\n<option>Press enquiry</option>\n<option>Monthly market note</option>\n<option>Something else</option>\n</select></div>\n<div class=\"field\"><label for=\"cf-message\">Your message</label><textarea id=\"cf-message\" name=\"message\" rows=\"7\" required maxlength=\"5000\"></textarea></div>\n<div class=\"hp\" aria-hidden=\"true\"><label>Leave this box empty<input name=\"website\" type=\"text\" tabindex=\"-1\" autocomplete=\"off\"></label></div>\n<div class=\"form-foot\"><button class=\"pill pill-ink\" type=\"submit\">Send your message</button>\n<p class=\"quiet\" id=\"contact-status\" role=\"status\"></p></div>\n<noscript><p class=\"quiet\">This form needs scripts switched on. You can also write to {email}.</p></noscript>\n</form>",
-            "aside": "<div class=\"mini\"><h2>Email us directly</h2><p><a href=\"mailto:{email}\">{email}</a></p></div>\n<div class=\"mini\"><h2>Corrections</h2><p>Tell us the page, the figure and your source. How we handle them is on the <a href=\"@@about/#corrections\">about page</a>.</p></div>\n<div class=\"mini\"><h2>Monthly market note</h2><p>Choose \"Monthly market note\" in the form, or see <a href=\"@@about/#newsletter\">how to subscribe</a>.</p></div>\n<div class=\"mini\"><h2>Valuations</h2><p>We do not value works. For insurance, tax or a sale, please ask a qualified valuer.</p></div>"
+            "html": "<form class=\"form\" id=\"contact-form\" novalidate data-email=\"{email}\" data-reveal>\n<div class=\"field\"><label for=\"cf-name\">Your name</label><input id=\"cf-name\" name=\"name\" type=\"text\" autocomplete=\"name\" required maxlength=\"120\"></div>\n<div class=\"field\"><label for=\"cf-email\">Your email</label><input id=\"cf-email\" name=\"email\" type=\"email\" autocomplete=\"email\" required maxlength=\"254\"></div>\n<div class=\"field\"><label for=\"cf-topic\">What is it about?</label>\n<select id=\"cf-topic\" name=\"topic\">\n<option>General question</option>\n<option>Correction to a figure</option>\n<option>A sale or source to add</option>\n<option>Press enquiry</option>\n<option>Something else</option>\n</select></div>\n<div class=\"field\"><label for=\"cf-message\">Your message</label><textarea id=\"cf-message\" name=\"message\" rows=\"7\" required maxlength=\"5000\"></textarea></div>\n<div class=\"hp\" aria-hidden=\"true\" inert><label>Leave this box empty<input name=\"website\" type=\"text\" tabindex=\"-1\" autocomplete=\"off\"></label></div>\n<div class=\"form-foot\"><button class=\"pill pill-ink\" type=\"submit\">Send your message</button>\n<p class=\"quiet\" id=\"contact-status\" role=\"status\"></p></div>\n<noscript><p class=\"quiet\">This form needs scripts switched on. You can also write to {email}.</p></noscript>\n</form>",
+            "aside": "<div class=\"mini\"><h2>Email us directly</h2><p><a href=\"mailto:{email}\">{email}</a></p></div>\n<div class=\"mini\"><h2>Corrections</h2><p>Tell us the page, the figure and your source. How we handle them is on the <a href=\"@@about/#corrections\">about page</a>.</p></div>\n<div class=\"mini\"><h2>Monthly market note</h2><p>This form is for questions. To join the list, use the <a href=\"@@subscribe/\">subscribe page</a>.</p></div>\n<div class=\"mini\"><h2>Valuations</h2><p>We do not value works. For insurance, tax or a sale, please ask a qualified valuer.</p></div>"
           }
         }
       ]
@@ -675,6 +679,46 @@
           "visible": true,
           "settings": {
             "html": "<p>These terms cover your use of Global Art Monitor. By using the site you accept them, so please read them. They are short.</p>\n<h2 id=\"who-we-are\">Who we are</h2>\n<p>Global Art Monitor is published by Artiscope Ltd, registered in England and Wales, company number 16048878. You can reach us at <a href=\"mailto:info@artiscope.co.uk\">info@artiscope.co.uk</a>.</p>\n<h2 id=\"what-our-pages-are-for\">What our pages are for</h2>\n<p>Our auction records, articles and guides are general information. They are not financial, legal, tax or investment advice, and nothing here is a valuation. An auction result is a past price and does not tell you what a work will fetch next time. Before you buy, sell or insure a work of art, take advice from someone who knows your circumstances.</p>\n<p>Artiscope has a commercial interest in some of the artists we cover, and we say so on our <a href=\"../about/#disclosure\">About page</a>. Please read what we publish with that in mind.</p>\n<h2 id=\"accuracy\">Accuracy</h2>\n<p>We take every fact and figure from a published source and show where it came from. Sources can be wrong, and things change after we write about them. If you spot a mistake, please <a href=\"../contact/\">tell us</a> and we will look into it.</p>\n<p>Where we give an auction price we say whether it is the hammer price or includes the buyer's premium, and where we have not checked a figure against the auction house's own record, we say that too.</p>\n<h2 id=\"using-our-content\">Using our content</h2>\n<p>The writing on Global Art Monitor belongs to Artiscope Ltd. You are welcome to quote short passages, as long as you name Global Art Monitor and link to the page. Please ask us before copying whole articles or republishing them anywhere else.</p>\n<p>Pictures belong to the artists and photographers named with them. Some are used under a licence, such as Creative Commons, and where that is so the licence is named in the credit. Check it before you reuse a picture. A licence for a photograph of an artwork covers the photograph, not the artwork, which may still be protected by the artist's copyright.</p>\n<p>Names of artists, galleries, auction houses and other businesses belong to their owners. Mentioning them does not mean they endorse us or are connected with us.</p>\n<h2 id=\"writing-to-us\">Writing to us</h2>\n<p>Please do not send us anything unlawful, or anything confidential you would not want us to keep. If you send a correction, we may use it to fix the page, without naming you unless you agree. <a href=\"../privacy/\">Our privacy page</a> explains what happens to your message.</p>\n<h2 id=\"links-to-other-sites\">Links to other sites</h2>\n<p>We link to our sources so you can check them. We do not run those sites and are not responsible for what they publish. A link is not an endorsement.</p>\n<h2 id=\"our-responsibility\">Our responsibility</h2>\n<p>We work hard to keep the site accurate and available, but we provide it as it is, and we cannot promise it will always be free of mistakes or interruptions. As far as the law allows, we are not responsible for any loss caused by relying on it.</p>\n<p>Nothing in these terms limits any responsibility that cannot be limited by law, such as for death or personal injury caused by negligence, or for fraud.</p>\n<h2 id=\"changes\">Changes</h2>\n<p>We may update these terms. The date at the top shows when they last changed.</p>\n<h2 id=\"law\">Law</h2>\n<p>These terms are governed by the law of England and Wales, and the courts of England and Wales deal with any dispute.</p>"
+          }
+        }
+      ]
+    },
+    "subscribe": {
+      "path": "subscribe/index.html",
+      "title": "Subscribe to the Monthly Market Note | Global Art Monitor",
+      "description": "Join the Global Art Monitor monthly market note: new documented auction results and new research, sent when there is something to report.",
+      "current": "",
+      "intro": false,
+      "sections": [
+        {
+          "id": "head",
+          "type": "page-head",
+          "visible": true,
+          "settings": {
+            "eyebrow": "Subscribe",
+            "headline": "The monthly market note.",
+            "lede": "A short email with new documented results and new research, sent when there is something to report. It is free, and you can leave the list at any time by writing to us.",
+            "wide": true
+          }
+        },
+        {
+          "id": "join",
+          "type": "signup",
+          "visible": true,
+          "settings": {
+            "eyebrow": "Join the list",
+            "heading": "Add your email address.",
+            "text": "Press the button and your own email app opens with a short request to {email}, ready to send. Once it reaches us we add you to the list. This website does not store your address.",
+            "button": "Write my request"
+          }
+        },
+        {
+          "id": "more",
+          "type": "prose",
+          "visible": true,
+          "settings": {
+            "html": "<h2 style=\"margin-top:0\">If the button does nothing</h2>\n<p>Some computers have no email app set up. In that case, email <a href=\"mailto:{email}?subject=Subscribe\">{email}</a> yourself with the subject line \"Subscribe\". It reaches the same inbox.</p>\n<h2>What we keep</h2>\n<p>Your name, if you give it, and your email address, kept in our email inbox and used only to send the note. The <a href=\"@@privacy/#if-you-email-us-or-ask-to-join-a-list\">privacy notice</a> has the detail.</p>\n<h2>Questions instead?</h2>\n<p>For a question about a figure, a correction or a press enquiry, use the <a href=\"@@contact/\">contact page</a>.</p>",
+            "aside": "<div class=\"mini\"><h2>Who publishes this</h2><p>{disclosure}</p></div>"
           }
         }
       ]

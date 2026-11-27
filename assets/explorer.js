@@ -346,6 +346,9 @@
   }
 
   // ---------- the auction results finder: filter, sort and share ----------
+  function escH(t) { return String(t).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function numWord(n) { return ['no', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight'][n] || String(n); }
+  function root() { var l = document.querySelector('a.brand'); return l ? l.getAttribute('href') : '/'; }
   function setupFinder(group) {
     var table = document.getElementById(group.getAttribute('data-filter-group'));
     if (!table) return;
@@ -405,7 +408,15 @@
       selects.forEach(function (sel) { if (sel.value !== 'all') active++; });
       if (st.q.length) active++; if (st.min != null || st.max != null) active++;
       var filtered = shown !== rows.length;
-      if (empty) empty.hidden = shown !== 0;
+      if (empty) {
+        empty.hidden = shown !== 0;
+        // the message counts the filters actually in use, and offers a way on
+        if (!shown) {
+          var said = search && search.value.trim() && active === 1 ? 'No documented sales match your search for \u201c' + escH(search.value.trim()) + '\u201d.'
+            : active === 1 ? 'No documented sales match that filter.' : 'No documented sales match those ' + numWord(active) + ' filters together.';
+          empty.innerHTML = said + ' Check the spelling, try one filter at a time, or <a class="text-link" href="' + escH(root()) + 'artists/">browse the artist profiles</a>. An artist we do not cover yet will not appear here.';
+        }
+      }
       if (countEl) {
         var cs = Object.keys(curN).filter(function (c) { return curN[c]; });
         countEl.textContent = (filtered ? 'Showing ' + shown + ' of ' + rows.length + ' lots' : 'Showing all ' + rows.length + ' lots') + (shown ? ', in ' + count2(cs.length) : '') +
