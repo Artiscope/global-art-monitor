@@ -220,7 +220,7 @@
         (iconOk() ? '<link rel="icon" href="' + rootPath + opts.favicon + '">\n' : '<link rel="icon" href="' + rootPath + 'assets/favicon.svg" type="image/svg+xml">\n') + '<link rel="apple-touch-icon" href="' + rootPath + 'assets/brand/gam-tile-180.png">\n' +
         '<link rel="preconnect" href="https://fonts.googleapis.com">\n<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>\n' +
         '<link href="https://fonts.googleapis.com/css2?family=Libre+Caslon+Display&family=Libre+Franklin:wght@400;500;600&display=swap" rel="stylesheet">\n' +
-        '<link rel="stylesheet" href="' + rootPath + 'assets/site.css">\n<script>document.documentElement.className=\'js\';</script>\n' + (THEME || "") + (extra || "") + secCssTag() + wordsTag() + '</head>\n';
+        '<link rel="stylesheet" href="' + rootPath + 'assets/site.css">\n<link rel="stylesheet" href="' + rootPath + 'assets/finish.css">\n<script>document.documentElement.className=\'js\';</script>\n' + (THEME || "") + (extra || "") + secCssTag() + wordsTag() + '</head>\n';
     }
     // logos added in the console: each on the left, in the centre or on the right of the menu bar
     function headLogos(st, rootPath, where) {
