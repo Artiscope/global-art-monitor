@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Friday 27 November 2026 (filter panel)
+Published: nothing.
+Drafts waiting: the results filter panel lined up on a neat grid, so no label is cut off (draft/2026-11-27-filter-layout).
+Checked: the panel at desktop, tablet and phone widths.
+Needs you: your yes on the draft.
+
 ## Friday 27 November 2026
 Published: nothing.
 Drafts waiting: Price explorer, sortable results table and price charts, https://github.com/Artiscope/global-art-monitor/pull/39
