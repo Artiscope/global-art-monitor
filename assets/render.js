@@ -846,6 +846,14 @@
       var extra = "";
       if (key === "home") extra = '<script type="application/ld+json">' + pyJson({ "@context": "https://schema.org", "@type": "WebSite", name: "Global Art Monitor", url: SITE.url, description: SITE.intro }) + '</script>\n';
       else if (/index\.html$/.test(pg.path || "") && pg.path !== "index.html") extra = '<script type="application/ld+json">' + pyJson({ "@context": "https://schema.org", "@type": /^about\//.test(pg.path) ? "AboutPage" : /^contact\//.test(pg.path) ? "ContactPage" : "CollectionPage", name: String(pg.title || "").split(" | ")[0], description: pg.description || "", url: SITE.url + pg.path.slice(0, -"index.html".length), isPartOf: { "@type": "WebSite", name: "Global Art Monitor", url: SITE.url } }) + '</script>\n';
+      if (pg.path === "auction-results/index.html" && SALES.some(function (x) { return x.date; })) {
+        var allDated = SALES.filter(function (x) { return x.date; }), lo = minBy(allDated, function (x) { return x.date; }), hi = maxBy(allDated, function (x) { return x.date; });
+        extra += '<script type="application/ld+json">' + pyJson({ "@context": "https://schema.org", "@type": "Dataset", name: "Global Art Monitor auction results", url: SITE.url + "auction-results/",
+          description: "Documented public auction sales for the " + ARTIST_KEYS.length + " artists Global Art Monitor covers: " + SALES.length + " lots, each with the low and high estimate, hammer price, price with buyer's premium, currency, sale date, auction house and a source. Prices are kept in the currency of the sale.",
+          creator: { "@type": "Organization", name: "Global Art Monitor", url: SITE.url }, isAccessibleForFree: true, dateModified: PUBLISHED_DT,
+          temporalCoverage: lo.date + "/" + hi.date,
+          variableMeasured: ["Low estimate", "High estimate", "Hammer price", "Price with buyer's premium", "Currency", "Sale date", "Auction house"] }) + '</script>\n';
+      }
       return page(pg.path, pg.title || "", pg.description || "", (pg.own ? top.concat(parts) : parts).join("\n"), pg.current || "", !!pg.intro, extra, pg.own ? "" : top.join("\n"), !!pg.own);
     }
     function workCard(s) {
@@ -893,9 +901,32 @@
         : best ? '<span class="v">' + money(best.premium, best.currency) + '</span><span class="s">With premium, in ' + esc(best.currency) + '. ' + esc(best.title) + ', ' + esc(best.house) + ', ' + esc(best.date ? best.date_text : "date to confirm") + '.</span>'
         : '<span class="v">' + W("missing.tbc", "To confirm") + '</span><span class="s">' + W("missing.no-priced", "No priced sale documented yet.") + '</span>';
       var firstFact = first ? '<span class="v">' + esc(first.date_text) + '</span><span class="s">' + esc(first.title) + ', ' + esc(first.house) + '.</span>' : '<span class="v">' + W("missing.tbc", "To confirm") + '</span><span class="s">' + W("missing.no-dated", "No dated sale yet.") + '</span>';
+      // A short factual line under the summary, built only from the sales on record, so it can be quoted as it stands.
+      var latest = dated.length ? maxBy(dated, function (s) { return s.date; }) : null;
+      var houseList = (a.houses || []).slice();
+      var andJoin = function (arr) { return arr.length < 2 ? arr.join("") : arr.slice(0, -1).join(", ") + " and " + arr[arr.length - 1]; };
+      var priceWords = function (s) {
+        if (s.premium) return "sold for " + money(s.premium, s.currency) + " with buyer's premium" + (s.premium_basis === "calculated" ? " (our calculation from the hammer price)" : "");
+        if (s.hammer) return "hammer price " + money(s.hammer, s.currency) + (s.hammer_basis === "calculated" ? " (our calculation)" : "");
+        return "price not yet confirmed";
+      };
+      var dayText = function (x) { return String(x.date_text || "").replace(/^closed\s+/i, ""); };
+      var withPrice = dated.filter(function (x) { return x.premium || x.hammer; });
+      var lastPriced = withPrice.length ? maxBy(withPrice, function (x) { return x.date; }) : null;
+      var priceLater = lastPriced && latest && lastPriced !== latest && !(latest.premium || latest.hammer) ?
+        " The most recent with a published price is " + esc(lastPriced.title) + ", " + esc(lastPriced.house) + ", " + esc(dayText(lastPriced)) + ", " + esc(priceWords(lastPriced)) +
+        "." + (lastPriced.source_url ? ' Source: <a href="' + esc(lastPriced.source_url) + '" rel="noopener">' + esc(lastPriced.source_label || "lot page") + '</a>.' : "") : "";
+      var inShort = "";
+      if (rows.length && latest) {
+        inShort = "Global Art Monitor has documented " + rows.length + " auction " + (rows.length === 1 ? "lot" : "lots") + " by " + esc(a.name) +
+          (first && first.date !== latest.date ? ", offered between " + esc(dayText(first)) + " and " + esc(dayText(latest)) : ", offered on " + esc(dayText(latest))) +
+          (houseList.length ? " at " + esc(andJoin(houseList)) : "") + ". The most recent on our record is " + esc(latest.title) + (latest.year ? " (" + esc(latest.year) + ")" : "") +
+          ", " + esc(latest.house) + ", " + esc(dayText(latest)) + ", " + esc(priceWords(latest)) + "." +
+          (latest.source_url ? ' Source: <a href="' + esc(latest.source_url) + '" rel="noopener">' + esc(latest.source_label || "lot page") + '</a>.' : "") + priceLater;
+      }
       var M = function (h, id) { return opts.mark ? h.replace(/^(\s*<[a-z]+)/, '$1 data-adh="' + id + '"') : h; };
       var body = M('<section class="shell page-head">\n<p class="crumbs" data-reveal><a href="@@artists/">' + W("item.crumb-artists", "Artist Market Profiles") + '</a></p>\n<h1 class="h1" data-reveal style="--d:80ms">' + esc(a.name) + '</h1>\n' +
-        '<p class="lede" data-reveal style="--d:200ms">' + esc(a.summary) + '</p>\n</section>', "words") + '\n' +
+        '<p class="lede" data-reveal style="--d:200ms">' + esc(a.summary) + '</p>\n' + (inShort ? '<p class="byline" data-reveal style="--d:240ms;max-width:68ch">' + inShort + '</p>\n' : "") + '</section>', "words") + '\n' +
         M('<section class="shell section" style="padding-top:48px">\n<div class="facts">\n' +
         '<div class="fact' + (bests.length > 1 ? " fact-wide" : "") + '" data-reveal><span class="k">' + (bests.length > 1 ? W("item.highest-each", "Highest documented price in each currency") : W("item.highest", "Highest documented price")) + '</span>' + bestFact + '</div>\n' +
         '<div class="fact" data-reveal style="--d:90ms"><span class="k">' + W("item.priced", "Priced results") + '</span><span class="v">' + pr.length + '</span><span class="s">' + W("item.out-of", "Out of {total} lots we have found.", { total: String(rows.length) }) + '</span></div>\n' +
@@ -925,10 +956,32 @@
         body += '\n' + relSection(W("rel.eyebrow", "Keep exploring"), W("rel.artist-heading", "More from the record"), [relCmp, relRead, relSales]);
       }
       body = tplWrap("artist", slug, body); AO_KIND = "artist";
-      var ld = pyJson({ "@context": "https://schema.org", "@type": "ProfilePage", name: a.name + " market profile", url: SITE.url + "artists/" + slug + "/", dateModified: PUBLISHED_DT, mainEntity: { "@type": "Person", name: a.name } });
+      var pageUrl = SITE.url + "artists/" + slug + "/";
+      var person = { "@type": "Person", "@id": pageUrl + "#artist", name: a.name, url: pageUrl };
+      if (a.summary) person.description = a.summary;
+      if (a.image) person.image = SITE.url + "assets/images/" + a.image;
+      var ldObj = { "@context": "https://schema.org", "@type": "ProfilePage", name: a.name + " market profile", url: pageUrl, dateModified: PUBLISHED_DT, mainEntity: person,
+        isPartOf: { "@type": "WebSite", name: "Global Art Monitor", url: SITE.url } };
+      var ldOut = '<script type="application/ld+json">' + pyJson(ldObj) + '</script>\n';
+      // the key works named in the profile, each as an artwork by this artist
+      (a.works || []).forEach(function (w) {
+        if (!w.t) return;
+        var art = { "@context": "https://schema.org", "@type": "VisualArtwork", name: w.t, creator: { "@type": "Person", "@id": pageUrl + "#artist", name: a.name }, url: pageUrl };
+        if (/^\d{4}$/.test(String(w.y || ""))) art.dateCreated = String(w.y);
+        if (w.m) art.artMedium = w.m;
+        ldOut += '<script type="application/ld+json">' + pyJson(art) + '</script>\n';
+      });
+      if (rows.length) {
+        var ds = { "@context": "https://schema.org", "@type": "Dataset", name: a.name + " auction results", url: pageUrl + "#timeline",
+          description: "Every public auction sale of work by " + a.name + " that Global Art Monitor has documented: " + rows.length + " lots, with the low and high estimate, hammer price, price with buyer's premium, currency, sale date and a source for each.",
+          about: { "@id": pageUrl + "#artist" }, creator: { "@type": "Organization", name: "Global Art Monitor", url: SITE.url }, isAccessibleForFree: true, dateModified: PUBLISHED_DT,
+          variableMeasured: ["Low estimate", "High estimate", "Hammer price", "Price with buyer's premium", "Currency", "Sale date"] };
+        if (first && latest) ds.temporalCoverage = first.date + "/" + latest.date;
+        ldOut += '<script type="application/ld+json">' + pyJson(ds) + '</script>\n';
+      }
       return page("artists/" + slug + "/index.html", a.name + " Auction Results and Market Profile | Global Art Monitor",
         a.name + " auction results: every documented sale with estimate, hammer price and premium-inclusive price, sale dates and sources.",
-        body, "artists", false, '<script type="application/ld+json">' + ld + '</script>\n');
+        body, "artists", false, ldOut);
     }
     function featurePage(f) {
       var html = String(f.body || "");
