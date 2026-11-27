@@ -2,6 +2,12 @@
 
 A record of what the website agent did on each run, newest first.
 
+## Friday 27 November 2026 (richer price explorer)
+Published: nothing.
+Drafts waiting: a richer Price Explorer built with React, with up to four artists on one chart, a date strip to zoom, filters by medium, house and check status, and a link that keeps the view (draft/2026-11-27-price-explorer-react).
+Checked: the explorer uses the same sales as the results table, no figure was added or changed; one currency and one type of work per chart; desktop and phone, mouse and touch.
+Needs you: your yes on the draft.
+
 ## Friday 27 November 2026
 Published: nothing.
 Drafts waiting: Usability fixes and polish from the 27 November report, https://github.com/Artiscope/global-art-monitor/pull/43

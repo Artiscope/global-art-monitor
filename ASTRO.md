@@ -31,3 +31,18 @@ reloads as you edit (data files and assets included), or
 
 `tools/build.mjs` and `assets/render.js` stay the same as the Digital
 Home template, so a design change is still made there and copied here.
+
+## The Price Explorer page (React)
+The Price Explorer at `price-explorer/` is the one page that uses React.
+`src/pages/price-explorer/index.astro` takes the page that
+`assets/render.js` makes, keeps its heading, its words and the "How to
+read the charts" notes, and puts the explorer in place of the two old
+chart sections. The explorer lives in `src/components/price-explorer/`:
+`PriceExplorer.jsx` (the chart, the date strip, the filters and the list),
+`lib.mjs` (the rules: one currency per chart, unique works kept apart from
+editions, dots never joined) and `price-explorer.css`. It is drawn on the
+server as well, so the first chart and the list of sales are in the page
+itself. React loads on this page only. If `explorerPage()` in
+`assets/render.js` changes shape, the build stops with a message saying so.
+The Digital Home preview still shows the older charts from
+`assets/explorer.js`, which the artist pages and the home page also use.
