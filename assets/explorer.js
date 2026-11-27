@@ -185,7 +185,10 @@
         g.setAttribute('aria-label', (series.length > 1 ? r.an + ', ' : '') + r.t + ', ' + r.dt + ', ' + money(r.v, r.c) + ' ' + basisText(r).split('.')[0]);
         if (r.el) g.appendChild(s('line', { class: 'px-est', x1: x, x2: x, y1: Y(Math.max(r.el, y0 || r.el)), y2: Y(r.eh || r.el) - (r.eh ? 0 : 3) }));
         g.appendChild(s('circle', { class: 'px-hit', cx: x, cy: y, r: 16 }));
-        g.appendChild(s('circle', { class: 'px-dot', cx: x, cy: y, r: opt.compact && small ? 6 : 7 }));
+        var rad = opt.compact && small ? 6 : 7;
+        // the second artist is drawn as a diamond, so the two never rely on colour alone
+        if (ser && ser.cls === 's1') { var d = rad + 2; g.appendChild(s('path', { class: 'px-dot', d: 'M' + x + ' ' + (y - d) + 'L' + (x + d) + ' ' + y + 'L' + x + ' ' + (y + d) + 'L' + (x - d) + ' ' + y + 'Z' })); }
+        else g.appendChild(s('circle', { class: 'px-dot', cx: x, cy: y, r: rad }));
         svg.appendChild(g);
         var p = { r: r, g: g };
         pts.push(p);
@@ -224,6 +227,7 @@
     }
     function drawLegend() {
       var keys = series.length > 1 ? series.map(function (q) { return '<span><i class="lg-dot ' + q.cls + '"></i>' + esc(q.name) + '</span>'; }).join('') : '';
+      legend.className = 'px-legend' + (series.length > 1 ? '' : ' px-legend-one');
       legend.innerHTML = keys + '<span><i class="lg-dot f-prem"></i>With premium</span><span><i class="lg-dot f-ham"></i>Hammer price only</span>' +
         '<span><i class="lg-dot f-ma"></i>From MutualArt</span><span><i class="lg-est"></i>Estimate</span><span><i class="lg-none"></i>Price to confirm</span>';
     }

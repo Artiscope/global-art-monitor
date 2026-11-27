@@ -874,3 +874,24 @@ th[aria-sort="descending"] .th-sort, th[aria-sort="ascending"] .th-sort { color:
 }
 @media (prefers-reduced-motion: reduce) { .gp-score.in b { animation: none; } }
 .px-teaser .pill-ink { box-shadow: inset 0 0 0 2px var(--mint); }
+/* clearer colours for prices and checks (27 Nov 2026)
+   Each kind of figure keeps one colour everywhere: hammer price mint, price with
+   premium amber, estimate sky blue. In the comparison the second artist is lilac
+   and drawn as a diamond, so nothing depends on colour alone. These pairs stay
+   apart for the common kinds of colour blindness and are readable on charcoal. */
+:root { --amber: #F2B84B; --sky: #7FB8F0; --lilac: #B79CF2; }
+.dot-prem { background: var(--amber); } .dot-est { background: var(--sky); }
+.tl .prem, .aw-card .prem, .gp-fig-prem b { color: var(--amber); }
+.tl-sales .c-est { color: var(--sky); }
+.bar-est i { background: var(--sky); } .bar-ham i { background: var(--mint); } .bar-prem i { background: var(--amber); }
+.px-est { stroke: var(--sky); stroke-opacity: .6; }
+.px-pt.on .px-est, .px-pt:hover .px-est { stroke-opacity: .9; }
+.lg-est { background: var(--sky); opacity: .7; }
+.px-pt.s1 .px-dot { fill: var(--lilac); stroke: var(--lilac); stroke-linejoin: round; }
+.px-pt.s1.f-ham .px-dot, .px-pt.s1.f-ma .px-dot { fill: var(--panel-2); }
+.lg-dot.s1 { background: var(--lilac); border-color: var(--lilac); border-radius: 2px; transform: rotate(45deg) scale(.9); }
+.px-stat.s1::before { background: var(--lilac); border-radius: 2px; transform: rotate(45deg); }
+.px-legend-one .lg-dot { border-color: var(--mint); background: var(--mint); }
+.px-legend-one .lg-dot.f-ham, .px-legend-one .lg-dot.f-ma { background: transparent; }
+.px-chk-press { background: transparent; box-shadow: inset 0 0 0 1.5px var(--sky); color: var(--text); }
+.px-chk-unchecked { background: transparent; box-shadow: none; outline: 1.5px dashed var(--coral); outline-offset: -1.5px; color: var(--text); }
