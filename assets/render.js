@@ -926,7 +926,7 @@
       }
       var M = function (h, id) { return opts.mark ? h.replace(/^(\s*<[a-z]+)/, '$1 data-adh="' + id + '"') : h; };
       var body = M('<section class="shell page-head">\n<p class="crumbs" data-reveal><a href="@@artists/">' + W("item.crumb-artists", "Artist Market Profiles") + '</a></p>\n<h1 class="h1" data-reveal style="--d:80ms">' + esc(a.name) + '</h1>\n' +
-        '<p class="lede" data-reveal style="--d:200ms">' + esc(a.summary) + '</p>\n' + (inShort ? '<p class="byline" data-reveal style="--d:240ms">' + inShort + '</p>\n' : "") + '</section>', "words") + '\n' +
+        '<p class="lede" data-reveal style="--d:200ms">' + esc(a.summary) + '</p>\n' + (inShort ? '<p class="byline" data-reveal style="--d:240ms;max-width:68ch">' + inShort + '</p>\n' : "") + '</section>', "words") + '\n' +
         M('<section class="shell section" style="padding-top:48px">\n<div class="facts">\n' +
         '<div class="fact' + (bests.length > 1 ? " fact-wide" : "") + '" data-reveal><span class="k">' + (bests.length > 1 ? W("item.highest-each", "Highest documented price in each currency") : W("item.highest", "Highest documented price")) + '</span>' + bestFact + '</div>\n' +
         '<div class="fact" data-reveal style="--d:90ms"><span class="k">' + W("item.priced", "Priced results") + '</span><span class="v">' + pr.length + '</span><span class="s">' + W("item.out-of", "Out of {total} lots we have found.", { total: String(rows.length) }) + '</span></div>\n' +
