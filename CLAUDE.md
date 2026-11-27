@@ -46,7 +46,9 @@ site is built with Astro (see `ASTRO.md`): `npm ci` once, then
 `npx astro build` runs the same build plus checks on every sale and
 article, and stops with a plain message if an entry breaks the auction
 data rules below. `npx astro dev` gives a local copy that reloads as you
-edit. Do not commit `_site`, `public`, `.site-build` or `node_modules`. Every push to main is published by the workflow in
+edit. If a build stops on a bad entry, the built pages may already have
+been rewritten from it: fix the entry and build again before committing.
+Do not commit `_site`, `public`, `.site-build` or `node_modules`. Every push to main is published by the workflow in
 `.github/workflows/pages.yml`. Do not edit that file. It leaves your
 working files (this brief, the voice guide, the log, the calendar,
 `image-slots.json`, `inbox/`, `tools/` and `data/`) out of the public
